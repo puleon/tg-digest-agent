@@ -1,0 +1,41 @@
+{
+  "targets": [
+    {
+      "name": "native-qwen3.6-35b-a3b",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+    }
+  ],
+  "runs": 3,
+  "results": [
+    {
+      "target": "native-qwen3.6-35b-a3b",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "load_s": 0.2,
+      "prefill_tps": 228.9,
+      "gen_tps": 19.2,
+      "prompt_tokens": 3896,
+      "image_s": 10.6,
+      "rss_mb": 81960,
+      "error": null,
+      "runs": {
+        "prefill_tps": [
+          216.3,
+          234.0,
+          228.9
+        ],
+        "gen_tps": [
+          19.1,
+          19.2,
+          19.3
+        ],
+        "image_s": [
+          10.64,
+          10.61,
+          10.85
+        ]
+      },
+      "image_reply": "{\n  \"caption\": \"A meme showing a progress bar at 99% with Russian text above and below, humorously implying that the final 1% is the hardest part.\",\n  \"ocr_text\": \"Когда делаешь быдло\\n99%\\nА ты еще выбираешь шрифт\"\n}"
+    }
+  ]
+}

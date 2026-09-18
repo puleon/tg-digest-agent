@@ -29,7 +29,29 @@ One entry per plan day (SPEC §9). Format: what was done · metrics · what fail
 - The server is a workstation with a GNOME session: realistic RAM budget for us is ~80–85 GB.
 - Server NIC negotiated 100 Mbit/s → model downloads run at ~10 MB/s (~3 h for ~105 GB).
 
-**Metrics** — model-serving benchmark pending download completion (numbers go to
-`docs/experiments/d1-llm-benchmark.md`).
+**Metrics** — serving benchmark, full table and method in
+[`docs/experiments/d1-llm-benchmark/`](docs/experiments/d1-llm-benchmark/README.md):
 
-**Open** — `make up` on the server with real models; benchmark; pick fast/heavy tiers.
+| fast tier (CPU, 16 threads) | prefill tok/s | gen tok/s | s / image (caption+OCR) |
+|---|---|---|---|
+| Qwen3.6-35B-A3B Q4_K_M, llama-server docker | 223 (260 native, `-tb 16`) | 19.0 | 9.4 (28 with OCR-grade `image-min-tokens 1024`) |
+| Gemma 4 26B-A4B UD-Q4_K_M, llama-server docker | 204 | 16.9 | 14.4 (10.6 with thinking off) |
+| Gemma 4 26B-A4B, Ollama 0.32 | 225 | 26.3 | 5.2 (empty answer: thinking) |
+
+- Docker image ≈ native build (≤ 3 %) → services stay fully in compose.
+- SMT threads hurt (−12…−18 %); MTP speculative decoding hurts (−17 %) — both off.
+- OCR probe: Gemma reads Cyrillic verbatim at 262 image tokens; Qwen needs ≥ 1024 (2.6× slower).
+- Infra is up on the box: Postgres 16.15, Qdrant 1.19.1, Langfuse 4.38 (headless-bootstrapped
+  project + keys), `tgdigest health` green for all but the LLM until models are mounted.
+
+**What did not work / surprises**
+- Langfuse's reference compose pulls MinIO from `cgr.dev/chainguard`, which now returns 403 →
+  switched to `quay.io/minio/minio` (last community release, 2025-09-07).
+- llama-server router mode drops an idle keep-alive socket after long requests → client-side
+  "server disconnected" on the next call (SDK retries cover it; benchmark uses `Connection: close`).
+- `rsync --delete` from the laptop wiped server-side benchmark outputs once → experiment outputs
+  now live in `docs/experiments/*/results/`, excluded from the push and pulled with `make pull-results`.
+- Ollama runs Gemma 4 55 % faster at generation than llama.cpp with the unsloth quant — open question.
+
+**Open** — heavy tier (gpt-oss-120b, 63 GB) benchmark once the download completes; channel
+list and Telegram credentials from the owner before D2.

@@ -1,0 +1,41 @@
+{
+  "targets": [
+    {
+      "name": "docker-qwen3.6-35b-a3b",
+      "base_url": "http://127.0.0.1:8080/v1",
+      "model": "qwen3.6-35b-a3b"
+    }
+  ],
+  "runs": 3,
+  "results": [
+    {
+      "target": "docker-qwen3.6-35b-a3b",
+      "model": "qwen3.6-35b-a3b",
+      "load_s": 8.7,
+      "prefill_tps": 222.5,
+      "gen_tps": 19.0,
+      "prompt_tokens": 3896,
+      "image_s": 9.4,
+      "rss_mb": null,
+      "error": null,
+      "runs": {
+        "prefill_tps": [
+          222.5,
+          213.5,
+          236.4
+        ],
+        "gen_tps": [
+          19.2,
+          19.0,
+          19.0
+        ],
+        "image_s": [
+          9.67,
+          9.4,
+          9.25
+        ]
+      },
+      "image_reply": "{\n  \"caption\": \"A meme showing a progress bar at 99% with Russian text above and below, humorously implying that the final 1% is the hardest part.\",\n  \"ocr_text\": \"Когда делаешь быстра\\n99%\\nА ты еще выбираешь широт\"\n}"
+    }
+  ]
+}

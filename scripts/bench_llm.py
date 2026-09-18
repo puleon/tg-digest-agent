@@ -79,6 +79,11 @@ class Result:
             "image_s": med(self.image_s),
             "rss_mb": self.rss_mb,
             "error": self.error,
+            "runs": {
+                "prefill_tps": [round(x, 1) for x in self.prefill_tps],
+                "gen_tps": [round(x, 1) for x in self.gen_tps],
+                "image_s": [round(x, 2) for x in self.image_s],
+            },
         }
 
 
@@ -91,6 +96,8 @@ def _chat(
         "max_tokens": max_tokens,
         "temperature": 0,
         "stream": False,
+        # llama-server: never reuse the KV cache between runs, we measure cold prefill
+        "cache_prompt": False,
     }
     start = time.perf_counter()
     resp = client.post(f"{t.base_url}/chat/completions", json=body)
@@ -119,23 +126,27 @@ def _rates(data: dict[str, Any], elapsed: float) -> tuple[float | None, float | 
 
 def _rss_mb(pattern: str) -> int | None:
     out = subprocess.run(["ps", "-eo", "rss,args"], capture_output=True, text=True, check=False)
-    total = sum(
+    matches = [
         int(line.split(None, 1)[0])
         for line in out.stdout.splitlines()[1:]
         if pattern in line and "bench_llm" not in line
-    )
-    return total // 1024 if total else None
+    ]
+    return max(matches) // 1024 if matches else None
 
 
 def bench(t: Target, runs: int, image: Path | None, rss_pattern: str | None) -> Result:
     r = Result(target=t.name, model=t.model)
-    client = httpx.Client(timeout=1800)
+    # One TCP connection per request: llama-server's router mode occasionally closes an idle
+    # keep-alive connection right after a long request, which surfaces as a client-side
+    # "server disconnected" on the next call. The OpenAI SDK retries this; the benchmark avoids it.
+    client = httpx.Client(timeout=1800, headers={"Connection": "close"})
     try:
         # 1. load (first request may pull the model into RAM)
         _, r.load_s = _chat(client, t, [{"role": "user", "content": "Hi"}], 1)
-        # 2. prefill
-        for _ in range(runs):
-            data, el = _chat(client, t, [{"role": "user", "content": LONG_PROMPT}], 1)
+        # 2. prefill — a per-run nonce defeats prefix caching on servers that ignore cache_prompt
+        for i in range(runs):
+            prompt = f"[run {i}-{time.time_ns()}]\n{LONG_PROMPT}"
+            data, el = _chat(client, t, [{"role": "user", "content": prompt}], 1)
             pp, _, r.prompt_tokens = _rates(data, el)
             if pp:
                 r.prefill_tps.append(pp)

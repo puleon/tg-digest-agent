@@ -46,7 +46,7 @@ flowchart TB
 | Vectors | Qdrant | Self-hosted, payload filters, hybrid search |
 | Embeddings / rerank | BGE-M3 / bge-reranker-v2-m3 | Dense + sparse in one model, strong on Russian |
 | Model serving | llama.cpp `llama-server` (router mode, GGUF) | OpenAI-compatible API, prefix caching, on-demand model load/unload; CPU-friendly |
-| Fast tier (mass ops + VLM) | multimodal MoE, ~3B active (Qwen3.6-35B-A3B / Gemma 4 26B-A4B — picked by benchmark) | Memory-bandwidth-bound CPU favors few active params |
+| Fast tier (mass ops + VLM/OCR) | multimodal MoE, ~3B active: Qwen3.6-35B-A3B, Gemma 4 26B-A4B ([D1 benchmark](docs/experiments/d1-llm-benchmark/README.md)) | Memory-bandwidth-bound CPU favors few active params; one weight set for text and images |
 | Heavy tier (synthesis, judge) | gpt-oss-120b class, loaded on demand | Quality where it matters; does not fit alongside the rest |
 | Orchestration | LangGraph | Explicit state graph, checkpoints, interrupts |
 | Observability / eval | Langfuse (self-hosted) | Traces, datasets, experiments, scores |
@@ -87,6 +87,10 @@ faithfulness via atomic claims · indirect prompt-injection attack success rate 
 defenses · chaos tests for graceful degradation · agent tool-selection accuracy and step budgets.
 
 Results land in this README as they are produced. **Status: day 1 of 18 — foundation.**
+
+| Experiment | Result |
+|---|---|
+| [D1 · CPU serving benchmark](docs/experiments/d1-llm-benchmark/README.md) | Qwen3.6-35B-A3B Q4_K_M: 260 tok/s prefill, 19 tok/s generation, 9–28 s per image; Gemma 4 26B-A4B: 204 / 17 / 10.6 s with verbatim Cyrillic OCR at 262 image tokens. Docker image ≈ native build. SMT and MTP speculative decoding both slower — off. |
 
 ## License
 

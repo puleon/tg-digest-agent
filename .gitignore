@@ -30,3 +30,6 @@ volumes/
 .DS_Store
 .idea/
 .vscode/
+
+# raw server logs from experiments carry host paths; only the JSON summaries are committed
+docs/experiments/**/*.log

@@ -35,3 +35,11 @@ def test_budgets_must_be_positive(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("AGENT_MAX_STEPS", "0")
     with pytest.raises(ValueError):
         Settings(_env_file=None)
+
+
+def test_empty_env_values_mean_unset(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("TELEGRAM_API_ID", "")
+    monkeypatch.setenv("TMDB_API_KEY", "")
+    s = Settings(_env_file=None)
+    assert s.telegram_api_id is None
+    assert s.tmdb_api_key is None

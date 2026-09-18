@@ -1,0 +1,37 @@
+{
+  "targets": [
+    {
+      "name": "native-qwen3.6-35b-a3b-mtp",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+    }
+  ],
+  "runs": 3,
+  "results": [
+    {
+      "target": "native-qwen3.6-35b-a3b-mtp",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "load_s": 0.3,
+      "prefill_tps": 208.9,
+      "gen_tps": 15.9,
+      "prompt_tokens": 3896,
+      "image_s": null,
+      "rss_mb": null,
+      "error": "HTTPStatusError(\"Server error '500 Internal Server Error' for url 'http://127.0.0.1:8081/v1/chat/completions'\\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500\")",
+      "runs": {
+        "prefill_tps": [
+          202.0,
+          208.9,
+          217.8
+        ],
+        "gen_tps": [
+          18.4,
+          12.8,
+          15.9
+        ],
+        "image_s": []
+      },
+      "image_reply": null
+    }
+  ]
+}

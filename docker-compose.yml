@@ -77,7 +77,7 @@ services:
       --models-preset /config/models.ini
       --models-max 1
       --sleep-idle-seconds 1800
-      --threads ${LLM_THREADS:-16} --threads-batch ${LLM_THREADS_BATCH:-32}
+      --threads ${LLM_THREADS:-16} --threads-batch ${LLM_THREADS_BATCH:-16}
       --metrics
     ports:
       - "127.0.0.1:8080:8080"
@@ -112,7 +112,8 @@ services:
       LANGFUSE_INIT_USER_NAME: ${LANGFUSE_INIT_USER_NAME:-}
       LANGFUSE_INIT_USER_PASSWORD: ${LANGFUSE_INIT_USER_PASSWORD:-}
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/public/health || exit 1"]
+      # Next.js binds to the container hostname, not loopback.
+      test: ["CMD-SHELL", "wget -qO- http://$$(hostname):3000/api/public/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 30
@@ -141,7 +142,8 @@ services:
       retries: 20
 
   minio:
-    image: cgr.dev/chainguard/minio
+    # Langfuse's reference compose uses cgr.dev/chainguard/minio, which now needs a login (403).
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
     restart: unless-stopped
     entrypoint: sh
     command: -c 'mkdir -p /data/langfuse && minio server --address ":9000" --console-address ":9001" /data'
@@ -153,7 +155,7 @@ services:
     volumes:
       - minio_data:/data
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: ["CMD-SHELL", "mc ready local || curl -fsS http://127.0.0.1:9000/minio/health/live"]
       interval: 2s
       timeout: 5s
       retries: 20

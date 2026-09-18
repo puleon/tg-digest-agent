@@ -1,0 +1,41 @@
+{
+  "targets": [
+    {
+      "name": "native-gemma-4-26b-a4b",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "model": "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"
+    }
+  ],
+  "runs": 3,
+  "results": [
+    {
+      "target": "native-gemma-4-26b-a4b",
+      "model": "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf",
+      "load_s": 0.3,
+      "prefill_tps": 184.3,
+      "gen_tps": 16.9,
+      "prompt_tokens": 3783,
+      "image_s": 15.7,
+      "rss_mb": 28926,
+      "error": null,
+      "runs": {
+        "prefill_tps": [
+          184.3,
+          179.4,
+          193.8
+        ],
+        "gen_tps": [
+          16.9,
+          16.9,
+          17.0
+        ],
+        "image_s": [
+          15.72,
+          15.68,
+          15.84
+        ]
+      },
+      "image_reply": ""
+    }
+  ]
+}

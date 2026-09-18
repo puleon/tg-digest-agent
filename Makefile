@@ -10,7 +10,7 @@ COMPOSE    ?= docker compose
 UV         ?= uv
 
 .PHONY: help install up down restart ps logs health test test-int lint fmt typecheck check \
-        migrate bench-llm sync remote tunnel clean
+        migrate bench-serving bench-llm sync pull-results remote tunnel clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -63,12 +63,18 @@ health: ## Reachability of Postgres / Qdrant / LLM / Langfuse
 migrate: ## Apply Alembic migrations
 	$(UV) run alembic upgrade head
 
-bench-llm: ## D1 model-serving benchmark (see scripts/bench_llm.py --help)
+bench-serving: ## D1 serving benchmark matrix on the box (writes docs/experiments/d1-llm-benchmark/results/)
+	scripts/bench_serving.sh --image data/samples/meme.png
+
+bench-llm: ## Single-target benchmark (see scripts/bench_llm.py --help)
 	$(UV) run python scripts/bench_llm.py $(ARGS)
 
 # --- remote workflow: code lives here, services and data live on $(SERVER) -----------------
 sync: ## rsync the working tree to the server (excludes .env, data/, models/, sessions)
 	rsync -az --delete --exclude-from=.rsyncignore ./ $(SERVER):$(REMOTE_DIR)/
+
+pull-results: ## Copy experiment outputs (docs/experiments/*/results/) back from the server
+	rsync -az --include='*/' --include='results/***' --exclude='*' $(SERVER):$(REMOTE_DIR)/docs/experiments/ docs/experiments/
 
 remote: sync ## Run a make target on the server: make remote T=test
 	ssh -t $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && make $(T)'

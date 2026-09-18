@@ -1,0 +1,41 @@
+{
+  "targets": [
+    {
+      "name": "docker-gemma-4-26b-a4b",
+      "base_url": "http://127.0.0.1:8080/v1",
+      "model": "gemma-4-26b-a4b"
+    }
+  ],
+  "runs": 3,
+  "results": [
+    {
+      "target": "docker-gemma-4-26b-a4b",
+      "model": "gemma-4-26b-a4b",
+      "load_s": 5.8,
+      "prefill_tps": 204.3,
+      "gen_tps": 16.9,
+      "prompt_tokens": 3783,
+      "image_s": 14.4,
+      "rss_mb": null,
+      "error": null,
+      "runs": {
+        "prefill_tps": [
+          204.3,
+          203.0,
+          204.6
+        ],
+        "gen_tps": [
+          16.9,
+          17.0,
+          16.9
+        ],
+        "image_s": [
+          14.38,
+          14.15,
+          14.46
+        ]
+      },
+      "image_reply": ""
+    }
+  ]
+}
