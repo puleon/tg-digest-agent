@@ -27,6 +27,33 @@ jobs:
       - name: Unit tests
         run: uv run pytest
 
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: tgd
+          POSTGRES_PASSWORD: tgd
+          POSTGRES_DB: tgd
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U tgd" --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql+asyncpg://tgd:tgd@127.0.0.1:5432/tgd
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --all-groups --frozen
+      - name: Migrate
+        run: uv run alembic upgrade head
+      - name: Schema matches models
+        run: uv run alembic check
+      - name: Integration tests
+        run: uv run pytest -m integration -o addopts=""
+
   secrets:
     runs-on: ubuntu-latest
     steps:
