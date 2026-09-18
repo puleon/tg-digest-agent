@@ -1,0 +1,31 @@
+"""Top-level CLI. Sub-commands for collector / ingest / agent are registered as modules land."""
+
+from __future__ import annotations
+
+import asyncio
+
+import typer
+
+from tgdigest import __version__
+from tgdigest.config import get_settings
+
+app = typer.Typer(no_args_is_help=True, add_completion=False, help="Tematic Telegram Index")
+
+
+@app.command()
+def version() -> None:
+    """Print the package version."""
+    typer.echo(__version__)
+
+
+@app.command()
+def health() -> None:
+    """Check that Postgres, Qdrant, the LLM server and Langfuse are reachable."""
+    from tgdigest.health import check_all
+
+    checks = asyncio.run(check_all(get_settings()))
+    for c in checks:
+        mark = "OK " if c.ok else "FAIL"
+        typer.echo(f"[{mark}] {c.name:<10} {c.detail}")
+    if not all(c.ok for c in checks):
+        raise typer.Exit(code=1)

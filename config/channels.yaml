@@ -1,0 +1,16 @@
+# Corpus definition (SPEC §2.1): 25–40 public channels, 8–14 per topic, 6 months of history.
+# Fill this in before D2. `username` is the public @handle without the "@".
+# `source` records how the channel was found (manual | forward | mention) — used later by
+# the discovery roadmap item and as metadata in `channels.source`.
+topics:
+  scifi:
+    title: "Science fiction — classic and modern"
+    channels: []
+    #  - username: example_scifi_channel
+    #    source: manual
+  humor:
+    title: "Smart humor — images, texts, memes"
+    channels: []
+  cinema:
+    title: "Cinema — classics, modern, horror"
+    channels: []
