@@ -5,12 +5,68 @@
 topics:
   scifi:
     title: "Science fiction — classic and modern"
-    channels: ['bratrazum']
-    #  - username: example_scifi_channel
-    #    source: manual
+    channels:
+      - username: bratrazum
+        source: manual
+      - username: mirf_ru
+        source: forward
+      - username: trvscience
+        source: forward
+      - username: starlighthousekeeping
+        source: forward
+      - username: horrorfantastcom
+        source: forward
+      - username: lleodnevnik
+        source: forward
+      - username: dmitrii_sff
+        source: forward
+      - username: SpeculativeFiction
+        source: mention
+      - username: nplusone
+        source: mention
+      - username: postnauka
+        source: mention
+      - username: theworldisnoteasy
+        source: mention
   humor:
     title: "Smart humor — images, texts, memes"
-    channels: []
+    channels:
+      - username: ia_panorama
+        source: forward
+      - username: luka_ebkov
+        source: mention
+      - username: dfhumor
+        source: mention
+      - username: ebanutie_otkritki
+        source: mention
+      - username: am_devs
+        source: mention
+      - username: leninstreet
+        source: mention
+      - username: memehunter
+        source: mention
+      - username: ca11_you
+        source: mention
   cinema:
     title: "Cinema — classics, modern, horror"
-    channels: []
+    channels:
+      - username: RocketMan_kosmodrom
+        source: forward
+      - username: seance_light
+        source: mention
+      - username: cinemagraphie
+        source: mention
+      - username: sovet_kino
+        source: mention
+      - username: kinolikbez
+        source: mention
+      - username: watchandsee
+        source: mention
+      - username: shishkino
+        source: mention
+      - username: Cronenberg1664
+        source: mention
+      - username: fear_room
+        source: mention
+      - username: xfromouterspace
+        source: mention
