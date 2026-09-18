@@ -233,6 +233,7 @@ def main(argv: list[str] | None = None) -> int:
                 ensure_ascii=False,
                 indent=2,
             )
+            + "\n"
         )
     return 0
 
