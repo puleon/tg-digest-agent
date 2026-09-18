@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Telegram (Telethon) sessions
+*.session
+*.session-journal
+
+# Data, media, model weights, experiment artifacts — live on the server, never in git
+data/
+models/
+*.gguf
+
+# Docker volumes
+volumes/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
