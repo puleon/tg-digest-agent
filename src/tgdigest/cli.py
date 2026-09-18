@@ -11,6 +11,10 @@ from tgdigest.config import get_settings
 
 app = typer.Typer(no_args_is_help=True, add_completion=False, help="Tematic Telegram Index")
 
+from tgdigest.collector.cli import app as collector_app  # noqa: E402
+
+app.add_typer(collector_app, name="collector")
+
 
 @app.command()
 def version() -> None:

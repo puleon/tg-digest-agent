@@ -55,3 +55,26 @@ One entry per plan day (SPEC §9). Format: what was done · metrics · what fail
 
 **Open** — heavy tier (gpt-oss-120b, 63 GB) benchmark once the download completes; channel
 list and Telegram credentials from the owner before D2.
+
+## D2 — 2026-09-18 (in progress) — Collector
+
+**Done**
+- Schema for all of SPEC §5 as SQLAlchemy 2 models (`src/tgdigest/db/models.py`) + Alembic
+  (async env, migration `0001`) applied on the box; `alembic check` reports no drift. One row per
+  Telegram message, albums linked by `grouped_id`; `(channel_id, tg_message_id)` unique — the
+  idempotency guarantee lives in the database, not in the code path. Collector cursor
+  (`last_message_id`, `last_synced_at`) on `channels`.
+- Collector (`tgdigest collector …` / `python -m tgdigest.collector …`): YAML corpus → channels
+  upsert; sequential incremental sync (`min_id` after the first pass, `offset_date` for the
+  first 183 days); commits per batch so a crash or FloodWait resumes from the cursor;
+  exponential FloodWait backoff on top of Telethon's own sleeps; photos and image documents
+  downloaded, video/animation thumbnails only, deduplicated by Telegram media id across
+  channels; `forward_from_*` kept as free dedup ground truth (SPEC §6.1).
+- Tests: 25 unit (fake Telegram source + SQLite: idempotent re-runs, incremental cursor,
+  FloodWait resume without duplicates, media dedup across channels, thumbnails, failure
+  isolation, albums/forwards, YAML normalization, Telethon → row mapping on real TL objects)
+  + 1 Postgres integration test (`make test-int`).
+
+**Blocked on the owner** — `config/channels.yaml` (8–14 channels per topic) and Telegram
+`api_id`/`api_hash` + one interactive `tgdigest collector login` on the box. "Done when":
+3 channels collected and a re-run inserts nothing.
