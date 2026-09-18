@@ -78,3 +78,32 @@ list and Telegram credentials from the owner before D2.
 **Blocked on the owner** — `config/channels.yaml` (8–14 channels per topic) and Telegram
 `api_id`/`api_hash` + one interactive `tgdigest collector login` on the box. "Done when":
 3 channels collected and a re-run inserts nothing.
+
+## D3 — 2026-09-18 (skeleton, ahead of the data) — Ingest Agent
+
+**Done**
+- Ingest agent as a LangGraph state machine (`src/tgdigest/ingest/graph.py`):
+  triage → describe_image (only for posts that need it: visual topics or short text with media)
+  → classify → detect_injection. Every step degrades explicitly (`degraded` list) instead of
+  failing the post: missing file, unreadable image, invalid JSON twice, timeout.
+- Vision branch (SPEC §6.2 step 2): strict JSON `{ocr_text, caption, has_text, is_readable}`,
+  full prompt → simplified prompt → metadata only. `ocr_text` comes first in the schema so a
+  truncated answer still carries the searchable part.
+- Classifier (step 3): few-shot prompt `prompts/classify_post.v1.md` + examples YAML →
+  `{topic, is_ad, is_spoiler, quality}` via grammar-constrained JSON. v1 examples are synthetic
+  placeholders until real posts exist.
+- Injection heuristic v0 (step 6): strong/weak phrase lists (RU/EN) over text + OCR → `injection_flag`.
+- Text normalization + `dedup_key` for the exact-hash dedup stage (D6).
+- Runner: selects posts lacking enrichment for the current `model_version`
+  (`<fast>+<vlm>|classify_post.v1|vlm_describe.v1`), album members inherit the group caption,
+  upsert into `enrichment` — re-running is a no-op, `--force` recomputes in place.
+- Tests: 24 (graph routing and degradation paths with a fake LLM, runner idempotency on SQLite,
+  normalization, injection).
+- Live smoke on the box (`scripts/ingest_smoke.py`): both VLM candidates transcribe the sample
+  meme verbatim and return valid JSON first try; ad / spoiler / injection cases labelled as
+  intended. Cost per text post ≈ 860 prompt tokens (few-shot prefix is cached) ≈ 2 s; per image
+  post ≈ 25 s with Qwen3.6 (≈1200 image tokens) — Gemma would be ≈ 12 s.
+
+**Decision** — `fast` and `vlm` tiers must be the *same* model while the router runs with
+`--models-max 1`: two different models mean two swaps per post (observed: +20 s). D4 compares
+"Qwen3.6 for both" against "Gemma 4 for both" on the same 200 posts.

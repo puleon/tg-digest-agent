@@ -1,0 +1,31 @@
+# Few-shot examples for classify_post. v1 is hand-written to bootstrap; replace with curated
+# real posts once the corpus exists (SPEC §6.2 step 3), bumping the version.
+- text: |
+    Перечитал «Солярис». Лем писал не о контакте, а о том, что человек не готов встретить
+    по-настоящему чужое. Океан отвечает нашими же страхами — в этом и ужас, и величие романа.
+  labels: {topic: scifi, is_ad: false, is_spoiler: false, quality: 4}
+- text: |
+    В финале «Игры Эндера» выясняется, что все «симуляции» были настоящими боями — Эндер
+    уничтожил жукеров, не зная об этом.
+  labels: {topic: scifi, is_ad: false, is_spoiler: true, quality: 3}
+- text: |
+    Когда дедлайн был вчера, а ты ещё выбираешь шрифт
+  media: photo
+  labels: {topic: humor, is_ad: false, is_spoiler: false, quality: 4}
+- text: |
+    🔥 Скидка 40% на курс «Python за 30 дней» только до пятницы! Промокод MEME40 по ссылке.
+  labels: {topic: other, is_ad: true, is_spoiler: false, quality: 1}
+- text: |
+    «Чужой» (1979): Ридли Скотт снял хоррор, в котором монстр появляется в кадре на четыре
+    минуты, а страшно все два часа. Гигер, Кобб и тишина корабля делают остальное.
+  labels: {topic: cinema, is_ad: false, is_spoiler: false, quality: 5}
+- text: |
+    Кадр из «Сияния»: близнецы в коридоре отеля.
+  media: photo
+  labels: {topic: cinema, is_ad: false, is_spoiler: false, quality: 3}
+- text: |
+    Подписывайтесь на наш второй канал с мемами про кино → @example_channel
+  labels: {topic: other, is_ad: true, is_spoiler: false, quality: 1}
+- text: |
+    https://example.com/article
+  labels: {topic: other, is_ad: false, is_spoiler: false, quality: 2}

@@ -15,3 +15,20 @@ def insert_ignore(session: AsyncSession, table: Table, rows: Sequence[dict[str, 
     dialect = session.get_bind().dialect.name
     factory = postgresql.insert if dialect == "postgresql" else sqlite.insert
     return factory(table).values(list(rows)).on_conflict_do_nothing()
+
+
+def insert_or_update(
+    session: AsyncSession,
+    table: Table,
+    rows: Sequence[dict[str, Any]],
+    *,
+    index_elements: Sequence[str],
+    update_columns: Sequence[str],
+) -> Insert:
+    dialect = session.get_bind().dialect.name
+    factory = postgresql.insert if dialect == "postgresql" else sqlite.insert
+    stmt = factory(table).values(list(rows))
+    return stmt.on_conflict_do_update(
+        index_elements=list(index_elements),
+        set_={c: getattr(stmt.excluded, c) for c in update_columns},
+    )
