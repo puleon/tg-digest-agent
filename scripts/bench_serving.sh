@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # D1: model-serving benchmark matrix on the CPU box (SPEC §9 D1).
 # Starts each backend/model combination, runs scripts/bench_llm.py against it, stops it.
-# Usage: scripts/bench_serving.sh [--image path] [--runs N] [--only native|docker|ollama]
+# Usage: scripts/bench_serving.sh [--image path] [--runs N] [--only native|docker|ollama] [--models qwen,gemma,gptoss]
 # Results: docs/experiments/d1-llm-benchmark/results/<backend>-<model>.json (+ combined table on stdout).
 # Results are produced on the server and pulled back with `make pull-results`.
 set -euo pipefail
@@ -13,6 +13,7 @@ NATIVE_PORT=8081
 RUNS=3
 IMAGE=""
 ONLY=""
+MODELS="qwen,gemma,gptoss"
 THREADS=${LLM_THREADS:-16}
 THREADS_BATCH=${LLM_THREADS_BATCH:-16}
 
@@ -21,11 +22,14 @@ while [[ $# -gt 0 ]]; do
     --image) IMAGE=$2; shift 2 ;;
     --runs) RUNS=$2; shift 2 ;;
     --only) ONLY=$2; shift 2 ;;
+    --models) MODELS=$2; shift 2 ;;
     *) echo "unknown arg $1"; exit 2 ;;
   esac
 done
 mkdir -p "$OUT_DIR"
 IMG_ARG=(); [[ -n $IMAGE ]] && IMG_ARG=(--image "$IMAGE")
+
+want() { [[ ",$MODELS," == *",$1,"* ]]; }
 
 wait_health() { # url
   for _ in $(seq 1 120); do curl -fsS "$1" >/dev/null 2>&1 && return 0; sleep 2; done
@@ -55,24 +59,24 @@ G=$MODELS_DIR/gemma-4-26b-a4b/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf
 H=$MODELS_DIR/gpt-oss-120b/gpt-oss-120b-MXFP4.gguf
 # Models still downloading are skipped (the downloader only moves a file into place when complete).
 if [[ -z $ONLY || $ONLY == native ]]; then
-  if [[ -f $Q ]]; then
+  if [[ -f $Q ]] && want qwen; then
     native native-qwen3.6-35b-a3b "$Q" --mmproj "$QD/mmproj-Qwen3.6-35B-A3B-Q8_0.gguf" --reasoning off
     native native-qwen3.6-35b-a3b-mtp "$Q" --reasoning off \
       --spec-type draft-mtp --model-draft "$QD/mtp-Qwen3.6-35B-A3B-Q4_0.gguf"
     native native-qwen3.6-35b-a3b-t32 "$Q" --reasoning off -t 32
     native native-qwen3.6-35b-a3b-tb16 "$Q" --reasoning off -tb 16
   fi
-  [[ -f $G ]] && native native-gemma-4-26b-a4b "$G" --mmproj "$(dirname "$G")/mmproj-BF16.gguf"
-  [[ -f $H ]] && native native-gpt-oss-120b "$H" -c 32768
+  [[ -f $G ]] && want gemma && native native-gemma-4-26b-a4b "$G" --mmproj "$(dirname "$G")/mmproj-BF16.gguf" --reasoning off
+  [[ -f $H ]] && want gptoss && native native-gpt-oss-120b "$H" -c 32768 -np 1
 fi
 
 # --- docker llama-server (compose `llm` service, router mode, runtime CPU dispatch) ---------
 if [[ -z $ONLY || $ONLY == docker ]]; then
   echo "### docker llama-server (compose llm)"
   docker compose up -d --wait llm
-  [[ -f $Q ]] && bench docker-qwen3.6-35b-a3b http://127.0.0.1:8080/v1 qwen3.6-35b-a3b ""
-  [[ -f $G ]] && bench docker-gemma-4-26b-a4b http://127.0.0.1:8080/v1 gemma-4-26b-a4b ""
-  [[ -f $H ]] && bench docker-gpt-oss-120b http://127.0.0.1:8080/v1 gpt-oss-120b ""
+  [[ -f $Q ]] && want qwen && bench docker-qwen3.6-35b-a3b http://127.0.0.1:8080/v1 qwen3.6-35b-a3b ""
+  [[ -f $G ]] && want gemma && bench docker-gemma-4-26b-a4b http://127.0.0.1:8080/v1 gemma-4-26b-a4b ""
+  [[ -f $H ]] && want gptoss && bench docker-gpt-oss-120b http://127.0.0.1:8080/v1 gpt-oss-120b ""
   docker compose stop llm
 fi
 
