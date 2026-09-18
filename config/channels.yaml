@@ -5,7 +5,7 @@
 topics:
   scifi:
     title: "Science fiction — classic and modern"
-    channels: []
+    channels: ['bratrazum']
     #  - username: example_scifi_channel
     #    source: manual
   humor:

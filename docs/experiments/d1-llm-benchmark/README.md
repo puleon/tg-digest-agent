@@ -38,6 +38,19 @@ empty `content` (thinking mode consumed the budget) — latency only, not a usab
 
 Memory (docker `stats`, model loaded, 2 slots × 8k): Qwen3.6-35B-A3B **23 GiB**.
 
+## Results — heavy tier (synthesis, judge)
+
+| target | quant | prefill tok/s | gen tok/s | load from NVMe | resident (docker stats, 32k ctx) |
+|---|---|---|---|---|---|
+| llama-server native · gpt-oss-120b (117B, 5.1B active) | MXFP4 63.4 GB | 143 | 17.3 | — | — |
+| llama-server docker · gpt-oss-120b | MXFP4 | 142 | 17.2 | 28.7 s | **62.7 GiB** |
+
+Generation is memory-bandwidth-bound: 5.1B active parameters at 4 bit move ~2.7 GB per token,
+so a 117B model runs at the speed of the 3B-active fast tier (17 vs 19 tok/s). Prefill is
+compute-bound and drops to 143 tok/s. Russian answers and `reasoning_effort` work through the
+API. 62.7 GiB resident + 23 GiB for the fast model exceeds the ~85 GB budget → the heavy model
+is loaded on demand and evicts the fast one (`--models-max 1`), as the SPEC memory layout says.
+
 ## OCR probe (one Russian meme, thinking off)
 
 | model | image tokens | latency | OCR of «КОГДА ДЕДЛАЙН БЫЛ ВЧЕРА / 99% / А ТЫ ЕЩЁ ВЫБИРАЕШЬ ШРИФТ» |
@@ -75,7 +88,8 @@ returns empty `content`. Both presets now run with `reasoning = off`.
 - Fast-tier default stays **Qwen3.6-35B-A3B** (Apache-2.0, best text throughput); Gemma 4 is the
   favourite for the VLM branch. **D4 decides by numbers**: CER on 50 hand-transcribed images and
   seconds/image on the same 200 posts, both models, same prompt.
-- Heavy tier (gpt-oss-120b MXFP4, 63 GB): benchmarked when the download completes (below).
+- Heavy tier: **gpt-oss-120b MXFP4** — 17 tok/s generation at 63 GiB resident, loaded on demand
+  (29 s from NVMe). Good enough for offline judge/digest runs; GLM-4.5-Air not tested (no need).
 
 ## Open questions
 

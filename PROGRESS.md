@@ -37,6 +37,7 @@ One entry per plan day (SPEC §9). Format: what was done · metrics · what fail
 | Qwen3.6-35B-A3B Q4_K_M, llama-server docker | 223 (260 native, `-tb 16`) | 19.0 | 9.4 (28 with OCR-grade `image-min-tokens 1024`) |
 | Gemma 4 26B-A4B UD-Q4_K_M, llama-server docker | 204 | 16.9 | 14.4 (10.6 with thinking off) |
 | Gemma 4 26B-A4B, Ollama 0.32 | 225 | 26.3 | 5.2 (empty answer: thinking) |
+| **heavy:** gpt-oss-120b MXFP4 (5.1B active), llama-server docker | 142 | 17.2 | — (62.7 GiB resident, 29 s load) |
 
 - Docker image ≈ native build (≤ 3 %) → services stay fully in compose.
 - SMT threads hurt (−12…−18 %); MTP speculative decoding hurts (−17 %) — both off.
@@ -53,8 +54,7 @@ One entry per plan day (SPEC §9). Format: what was done · metrics · what fail
   now live in `docs/experiments/*/results/`, excluded from the push and pulled with `make pull-results`.
 - Ollama runs Gemma 4 55 % faster at generation than llama.cpp with the unsloth quant — open question.
 
-**Open** — heavy tier (gpt-oss-120b, 63 GB) benchmark once the download completes; channel
-list and Telegram credentials from the owner before D2.
+**Open** — channel list and Telegram credentials from the owner before D2 can be closed.
 
 ## D2 — 2026-09-18 (in progress) — Collector
 

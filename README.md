@@ -90,7 +90,7 @@ Results land in this README as they are produced. **Status: day 1 of 18 — foun
 
 | Experiment | Result |
 |---|---|
-| [D1 · CPU serving benchmark](docs/experiments/d1-llm-benchmark/README.md) | Qwen3.6-35B-A3B Q4_K_M: 260 tok/s prefill, 19 tok/s generation, 9–28 s per image; Gemma 4 26B-A4B: 204 / 17 / 10.6 s with verbatim Cyrillic OCR at 262 image tokens. Docker image ≈ native build. SMT and MTP speculative decoding both slower — off. |
+| [D1 · CPU serving benchmark](docs/experiments/d1-llm-benchmark/README.md) | Qwen3.6-35B-A3B Q4_K_M: 260 tok/s prefill, 19 tok/s generation, 9–28 s per image; Gemma 4 26B-A4B: 204 / 17 / 10.6 s with verbatim Cyrillic OCR at 262 image tokens; gpt-oss-120b MXFP4 (heavy tier): 142 / 17 tok/s at 63 GiB resident. Docker image ≈ native build. SMT and MTP speculative decoding both slower — off. |
 
 ## License
 
