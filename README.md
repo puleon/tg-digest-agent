@@ -41,7 +41,7 @@ flowchart TB
 
 | Layer | Choice | Why |
 |---|---|---|
-| Collection | Telethon (MTProto, user account) | Bot API cannot read arbitrary public channels |
+| Collection | Telegram's public web preview (`t.me/s/<channel>`, no account) — Telethon (MTProto) as an optional second source | Bot API cannot read arbitrary public channels; the preview exposes text, ids, dates, full-size photos, albums, forwards, reactions and the numeric channel id |
 | Storage | PostgreSQL 16 + SQLAlchemy 2 | Relational links between posts, clusters, feedback |
 | Vectors | Qdrant | Self-hosted, payload filters, hybrid search |
 | Embeddings / rerank | BGE-M3 / bge-reranker-v2-m3 | Dense + sparse in one model, strong on Russian |
@@ -64,7 +64,9 @@ make test                       # unit tests
 
 Services bind to `127.0.0.1` only. When they run on a remote box, `make tunnel` forwards the UIs
 (Langfuse `:3000`, Qdrant `:6333`, LLM `:8080`) and `make remote T=<target>` syncs the tree and
-runs a make target there.
+runs a make target there. The box itself cannot reach Telegram, so collection runs there with
+its egress routed back through the laptop over an OpenSSH reverse SOCKS tunnel
+(`make collect-channels`, `make collect ARGS="--topic humor"`; `WEB_PROXY` in the box `.env`).
 
 ## Repository layout
 

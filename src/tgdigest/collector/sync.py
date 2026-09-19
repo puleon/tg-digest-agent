@@ -14,7 +14,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from tgdigest.collector.config import ChannelsConfig
 from tgdigest.collector.media import MediaStore
-from tgdigest.collector.types import FloodWait, RawMessage, TelegramSource
+from tgdigest.collector.types import ChannelRef, FloodWait, RawMessage, TelegramSource
 from tgdigest.db.models import Channel, Post
 from tgdigest.db.upsert import insert_ignore
 
@@ -115,7 +115,10 @@ async def sync_channel(
             rows: list[dict[str, Any]] = []
             try:
                 async for message in source.iter_messages(
-                    channel_id, min_id=stats.last_message_id, since=since, limit=limit
+                    ChannelRef(channel.id, channel.username),
+                    min_id=stats.last_message_id,
+                    since=since,
+                    limit=limit,
                 ):
                     stats.fetched += 1
                     media_path = None

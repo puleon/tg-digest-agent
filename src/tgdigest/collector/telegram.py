@@ -25,7 +25,7 @@ from telethon.tl.types import (
     PeerChannel,
 )
 
-from tgdigest.collector.types import ChannelInfo, FloodWait, RawMessage
+from tgdigest.collector.types import ChannelInfo, ChannelRef, FloodWait, RawMessage
 
 _MAX_IMAGE_DOCUMENT_BYTES = 10 * 1024 * 1024
 
@@ -155,13 +155,13 @@ class TelethonSource:
 
     async def iter_messages(
         self,
-        channel_id: int,
+        channel: ChannelRef,
         *,
         min_id: int = 0,
         since: datetime | None = None,
         limit: int | None = None,
     ) -> AsyncIterator[RawMessage]:
-        entity = await self._client.get_input_entity(PeerChannel(channel_id))
+        entity = await self._client.get_input_entity(PeerChannel(channel.id))
         kwargs: dict[str, Any] = {"reverse": True, "limit": limit}
         if min_id:
             kwargs["min_id"] = min_id

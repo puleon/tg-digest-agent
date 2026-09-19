@@ -75,9 +75,20 @@ One entry per plan day (SPEC §9). Format: what was done · metrics · what fail
   isolation, albums/forwards, YAML normalization, Telethon → row mapping on real TL objects)
   + 1 Postgres integration test (`make test-int`).
 
-**Blocked on the owner** — `config/channels.yaml` (8–14 channels per topic) and Telegram
-`api_id`/`api_hash` + one interactive `tgdigest collector login` on the box. "Done when":
-3 channels collected and a re-run inserts nothing.
+**2026-09-19 — source change.** No collector account could be created, so the primary source
+is now Telegram's public web preview (`t.me/s/<channel>`): `WebPreviewSource` implements the
+same `TelegramSource` protocol (parser on selectolax, `?before=` pagination, polite pacing,
+429/5xx → the sync's FloodWait backoff) — sync, cursor, media store and schema unchanged.
+All 29 channels expose the preview. Parsing is pinned by four captured pages
+(`tests/collector/fixtures/`): albums expand to their member ids with the caption on the first,
+forwards resolve to `<username>/<msg_id>`, "431K" → 431000, the numeric channel id comes from
+`data-view`. What the preview lacks: forward counts; views rounded on big channels.
+- The box cannot open TCP connections to Telegram's ranges (149.154.0.0/16) while the laptop
+  can → collection runs on the box through an OpenSSH reverse SOCKS tunnel from the laptop
+  (`ssh -R 1080`, `WEB_PROXY=socks5h://127.0.0.1:1080`, `make collect`). t.me answers in 0.5 s
+  through it. Consequence: incremental collection needs the laptop online (minutes per day).
+- Corpus: 29 channels (scifi 11, humor 8, cinema 10), all resolved with titles and subscriber
+  counts. Media pacing: 0.8 s between t.me pages, 0.15 s between CDN downloads.
 
 ## D3 — 2026-09-18 (skeleton, ahead of the data) — Ingest Agent
 

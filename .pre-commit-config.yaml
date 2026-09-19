@@ -3,7 +3,9 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^tests/collector/fixtures/  # captured pages stay byte-exact
       - id: end-of-file-fixer
+        exclude: ^tests/collector/fixtures/
       - id: check-yaml
       - id: check-toml
       - id: check-added-large-files

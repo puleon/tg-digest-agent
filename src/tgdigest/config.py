@@ -48,6 +48,13 @@ class Settings(BaseSettings):
     langfuse_secret_key: SecretStr = SecretStr("")
 
     # --- telegram ---------------------------------------------------------------------------
+    collector_source: Literal["web", "telethon"] = "web"
+    """``web`` = Telegram's public preview (no account); ``telethon`` = MTProto user session."""
+    web_delay_s: float = Field(default=0.8, ge=0)
+    """Pause between web-preview requests — one channel at a time, politely."""
+    web_proxy: str | None = None
+    """Proxy for t.me / CDN traffic, e.g. ``socks5h://127.0.0.1:1080`` when the box itself
+    cannot reach Telegram and a reverse SSH tunnel (`make collect`) provides the egress."""
     telegram_api_id: int | None = None
     telegram_api_hash: SecretStr | None = None
     telegram_session: str = "data/collector.session"

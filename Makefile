@@ -10,7 +10,7 @@ COMPOSE    ?= docker compose
 UV         ?= uv
 
 .PHONY: help install up down restart ps logs health test test-int lint fmt typecheck check \
-        migrate bench-serving bench-llm sync pull-results remote tunnel clean
+        migrate bench-serving bench-llm sync pull-results remote collect collect-channels tunnel clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -78,6 +78,14 @@ pull-results: ## Copy experiment outputs (docs/experiments/*/results/) back from
 
 remote: sync ## Run a make target on the server: make remote T=test
 	ssh -t $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && make $(T)'
+
+# The box cannot reach t.me; these run the collector there with its egress routed back through
+# this machine (OpenSSH reverse SOCKS: -R 1080 with no target). Needs WEB_PROXY in the box .env.
+collect-channels: sync ## Resolve config/channels.yaml on the box via the reverse tunnel
+	ssh -o ExitOnForwardFailure=yes -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector channels'
+
+collect: sync ## Incremental sync on the box via the reverse tunnel: make collect ARGS="--topic humor"
+	ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector sync $(ARGS)'
 
 tunnel: ## Forward Langfuse (3000), MinIO (9090), Qdrant (6333), LLM (8080) to localhost
 	ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 6333:127.0.0.1:6333 -L 8080:127.0.0.1:8080 $(SERVER)

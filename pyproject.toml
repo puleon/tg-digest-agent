@@ -14,7 +14,7 @@ dependencies = [
     "asyncpg>=0.30",
     "alembic>=1.14",
     "qdrant-client>=1.12",
-    "httpx>=0.28",
+    "httpx[socks]>=0.28",
     "openai>=1.60",
     "typer>=0.15",
     "pyyaml>=6.0",
@@ -24,6 +24,7 @@ dependencies = [
     "pillow>=11.0",
     "telethon>=1.38",
     "langgraph>=1.0",
+    "selectolax>=0.3",
 ]
 
 [project.scripts]

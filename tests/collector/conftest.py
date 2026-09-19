@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
-from tgdigest.collector.types import ChannelInfo, FloodWait, RawMessage
+from tgdigest.collector.types import ChannelInfo, ChannelRef, FloodWait, RawMessage
 from tgdigest.db.base import Base, make_engine, make_session_factory
 from tgdigest.db.models import Channel
 
@@ -57,14 +57,14 @@ class FakeSource:
 
     async def iter_messages(
         self,
-        channel_id: int,
+        channel: ChannelRef,
         *,
         min_id: int = 0,
         since: datetime | None = None,
         limit: int | None = None,
     ) -> AsyncIterator[RawMessage]:
         yielded = 0
-        for m in sorted(self.messages.get(channel_id, []), key=lambda m: m.id):
+        for m in sorted(self.messages.get(channel.id, []), key=lambda m: m.id):
             if min_id and m.id <= min_id:
                 continue
             if not min_id and since is not None and m.date < since:

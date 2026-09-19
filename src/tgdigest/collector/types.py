@@ -13,10 +13,16 @@ THUMBNAIL_TYPES = frozenset({"video", "animation"})
 
 
 @dataclass(frozen=True)
-class ChannelInfo:
+class ChannelRef:
+    """What a source needs to address a channel: MTProto wants the id, the web preview the name."""
+
     id: int
     username: str
-    title: str
+
+
+@dataclass(frozen=True)
+class ChannelInfo(ChannelRef):
+    title: str = ""
     subscribers: int | None = None
 
 
@@ -50,12 +56,15 @@ class TelegramSource(Protocol):
 
     def iter_messages(
         self,
-        channel_id: int,
+        channel: ChannelRef,
         *,
         min_id: int = 0,
         since: datetime | None = None,
         limit: int | None = None,
-    ) -> AsyncIterator[RawMessage]: ...
+    ) -> AsyncIterator[RawMessage]:
+        """Messages newer than ``min_id`` (or, on the first pass, not older than ``since``),
+        in ascending id order — the sync commits its cursor per batch and relies on it."""
+        ...
 
     async def download_media(self, message: RawMessage, dest: Path) -> Path | None:
         """Save the photo (or a video/animation thumbnail) to ``dest``; None if nothing saved."""

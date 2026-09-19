@@ -17,7 +17,7 @@ app = typer.Typer(no_args_is_help=True, add_completion=False, help="Telegram col
 CHANNELS_YAML = Path("config/channels.yaml")
 
 
-def _source(settings: Settings):  # type: ignore[no-untyped-def]  # TelethonSource, imported lazily
+def _telethon(settings: Settings):  # type: ignore[no-untyped-def]  # imported lazily: heavy
     from tgdigest.collector.telegram import TelethonSource
 
     if settings.telegram_api_id is None or settings.telegram_api_hash is None:
@@ -29,12 +29,22 @@ def _source(settings: Settings):  # type: ignore[no-untyped-def]  # TelethonSour
     )
 
 
+def _source(settings: Settings):  # type: ignore[no-untyped-def]  # WebPreviewSource | TelethonSource
+    if settings.collector_source == "web":
+        from tgdigest.collector.web import WebPreviewSource
+
+        return WebPreviewSource(delay_s=settings.web_delay_s, proxy=settings.web_proxy)
+    return _telethon(settings)
+
+
 @app.command()
 def login() -> None:
-    """One-time interactive authorization of the collector account (phone + code)."""
+    """One-time interactive authorization of an MTProto account (COLLECTOR_SOURCE=telethon)."""
     settings = get_settings()
+    if settings.collector_source != "telethon":
+        raise typer.BadParameter("COLLECTOR_SOURCE=web needs no login; set it to telethon first")
     Path(settings.telegram_session).parent.mkdir(parents=True, exist_ok=True)
-    asyncio.run(_source(settings).login_interactive())
+    asyncio.run(_telethon(settings).login_interactive())
 
 
 @app.command()
