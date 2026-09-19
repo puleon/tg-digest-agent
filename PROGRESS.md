@@ -90,6 +90,22 @@ forwards resolve to `<username>/<msg_id>`, "431K" → 431000, the numeric channe
 - Corpus: 29 channels (scifi 11, humor 8, cinema 10), all resolved with titles and subscriber
   counts. Media pacing: 0.8 s between t.me pages, 0.15 s between CDN downloads.
 
+**Done when — met.** Three channels (@horrorfantastcom, @memehunter, @kinolikbez) collected
+for six months; the re-run fetched 0 / inserted 0. Full collection of all 29 channels
+(2026-03-20 … 2026-09-19) took ≈ 2.5 h through the tunnel, 0 flood waits, 3 media failures:
+
+| | rows (messages) | posts (album = 1) | with text | with media | forwards |
+|---|---|---|---|---|---|
+| scifi | 9 683 | 6 522 | 6 423 | 8 794 | 267 |
+| humor | 10 299 | 9 035 | 4 722 | 8 652 | 566 |
+| cinema | 5 998 | 3 471 | 3 431 | 5 442 | 710 |
+| **total** | **25 980** | **19 028** | 14 576 | 22 888 (1.7 GB: 19.8k photos, 3.1k animation thumbs) | 1 543 |
+
+DoD line "≥ 25 channels, ≥ 15 000 posts" is met. Forward ground truth for dedup is thinner
+than hoped: 60 forwards come from corpus channels, 166 source messages were forwarded more
+than once, only 16 of them by two or more corpus channels — the hand-labelled clusters of D6
+will carry the metric. `link_forwards` maps preview forward names to corpus channel ids.
+
 ## D3 — 2026-09-18 (skeleton, ahead of the data) — Ingest Agent
 
 **Done**

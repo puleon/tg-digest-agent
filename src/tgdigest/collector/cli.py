@@ -87,7 +87,7 @@ def sync(
     from sqlalchemy import select
 
     from tgdigest.collector.media import MediaStore
-    from tgdigest.collector.sync import sync_channel
+    from tgdigest.collector.sync import link_forwards, sync_channel
     from tgdigest.db.base import make_engine, make_session_factory
     from tgdigest.db.models import Channel
 
@@ -121,6 +121,9 @@ def sync(
                         f"media={stats.media_downloaded}+{stats.media_reused} "
                         f"floods={stats.flood_waits}"
                     )
+            async with factory() as session:
+                linked = await link_forwards(session)
+            typer.echo(f"forwards linked to corpus channels: {linked}")
         finally:
             await engine.dispose()
 

@@ -185,6 +185,29 @@ async def upsert_channels(
     return out
 
 
+async def link_forwards(session: AsyncSession) -> int:
+    """Point ``forward_from_channel`` at the corpus channel when the source is one of ours.
+
+    The web preview only names the source (``raw_json.forward_from_username``); the collector
+    stores a synthetic id for it. Once the corpus is known, forwards from corpus channels get
+    the real id so cluster links (SPEC §6.3 step 5) can join on it.
+    """
+    from sqlalchemy import func
+
+    lowered = func.lower(Post.raw_json["forward_from_username"].as_string())
+    subq = select(Channel.id).where(func.lower(Channel.username) == lowered).scalar_subquery()
+    stmt = (
+        update(Post)
+        .where(Post.forward_from_channel.is_not(None))
+        .where(lowered.in_(select(func.lower(Channel.username))))
+        .where(Post.forward_from_channel != subq)
+        .values(forward_from_channel=subq)
+    )
+    result = await session.execute(stmt)
+    await session.commit()
+    return int(getattr(result, "rowcount", 0) or 0)
+
+
 async def channel_stats(session: AsyncSession) -> list[dict[str, Any]]:
     stmt = (
         select(

@@ -9,7 +9,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from tests.collector.conftest import T0, FakeSource, msg, no_sleep
 from tgdigest.collector.media import MediaStore
-from tgdigest.collector.sync import FloodWaitPolicy, sync_channel
+from tgdigest.collector.sync import FloodWaitPolicy, link_forwards, sync_channel
+from tgdigest.collector.web import stable_id
 from tgdigest.db.models import Channel, Post
 
 
@@ -160,3 +161,23 @@ async def test_albums_and_forwards_are_preserved(
 async def test_unknown_channel_is_an_error(factory: async_sessionmaker[AsyncSession]) -> None:
     with pytest.raises(ValueError, match="unknown channel"):
         await sync_channel(factory, FakeSource(), None, 404, sleep=no_sleep)
+
+
+async def test_link_forwards_resolves_corpus_sources(
+    factory: async_sessionmaker[AsyncSession], channel: Channel
+) -> None:
+    async with factory() as s:
+        s.add(Channel(id=2002, username="Cinema_Src", topic="cinema"))
+        await s.commit()
+    inside = msg(1, fwd=(stable_id("cinema_src"), 17))
+    outside = msg(2, fwd=(stable_id("someone_else"), 5))
+    inside.raw["forward_from_username"] = "cinema_src"
+    outside.raw["forward_from_username"] = "someone_else"
+    await sync_channel(factory, FakeSource({1001: [inside, outside]}), None, 1001, since=T0)
+
+    async with factory() as s:
+        assert await link_forwards(s) == 1
+        assert await link_forwards(s) == 0  # idempotent
+        rows = {p.tg_message_id: p for p in (await s.execute(select(Post))).scalars()}
+    assert rows[1].forward_from_channel == 2002
+    assert rows[2].forward_from_channel == stable_id("someone_else")
