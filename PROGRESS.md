@@ -118,3 +118,19 @@ forwards resolve to `<username>/<msg_id>`, "431K" → 431000, the numeric channe
 **Decision** — `fast` and `vlm` tiers must be the *same* model while the router runs with
 `--models-max 1`: two different models mean two swaps per post (observed: +20 s). D4 compares
 "Qwen3.6 for both" against "Gemma 4 for both" on the same 200 posts.
+
+**2026-09-19 — first real run** (`tgdigest ingest run --topic … --limit …`, 130 posts from
+the three D2 channels, Qwen3.6 for both tiers, concurrency 2):
+
+| topic (channel) | posts | wall time / post | prompt tokens / post | degraded |
+|---|---|---|---|---|
+| scifi (@horrorfantastcom, text + albums) | 60 | ≈ 2.5 s | 1158 (few-shot prefix cached) | 0 |
+| cinema (@kinolikbez, vision on images) | 40 | ≈ 15 s | 1892 | 3 × vision:unreadable |
+| humor (@memehunter, vision on every image) | 30 | ≈ 24 s | 2015 | 0 |
+
+- Labels follow the post, not the channel: 77 % of @horrorfantastcom posts → `scifi`, the rest
+  `other` (event invitations, comics) and one `humor`; 11 of 30 @memehunter memes → `cinema`
+  (they are movie memes — a real ambiguity the labeled set on D5 has to settle).
+- Ads flagged: 4/60 scifi, 11/40 cinema, 2/30 humor — spot checks agree (event promo, cross-posts).
+- OCR/captions on real memes read correctly (posters, handwritten corrections, TV logos).
+- No JSON failures, no repairs needed: grammar-constrained output held on 260 model calls.
