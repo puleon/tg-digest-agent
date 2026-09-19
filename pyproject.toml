@@ -65,7 +65,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S105", "S106", "ASYNC240"]  # test credentials; fakes may block on disk
-"scripts/**" = ["S603", "S607"]  # subprocess in benchmark scripts
+"scripts/**" = ["S603", "S607", "S311", "ASYNC240"]  # subprocess, seeded sampling, blocking io in one-off scripts
 
 [tool.mypy]
 python_version = "3.12"
