@@ -133,7 +133,8 @@ def build_ingest_graph(deps: IngestDeps) -> Any:
             log.warning("image_unreadable", post_id=state["post_id"], error=repr(exc))
             return {"vision": None, "degraded": [*state["degraded"], "vision:missing_file"]}
         mime = _MIME.get(Path(rel).suffix.lower(), "image/jpeg")
-        attempts = [(load_prompt(*VISION_PROMPT), 400), (load_prompt(*VISION_SIMPLE_PROMPT), 200)]
+        # 300 tokens fit ~95 % of answers; a truncated one is retried with 600 by the client (D4)
+        attempts = [(load_prompt(*VISION_PROMPT), 300), (load_prompt(*VISION_SIMPLE_PROMPT), 200)]
         usage = state["usage"]
         for prompt, max_tokens in attempts:  # SPEC §6.2: retry with a simpler prompt, then degrade
             try:

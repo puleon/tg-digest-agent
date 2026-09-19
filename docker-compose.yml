@@ -75,7 +75,7 @@ services:
     command: >
       --host 0.0.0.0 --port 8080
       --models-preset /config/models.ini
-      --models-max 1
+      --models-max 2
       --sleep-idle-seconds 1800
       --threads ${LLM_THREADS:-16} --threads-batch ${LLM_THREADS_BATCH:-16}
       --metrics

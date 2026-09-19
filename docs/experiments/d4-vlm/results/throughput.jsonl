@@ -1,0 +1,10 @@
+{"model": "gemma-4-26b-a4b", "n": 16, "concurrency": 1, "max_tokens": 400, "wall_s": 236.3, "images_per_min": 4.1, "latency_median_s": 10.5, "prompt_tokens_median": 374, "ocr_nonempty": 8, "errors": 1}
+{"model": "gemma-4-26b-a4b", "n": 16, "concurrency": 2, "max_tokens": 400, "wall_s": 108.1, "images_per_min": 8.9, "latency_median_s": 6.1, "prompt_tokens_median": 374, "ocr_nonempty": 8, "errors": 1}
+{"model": "qwen3.6-35b-a3b", "n": 16, "concurrency": 1, "max_tokens": 400, "wall_s": 367.2, "images_per_min": 2.6, "latency_median_s": 22.4, "prompt_tokens_median": 1194.0, "ocr_nonempty": 10, "errors": 0}
+{"model": "qwen3.6-35b-a3b", "n": 16, "concurrency": 2, "max_tokens": 400, "wall_s": 49.8, "images_per_min": 19.3, "latency_median_s": 5.0, "prompt_tokens_median": 1194.0, "ocr_nonempty": 10, "errors": 0}
+{"model": "qwen3.6-35b-a3b", "n": 16, "concurrency": 1, "max_tokens": 400, "wall_s": 363.8, "images_per_min": 2.6, "latency_median_s": 23.4, "prompt_tokens_median": 1209.0, "ocr_nonempty": 12, "errors": 0}
+{"model": "qwen3.6-35b-a3b", "n": 16, "concurrency": 2, "max_tokens": 400, "wall_s": 389.3, "images_per_min": 2.5, "latency_median_s": 25.9, "prompt_tokens_median": 1205.0, "ocr_nonempty": 12, "errors": 0}
+{"model": "gemma-4-26b-a4b", "n": 16, "concurrency": 2, "max_tokens": 400, "wall_s": 167.0, "images_per_min": 5.7, "latency_median_s": 14.9, "prompt_tokens_median": 342.5, "ocr_nonempty": 13, "errors": 0}
+{"model": "gemma-4-26b-a4b", "n": 16, "concurrency": 4, "max_tokens": 400, "wall_s": 192.3, "images_per_min": 5.0, "latency_median_s": 23.6, "prompt_tokens_median": 340, "ocr_nonempty": 13, "errors": 1}
+{"model": "gemma-4-26b-a4b", "n": 16, "concurrency": 4, "max_tokens": 250, "wall_s": 113.4, "images_per_min": 8.5, "latency_median_s": 22.1, "prompt_tokens_median": 357.0, "ocr_nonempty": 14, "errors": 0}
+{"model": "gemma-4-26b-a4b", "n": 16, "concurrency": 2, "max_tokens": 250, "wall_s": 143.1, "images_per_min": 6.7, "latency_median_s": 16.7, "prompt_tokens_median": 348.5, "ocr_nonempty": 13, "errors": 0}
