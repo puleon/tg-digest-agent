@@ -131,6 +131,53 @@ def sync(
 
 
 @app.command()
+def refresh(
+    topic: Annotated[str | None, typer.Option(help="scifi | humor | cinema")] = None,
+    channel: Annotated[str | None, typer.Option(help="single @username")] = None,
+    since: Annotated[
+        datetime | None, typer.Option(help="history start, default 183 days ago")
+    ] = None,
+) -> None:
+    """Re-read dates and view/forward counters of stored posts from the source (no media)."""
+    from sqlalchemy import select
+
+    from tgdigest.collector.sync import refresh_channel
+    from tgdigest.db.base import make_engine, make_session_factory
+    from tgdigest.db.models import Channel
+
+    settings = get_settings()
+    configure_logging(settings.log_level)
+    since_utc = since.replace(tzinfo=UTC) if since and since.tzinfo is None else since
+
+    async def run() -> None:
+        engine = make_engine(settings.database_url)
+        factory = make_session_factory(engine)
+        try:
+            async with factory() as session:
+                stmt = select(Channel).where(Channel.is_active).order_by(Channel.topic, Channel.id)
+                if topic:
+                    stmt = stmt.where(Channel.topic == topic)
+                if channel:
+                    stmt = stmt.where(Channel.username == channel.removeprefix("@"))
+                targets = list((await session.execute(stmt)).scalars())
+            if not targets:
+                typer.echo("no matching active channels — run `collector channels` first")
+                raise typer.Exit(1)
+            async with _source(settings) as src:
+                for ch in targets:
+                    stats = await refresh_channel(factory, src, ch.id, since=since_utc)
+                    typer.echo(
+                        f"@{stats.username:32s} fetched={stats.fetched:5d} "
+                        f"dates_fixed={stats.dates_fixed:5d} "
+                        f"counters={stats.counters_updated:5d} floods={stats.flood_waits}"
+                    )
+        finally:
+            await engine.dispose()
+
+    asyncio.run(run())
+
+
+@app.command()
 def stats() -> None:
     """Per-channel counts: posts, media, date range, sync cursor."""
     from tgdigest.collector.sync import channel_stats

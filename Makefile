@@ -10,7 +10,7 @@ COMPOSE    ?= docker compose
 UV         ?= uv
 
 .PHONY: help install up down restart ps logs health test test-int lint fmt typecheck check \
-        migrate bench-serving bench-llm sync pull-results remote collect collect-channels tunnel clean
+        migrate bench-serving bench-llm sync pull-results remote collect collect-channels refresh tunnel clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -86,6 +86,9 @@ collect-channels: sync ## Resolve config/channels.yaml on the box via the revers
 
 collect: sync ## Incremental sync on the box via the reverse tunnel: make collect ARGS="--topic humor"
 	ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector sync $(ARGS)'
+
+refresh: sync ## Re-read dates and view counters of stored posts via the reverse tunnel (no media)
+	ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector refresh $(ARGS)'
 
 tunnel: ## Forward Langfuse (3000), MinIO (9090), Qdrant (6333), LLM (8080) to localhost
 	ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 6333:127.0.0.1:6333 -L 8080:127.0.0.1:8080 $(SERVER)

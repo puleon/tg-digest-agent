@@ -62,6 +62,17 @@ def test_videos_get_thumbnails() -> None:
     assert all(m.media_ext == ".jpg" for m in videos)
 
 
+def test_video_messages_keep_the_post_date_not_the_duration_overlay() -> None:
+    """``<time class="message_video_duration">`` precedes the meta line and has no datetime;
+    picking it used to stamp every video post with the collection time."""
+    _, msgs = parse_page(_fixture("luka_ebkov"), "luka_ebkov")
+    by_id = {m.id: m for m in msgs}
+    assert by_id[66431].media_type == "animation"  # album member
+    assert by_id[66431].date == datetime(2026, 9, 18, 15, 20, 31, tzinfo=UTC)
+    assert by_id[66432].media_type == "animation"  # standalone
+    assert by_id[66432].date == datetime(2026, 9, 18, 15, 45, 7, tzinfo=UTC)
+
+
 def test_text_newlines_and_link_previews() -> None:
     info, msgs = parse_page(_fixture("lleodnevnik"), "lleodnevnik")
     assert info.subscribers == 9160

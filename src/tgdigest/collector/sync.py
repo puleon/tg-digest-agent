@@ -151,6 +151,81 @@ async def sync_channel(
         return stats
 
 
+@dataclass
+class RefreshStats:
+    channel_id: int
+    username: str
+    fetched: int = 0
+    dates_fixed: int = 0
+    counters_updated: int = 0
+    flood_waits: int = 0
+
+
+async def refresh_channel(
+    session_factory: async_sessionmaker[AsyncSession],
+    source: TelegramSource,
+    channel_id: int,
+    *,
+    since: datetime | None = None,
+    sleep: Sleeper = asyncio.sleep,
+    policy: FloodWaitPolicy | None = None,
+) -> RefreshStats:
+    """Re-read every message in the window and refresh mutable metadata of the rows we hold:
+    ``posted_at`` (repairs rows a parser bug stamped with the collection time), views,
+    forwards, reactions. No inserts, no media, idempotent."""
+    policy = policy or FloodWaitPolicy()
+    async with session_factory() as session:
+        channel = await session.get(Channel, channel_id)
+        if channel is None:
+            raise ValueError(f"unknown channel id {channel_id}")
+        stats = RefreshStats(channel.id, channel.username)
+        since = since or (datetime.now(UTC) - DEFAULT_HISTORY)
+        clog = log.bind(channel=channel.username)
+        stmt = select(Post.tg_message_id, Post.posted_at, Post.views, Post.forwards).where(
+            Post.channel_id == channel_id
+        )
+        held = {mid: (at, v, f) for mid, at, v, f in (await session.execute(stmt)).all()}
+
+        while True:
+            try:
+                async for message in source.iter_messages(
+                    ChannelRef(channel.id, channel.username), min_id=0, since=since
+                ):
+                    stats.fetched += 1
+                    current = held.get(message.id)
+                    if current is None:
+                        continue
+                    posted_at, views, forwards = current
+                    if posted_at.tzinfo is None:  # SQLite hands back naive UTC
+                        posted_at = posted_at.replace(tzinfo=UTC)
+                    values: dict[str, Any] = {}
+                    if abs((posted_at - message.date).total_seconds()) > 60:
+                        values["posted_at"] = message.date
+                        stats.dates_fixed += 1
+                    if (message.views, message.forwards) != (views, forwards):
+                        values.update(views=message.views, forwards=message.forwards)
+                        values["reactions_count"] = message.reactions_count
+                        stats.counters_updated += 1
+                    if values:
+                        await session.execute(
+                            update(Post)
+                            .where(Post.channel_id == channel_id)
+                            .where(Post.tg_message_id == message.id)
+                            .values(**values)
+                        )
+                        held[message.id] = (message.date, message.views, message.forwards)
+                await session.commit()
+                break
+            except FloodWait as exc:
+                await session.commit()
+                stats.flood_waits += 1
+                delay = policy.delay(exc.seconds)
+                clog.warning("flood_wait", requested_s=exc.seconds, sleeping_s=delay)
+                await sleep(delay)
+        clog.info("refreshed", **vars(stats))
+        return stats
+
+
 async def upsert_channels(
     session_factory: async_sessionmaker[AsyncSession],
     source: TelegramSource,

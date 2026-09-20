@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import UTC, timedelta
 from pathlib import Path
 
 import pytest
@@ -9,7 +9,12 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from tests.collector.conftest import T0, FakeSource, msg, no_sleep
 from tgdigest.collector.media import MediaStore
-from tgdigest.collector.sync import FloodWaitPolicy, link_forwards, sync_channel
+from tgdigest.collector.sync import (
+    FloodWaitPolicy,
+    link_forwards,
+    refresh_channel,
+    sync_channel,
+)
 from tgdigest.collector.web import stable_id
 from tgdigest.db.models import Channel, Post
 
@@ -181,3 +186,29 @@ async def test_link_forwards_resolves_corpus_sources(
         rows = {p.tg_message_id: p for p in (await s.execute(select(Post))).scalars()}
     assert rows[1].forward_from_channel == 2002
     assert rows[2].forward_from_channel == stable_id("someone_else")
+
+
+async def test_refresh_repairs_dates_and_counters_without_inserting(
+    factory: async_sessionmaker[AsyncSession], channel: Channel
+) -> None:
+    src = FakeSource({1001: [msg(1), msg(2), msg(3)]})
+    await sync_channel(factory, src, None, 1001, since=T0)
+    async with factory() as s:  # simulate rows stamped with the collection time + stale views
+        for post in (await s.execute(select(Post))).scalars():
+            if post.tg_message_id == 2:
+                post.posted_at = T0 + timedelta(days=200)
+            post.views = 0
+        await s.commit()
+
+    src.messages[1001] += [msg(4)]  # newer than the cursor: refresh must not insert it
+    stats = await refresh_channel(factory, src, 1001, since=T0)
+
+    assert (stats.fetched, stats.dates_fixed, stats.counters_updated) == (4, 1, 3)
+    assert await _count(factory) == 3
+    async with factory() as s:
+        posts = {p.tg_message_id: p for p in (await s.execute(select(Post))).scalars()}
+    assert posts[2].posted_at.replace(tzinfo=UTC) == T0 + timedelta(hours=2)  # SQLite: naive
+    assert {p.views for p in posts.values()} == {100, 200, 300}
+
+    again = await refresh_channel(factory, src, 1001, since=T0)
+    assert (again.dates_fixed, again.counters_updated) == (0, 0)

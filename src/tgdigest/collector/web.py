@@ -113,11 +113,16 @@ def parse_message_block(node: Node, channel_username: str) -> list[RawMessage]:
     if not m or "service_message" in (node.attributes.get("class") or ""):
         return []  # "X pinned a photo", "channel created": not content
     block_id = int(m.group(2))
-    time_node = node.css_first("time")
+    # the post date lives in the meta line; a bare ``time`` would also match the video
+    # duration overlay (``<time class="message_video_duration">0:09</time>``, no datetime)
+    time_node = node.css_first("a.tgme_widget_message_date time[datetime]") or node.css_first(
+        "time[datetime]"
+    )
     date_raw = (time_node.attributes.get("datetime") if time_node else None) or ""
     try:
         date = datetime.fromisoformat(date_raw)
     except ValueError:
+        log.warning("message_date_missing", post=post, raw=date_raw)
         date = datetime.now(UTC)
     if date.tzinfo is None:
         date = date.replace(tzinfo=UTC)
