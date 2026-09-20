@@ -70,7 +70,8 @@ class IngestState(TypedDict, total=False):
 class IngestDeps:
     llm: LLMClient
     media_root: Path
-    vision_timeout_s: float = 180.0
+    vision_timeout_s: float = 300.0
+    """Per attempt; with 6 posts in flight and 4 VLM slots a request can queue for a while."""
     read_image: Callable[[Path], Awaitable[bytes]] | None = None
 
     async def image_bytes(self, rel: str) -> bytes:
