@@ -12,10 +12,12 @@ from tgdigest.config import get_settings
 app = typer.Typer(no_args_is_help=True, add_completion=False, help="Tematic Telegram Index")
 
 from tgdigest.collector.cli import app as collector_app  # noqa: E402
+from tgdigest.dedup.cli import app as dedup_app  # noqa: E402
 from tgdigest.ingest.cli import app as ingest_app  # noqa: E402
 
 app.add_typer(collector_app, name="collector")
 app.add_typer(ingest_app, name="ingest")
+app.add_typer(dedup_app, name="dedup")
 
 
 @app.command()

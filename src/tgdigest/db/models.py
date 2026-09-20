@@ -109,6 +109,25 @@ class Enrichment(Base):
     post: Mapped[Post] = relationship(back_populates="enrichment")
 
 
+class PostSignature(Base):
+    """Dedup signatures per message (SPEC §6.3 stages 1–3), computed once."""
+
+    __tablename__ = "post_signatures"
+    __table_args__ = (
+        Index("ix_post_signatures_text_hash", "text_hash"),
+        Index("ix_post_signatures_file_sha256", "file_sha256"),
+    )
+
+    post_id: Mapped[int] = mapped_column(
+        ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True
+    )
+    text_key: Mapped[str | None] = mapped_column(Text)
+    text_hash: Mapped[str | None] = mapped_column(String(40))
+    file_sha256: Mapped[str | None] = mapped_column(String(64))
+    phash: Mapped[int | None] = mapped_column(BigInteger)
+    """64-bit perceptual hash stored as a signed int64 (two's complement)."""
+
+
 class Cluster(Base):
     __tablename__ = "clusters"
 
@@ -131,6 +150,8 @@ class PostCluster(Base):
         ForeignKey("clusters.id", ondelete="CASCADE"), primary_key=True
     )
     similarity: Mapped[float | None] = mapped_column(Float)
+    stage: Mapped[str | None] = mapped_column(String(16))
+    """Which cascade stage linked this member to the cluster (text | file | phash | …)."""
 
 
 class UserProfile(Base):
