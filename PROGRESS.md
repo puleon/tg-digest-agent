@@ -150,3 +150,24 @@ the three D2 channels, Qwen3.6 for both tiers, concurrency 2):
 - Ads flagged: 4/60 scifi, 11/40 cinema, 2/30 humor — spot checks agree (event promo, cross-posts).
 - OCR/captions on real memes read correctly (posters, handwritten corrections, TV logos).
 - No JSON failures, no repairs needed: grammar-constrained output held on 260 model calls.
+
+## D4 — 2026-09-19/20 — VLM branch on real data
+
+**Done** — report in [`docs/experiments/d4-vlm/`](docs/experiments/d4-vlm/README.md).
+- OCR sample: 50 images (25 humor, 25 cinema), 36 with text, hand-checked gold
+  (`scripts/ocr_eval.py`, `scripts/ocr_sheet.py`). **Qwen3.6 CER 0.000, Gemma 4 CER 0.111**
+  (normalized; 22/36 exact). Gemma's misses are dense English screenshots and tiny captions;
+  Russian meme text is verbatim on both.
+- Throughput on real images, cache-free (`scripts/vlm_bench.py`): Qwen 2.6 images/min and
+  flat under concurrency (compute-bound: vision encoder + 1 200-token prefill); Gemma 4.1 →
+  8.5 images/min with 4 slots and a 250-token budget (decode-bound, batching shares weight reads).
+- Found and documented a measurement trap: llama-server's RAM prompt cache made a repeated
+  image set look 7× faster.
+- Router now keeps both models resident (`--models-max 2`, 29 GiB): different models for the
+  text and vision tiers without per-post swaps.
+
+**Decision** — vision tier = Gemma 4 (≈ 30 h full pass vs ≈ 100 h), text tier = Qwen3.6. The
+accuracy gap is real and recorded; a Qwen second pass on images where Gemma finds no text is
+queued as a measured follow-up for the D8 retrieval ablation.
+
+**Started** — full ingest pass (humor → cinema → scifi, concurrency 4) in the background.

@@ -9,7 +9,8 @@ import structlog
 
 def configure_logging(level: str = "INFO", *, json: bool = False) -> None:
     logging.basicConfig(level=level.upper(), format="%(message)s")
-    logging.getLogger("httpx").setLevel(logging.WARNING)  # one line per request is noise
+    for name in ("httpx", "httpx2", "httpcore"):  # one line per request is noise
+        logging.getLogger(name).setLevel(logging.WARNING)
     renderer = structlog.processors.JSONRenderer() if json else structlog.dev.ConsoleRenderer()
     structlog.configure(
         processors=[
