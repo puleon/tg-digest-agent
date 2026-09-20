@@ -9,13 +9,13 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import structlog
-from sqlalchemy import func, select, update
+from sqlalchemy import delete, func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from tgdigest.collector.config import ChannelsConfig
 from tgdigest.collector.media import MediaStore
 from tgdigest.collector.types import ChannelRef, FloodWait, RawMessage, TelegramSource
-from tgdigest.db.models import Channel, Post
+from tgdigest.db.models import Channel, Enrichment, Post
 from tgdigest.db.upsert import insert_ignore
 
 log = structlog.get_logger(__name__)
@@ -157,6 +157,9 @@ class RefreshStats:
     username: str
     fetched: int = 0
     dates_fixed: int = 0
+    texts_fixed: int = 0
+    enrichment_reset: int = 0
+    """Enrichment rows dropped because the text they were computed from changed."""
     counters_updated: int = 0
     flood_waits: int = 0
 
@@ -170,9 +173,9 @@ async def refresh_channel(
     sleep: Sleeper = asyncio.sleep,
     policy: FloodWaitPolicy | None = None,
 ) -> RefreshStats:
-    """Re-read every message in the window and refresh mutable metadata of the rows we hold:
-    ``posted_at`` (repairs rows a parser bug stamped with the collection time), views,
-    forwards, reactions. No inserts, no media, idempotent."""
+    """Re-read every message in the window and refresh the rows we hold: ``posted_at`` and
+    ``text`` (repairs rows an older parser got wrong), views, forwards, reactions. No inserts,
+    no media, idempotent."""
     policy = policy or FloodWaitPolicy()
     async with session_factory() as session:
         channel = await session.get(Channel, channel_id)
@@ -181,11 +184,14 @@ async def refresh_channel(
         stats = RefreshStats(channel.id, channel.username)
         since = since or (datetime.now(UTC) - DEFAULT_HISTORY)
         clog = log.bind(channel=channel.username)
-        stmt = select(Post.tg_message_id, Post.posted_at, Post.views, Post.forwards).where(
-            Post.channel_id == channel_id
-        )
-        held = {mid: (at, v, f) for mid, at, v, f in (await session.execute(stmt)).all()}
+        stmt = select(
+            Post.tg_message_id, Post.posted_at, Post.views, Post.forwards, Post.text
+        ).where(Post.channel_id == channel_id)
+        held = {
+            mid: (at, v, f, text) for mid, at, v, f, text in (await session.execute(stmt)).all()
+        }
 
+        changed_text: list[int] = []
         while True:
             try:
                 async for message in source.iter_messages(
@@ -195,13 +201,17 @@ async def refresh_channel(
                     current = held.get(message.id)
                     if current is None:
                         continue
-                    posted_at, views, forwards = current
+                    posted_at, views, forwards, text = current
                     if posted_at.tzinfo is None:  # SQLite hands back naive UTC
                         posted_at = posted_at.replace(tzinfo=UTC)
                     values: dict[str, Any] = {}
                     if abs((posted_at - message.date).total_seconds()) > 60:
                         values["posted_at"] = message.date
                         stats.dates_fixed += 1
+                    if message.text != text:
+                        values.update(text=message.text, raw_json=message.raw)
+                        stats.texts_fixed += 1
+                        changed_text.append(message.id)
                     if (message.views, message.forwards) != (views, forwards):
                         values.update(views=message.views, forwards=message.forwards)
                         values["reactions_count"] = message.reactions_count
@@ -213,7 +223,12 @@ async def refresh_channel(
                             .where(Post.tg_message_id == message.id)
                             .values(**values)
                         )
-                        held[message.id] = (message.date, message.views, message.forwards)
+                        held[message.id] = (
+                            message.date,
+                            message.views,
+                            message.forwards,
+                            message.text,
+                        )
                 await session.commit()
                 break
             except FloodWait as exc:
@@ -222,6 +237,13 @@ async def refresh_channel(
                 delay = policy.delay(exc.seconds)
                 clog.warning("flood_wait", requested_s=exc.seconds, sleeping_s=delay)
                 await sleep(delay)
+        if changed_text:  # labels computed from the old text are stale: let ingest redo them
+            stale = select(Post.id).where(
+                Post.channel_id == channel_id, Post.tg_message_id.in_(changed_text)
+            )
+            result = await session.execute(delete(Enrichment).where(Enrichment.post_id.in_(stale)))
+            stats.enrichment_reset = int(getattr(result, "rowcount", 0) or 0)
+            await session.commit()
         clog.info("refreshed", **vars(stats))
         return stats
 

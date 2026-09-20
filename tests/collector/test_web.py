@@ -209,3 +209,16 @@ def test_service_messages_are_skipped() -> None:
     )
     _, msgs = parse_page(html, "ch")
     assert [m.id for m in msgs] == [6]
+
+
+def test_replies_keep_their_own_text_not_the_quoted_parent() -> None:
+    """The quoted parent sits in ``a.tgme_widget_message_reply`` under the same
+    ``tgme_widget_message_text`` class; taking the first such node stored the parent's text
+    (truncated with "…") as the reply's text for 464 corpus rows."""
+    _, msgs = parse_page(_fixture("luka_ebkov_reply"), "luka_ebkov")
+    by_id = {m.id: m for m in msgs}
+    assert by_id[64079].text == "А Дягилев когда?" and by_id[64079].raw["reply_to_msg_id"] is None
+    assert by_id[64080].text == "В комментариях буквально старики вспоминают молодость)"
+    assert by_id[64080].raw["reply_to_msg_id"] == 64079
+    assert by_id[64098].text == "Связь через Макс же была?"
+    assert by_id[64098].raw["reply_to_msg_id"] == 64097

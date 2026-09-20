@@ -16,7 +16,7 @@ from tgdigest.collector.sync import (
     sync_channel,
 )
 from tgdigest.collector.web import stable_id
-from tgdigest.db.models import Channel, Post
+from tgdigest.db.models import Channel, Enrichment, Post
 
 
 async def _count(factory: async_sessionmaker[AsyncSession]) -> int:
@@ -193,22 +193,29 @@ async def test_refresh_repairs_dates_and_counters_without_inserting(
 ) -> None:
     src = FakeSource({1001: [msg(1), msg(2), msg(3)]})
     await sync_channel(factory, src, None, 1001, since=T0)
-    async with factory() as s:  # simulate rows stamped with the collection time + stale views
-        for post in (await s.execute(select(Post))).scalars():
+    async with factory() as s:  # rows stamped with the collection time, a quoted-parent text,
+        for post in (await s.execute(select(Post))).scalars():  # and stale views
             if post.tg_message_id == 2:
                 post.posted_at = T0 + timedelta(days=200)
+            if post.tg_message_id == 3:
+                post.text = "post 2…"
+                s.add(Enrichment(post_id=post.id, model_version="old"))  # built on that text
             post.views = 0
         await s.commit()
 
     src.messages[1001] += [msg(4)]  # newer than the cursor: refresh must not insert it
     stats = await refresh_channel(factory, src, 1001, since=T0)
 
-    assert (stats.fetched, stats.dates_fixed, stats.counters_updated) == (4, 1, 3)
+    assert (stats.fetched, stats.dates_fixed, stats.texts_fixed) == (4, 1, 1)
+    assert (stats.counters_updated, stats.enrichment_reset) == (3, 1)
     assert await _count(factory) == 3
     async with factory() as s:
         posts = {p.tg_message_id: p for p in (await s.execute(select(Post))).scalars()}
     assert posts[2].posted_at.replace(tzinfo=UTC) == T0 + timedelta(hours=2)  # SQLite: naive
+    assert posts[3].text == "post 3" and posts[3].raw_json == {"id": 3, "bytes": "AQID"}
+    async with factory() as s:
+        assert (await s.execute(select(func.count(Enrichment.post_id)))).scalar_one() == 0
     assert {p.views for p in posts.values()} == {100, 200, 300}
 
     again = await refresh_channel(factory, src, 1001, since=T0)
-    assert (again.dates_fixed, again.counters_updated) == (0, 0)
+    assert (again.dates_fixed, again.texts_fixed, again.counters_updated) == (0, 0, 0)

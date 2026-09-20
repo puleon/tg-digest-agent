@@ -138,7 +138,7 @@ def refresh(
         datetime | None, typer.Option(help="history start, default 183 days ago")
     ] = None,
 ) -> None:
-    """Re-read dates and view/forward counters of stored posts from the source (no media)."""
+    """Re-read dates, texts and view/forward counters of stored posts from the source (no media)."""
     from sqlalchemy import select
 
     from tgdigest.collector.sync import refresh_channel
@@ -168,7 +168,8 @@ def refresh(
                     stats = await refresh_channel(factory, src, ch.id, since=since_utc)
                     typer.echo(
                         f"@{stats.username:32s} fetched={stats.fetched:5d} "
-                        f"dates_fixed={stats.dates_fixed:5d} "
+                        f"dates_fixed={stats.dates_fixed:5d} texts_fixed={stats.texts_fixed:4d} "
+                        f"enrichment_reset={stats.enrichment_reset:4d} "
                         f"counters={stats.counters_updated:5d} floods={stats.flood_waits}"
                     )
         finally:

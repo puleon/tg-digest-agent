@@ -127,8 +127,17 @@ def parse_message_block(node: Node, channel_username: str) -> list[RawMessage]:
     if date.tzinfo is None:
         date = date.replace(tzinfo=UTC)
 
-    text_node = node.css_first("div.tgme_widget_message_text")
+    # a reply carries the quoted parent inside ``a.tgme_widget_message_reply`` with the same
+    # ``tgme_widget_message_text`` class (``js-message_reply_text``); the message's own text is
+    # the ``js-message_text`` node, which may be absent for a bare media reply
+    text_node = node.css_first("div.tgme_widget_message_text.js-message_text")
     text = html_to_text(text_node)
+    reply_node = node.css_first("a.tgme_widget_message_reply")
+    reply_to: int | None = None
+    if reply_node is not None:
+        rm = _TME_RE.match(reply_node.attributes.get("href") or "")
+        if rm and rm.group(2):
+            reply_to = int(rm.group(2))
     views_node = node.css_first("span.tgme_widget_message_views")
     views = parse_count(views_node.text() if views_node else None)
     reactions: dict[str, int] = {}
@@ -166,6 +175,7 @@ def parse_message_block(node: Node, channel_username: str) -> list[RawMessage]:
         "views_raw": views_node.text() if views_node else None,
         "reactions": reactions,
         "forward_from_username": fwd_username,
+        "reply_to_msg_id": reply_to,
     }
     common = {
         "date": date,
