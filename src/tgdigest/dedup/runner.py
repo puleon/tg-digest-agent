@@ -133,12 +133,17 @@ async def rebuild_clusters(
     factory: async_sessionmaker[AsyncSession],
     *,
     phash_threshold: int = 6,
+    max_signature_frequency: int = 12,
     embedding_pairs: list[tuple[int, int, float]] | None = None,
 ) -> DedupStats:
     async with factory() as session:
         rows, signatures = await load_rows(session)
     result = build_clusters(
-        rows, signatures, phash_threshold=phash_threshold, embedding_pairs=embedding_pairs
+        rows,
+        signatures,
+        phash_threshold=phash_threshold,
+        max_signature_frequency=max_signature_frequency,
+        embedding_pairs=embedding_pairs,
     )
     stage_of: dict[int, str] = {}
     for e in result.edges:  # first (cheapest) stage that touched a member wins the label

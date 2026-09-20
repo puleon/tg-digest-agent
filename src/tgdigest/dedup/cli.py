@@ -39,6 +39,9 @@ def signatures() -> None:
 @app.command()
 def run(
     phash_threshold: Annotated[int, typer.Option(help="max Hamming distance for pHash edges")] = 6,
+    max_frequency: Annotated[
+        int, typer.Option(help="a hash shared by more posts than this is a placeholder")
+    ] = 12,
 ) -> None:
     """Rebuild duplicate clusters from signatures and forwards (idempotent)."""
     from tgdigest.db.base import make_engine, make_session_factory
@@ -51,7 +54,9 @@ def run(
         engine = make_engine(settings.database_url)
         try:
             stats = await rebuild_clusters(
-                make_session_factory(engine), phash_threshold=phash_threshold
+                make_session_factory(engine),
+                phash_threshold=phash_threshold,
+                max_signature_frequency=max_frequency,
             )
         finally:
             await engine.dispose()

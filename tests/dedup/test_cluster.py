@@ -90,3 +90,11 @@ def test_embedding_pairs_respect_the_window() -> None:
     res = build_clusters(rows, {}, embedding_pairs=[(1, 2, 0.97), (1, 3, 0.99)])
     assert [c.members for c in res.clusters] == [[1, 2]]
     assert res.stage_counts == {"embedding": 1}
+
+
+def test_frequent_signatures_are_treated_as_placeholders() -> None:
+    rows = [_row(i, ch=i, days=i % 5) for i in range(1, 16)]
+    sigs = {i: _sig(i, None, "placeholder", 0xABCD) for i in range(1, 15)}  # 14 posts share both
+    sigs[15] = _sig(15, None, "unique-file", 0xABCD ^ 0b11)  # near the placeholder hash
+    assert build_clusters(rows, sigs, max_signature_frequency=12).clusters == []
+    assert build_clusters(rows, sigs, max_signature_frequency=20).clusters[0].size == 15

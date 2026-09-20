@@ -12,6 +12,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
@@ -113,11 +114,17 @@ def build_clusters(
     signatures: dict[int, Signature],
     *,
     phash_threshold: int = 6,
+    max_signature_frequency: int = 12,
     embedding_pairs: list[tuple[int, int, float]] | None = None,
 ) -> ClusterResult:
+    """``max_signature_frequency``: a hash shared by more posts than this is a placeholder
+    (a generic video thumbnail, a weekly rubric caption), not evidence of a repost."""
     by_id = {r.id: r for r in rows}
     post_of = {r.id: r.post_id for r in rows}
     edges: list[Edge] = []
+
+    def placeholders(groups: dict[Any, list[int]]) -> set[Any]:
+        return {k for k, members in groups.items() if len(members) > max_signature_frequency}
 
     # 1. identical normalized text
     by_text: dict[str, list[int]] = defaultdict(list)
@@ -125,7 +132,10 @@ def build_clusters(
         sig = signatures.get(r.id)
         if sig and sig.text_hash and r.id == r.post_id:  # captions live on the first member
             by_text[sig.text_hash].append(r.id)
-    for members in by_text.values():
+    skip_text = placeholders(by_text)
+    for key, members in by_text.items():
+        if key in skip_text:
+            continue
         for other in members[1:]:
             edges.append(Edge(members[0], other, "text", 1.0))
 
@@ -135,19 +145,22 @@ def build_clusters(
         sig = signatures.get(r.id)
         if sig and sig.file_sha256:
             by_file[sig.file_sha256].append(r.id)
-    for members in by_file.values():
+    skip_file = placeholders(by_file)
+    for key, members in by_file.items():
+        if key in skip_file:
+            continue
         for other in members[1:]:
             edges.append(Edge(members[0], other, "file", 1.0))
 
-    # 3. perceptual hash
-    with_hash = [
-        (r.id, signatures[r.id].phash)
-        for r in rows
-        if r.id in signatures and signatures[r.id].phash is not None
-    ]
-    edges.extend(
-        _phash_edges([(i, int(h)) for i, h in with_hash if h is not None], phash_threshold)
-    )
+    # 3. perceptual hash: exact placeholder values excluded, then near matches
+    by_phash: dict[int, list[int]] = defaultdict(list)
+    for r in rows:
+        sig = signatures.get(r.id)
+        if sig and sig.phash is not None:
+            by_phash[sig.phash].append(r.id)
+    skip_phash = placeholders(by_phash)
+    with_hash = [(i, h) for h, members in by_phash.items() if h not in skip_phash for i in members]
+    edges.extend(_phash_edges(with_hash, phash_threshold))
 
     # 4. embeddings within the window (pairs are computed by the caller: needs the index)
     for a, b, score in embedding_pairs or []:
@@ -160,10 +173,10 @@ def build_clusters(
     originals = {(r.channel_id, r.tg_message_id): r.id for r in rows}
     for r in rows:
         if r.forward_from_channel is not None and r.forward_from_msg_id is not None:
-            key = (r.forward_from_channel, r.forward_from_msg_id)
-            by_source[key].append(r.id)
-            if key in originals and originals[key] != r.id:
-                edges.append(Edge(originals[key], r.id, "forward", 1.0))
+            source = (r.forward_from_channel, r.forward_from_msg_id)
+            by_source[source].append(r.id)
+            if source in originals and originals[source] != r.id:
+                edges.append(Edge(originals[source], r.id, "forward", 1.0))
     for members in by_source.values():
         for other in members[1:]:
             edges.append(Edge(members[0], other, "forward", 1.0))
