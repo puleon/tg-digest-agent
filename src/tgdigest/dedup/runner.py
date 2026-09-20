@@ -145,10 +145,11 @@ async def rebuild_clusters(
         max_signature_frequency=max_signature_frequency,
         embedding_pairs=embedding_pairs,
     )
+    post_of = {r.id: r.post_id for r in rows}
     stage_of: dict[int, str] = {}
-    for e in result.edges:  # first (cheapest) stage that touched a member wins the label
-        stage_of.setdefault(e.a, e.stage)
-        stage_of.setdefault(e.b, e.stage)
+    for e in result.edges:  # first (cheapest) stage that touched a post wins the label
+        stage_of.setdefault(post_of.get(e.a, e.a), e.stage)
+        stage_of.setdefault(post_of.get(e.b, e.b), e.stage)
     async with factory() as session:
         await session.execute(delete(PostCluster))
         await session.execute(delete(Cluster))
