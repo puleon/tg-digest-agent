@@ -14,7 +14,13 @@ from sqlalchemy.orm import selectinload
 
 from tgdigest.db.models import Channel, Enrichment, Post
 from tgdigest.db.upsert import insert_or_update
-from tgdigest.ingest.graph import IngestDeps, IngestState, build_ingest_graph, model_version
+from tgdigest.ingest.graph import (
+    IngestDeps,
+    IngestState,
+    Member,
+    build_ingest_graph,
+    model_version,
+)
 
 log = structlog.get_logger(__name__)
 
@@ -35,6 +41,7 @@ ENRICHMENT_COLUMNS = (
 class IngestStats:
     model_version: str
     selected: int = 0
+    """Posts (albums count once), not message rows."""
     processed: int = 0
     degraded: dict[str, int] = field(default_factory=dict)
     prompt_tokens: int = 0
@@ -67,42 +74,67 @@ async def select_pending(
     return list((await session.execute(stmt)).scalars().unique())
 
 
-async def album_text(session: AsyncSession, post: Post) -> str:
-    """Albums carry the caption on one message: use the group's text for every member."""
-    if post.grouped_id is None or post.text:
-        return post.text
-    stmt = select(Post.text).where(
-        Post.channel_id == post.channel_id, Post.grouped_id == post.grouped_id, Post.text != ""
+async def album_members(session: AsyncSession, post: Post) -> list[Post]:
+    """Every message of the post's album (the post itself for a plain message), by id."""
+    if post.grouped_id is None:
+        return [post]
+    stmt = (
+        select(Post)
+        .where(Post.channel_id == post.channel_id, Post.grouped_id == post.grouped_id)
+        .order_by(Post.id)
     )
-    return "\n".join((await session.execute(stmt)).scalars())
+    return list((await session.execute(stmt)).scalars())
 
 
-def to_input(post: Post, text: str) -> IngestState:
-    return {
-        "post_id": post.id,
-        "channel_topic": post.channel.topic,
-        "text": text,
-        "media_type": post.media_type,
-        "media_path": post.media_path,
-        "is_forward": post.forward_from_channel is not None,
-    }
+async def group_posts(session: AsyncSession, pending: list[Post]) -> list[IngestState]:
+    """Pending rows → one graph input per post; albums are assembled once from all members."""
+    seen: set[tuple[int, int]] = set()
+    inputs: list[IngestState] = []
+    for post in pending:
+        key = (post.channel_id, post.grouped_id if post.grouped_id is not None else -post.id)
+        if key in seen:
+            continue
+        seen.add(key)
+        members = await album_members(session, post)
+        text = "\n".join(m.text for m in members if m.text)
+        inputs.append(
+            {
+                "post_id": members[0].id,
+                "members": [
+                    Member(post_id=m.id, media_type=m.media_type, media_path=m.media_path)
+                    for m in members
+                ],
+                "channel_topic": post.channel.topic,
+                "text": text,
+                "is_forward": any(m.forward_from_channel is not None for m in members),
+            }
+        )
+    return inputs
 
 
-def to_row(post_id: int, state: IngestState, version: str) -> dict[str, Any]:
-    vision = state.get("vision") or {}
+def to_rows(state: IngestState, version: str) -> list[dict[str, Any]]:
+    """One enrichment row per member: its own caption/OCR, the post's shared labels."""
     labels = state.get("labels") or {}
-    return {
-        "post_id": post_id,
-        "ocr_text": vision.get("ocr_text") or None,
-        "vlm_caption": vision.get("caption") or None,
-        "topic_labels": [labels["topic"]] if labels else None,
-        "is_ad": labels.get("is_ad"),
-        "is_spoiler": labels.get("is_spoiler"),
-        "quality_score": float(labels["quality"]) if labels else None,
-        "injection_flag": state.get("injection_flag", False),
-        "enriched_at": datetime.now(UTC),
-        "model_version": version,
-    }
+    vision = state.get("vision") or {}
+    now = datetime.now(UTC)
+    rows = []
+    for member in state.get("members", []):
+        v = vision.get(member["post_id"]) or {}
+        rows.append(
+            {
+                "post_id": member["post_id"],
+                "ocr_text": v.get("ocr_text") or None,
+                "vlm_caption": v.get("caption") or None,
+                "topic_labels": [labels["topic"]] if labels else None,
+                "is_ad": labels.get("is_ad"),
+                "is_spoiler": labels.get("is_spoiler"),
+                "quality_score": float(labels["quality"]) if labels else None,
+                "injection_flag": state.get("injection_flag", False),
+                "enriched_at": now,
+                "model_version": version,
+            }
+        )
+    return rows
 
 
 async def run_ingest(
@@ -119,8 +151,8 @@ async def run_ingest(
     stats = IngestStats(model_version=version)
     async with factory() as session:
         posts = await select_pending(session, version, topic=topic, limit=limit, force=force)
-        inputs = [to_input(p, await album_text(session, p)) for p in posts]
-    stats.selected = len(posts)
+        inputs = await group_posts(session, posts)
+    stats.selected = len(inputs)
     sem = asyncio.Semaphore(concurrency)
 
     async def one(inp: IngestState) -> None:
@@ -136,7 +168,7 @@ async def run_ingest(
                     insert_or_update(
                         session,
                         Enrichment.__table__,  # type: ignore[arg-type]
-                        [to_row(inp["post_id"], state, version)],
+                        to_rows(state, version),
                         index_elements=["post_id"],
                         update_columns=list(ENRICHMENT_COLUMNS),
                     )

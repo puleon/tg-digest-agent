@@ -62,22 +62,24 @@ async def test_run_enriches_pending_posts_idempotently(
     factory: async_sessionmaker[AsyncSession], deps: IngestDeps, fake_llm: FakeLLM
 ) -> None:
     first = await run_ingest(factory, deps, concurrency=2)
-    assert (first.selected, first.processed, first.failed) == (3, 3, [])
-    assert first.prompt_tokens == 10 * 5  # 2 vision + 3 classify calls
+    assert (first.selected, first.processed, first.failed) == (2, 2, [])  # album counts once
+    assert first.prompt_tokens == 10 * 4  # 2 vision + 2 classify calls
 
     async with factory() as s:
         rows = {e.post_id: e for e in (await s.execute(select(Enrichment))).scalars()}
     assert set(rows) == {10, 11, 12}
     assert rows[10].ocr_text == "КОГДА ДЕДЛАЙН" and rows[12].ocr_text is None
     assert rows[12].topic_labels == ["humor"] and rows[12].model_version == first.model_version
+    assert rows[10].topic_labels == rows[11].topic_labels == ["humor"]  # shared album labels
 
-    # the album caption reached the text-less member of the group
-    album_call = next(
+    # the album was classified once, with its caption and both members' OCR
+    album_calls = [
         c
         for c in fake_llm.calls
         if c["schema"] == "PostLabels" and "подпись альбома" in c["messages"][-1]["content"]
-    )
-    assert album_call
+    ]
+    assert len(album_calls) == 1
+    assert album_calls[0]["messages"][-1]["content"].count("[text in image: КОГДА ДЕДЛАЙН]") == 2
 
     calls_before = len(fake_llm.calls)
     second = await run_ingest(factory, deps)

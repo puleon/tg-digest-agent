@@ -1,7 +1,10 @@
 """The ingest agent as a LangGraph state machine: triage → (vision) → classify → injection.
 
-Every step degrades explicitly instead of failing the post: a broken image, a model timeout or
-unparseable JSON leaves a note in ``degraded`` and the pipeline continues with what it has.
+The unit of work is a *post*: one Telegram message, or an album whose members share one
+caption (SPEC §6.1). Every image member gets its own caption/OCR; the classifier and the
+injection detector see the caption plus every member's OCR once. Every step degrades
+explicitly instead of failing the post: a broken image, a model timeout or unparseable JSON
+leaves a note in ``degraded`` and the pipeline continues with what it has.
 """
 
 from __future__ import annotations
@@ -25,26 +28,37 @@ from tgdigest.prompts import load_examples, load_prompt, prompt_id
 log = structlog.get_logger(__name__)
 
 VISUAL_TOPICS = frozenset({"humor", "cinema"})  # SPEC §6.2: the VLM branch is mandatory here
+IMAGE_TYPES = frozenset({"photo", "image", "video", "animation"})
+MAX_IMAGES_PER_POST = 6  # the classifier sees at most this many members' OCR/captions
 CLASSIFY_PROMPT = ("classify_post", 1)
 VISION_PROMPT = ("vlm_describe", 1)
 VISION_SIMPLE_PROMPT = ("vlm_describe_simple", 1)
 _MIME = {".png": "image/png", ".webp": "image/webp", ".gif": "image/gif"}
 
 
-class IngestState(TypedDict, total=False):
-    # input
+class Member(TypedDict):
+    """One Telegram message of a post; an album has several, a plain post exactly one."""
+
     post_id: int
-    channel_topic: str
-    text: str
     media_type: str | None
     media_path: str | None
+
+
+class IngestState(TypedDict, total=False):
+    # input — a post: one message, or an album whose members share the caption
+    post_id: int
+    """Id of the first message (the one that carries the caption)."""
+    members: list[Member]
+    channel_topic: str
+    text: str
     is_forward: bool
     # triage
     clean_text: str
     urls: list[str]
     needs_vision: bool
     # results
-    vision: dict[str, Any] | None
+    vision: dict[int, dict[str, Any] | None]
+    """Per member post_id; missing key = no image, None = vision failed."""
     labels: dict[str, Any] | None
     injection_flag: bool
     injection_hits: list[str]
@@ -71,11 +85,10 @@ def model_version(deps: IngestDeps) -> str:
     return f"{models}|{prompt_id(*CLASSIFY_PROMPT)}|{prompt_id(*VISION_PROMPT)}"
 
 
-def _add_usage(state: IngestState, usage: Usage) -> dict[str, int]:
-    cur = state.get("usage") or {"prompt_tokens": 0, "completion_tokens": 0}
+def _add_usage(current: dict[str, int], usage: Usage) -> dict[str, int]:
     return {
-        "prompt_tokens": cur["prompt_tokens"] + usage.prompt_tokens,
-        "completion_tokens": cur["completion_tokens"] + usage.completion_tokens,
+        "prompt_tokens": current["prompt_tokens"] + usage.prompt_tokens,
+        "completion_tokens": current["completion_tokens"] + usage.completion_tokens,
     }
 
 
@@ -92,23 +105,25 @@ def _examples_block() -> str:
     return "\n".join(lines)
 
 
+def image_members(state: IngestState) -> list[Member]:
+    return [
+        m
+        for m in state.get("members", [])
+        if m["media_path"] is not None and (m["media_type"] or "") in IMAGE_TYPES
+    ]
+
+
 def build_ingest_graph(deps: IngestDeps) -> Any:
     async def triage(state: IngestState) -> IngestState:
         clean = normalize_text(state.get("text", ""))
-        has_image = state.get("media_path") is not None and (state.get("media_type") or "") in {
-            "photo",
-            "image",
-            "video",
-            "animation",
-        }
-        needs_vision = has_image and (
+        needs_vision = bool(image_members(state)) and (
             state.get("channel_topic") in VISUAL_TOPICS or len(clean) < 40
         )
         return {
             "clean_text": clean,
             "urls": extract_urls(state.get("text", "")),
             "needs_vision": needs_vision,
-            "vision": None,
+            "vision": {},
             "labels": None,
             "degraded": [],
             "usage": {"prompt_tokens": 0, "completion_tokens": 0},
@@ -125,42 +140,53 @@ def build_ingest_graph(deps: IngestDeps) -> Any:
         )
         return result, completion.usage
 
-    async def describe_image(state: IngestState) -> IngestState:
-        rel = state["media_path"] or ""
+    async def describe_one(
+        member: Member, usage: dict[str, int], degraded: list[str]
+    ) -> tuple[dict[str, Any] | None, dict[str, int]]:
+        rel = member["media_path"] or ""
+        pid = member["post_id"]
         try:
             image = await deps.image_bytes(rel)
         except OSError as exc:
-            log.warning("image_unreadable", post_id=state["post_id"], error=repr(exc))
-            return {"vision": None, "degraded": [*state["degraded"], "vision:missing_file"]}
+            log.warning("image_unreadable", post_id=pid, error=repr(exc))
+            degraded.append("vision:missing_file")
+            return None, usage
         mime = _MIME.get(Path(rel).suffix.lower(), "image/jpeg")
         # 300 tokens fit ~95 % of answers; a truncated one is retried with 600 by the client (D4)
         attempts = [(load_prompt(*VISION_PROMPT), 300), (load_prompt(*VISION_SIMPLE_PROMPT), 200)]
-        usage = state["usage"]
         for prompt, max_tokens in attempts:  # SPEC §6.2: retry with a simpler prompt, then degrade
             try:
                 result, used = await _describe(prompt, image, mime, max_tokens)
             except (LLMOutputError, LLMError, TimeoutError) as exc:
-                log.warning("vision_failed", post_id=state["post_id"], error=repr(exc)[:200])
+                log.warning("vision_failed", post_id=pid, error=repr(exc)[:200])
                 continue
-            usage = _add_usage({"usage": usage}, used)
+            usage = _add_usage(usage, used)
             if not result.is_readable and not result.ocr_text:
-                return {
-                    "vision": result.model_dump(),
-                    "usage": usage,
-                    "degraded": [*state["degraded"], "vision:unreadable"],
-                }
-            return {"vision": result.model_dump(), "usage": usage}
-        return {"vision": None, "usage": usage, "degraded": [*state["degraded"], "vision:failed"]}
+                degraded.append("vision:unreadable")
+            return result.model_dump(), usage
+        degraded.append("vision:failed")
+        return None, usage
+
+    async def describe_images(state: IngestState) -> IngestState:
+        usage = state["usage"]
+        degraded = list(state["degraded"])
+        vision: dict[int, dict[str, Any] | None] = {}
+        for member in image_members(state):  # sequential per post; posts run concurrently
+            vision[member["post_id"]], usage = await describe_one(member, usage, degraded)
+        return {"vision": vision, "usage": usage, "degraded": degraded}
 
     async def classify(state: IngestState) -> IngestState:
-        vision = state.get("vision") or {}
         parts = [state["clean_text"]]
-        if vision.get("ocr_text"):
-            parts.append(f"[text in image: {vision['ocr_text']}]")
-        if vision.get("caption"):
-            parts.append(f"[image: {vision['caption']}]")
-        elif state.get("media_type"):
-            parts.append(f"[media: {state['media_type']}]")
+        described = [v for v in (state.get("vision") or {}).values() if v]
+        for v in described[:MAX_IMAGES_PER_POST]:
+            if v.get("ocr_text"):
+                parts.append(f"[text in image: {v['ocr_text']}]")
+            if v.get("caption"):
+                parts.append(f"[image: {v['caption']}]")
+        if not described:
+            kinds = sorted({m["media_type"] for m in state.get("members", []) if m["media_type"]})
+            if kinds:
+                parts.append(f"[media: {', '.join(kinds)}]")
         if state.get("is_forward"):
             parts.append("[forwarded]")
         body = "\n".join(p for p in parts if p).strip() or "[empty post]"
@@ -178,24 +204,27 @@ def build_ingest_graph(deps: IngestDeps) -> Any:
         except (LLMOutputError, LLMError) as exc:
             log.warning("classify_failed", post_id=state["post_id"], error=repr(exc)[:200])
             return {"labels": None, "degraded": [*state["degraded"], "classify:failed"]}
-        return {"labels": labels.model_dump(), "usage": _add_usage(state, completion.usage)}
+        return {
+            "labels": labels.model_dump(),
+            "usage": _add_usage(state["usage"], completion.usage),
+        }
 
     async def detect_injection(state: IngestState) -> IngestState:
-        vision = state.get("vision") or {}
-        flag, hits = injection_score("\n".join([state["clean_text"], vision.get("ocr_text") or ""]))
+        ocr = [v.get("ocr_text") or "" for v in (state.get("vision") or {}).values() if v]
+        flag, hits = injection_score("\n".join([state["clean_text"], *ocr]))
         return {"injection_flag": flag, "injection_hits": hits}
 
-    def route_after_triage(state: IngestState) -> Literal["describe_image", "classify"]:
-        return "describe_image" if state["needs_vision"] else "classify"
+    def route_after_triage(state: IngestState) -> Literal["describe_images", "classify"]:
+        return "describe_images" if state["needs_vision"] else "classify"
 
     graph: StateGraph[IngestState] = StateGraph(IngestState)
     graph.add_node("triage", triage)
-    graph.add_node("describe_image", describe_image)
+    graph.add_node("describe_images", describe_images)
     graph.add_node("classify", classify)
     graph.add_node("detect_injection", detect_injection)
     graph.add_edge(START, "triage")
     graph.add_conditional_edges("triage", route_after_triage)
-    graph.add_edge("describe_image", "classify")
+    graph.add_edge("describe_images", "classify")
     graph.add_edge("classify", "detect_injection")
     graph.add_edge("detect_injection", END)
     return graph.compile()
