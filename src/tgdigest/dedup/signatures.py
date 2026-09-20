@@ -65,8 +65,17 @@ def phash(image: Image.Image) -> int:
     return value
 
 
-def phash_file(path: Path) -> int:
+def is_blank(image: Image.Image) -> bool:
+    """A flat frame (black video thumbnail, solid placeholder) carries no visual evidence."""
+    gray = ImageOps.exif_transpose(image).convert("L").resize((32, 32))
+    return float(np.asarray(gray, dtype=np.float64).std()) < 2.0
+
+
+def phash_file(path: Path) -> int | None:
+    """None for blank images: identical placeholders must not link unrelated posts."""
     with Image.open(path) as img:
+        if is_blank(img):
+            return None
         return phash(img)
 
 
@@ -88,9 +97,10 @@ def compute_signature(post_id: int, text: str, media_path: Path | None) -> Signa
     fhash = None
     ph = None
     if media_path is not None and media_path.exists() and media_path.stat().st_size > 0:
-        fhash = file_sha256(media_path)
         try:
             ph = phash_file(media_path)
+            blank = ph is None
         except (OSError, ValueError):  # not an image the decoder understands
-            ph = None
+            ph, blank = None, False
+        fhash = None if blank else file_sha256(media_path)
     return Signature(post_id, key, thash, fhash, ph)

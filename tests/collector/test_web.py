@@ -188,3 +188,13 @@ async def test_download_media_writes_the_file(tmp_path: Path) -> None:
     dest = tmp_path / "x.jpg"
     saved = await src.download_media(photo, dest)
     assert saved == dest and dest.read_bytes().startswith(b"\xff\xd8")
+
+
+def test_service_messages_are_skipped() -> None:
+    html = (
+        '<div class="tgme_widget_message_wrap"><div class="tgme_widget_message service_message" '
+        'data-post="ch/5"><div class="tgme_widget_message_text">Ch pinned a photo</div>'
+        '<time datetime="2026-06-16T15:53:23+00:00"></time></div></div>' + _block("ch", 6, T0)
+    )
+    _, msgs = parse_page(html, "ch")
+    assert [m.id for m in msgs] == [6]

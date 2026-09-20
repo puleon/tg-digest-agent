@@ -110,8 +110,8 @@ def parse_message_block(node: Node, channel_username: str) -> list[RawMessage]:
     """One preview block → one RawMessage per Telegram message (albums expand to their members)."""
     post = node.attributes.get("data-post") or ""
     m = _POST_RE.match(post)
-    if not m:
-        return []
+    if not m or "service_message" in (node.attributes.get("class") or ""):
+        return []  # "X pinned a photo", "channel created": not content
     block_id = int(m.group(2))
     time_node = node.css_first("time")
     date_raw = (time_node.attributes.get("datetime") if time_node else None) or ""

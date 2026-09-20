@@ -61,3 +61,10 @@ def test_compute_signature_with_and_without_media(tmp_path: Path) -> None:
     broken.write_bytes(b"not an image")
     sig_b = compute_signature(3, "", broken)
     assert sig_b.file_sha256 and sig_b.phash is None
+
+
+def test_blank_frames_carry_no_signature(tmp_path: Path) -> None:
+    black = tmp_path / "black.jpg"
+    Image.new("RGB", (320, 134), (0, 0, 0)).save(black, "JPEG")
+    sig = compute_signature(9, "", black)
+    assert sig.phash is None and sig.file_sha256 is None

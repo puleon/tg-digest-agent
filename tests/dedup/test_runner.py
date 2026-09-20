@@ -21,7 +21,9 @@ async def factory(tmp_path: Path) -> AsyncIterator[tuple[async_sessionmaker[Asyn
         await conn.run_sync(Base.metadata.create_all)
     media = tmp_path / "media"
     (media / "a").mkdir(parents=True)
-    Image.new("RGB", (64, 64), (200, 30, 30)).save(media / "a" / "1.jpg")
+    img = Image.new("RGB", (64, 64), (200, 30, 30))  # a flat image would be treated as blank
+    img.paste((20, 200, 40), (8, 8, 40, 40))
+    img.save(media / "a" / "1.jpg")
     (media / "a" / "2.jpg").write_bytes((media / "a" / "1.jpg").read_bytes())  # byte-identical
     f = make_session_factory(engine)
     async with f() as s:
