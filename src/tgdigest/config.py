@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     """Mass operations: classification, scoring, query rewriting (SPEC §4)."""
     llm_model_heavy: str = "gpt-oss-120b"
     """Synthesis and judge; loaded on demand (SPEC §4, memory layout)."""
-    vlm_model: str = "qwen3.6-35b-a3b"
+    vlm_model: str = "gemma-4-26b-a4b"
     """Caption + OCR for images (SPEC §6.2)."""
     llm_timeout_s: float = 600.0
 

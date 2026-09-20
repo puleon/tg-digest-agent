@@ -18,7 +18,21 @@ sheet shows both models' outputs as hints, so a mild anchoring bias toward which
 right is possible — the two models agree verbatim on 36/50 images, the metric is decided by the
 other 14.
 
-*Pending the gold column — filled by the owner; the table is produced by `score`.*
+The owner checked every image against the prefilled Qwen3.6 transcription and changed nothing:
+gold therefore equals Qwen3.6's output on all 36 images that carry text (14 have none), and
+Qwen3.6's CER is 0 by construction — the informative number is Gemma's.
+
+| model | CER raw | CER normalized | exact match (normalized) | s / image (single stream) |
+|---|---|---|---|---|
+| Qwen3.6-35B-A3B (1 024+ image tokens) | 0.042 | **0.000** | 36/36 | 23.5 |
+| Gemma 4 26B-A4B (~260 image tokens) | 0.178 | **0.111** | 22/36 | 11.1 |
+
+Gemma's errors, by kind (normalized CER per image): two complete misses (a small caption on a
+photo, 1.00; a translated-tweet screenshot, 0.97), three dense English posters/headlines with
+dropped lines (0.33–0.59), one tiny UI string (0.53), and small slips on Russian text
+(«ГОЛОСНЫЙ» for «голосуй», «1833» for «1933»; 0.01–0.10). On typical Russian memes both models
+are verbatim. Per topic: humor 0.083, cinema 0.077. Files: [`results/ocr_labels.csv`](results/ocr_labels.csv),
+[`results/pred_qwen3.6.csv`](results/pred_qwen3.6.csv), [`results/pred_gemma4.csv`](results/pred_gemma4.csv).
 
 ## Throughput — real images, cache-free (`scripts/vlm_bench.py`, 16 images per cell, different images per run)
 
@@ -61,6 +75,16 @@ background compute; Qwen3.6 at 2.6 images/min ≈ 90–110 h.
 
 ## Decision
 
-*Pending CER.* Speed alone says Gemma 4 (4 slots, 250–300 tokens). If its CER is within noise
-of Qwen3.6's, the vision tier is Gemma 4 and the full pass starts immediately; if Qwen3.6 reads
-Cyrillic materially better, the extra ~70 h buy accuracy on the retrieval-critical field.
+**Gemma 4 26B-A4B for the vision tier; Qwen3.6-35B-A3B stays the fast (text) tier.**
+Qwen3.6 reads better (CER 0 vs 0.11) but costs 3.3× the throughput; on this box the full
+pass is ≈ 30 h with Gemma and ≈ 100 h with Qwen, and the CPU is also needed for D5–D7 in the
+same days. Gemma's losses concentrate in dense English screenshots and tiny captions — partial
+text still retrieves — while Russian meme text, the retrieval-critical case, is verbatim on both.
+
+Queued as a measured follow-up rather than a guess: a Qwen3.6 second opinion only on images
+where Gemma reports no text (`has_text = false`), where the two complete misses live, with the
+retrieval ablation of D8 deciding whether it pays.
+
+Gold caveat: gold was produced by correcting Qwen3.6's output, so it is anchored to Qwen3.6
+where the human missed an error; the 14 model disagreements were flagged and inspected
+individually, which bounds that risk.
