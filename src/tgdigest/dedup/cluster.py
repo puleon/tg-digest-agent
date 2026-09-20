@@ -1,10 +1,17 @@
 """Build duplicate clusters from signatures and explicit links (SPEC §6.3).
 
-Edges (cheap → expensive): identical normalized text, identical file bytes, perceptual-hash
-distance ≤ ``phash_threshold``, near-identical embeddings inside a 7-day window (when
-provided), and forwards: two posts forwarded from the same source message, or a forward and
-the original post when the original is in the corpus. Union-find merges edges into clusters;
-the representative is the earliest post (ties: higher quality).
+Edges (cheap → expensive): identical normalized text, one text a truncated copy of the
+other, identical file bytes, perceptual-hash distance ≤ ``phash_threshold``, near-identical
+embeddings inside a 7-day window (when provided), and forwards: two posts forwarded from the
+same source message, or a forward and the original post when the original is in the corpus.
+Union-find merges edges into clusters; the representative is the earliest post (ties: higher
+quality).
+
+Two vetoes, tuned on the D6 labels (``scripts/dedup_labels.py``): a media match is an
+*illustration*, not a repost, when both posts carry different texts and are more than a week
+apart, or come from different channels with article-length texts (a press photo under two
+stories); a short identical caption over different media weeks apart is a *rubric template*
+("«Title» (year) (by Artist) #PosterPorn"), not a repost.
 """
 
 from __future__ import annotations
@@ -16,9 +23,13 @@ from typing import Any
 
 import numpy as np
 
-from tgdigest.dedup.signatures import Signature
+from tgdigest.dedup.signatures import Signature, hamming, text_overlap
 
 WINDOW_DAYS = 7
+SAME_TEXT_OVERLAP = 0.5  # word-set Jaccard at or above which two captions count as one text
+ARTICLE_CHARS = 300  # a normalized text this long is a story, not a caption of the media
+CAPTION_CHARS = 100  # a text this short over different media is a rubric, not content
+TRUNCATION_MIN_CHARS = 100  # a text that is a prefix of another one, both at least this long
 
 
 @dataclass
@@ -44,8 +55,12 @@ class Edge:
 
 
 class UnionFind:
+    """Union-find with cannot-link constraints: ``forbid(a, b)`` keeps the two components apart
+    whatever chain of other edges arrives later (greedy — earlier, cheaper edges win)."""
+
     def __init__(self) -> None:
         self.parent: dict[int, int] = {}
+        self.cannot: dict[int, set[int]] = defaultdict(set)  # root -> roots it must not join
 
     def find(self, x: int) -> int:
         self.parent.setdefault(x, x)
@@ -54,10 +69,28 @@ class UnionFind:
             x = self.parent[x]
         return x
 
-    def union(self, a: int, b: int) -> None:
+    def forbid(self, a: int, b: int) -> None:
         ra, rb = self.find(a), self.find(b)
         if ra != rb:
-            self.parent[max(ra, rb)] = min(ra, rb)
+            self.cannot[ra].add(rb)
+            self.cannot[rb].add(ra)
+
+    def union(self, a: int, b: int) -> bool:
+        """Merge the two components; False (and no change) when they are forbidden to join."""
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb:
+            return True
+        if rb in self.cannot[ra]:
+            return False
+        root, gone = min(ra, rb), max(ra, rb)
+        self.parent[gone] = root
+        blocked = self.cannot.pop(gone, set()) | self.cannot.get(root, set())
+        for other in blocked:
+            self.cannot[other].discard(gone)
+            self.cannot[other].add(root)
+        if blocked:
+            self.cannot[root] = blocked
+        return True
 
 
 @dataclass
@@ -126,6 +159,47 @@ def build_clusters(
     def placeholders(groups: dict[Any, list[int]]) -> set[Any]:
         return {k for k, members in groups.items() if len(members) > max_signature_frequency}
 
+    # per post: caption (lives on the first member), files and hashes of all members
+    text_of: dict[int, str] = {}
+    files_of: dict[int, set[str]] = defaultdict(set)
+    hashes_of: dict[int, list[int]] = defaultdict(list)
+    for r in rows:
+        sig = signatures.get(r.id)
+        if sig is None:
+            continue
+        if sig.text_key and r.id == r.post_id:
+            text_of[r.id] = sig.text_key
+        if sig.file_sha256:
+            files_of[r.post_id].add(sig.file_sha256)
+        if sig.phash is not None:
+            hashes_of[r.post_id].append(sig.phash)
+
+    def days_apart(pa: int, pb: int) -> int:
+        return abs((by_id[pa].posted_at - by_id[pb].posted_at).days)
+
+    def media_match(pa: int, pb: int) -> bool:
+        if files_of[pa] & files_of[pb]:
+            return True
+        return any(hamming(x, y) <= phash_threshold for x in hashes_of[pa] for y in hashes_of[pb])
+
+    def illustration(pa: int, pb: int) -> bool:
+        """A media match between posts that tell different stories."""
+        ta, tb = text_of.get(pa), text_of.get(pb)
+        if not ta or not tb or text_overlap(ta, tb) >= SAME_TEXT_OVERLAP:
+            return False
+        if days_apart(pa, pb) > WINDOW_DAYS:
+            return True
+        return (
+            by_id[pa].channel_id != by_id[pb].channel_id and min(len(ta), len(tb)) >= ARTICLE_CHARS
+        )
+
+    def rubric(pa: int, pb: int) -> bool:
+        """A short caption reused over different media weeks apart."""
+        if len(text_of.get(pa, "")) >= CAPTION_CHARS or days_apart(pa, pb) <= WINDOW_DAYS:
+            return False
+        has_media = (files_of[pa] or hashes_of[pa]) and (files_of[pb] or hashes_of[pb])
+        return bool(has_media) and not media_match(pa, pb)
+
     # 1. identical normalized text
     by_text: dict[str, list[int]] = defaultdict(list)
     for r in rows:
@@ -138,6 +212,22 @@ def build_clusters(
             continue
         for other in members[1:]:
             edges.append(Edge(members[0], other, "text", 1.0))
+
+    # 1b. one text is a truncated copy of the other (a repost cut at Telegram's caption limit)
+    by_prefix: dict[str, list[int]] = defaultdict(list)
+    for pid, key in text_of.items():
+        if len(key) >= TRUNCATION_MIN_CHARS:
+            by_prefix[key[:TRUNCATION_MIN_CHARS]].append(pid)
+    for members in by_prefix.values():
+        if len(members) < 2 or len(members) > max_signature_frequency:
+            continue
+        ordered = sorted(members, key=lambda pid: len(text_of[pid]))
+        for i, shorter in enumerate(ordered):
+            for longer in ordered[i + 1 :]:
+                if text_of[longer] != text_of[shorter] and text_of[longer].startswith(
+                    text_of[shorter]
+                ):
+                    edges.append(Edge(shorter, longer, "text_prefix", 1.0))
 
     # 2. identical file bytes
     by_file: dict[str, list[int]] = defaultdict(list)
@@ -183,12 +273,28 @@ def build_clusters(
 
     uf = UnionFind()
     stage_counts: dict[str, int] = defaultdict(int)  # merges each stage actually caused
-    for e in edges:
+    kept: list[Edge] = []
+    for e in edges:  # vetoes first: an illustration pair must stay apart whatever bridges it
         pa, pb = post_of.get(e.a), post_of.get(e.b)
-        if pa is None or pb is None or pa == pb or uf.find(pa) == uf.find(pb):
+        if pa is None or pb is None or pa == pb:
             continue
-        stage_counts[e.stage] += 1
-        uf.union(pa, pb)
+        if e.stage in ("file", "phash") and illustration(pa, pb):
+            stage_counts["vetoed_illustration"] += 1
+            uf.forbid(pa, pb)
+        elif e.stage == "text" and rubric(pa, pb):
+            stage_counts["vetoed_rubric"] += 1
+        else:
+            kept.append(e)
+    edges = []
+    for e in kept:
+        pa, pb = post_of[e.a], post_of[e.b]
+        if uf.find(pa) == uf.find(pb):
+            edges.append(e)
+        elif uf.union(pa, pb):
+            stage_counts[e.stage] += 1
+            edges.append(e)
+        else:
+            stage_counts["blocked_by_veto"] += 1
 
     members_of: dict[int, list[int]] = defaultdict(list)
     for post_id in set(post_of.values()):

@@ -14,9 +14,16 @@ app = typer.Typer(no_args_is_help=True, add_completion=False, help="Deduplicatio
 
 
 @app.command()
-def signatures() -> None:
+def signatures(
+    recompute: Annotated[
+        bool, typer.Option(help="drop existing signatures first (after a rule change)")
+    ] = False,
+) -> None:
     """Compute text/file/perceptual signatures for posts that lack them."""
+    from sqlalchemy import delete
+
     from tgdigest.db.base import make_engine, make_session_factory
+    from tgdigest.db.models import PostSignature
     from tgdigest.dedup.runner import compute_signatures
 
     settings = get_settings()
@@ -24,8 +31,13 @@ def signatures() -> None:
 
     async def go() -> None:
         engine = make_engine(settings.database_url)
+        factory = make_session_factory(engine)
         try:
-            stats = await compute_signatures(make_session_factory(engine), settings.media_dir)
+            if recompute:
+                async with factory() as session:
+                    await session.execute(delete(PostSignature))
+                    await session.commit()
+            stats = await compute_signatures(factory, settings.media_dir)
         finally:
             await engine.dispose()
         typer.echo(

@@ -65,10 +65,16 @@ def phash(image: Image.Image) -> int:
     return value
 
 
+BLANK_STD = 8.0
+"""Grayscale std (32×32) below which a frame is treated as blank. Measured on the corpus
+(D6): 0.8 % of media fall under it, 22 of those 24 are near-black video thumbnails whose
+pHash bits are noise — two of them matched at distance ≤ 4 and glued unrelated trailers."""
+
+
 def is_blank(image: Image.Image) -> bool:
     """A flat frame (black video thumbnail, solid placeholder) carries no visual evidence."""
     gray = ImageOps.exif_transpose(image).convert("L").resize((32, 32))
-    return float(np.asarray(gray, dtype=np.float64).std()) < 2.0
+    return float(np.asarray(gray, dtype=np.float64).std()) < BLANK_STD
 
 
 def phash_file(path: Path) -> int | None:
@@ -81,6 +87,14 @@ def phash_file(path: Path) -> int | None:
 
 def hamming(a: int, b: int) -> int:
     return bin(a ^ b).count("1")
+
+
+def text_overlap(key_a: str, key_b: str) -> float:
+    """Jaccard similarity of the word sets of two normalized keys (0 = disjoint, 1 = same)."""
+    a, b = set(key_a.split()), set(key_b.split())
+    if not a or not b:
+        return 0.0
+    return len(a & b) / len(a | b)
 
 
 @dataclass(frozen=True)

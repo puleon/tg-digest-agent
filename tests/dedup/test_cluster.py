@@ -98,3 +98,80 @@ def test_frequent_signatures_are_treated_as_placeholders() -> None:
     sigs[15] = _sig(15, None, "unique-file", 0xABCD ^ 0b11)  # near the placeholder hash
     assert build_clusters(rows, sigs, max_signature_frequency=12).clusters == []
     assert build_clusters(rows, sigs, max_signature_frequency=20).clusters[0].size == 15
+
+
+def _text(n: int, seed: str) -> str:
+    """A normalized key of ``n`` chars whose words are unique to ``seed``."""
+    words = [f"{seed}{i}" for i in range(n)]
+    return " ".join(words)[:n]
+
+
+def test_media_match_under_different_stories_is_an_illustration_not_a_repost() -> None:
+    story_a, story_b = _text(400, "a"), _text(400, "b")
+    sigs = {1: _sig(1, story_a, "press-photo"), 2: _sig(2, story_b, "press-photo")}
+    # two channels, one day apart, article-length texts -> a shared press photo
+    res = build_clusters([_row(1, ch=1), _row(2, ch=2, days=1)], sigs)
+    assert res.clusters == [] and res.stage_counts == {"vetoed_illustration": 1}
+    # the same channel re-promoting its own item inside a week is one item
+    res = build_clusters([_row(1, ch=1), _row(2, ch=1, days=3)], sigs)
+    assert [c.members for c in res.clusters] == [[1, 2]]
+    # ...but weeks later with a different text it is a new post reusing an image
+    res = build_clusters([_row(1, ch=1), _row(2, ch=1, days=20)], sigs)
+    assert res.clusters == []
+    # short captions across channels: the media is the content
+    caps = {1: _sig(1, _text(60, "a"), "teaser"), 2: _sig(2, _text(60, "b"), "teaser")}
+    res = build_clusters([_row(1, ch=1), _row(2, ch=2, days=1)], caps)
+    assert [c.members for c in res.clusters] == [[1, 2]]
+    # a caption-less meme reposted months later is still a repost
+    memes = {1: _sig(1, None, "meme"), 2: _sig(2, None, "meme")}
+    res = build_clusters([_row(1, ch=1), _row(2, ch=1, days=95)], memes)
+    assert [c.members for c in res.clusters] == [[1, 2]]
+
+
+def test_short_caption_over_different_media_weeks_apart_is_a_rubric() -> None:
+    caption = "закулисье реальности 2026 by alessandro montalto posterporn"
+    sigs = {1: _sig(1, caption, "poster-1", 0x0F0F), 2: _sig(2, caption, "poster-2", 0xF0F0)}
+    res = build_clusters([_row(1), _row(2, days=51)], sigs)
+    assert res.clusters == [] and res.stage_counts == {"vetoed_rubric": 1}
+    # the same caption re-posted within the week (album, then key art) is one item
+    assert build_clusters([_row(1), _row(2, days=1)], sigs).clusters[0].members == [1, 2]
+    # a long identical text is content whatever the media
+    long_sigs = {
+        1: _sig(1, _text(900, "p"), "f1", 0x0F0F),
+        2: _sig(2, _text(900, "p"), "f2", 0xF0F0),
+    }
+    assert build_clusters([_row(1), _row(2, days=51)], long_sigs).clusters[0].members == [1, 2]
+
+
+def test_truncated_copy_of_a_text_links_as_a_repost() -> None:
+    full = _text(330, "n")
+    cut = full[:250]
+    sigs = {1: _sig(1, full), 2: _sig(2, cut), 3: _sig(3, _text(330, "n")[:40])}
+    res = build_clusters([_row(1), _row(2, days=1), _row(3, days=1)], sigs)
+    assert [c.members for c in res.clusters] == [[1, 2]]  # 3 is too short to count
+    assert res.stage_counts == {"text_prefix": 1}
+
+
+def test_union_find_cannot_link_survives_bridging_edges() -> None:
+    uf = UnionFind()
+    uf.forbid(1, 3)
+    assert uf.union(1, 2) and uf.find(1) == uf.find(2)
+    assert not uf.union(2, 3) and uf.find(2) != uf.find(3)  # 3 would join 1 through 2
+    assert uf.union(3, 4)
+    assert not uf.union(4, 1)
+    assert uf.union(5, 1) and uf.union(4, 6)  # unrelated merges still work
+    assert not uf.union(6, 5)
+
+
+def test_illustration_veto_holds_across_a_bridging_post() -> None:
+    """Two stories sharing a press photo must not be glued by a third post that just re-posts
+    the photo with no caption (a chain of two un-vetoed pHash edges)."""
+    story_a, story_b = _text(400, "a"), _text(400, "b")
+    sigs = {
+        1: _sig(1, story_a, None, 0xABCD),
+        2: _sig(2, story_b, None, 0xABCD),
+        3: _sig(3, None, None, 0xABCD),  # bare photo, links to both
+    }
+    res = build_clusters([_row(1, ch=1), _row(2, ch=2, days=1), _row(3, ch=3, days=1)], sigs)
+    assert [c.members for c in res.clusters] == [[1, 3]]
+    assert res.stage_counts == {"vetoed_illustration": 1, "phash": 1, "blocked_by_veto": 1}

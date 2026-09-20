@@ -171,3 +171,51 @@ accuracy gap is real and recorded; a Qwen second pass on images where Gemma find
 queued as a measured follow-up for the D8 retrieval ablation.
 
 **Started** — full ingest pass (humor → cinema → scifi, concurrency 4) in the background.
+
+## D5 — 2026-09-19/20 (in progress, waiting for the full pass) — Enrichment
+
+**Done**
+- `ingest links`: fetch → extract → summarize external links with explicit error classes
+  (`video`, `http_xxx`, `timeout`, `not_html`, `too_large`, `paywall_or_stub`, `empty`,
+  `irrelevant`) so the digest can say *why* a link has no summary.
+- `ingest entities`: LLM extraction → grounding of films in Wikidata (post-year prior: a 2026
+  post mentioning «Мумия» is the 2026 film, not 1932) and books in FantLab with an Open Library
+  fallback; results cached in `entity_cache`. TMDB is unreachable from the box — Wikidata is
+  the film source, recorded as a SPEC deviation.
+- Distillation harness (`scripts/distill_classifiers.py`): BGE-M3 (CPU) + logistic regression
+  against the teacher labels, agreement in Cohen's κ. Preliminary on 320 posts: topic κ 0.53,
+  is_ad κ 0.27, quality κ 0.19 — too few labels to conclude; re-run at ≥ 500–800 teacher labels
+  once the full pass has covered more posts.
+
+**Running** — full ingest pass (humor → cinema → scifi), ≈ 450 messages/h at concurrency 6;
+humor 56 % done by the evening of 2026-09-20.
+
+## D6 — 2026-09-20/21 — Deduplication
+
+**Done** — report in [`docs/experiments/d6-dedup/`](docs/experiments/d6-dedup/README.md).
+- Cascade (`tgdigest dedup signatures|run`): exact text, identical file, DCT pHash ≤ 6,
+  forwards; union-find with the album as the unit; idempotent wholesale rebuild.
+- Labels: 107 pairs (67 from clusters, stratified by stage; 40 near misses at pHash 7–12 /
+  TF-IDF ≥ 0.5). Prefilled with reasons, reviewed by the owner (3 corrections, then "by
+  analogy") — the convention is recorded in the report.
+- Baseline **precision 0.765 / recall 0.981**. Every error had a visible cause in the
+  per-pair features (`scripts/dedup_labels.py features`), which gave four rules: contrast gate
+  (std < 8 → no hash), illustration veto as a cannot-link constraint (same media under
+  different stories: > 7 days or cross-channel article-length texts), rubric-caption veto,
+  truncated-repost edge. After tuning **0.932 / 1.000** on the (corrected) tuning pairs;
+  774 clusters / 1 721 posts / max 8. Ablation: the illustration veto alone is worth 13 points.
+- Out of sample: hold-out of 52 fresh pairs (`--exclude` the tuning set) **0.947 / 0.947**;
+  30 pairs that only the vetoes keep apart — 29 correctly apart, one debatable (pre-order vs
+  on-sale of one magazine issue, 14 days). Owner's review of both samples pending.
+
+**Found on the way** — two collector bugs, both invisible until the features table put
+"same-day" posts months apart or showed "verbatim reposts" a day later: video/GIF posts
+carried the collection time (3 519 rows) and replies carried the quoted parent's text (464
+rows). Twelve of the 53 owner-confirmed duplicates were the second artefact; the "truncated
+repost" rule had been fitted to it (112 merges → 2). Parser fixed with fixtures; rows repaired
+in place by the new `collector refresh` (dates, texts, counters; stale enrichment dropped).
+
+**Not done / next** — embedding stage of the cascade after the D7 index (the one hold-out
+miss is exactly its case: a trailer as a bare link vs a still); OCR-text veto for pHash
+matches of meme templates once the VLM pass is complete; forwards are too rare in this corpus
+(1 cluster) to measure that stage.

@@ -68,3 +68,15 @@ def test_blank_frames_carry_no_signature(tmp_path: Path) -> None:
     Image.new("RGB", (320, 134), (0, 0, 0)).save(black, "JPEG")
     sig = compute_signature(9, "", black)
     assert sig.phash is None and sig.file_sha256 is None
+
+
+def test_dark_frames_with_a_small_logo_are_blank_too(tmp_path: Path) -> None:
+    """Near-black trailer thumbnails ("18+", a studio logo) hash to noise: no signature."""
+    dark = tmp_path / "dark.jpg"
+    frame = Image.new("RGB", (320, 180), (2, 2, 2))
+    frame.paste(Image.new("RGB", (30, 12), (120, 40, 40)), (145, 84))
+    frame.save(dark, "JPEG")
+    assert compute_signature(1, "", dark).phash is None
+    photo = tmp_path / "photo.jpg"
+    Image.linear_gradient("L").resize((320, 180)).convert("RGB").save(photo, "JPEG")
+    assert compute_signature(2, "", photo).phash is not None
