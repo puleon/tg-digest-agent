@@ -1,0 +1,61 @@
+{
+ "entities": {
+  "Q103917": {
+   "type": "item",
+   "id": "Q103917",
+   "labels": {
+    "en": {
+     "language": "en",
+     "value": "Steven Soderbergh"
+    },
+    "ru": {
+     "language": "ru",
+     "value": "Стивен Содерберг"
+    }
+   }
+  },
+  "Q4205568": {
+   "type": "item",
+   "id": "Q4205568",
+   "labels": {
+    "ru": {
+     "language": "ru",
+     "value": "Лидия Сергеевна Ишимбаева"
+    },
+    "en": {
+     "language": "en",
+     "value": "Lidiya Ishimbayeva"
+    }
+   }
+  },
+  "Q4321483": {
+   "type": "item",
+   "id": "Q4321483",
+   "labels": {
+    "ru": {
+     "language": "ru",
+     "value": "Борис Эдуардович Ниренбург"
+    },
+    "en": {
+     "language": "en",
+     "value": "Boris Nirenburg"
+    }
+   }
+  },
+  "Q853": {
+   "type": "item",
+   "id": "Q853",
+   "labels": {
+    "en": {
+     "language": "en",
+     "value": "Andrei Tarkovsky"
+    },
+    "ru": {
+     "language": "ru",
+     "value": "Андрей Тарковский"
+    }
+   }
+  }
+ },
+ "success": 1
+}

@@ -93,3 +93,79 @@ def stats() -> None:
             )
 
     asyncio.run(go())
+
+
+@app.command()
+def links(
+    topic: Annotated[str | None, typer.Option()] = None,
+    limit: Annotated[int | None, typer.Option()] = None,
+    force: bool = False,
+    concurrency: int = 2,
+) -> None:
+    """Fetch and summarize external links of enriched posts (SPEC §6.2 step 4)."""
+    from tgdigest.db.base import make_engine, make_session_factory
+    from tgdigest.ingest.passes import run_links
+    from tgdigest.llm.client import LLMClient
+
+    settings = get_settings()
+    configure_logging(settings.log_level)
+
+    async def go() -> None:
+        engine = make_engine(settings.database_url)
+        try:
+            stats = await run_links(
+                make_session_factory(engine),
+                LLMClient(settings),
+                topic=topic,
+                limit=limit,
+                force=force,
+                concurrency=concurrency,
+                proxy=settings.web_proxy,
+            )
+        finally:
+            await engine.dispose()
+        typer.echo(
+            f"selected={stats.selected} processed={stats.processed} summarized={stats.with_result} "
+            f"failed={len(stats.failed)} tokens={stats.prompt_tokens}+{stats.completion_tokens} "
+            f"detail={stats.detail}"
+        )
+
+    asyncio.run(go())
+
+
+@app.command()
+def entities(
+    topic: Annotated[str | None, typer.Option()] = None,
+    limit: Annotated[int | None, typer.Option()] = None,
+    force: bool = False,
+    concurrency: int = 2,
+) -> None:
+    """Extract films/books/people and ground them in Wikidata / FantLab (SPEC §6.2 step 5)."""
+    from tgdigest.db.base import make_engine, make_session_factory
+    from tgdigest.ingest.passes import run_entities
+    from tgdigest.llm.client import LLMClient
+
+    settings = get_settings()
+    configure_logging(settings.log_level)
+
+    async def go() -> None:
+        engine = make_engine(settings.database_url)
+        try:
+            stats = await run_entities(
+                make_session_factory(engine),
+                LLMClient(settings),
+                topic=topic,
+                limit=limit,
+                force=force,
+                concurrency=concurrency,
+            )
+        finally:
+            await engine.dispose()
+        typer.echo(
+            f"selected={stats.selected} processed={stats.processed} "
+            f"with_entities={stats.with_result} "
+            f"failed={len(stats.failed)} tokens={stats.prompt_tokens}+{stats.completion_tokens} "
+            f"detail={stats.detail}"
+        )
+
+    asyncio.run(go())

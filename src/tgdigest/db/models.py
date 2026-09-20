@@ -97,7 +97,9 @@ class Enrichment(Base):
     is_spoiler: Mapped[bool | None] = mapped_column(Boolean)
     quality_score: Mapped[float | None] = mapped_column(Float)
     entities_json: Mapped[dict[str, Any] | None] = mapped_column(JSONType)
-    external_links: Mapped[list[str] | None] = mapped_column(JSONType)
+    """``{version, films: [...], books: [...], people: [...]}`` — see ``ingest/entities.py``."""
+    external_links: Mapped[dict[str, Any] | None] = mapped_column(JSONType)
+    """``{version, items: [{url, status, title, error|summary}]}`` — see ``ingest/links.py``."""
     link_summary: Mapped[str | None] = mapped_column(Text)
     injection_flag: Mapped[bool | None] = mapped_column(Boolean)
     enriched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
@@ -156,6 +158,17 @@ class Feedback(Base):
     query: Mapped[str | None] = mapped_column(Text)
     digest_id: Mapped[int | None] = mapped_column(ForeignKey("digests.id", ondelete="SET NULL"))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class EntityCache(Base):
+    """Memoized external lookups (Wikidata, FantLab, Open Library) — deterministic and slow."""
+
+    __tablename__ = "entity_cache"
+
+    provider: Mapped[str] = mapped_column(String(32), primary_key=True)
+    query: Mapped[str] = mapped_column(String(512), primary_key=True)
+    result_json: Mapped[dict[str, Any]] = mapped_column(JSONType, default=dict)
+    fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class Digest(Base):

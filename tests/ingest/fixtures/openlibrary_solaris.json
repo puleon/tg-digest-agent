@@ -1,0 +1,35 @@
+{
+ "numFound": 15,
+ "start": 0,
+ "numFoundExact": true,
+ "num_found": 15,
+ "documentation_url": "https://openlibrary.org/dev/docs/api/search",
+ "q": "Solaris Lem",
+ "offset": null,
+ "docs": [
+  {
+   "author_name": [
+    "Stanisław Lem"
+   ],
+   "first_publish_year": 1961,
+   "key": "/works/OL109524W",
+   "title": "Solaris"
+  },
+  {
+   "author_name": [
+    "Stanisław Lem"
+   ],
+   "first_publish_year": 2003,
+   "key": "/works/OL15335883W",
+   "title": "Solaris, Eden, Niezwyciezony"
+  },
+  {
+   "author_name": [
+    "Stanisław Lem"
+   ],
+   "first_publish_year": 1986,
+   "key": "/works/OL24311490W",
+   "title": "Solaris / „Niezwyciężony“"
+  }
+ ]
+}

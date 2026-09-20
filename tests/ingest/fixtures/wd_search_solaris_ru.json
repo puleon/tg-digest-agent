@@ -1,0 +1,184 @@
+{
+ "searchinfo": {
+  "search": "Солярис"
+ },
+ "search": [
+  {
+   "id": "Q261281",
+   "title": "Q261281",
+   "pageid": 253457,
+   "concepturi": "http://www.wikidata.org/entity/Q261281",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q261281",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "роман Станислава Лема (1961)",
+     "language": "ru"
+    }
+   },
+   "label": "Солярис",
+   "description": "роман Станислава Лема (1961)",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  },
+  {
+   "id": "Q125772",
+   "title": "Q125772",
+   "pageid": 127892,
+   "concepturi": "http://www.wikidata.org/entity/Q125772",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q125772",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "кинодрама Андрея Тарковского по мотивам одноимённого фантастического романа Станислава Лема",
+     "language": "ru"
+    }
+   },
+   "label": "Солярис",
+   "description": "кинодрама Андрея Тарковского по мотивам одноимённого фантастического романа Станислава Лема",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  },
+  {
+   "id": "Q673195",
+   "title": "Q673195",
+   "pageid": 634037,
+   "concepturi": "http://www.wikidata.org/entity/Q673195",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q673195",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "фантастический фильм США 2002 года",
+     "language": "ru"
+    }
+   },
+   "label": "Солярис",
+   "description": "фантастический фильм США 2002 года",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  },
+  {
+   "id": "Q18128233",
+   "title": "Q18128233",
+   "pageid": 19661365,
+   "concepturi": "http://www.wikidata.org/entity/Q18128233",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q18128233",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "российский футбольный клуб",
+     "language": "ru"
+    }
+   },
+   "label": "Солярис",
+   "description": "российский футбольный клуб",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  },
+  {
+   "id": "Q125672",
+   "title": "Q125672",
+   "pageid": 127801,
+   "concepturi": "http://www.wikidata.org/entity/Q125672",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q125672",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "советский телеспектакль в двух сериях 1968 года",
+     "language": "ru"
+    }
+   },
+   "label": "Солярис",
+   "description": "советский телеспектакль в двух сериях 1968 года",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  },
+  {
+   "id": "Q1082330",
+   "title": "Q1082330",
+   "pageid": 1030382,
+   "concepturi": "http://www.wikidata.org/entity/Q1082330",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q1082330",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "сорт винограда",
+     "language": "ru"
+    }
+   },
+   "label": "Солярис",
+   "description": "сорт винограда",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  },
+  {
+   "id": "Q37667782",
+   "title": "Q37667782",
+   "pageid": 39040730,
+   "concepturi": "http://www.wikidata.org/entity/Q37667782",
+   "repository": "wikidata",
+   "url": "//www.wikidata.org/wiki/Q37667782",
+   "display": {
+    "label": {
+     "value": "Солярис",
+     "language": "ru"
+    },
+    "description": {
+     "value": "2012 opera by Detlev Glanert",
+     "language": "en"
+    }
+   },
+   "label": "Солярис",
+   "description": "2012 opera by Detlev Glanert",
+   "match": {
+    "type": "label",
+    "language": "ru",
+    "text": "Солярис"
+   }
+  }
+ ],
+ "search-continue": 7,
+ "success": 1
+}
