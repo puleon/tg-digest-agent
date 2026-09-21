@@ -4,19 +4,30 @@ from __future__ import annotations
 
 import asyncio
 import json
+from collections.abc import AsyncIterator, Awaitable, Callable
+from contextlib import asynccontextmanager
 from typing import Annotated, Any
 
 import typer
 
-from tgdigest.config import get_settings
+from tgdigest.config import Settings, get_settings
 from tgdigest.logging import configure_logging
 
 app = typer.Typer(no_args_is_help=True, add_completion=False, help="Search agent (M5)")
 
 
-async def _run(
-    query: str, *, user_id: int, tier: str, rewrite: bool, rerank: bool, threads: int | None
-) -> dict[str, Any]:
+@asynccontextmanager
+async def build_deps(
+    settings: Settings,
+    *,
+    rerank: bool = True,
+    threads: int | None = None,
+    tier: str = "fast",
+    rewrite: bool = True,
+    confirmer: Any = None,
+) -> AsyncIterator[tuple[Any, Callable[[Any], Callable[..., Awaitable[dict[str, Any]]]]]]:
+    """Real dependencies (index, DB, HTTP, models, tracer). Yields the tool registry and a
+    factory ``make_agent(registry)`` → ``ask(query)`` so evaluations can swap tools in."""
     from qdrant_client import QdrantClient
 
     from tgdigest.agent.graph import AgentDeps, run_agent
@@ -29,14 +40,11 @@ async def _run(
     from tgdigest.retrieval.index import PostIndex
     from tgdigest.retrieval.rerank import BGEReranker
 
-    settings = get_settings()
     engine = make_engine(settings.database_url)
     factory = make_session_factory(engine)
     http = make_http(proxy=settings.web_proxy)
-
-    async def confirm(tool: str, args: dict[str, Any]) -> bool:
-        return typer.confirm(f"{tool} with {args} — apply?", default=False)
-
+    tracer = make_tracer(settings)
+    llm = LLMClient(settings)
     try:
         deps = ToolDeps(
             index=PostIndex(QdrantClient(url=settings.qdrant_url), BGEM3Embedder(threads=threads)),
@@ -45,20 +53,28 @@ async def _run(
             grounder=Grounder(client=http, cache=DbCache(factory)),
             reranker=BGEReranker(threads=threads) if rerank else None,
         )
-        tracer = make_tracer(settings)
-        agent = AgentDeps(
-            llm=LLMClient(settings),
-            tools=build_registry(deps, confirmer=confirm),
-            synthesis_tier=tier,  # type: ignore[arg-type]
-            rewrite=rewrite,
-            tracer=tracer,
-        )
-        state = await run_agent(agent, query, user_id=user_id)
-        tracer.flush()
+        tools = build_registry(deps, confirmer=confirmer)
+
+        def make_agent(registry: Any) -> Callable[..., Awaitable[dict[str, Any]]]:
+            agent = AgentDeps(
+                llm=llm,
+                tools=registry,
+                synthesis_tier=tier,  # type: ignore[arg-type]
+                rewrite=rewrite,
+                tracer=tracer,
+            )
+
+            async def ask(query: str, user_id: int = 0) -> dict[str, Any]:
+                state = await run_agent(agent, query, user_id=user_id)
+                tracer.flush()
+                return dict(state)
+
+            return ask
+
+        yield tools, make_agent
     finally:
         await http.aclose()
         await engine.dispose()
-    return dict(state)
 
 
 @app.command()
@@ -76,9 +92,17 @@ def ask(
     configure_logging(settings.log_level)
     if tier not in ("fast", "heavy"):
         raise typer.BadParameter("tier must be fast or heavy")
-    state = asyncio.run(
-        _run(query, user_id=user, tier=tier, rewrite=rewrite, rerank=rerank, threads=threads)
-    )
+
+    async def confirm(tool: str, args: dict[str, Any]) -> bool:
+        return typer.confirm(f"{tool} with {args} — apply?", default=False)
+
+    async def go() -> dict[str, Any]:
+        async with build_deps(
+            settings, rerank=rerank, threads=threads, tier=tier, rewrite=rewrite, confirmer=confirm
+        ) as (tools, make_agent):
+            return await make_agent(tools)(query, user)
+
+    state = asyncio.run(go())
     if as_json:
         typer.echo(json.dumps(state, ensure_ascii=False, indent=1, default=str))
         return

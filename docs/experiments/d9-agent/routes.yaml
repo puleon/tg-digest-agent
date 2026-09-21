@@ -1,0 +1,32 @@
+# Router evaluation set: request → expected mode (search | news | research), topic, and whether
+# a period is implied. Written before the router prompt was tuned on them.
+- {query: "трейлер «Одиссеи» Кристофера Нолана", mode: search, topic: cinema}
+- {query: "покажи мемы про дедлайн", mode: search, topic: humor}
+- {query: "что писали про органоиды мозга", mode: search, topic: scifi}
+- {query: "постеры «Закулисья реальности»", mode: search, topic: cinema}
+- {query: "розыгрыш футболки", mode: search, topic: humor}
+- {query: "что-нибудь смешное про котов", mode: search, topic: humor}
+- {query: "книга года по версии Фантлаба", mode: search, topic: scifi}
+- {query: "мем «ты у меня первый» с ямой", mode: search, topic: humor}
+- {query: "интервью с писателями-фантастами", mode: search, topic: scifi}
+- {query: "что посмотреть из советского кино", mode: search, topic: cinema}
+- {query: "что нового по Нолану", mode: news, topic: cinema, period: true}
+- {query: "новости фантастики за неделю", mode: news, topic: scifi, period: true}
+- {query: "что нового у Ридли Скотта", mode: news, topic: cinema, period: true}
+- {query: "свежие мемы за сегодня", mode: news, topic: humor, period: true}
+- {query: "последние новости про Artemis", mode: news, topic: scifi, period: true}
+- {query: "что вышло в кино за месяц", mode: news, topic: cinema, period: true}
+- {query: "чем жил канал Мир фантастики на этой неделе", mode: news, topic: scifi, period: true}
+- {query: "что обсуждали в кино-каналах последние дни", mode: news, topic: cinema, period: true}
+- {query: "новое про «Кольца власти»", mode: news, topic: scifi, period: true}
+- {query: "правда ли, что «Мумию» Кронина разгромили критики?", mode: research, topic: cinema}
+- {query: "кто в итоге сыграет Кратоса в сериале по God of War и почему заменили актёра", mode: research, topic: cinema}
+- {query: "сколько собрал «Человек-паук: Новый день» и обогнал ли он «Титаник»?", mode: research, topic: cinema}
+- {query: "почему книгу «Мифология Лавкрафта» обвинили в использовании ИИ", mode: research, topic: scifi}
+- {query: "когда именно стартовала Artemis II и что она сфотографировала", mode: research, topic: scifi}
+- {query: "сравни, как каналы отреагировали на трейлер «Одиссеи»", mode: research, topic: cinema}
+- {query: "правда ли, что Дуров включил монетизацию для российских каналов?", mode: research, topic: humor}
+- {query: "в чём разница между ремейком и оригиналом Ocarina of Time", mode: research, topic: scifi}
+- {query: "мемы про понедельник без спойлеров", mode: search, topic: humor, exclude_spoilers: true}
+- {query: "что нового по «Колесу времени», только без спойлеров", mode: news, topic: scifi, period: true, exclude_spoilers: true}
+- {query: "фильмы с Мэттом Дэймоном", mode: search, topic: cinema}
