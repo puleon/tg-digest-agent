@@ -40,21 +40,22 @@ over them.
 ### Judge calibration — 100 pairs
 
 The calibration labels were **prefilled by the assistant** with a one-line reason per pair
-(the same prefill-then-review convention as the dedup labels; the owner's review is pending
-and the numbers below will be updated if it changes them). Labels: 35 × 0, 33 × 1, 32 × 2.
-Against the judge's hidden grades (`agree`):
+and **reviewed by the owner**, who went through the first 25 (queries c01–c09), changed one
+grade (an announcement that a trailer *will* be shown, 2 → 1) and accepted the rest by
+analogy — the same prefill-then-review convention as the dedup labels. Final labels: 35 × 0,
+34 × 1, 31 × 2. Against the judge's hidden grades (`agree`):
 
 | | value |
 |---|---|
-| raw agreement | 0.680 |
-| Cohen's κ, three grades | 0.521 |
-| Cohen's κ, linearly weighted | **0.635** |
+| raw agreement | 0.670 |
+| Cohen's κ, three grades | 0.507 |
+| Cohen's κ, linearly weighted | **0.623** |
 | Cohen's κ, relevant (1–2) vs not (0) | 0.568 |
 
-Confusion (rows: human 0 / 1 / 2, columns: judge 0 / 1 / 2): `23 11 1` / `7 16 10` / `0 3 29`.
+Confusion (rows: human 0 / 1 / 2, columns: judge 0 / 1 / 2): `23 11 1` / `7 16 11` / `0 3 28`.
 Every disagreement but one is between adjacent grades and almost all of them go one way: the
-judge is **more lenient** — it grades 11 of the 35 irrelevant posts as "loosely related" and 10
-of the 33 partial ones as "answers the query". It very rarely demotes (3 of 32 human 2s).
+judge is **more lenient** — it grades 11 of the 35 irrelevant posts as "loosely related" and 11
+of the 34 partial ones as "answers the query". It very rarely demotes (3 of 31 human 2s).
 Read against SPEC §8.2's κ > 0.6: met on the weighted κ, not on the plain three-class one. A
 uniformly lenient judge inflates every configuration's absolute recall and nDCG by roughly the
 same amount; the *ordering* of configurations — what the ablation is for — is what its grades

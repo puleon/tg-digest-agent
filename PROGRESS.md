@@ -273,8 +273,8 @@ filled in later without touching anything else.
 **2026-09-21, evening — results** (report in
 [`docs/experiments/d8-retrieval/`](docs/experiments/d8-retrieval/README.md)): pool of
 1 856 pairs judged by Qwen3.6 (6.9 s per pair, 3.5 h); 100 calibration pairs prefilled by the
-assistant with reasons (owner's review pending): κ 0.52 three-class, **0.635 weighted**, the
-judge is lenient by one grade and almost never demotes. Ablation on the judge's grades:
+assistant with reasons, the owner reviewed the first 25 and changed one: κ 0.51 three-class,
+**0.62 weighted**, the judge is lenient by one grade and almost never demotes. Ablation on the judge's grades:
 **hybrid + rerank nDCG@10 0.816 / recall@20 0.691 / MRR 0.974** vs BM25 0.533 / 0.522 /
 0.850; reranking is the largest single gain (nDCG 0.693 → 0.816). SPEC §6.4 answered on
 humor, where enrichment is complete: text-only recall@20 0.307 → +OCR 0.532 → +captions
