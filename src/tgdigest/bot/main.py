@@ -52,7 +52,10 @@ def make_router(api: ApiClient, allowed: set[int]) -> Router:
 
     def permitted(m: Message | CallbackQuery) -> bool:
         user = m.from_user
-        return not allowed or (user is not None and user.id in allowed)
+        ok = not allowed or (user is not None and user.id in allowed)
+        if not ok:  # silent to the sender; the log tells the owner which id to allow
+            log.warning("bot_user_rejected", user_id=user.id if user else None)
+        return ok
 
     @router.message(CommandStart())
     @router.message(Command("help"))
