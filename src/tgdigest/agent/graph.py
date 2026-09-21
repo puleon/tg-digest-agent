@@ -78,6 +78,9 @@ class AgentState(TypedDict, total=False):
     route_reason: str
     # retrieval loop
     queries: list[str]
+    keywords: list[str]
+    """Names and titles the rewrite step pulled out of the request — the external lookup
+    (Wikipedia search) works on those, not on the conversational request."""
     rewrites: int
     iteration: int
     broadened: bool
@@ -209,6 +212,7 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             "exclude_spoilers": r.exclude_spoilers,
             "route_reason": r.reason,
             "queries": [state["query"]],
+            "keywords": [],
         }
         _step(
             out,
@@ -233,8 +237,10 @@ def build_agent_graph(deps: AgentDeps) -> Any:
         queries = list(dict.fromkeys([*rw.queries, state["query"]]))[:3]
         if rw.degraded:
             state["degraded"].append("rewrite:failed")
-        _step(state, "rewrite", t0, obs=obs, queries=queries, prompt=rw.prompt)
-        return {**state, "queries": queries}
+        _step(
+            state, "rewrite", t0, obs=obs, queries=queries, keywords=rw.keywords, prompt=rw.prompt
+        )
+        return {**state, "queries": queries, "keywords": rw.keywords}
 
     async def retrieve(state: AgentState) -> AgentState:
         t0, obs = _begin(
@@ -379,9 +385,10 @@ def build_agent_graph(deps: AgentDeps) -> Any:
         return {**state, "topic": None, "days": None, "broadened": True}
 
     async def verify(state: AgentState) -> AgentState:
-        t0, obs = _begin("verify_external", "tool", state["query"])
+        lookup = " ".join(state.get("keywords") or [])[:200] or state["query"][:200]
+        t0, obs = _begin("verify_external", "tool", lookup)
         notes: list[dict[str, Any]] = []
-        res = await deps.tools.call("web_search", {"query": state["query"][:200], "lang": "ru"})
+        res = await deps.tools.call("web_search", {"query": lookup, "lang": "ru"})
         if res.ok and res.data["results"]:
             top = res.data["results"][0]
             notes.append(
@@ -405,7 +412,7 @@ def build_agent_graph(deps: AgentDeps) -> Any:
                 state["degraded"].append(f"fetch_url:{page.error_kind}")
         else:
             state["degraded"].append(f"web_search:{res.error_kind or 'empty'}")
-        _step(state, "verify_external", t0, obs=obs, sources=len(notes))
+        _step(state, "verify_external", t0, obs=obs, sources=len(notes), lookup=lookup)
         return {**state, "verification": notes}
 
     async def synthesize(state: AgentState, caveat: str | None = None) -> AgentState:

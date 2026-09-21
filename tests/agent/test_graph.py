@@ -65,6 +65,7 @@ class ScriptedLLM:
 
     route: Route = field(default_factory=lambda: Route(mode="search", topic="humor"))
     phrasings: list[str] = field(default_factory=lambda: ["мем про дедлайн"])
+    keywords: list[str] = field(default_factory=list)
     relevant_word: str = "дедлайн"
     fail: set[str] = field(default_factory=set)
     calls: list[str] = field(default_factory=list)
@@ -85,7 +86,7 @@ class ScriptedLLM:
             user = messages[-1]["content"]
             if "предложи другие" in user:
                 return RewrittenQuery(queries=["горящие сроки"], keywords=[]), comp
-            return RewrittenQuery(queries=self.phrasings, keywords=[]), comp
+            return RewrittenQuery(queries=self.phrasings, keywords=self.keywords), comp
         if schema is Grades:
             user = messages[-1]["content"]
             grades = []
@@ -162,7 +163,7 @@ def _tools(
         }
 
     async def web_search(args: BaseModel) -> Any:
-        calls.append({"tool": "web_search"})
+        calls.append({"tool": "web_search", "args": args.model_dump()})
         return {
             "source": "ru.wikipedia.org",
             "results": [
@@ -244,15 +245,30 @@ async def test_nothing_relevant_broadens_the_filters_once() -> None:
 
 
 async def test_research_mode_verifies_externally_before_synthesis() -> None:
-    llm = ScriptedLLM(route=Route(mode="research", topic=None), phrasings=["дедлайн"])
+    llm = ScriptedLLM(
+        route=Route(mode="research", topic=None),
+        phrasings=["дедлайн"],
+        keywords=["дедлайн", "Паркинсон"],
+    )
     calls: list[dict[str, Any]] = []
     state = await run_agent(_deps(llm, _tools(calls=calls)), "правда ли, что дедлайны горят?")
     steps = [s["step"] for s in state["steps"]]
     assert steps[-2:] == ["verify_external", "synthesize"]
-    assert [c["tool"] for c in calls if c["tool"] != "search_index"] == ["web_search", "fetch_url"]
+    web = [c for c in calls if c["tool"] != "search_index"]
+    assert [c["tool"] for c in web] == ["web_search", "fetch_url"]
+    # Wikipedia is searched by the extracted names, not by the conversational request
+    assert web[0]["args"]["query"] == "дедлайн Паркинсон"
     assert (
         state["verification"][0]["title"] == "Дедлайн" and "[source: Википедия]" in state["answer"]
     )
+
+
+async def test_research_lookup_falls_back_to_the_request_without_keywords() -> None:
+    llm = ScriptedLLM(route=Route(mode="research", topic=None), phrasings=["дедлайн"])
+    calls: list[dict[str, Any]] = []
+    await run_agent(_deps(llm, _tools(calls=calls)), "правда ли, что дедлайны горят?")
+    web = [c for c in calls if c["tool"] == "web_search"]
+    assert web and web[0]["args"]["query"] == "правда ли, что дедлайны горят?"
 
 
 async def test_budget_exhaustion_yields_a_caveat() -> None:
