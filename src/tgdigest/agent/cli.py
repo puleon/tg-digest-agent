@@ -6,6 +6,7 @@ import asyncio
 import json
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
+from dataclasses import replace
 from typing import Annotated, Any
 
 import typer
@@ -64,8 +65,13 @@ async def build_deps(
                 tracer=tracer,
             )
 
-            async def ask(query: str, user_id: int = 0) -> dict[str, Any]:
-                state = await run_agent(agent, query, user_id=user_id)
+            async def ask(
+                query: str, user_id: int = 0, *, max_iterations: int | None = None
+            ) -> dict[str, Any]:
+                deps = agent
+                if max_iterations is not None:
+                    deps = replace(agent, max_iterations=max_iterations)
+                state = await run_agent(deps, query, user_id=user_id)
                 tracer.flush()
                 return dict(state)
 
