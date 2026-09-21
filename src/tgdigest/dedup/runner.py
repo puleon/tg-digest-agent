@@ -129,6 +129,12 @@ async def load_rows(session: AsyncSession) -> tuple[list[PostRow], dict[int, Sig
     return rows, signatures
 
 
+async def load_ocr(session: AsyncSession) -> dict[int, str]:
+    """Message id -> OCR text from the VLM pass, for the template veto."""
+    stmt = select(Enrichment.post_id, Enrichment.ocr_text).where(Enrichment.ocr_text.is_not(None))
+    return {int(pid): str(text) for pid, text in (await session.execute(stmt)).all() if text}
+
+
 async def rebuild_clusters(
     factory: async_sessionmaker[AsyncSession],
     *,
@@ -138,12 +144,14 @@ async def rebuild_clusters(
 ) -> DedupStats:
     async with factory() as session:
         rows, signatures = await load_rows(session)
+        ocr_of = await load_ocr(session)
     result = build_clusters(
         rows,
         signatures,
         phash_threshold=phash_threshold,
         max_signature_frequency=max_signature_frequency,
         embedding_pairs=embedding_pairs,
+        ocr_of=ocr_of,
     )
     post_of = {r.id: r.post_id for r in rows}
     stage_of: dict[int, str] = {}

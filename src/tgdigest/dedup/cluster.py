@@ -30,6 +30,8 @@ SAME_TEXT_OVERLAP = 0.5  # word-set Jaccard at or above which two captions count
 ARTICLE_CHARS = 300  # a normalized text this long is a story, not a caption of the media
 CAPTION_CHARS = 100  # a text this short over different media is a rubric, not content
 TRUNCATION_MIN_CHARS = 100  # a text that is a prefix of another one, both at least this long
+OCR_MIN_WORDS = 4  # OCR shorter than this says nothing about the joke
+OCR_SAME_OVERLAP = 0.3  # word-set Jaccard below which two OCR texts are different jokes
 
 
 @dataclass
@@ -149,10 +151,14 @@ def build_clusters(
     phash_threshold: int = 6,
     max_signature_frequency: int = 12,
     embedding_pairs: list[tuple[int, int, float]] | None = None,
+    ocr_of: dict[int, str] | None = None,
 ) -> ClusterResult:
     """``max_signature_frequency``: a hash shared by more posts than this is a placeholder
-    (a generic video thumbnail, a weekly rubric caption), not evidence of a repost."""
+    (a generic video thumbnail, a weekly rubric caption), not evidence of a repost.
+    ``ocr_of``: text read from each message's image (from the VLM pass) — a pHash match whose
+    OCR texts differ is a meme *template* with two jokes, not a repost."""
     by_id = {r.id: r for r in rows}
+    ocr_of = ocr_of or {}
     post_of = {r.id: r.post_id for r in rows}
     edges: list[Edge] = []
 
@@ -192,6 +198,13 @@ def build_clusters(
         return (
             by_id[pa].channel_id != by_id[pb].channel_id and min(len(ta), len(tb)) >= ARTICLE_CHARS
         )
+
+    def template(e: Edge) -> bool:
+        """Same picture by pHash, different words on it: a meme template reused."""
+        oa, ob = ocr_of.get(e.a, ""), ocr_of.get(e.b, "")
+        if len(oa.split()) < OCR_MIN_WORDS or len(ob.split()) < OCR_MIN_WORDS:
+            return False
+        return text_overlap(oa.lower(), ob.lower()) < OCR_SAME_OVERLAP
 
     def rubric(pa: int, pb: int) -> bool:
         """A short caption reused over different media weeks apart."""
@@ -280,6 +293,9 @@ def build_clusters(
             continue
         if e.stage in ("file", "phash") and illustration(pa, pb):
             stage_counts["vetoed_illustration"] += 1
+            uf.forbid(pa, pb)
+        elif e.stage == "phash" and template(e):
+            stage_counts["vetoed_template"] += 1
             uf.forbid(pa, pb)
         elif e.stage == "text" and rubric(pa, pb):
             stage_counts["vetoed_rubric"] += 1

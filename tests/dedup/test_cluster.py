@@ -175,3 +175,15 @@ def test_illustration_veto_holds_across_a_bridging_post() -> None:
     res = build_clusters([_row(1, ch=1), _row(2, ch=2, days=1), _row(3, ch=3, days=1)], sigs)
     assert [c.members for c in res.clusters] == [[1, 3]]
     assert res.stage_counts == {"vetoed_illustration": 1, "phash": 1, "blocked_by_veto": 1}
+
+
+def test_same_template_with_different_ocr_is_not_a_repost() -> None:
+    sigs = {1: _sig(1, None, None, 0xABCD), 2: _sig(2, None, None, 0xABCD ^ 0b1)}
+    rows = [_row(1, ch=1), _row(2, ch=2, days=1)]
+    ocr = {1: "когда дедлайн завтра а ты кот", 2: "она же стеклянная не должна лопнуть"}
+    res = build_clusters(rows, sigs, ocr_of=ocr)
+    assert res.clusters == [] and res.stage_counts == {"vetoed_template": 1}
+    same = {1: "когда дедлайн завтра а ты кот", 2: "когда дедлайн завтра, а ты — кот"}
+    assert build_clusters(rows, sigs, ocr_of=same).clusters[0].members == [1, 2]
+    short = {1: "кот", 2: "пёс"}  # too little text to tell jokes apart
+    assert build_clusters(rows, sigs, ocr_of=short).clusters[0].members == [1, 2]
