@@ -136,7 +136,10 @@ def explain(item: dict[str, Any], plan: dict[str, Any]) -> str:
         reasons.append("свежий (последние 3 дня)")
     total = item.get("score")
     head = f"Итоговый балл {total:.2f}. " if isinstance(total, int | float) else ""
-    return head + "; ".join(reasons) + "." if reasons else head + "Компоненты балла не сохранены."
+    if not reasons:
+        return head + "Компоненты балла не сохранены."
+    body = "; ".join(reasons)
+    return head + body[0].upper() + body[1:] + "."
 
 
 # --- app -------------------------------------------------------------------------------------

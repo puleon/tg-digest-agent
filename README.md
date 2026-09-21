@@ -74,15 +74,32 @@ When a tool fails the run says so instead of guessing: the same task with Wikipe
 unreachable answers from the posts and records `web_search:unavailable`; with nothing
 retrieved it answers «⚠️ Ответ неполный …» and cites nothing (D10).
 
-**Digest** — `tgdigest digest make --user <id>`: Planner and Curator pick 5–12 posts for the
-reading budget (a slot per topic, ≤ 2 per channel, 60 % fresh, one per duplicate cluster,
-nothing shown in the last ten issues), the Editor writes a title and a one-line reason per
-item, the Critic rejects hallucinated, spoiling or clickbait lines (≤ 2 rounds). In the bot
-every item has 👍 👎 💾 and ❓ — the last one answers «why this post?» from the score's
-components (topic weight, channel affinity, similarity to what you liked, engagement,
-novelty), without a model call.
+**Digest** — `tgdigest digest make --user 0 --minutes 10`: Planner and Curator pick 5–12
+posts for the reading budget (a slot per topic weighted by the profile, ≤ 2 per channel,
+60 % fresh, one per duplicate cluster, nothing shown in the last ten issues), the Editor
+writes a title and a one-line reason per item, the Critic rejects hallucinated, spoiling or
+clickbait lines (≤ 2 rounds). The owner's first issue — profile scifi 0.47 / cinema 0.40 /
+humor 0.13, so the plan is 4 / 4 / 2; the Critic sent two titles back («Трейлер третьей части
+„Дюны“» was more than the post said) — 14 649 tokens, 2 critic rounds, 866 s under contention:
 
-<!-- PENDING: a real issue from the demo run -->
+> В выпуске за 19 сентября: трейлеры, новости кино, разбор фейков и порция юмора.
+>
+> 1. **Первый тизер «Соника в кино 4»** [scifi · @mirf_ru · 2026-09-19] — Фанаты франшизы узнают о дате премьеры и ключевых персонажах нового фильма, выходящего в 2027 году.
+> 2. **Трейлер третьей части «Дюны»** [scifi · @starlighthousekeeping] — Автор отмечает эпичность нового ролика и надеется на более полное раскрытие галактического джихада Дени Вильнёва.
+> 4. **Фейк про иранские надувные танки** [scifi · @theworldisnoteasy] — Статья разбирает вирусную новость о покупке Китаем резиновых муляжей и объясняет реальную военную логику обмана.
+> 6. **Новости кино: сиквелы и фестивали** [cinema · @seance_light] — Рубрика сообщает о старте съемок «Войны миров Z», проблемах с «Я — легенда 2» и обзоре фильма «До последнего грамма».
+> 9. **Мем про диету Никиты Михалкова** [humor · @memehunter] — Шутка сопоставляет заголовок о новом фильме режиссера с текстом о его диете, предлагая название «Русский овощ».
+>
+> (five of the ten items)
+
+In the bot every item has 👍 👎 💾 and ❓; the last one is `GET /why/{digest}/{post}` — an
+explanation assembled from the score's components, no model call:
+
+> Итоговый балл 0.66. Похоже на ваши интересы (близость 0.62); тема «scifi» в приоритете в
+> профиле (0.70); канал @mirf_ru: доля лайков 0.56; популярность в норме для канала; в плане
+> выпуска на тему scifi отведено 4 мест; свежий (последние 3 дня).
+
+A 👍/👎 lands as a `feedback` row and as a score on the Langfuse trace that produced the issue.
 
 ## Why these topics are technically interesting
 
@@ -125,8 +142,8 @@ flowchart TB
 | Embeddings / rerank | BGE-M3 / bge-reranker-v2-m3 | Dense + sparse in one model, strong on Russian |
 | Model serving | llama.cpp `llama-server` (router mode, GGUF) | OpenAI-compatible API, prefix caching, on-demand model load/unload; CPU-friendly |
 | Fast tier (mass ops + VLM/OCR) | multimodal MoE, ~3B active: Qwen3.6-35B-A3B, Gemma 4 26B-A4B ([D1 benchmark](docs/experiments/d1-llm-benchmark/README.md)) | Memory-bandwidth-bound CPU favors few active params; one weight set for text and images |
-| Heavy tier (synthesis, judge) | gpt-oss-120b class, loaded on demand | Quality where it matters; does not fit alongside the rest |
-| Orchestration | LangGraph | Explicit state graph, checkpoints, interrupts |
+| Heavy tier (second judge, synthesis on request) | gpt-oss-120b MXFP4, loaded on demand | Another model family for the self-preference probe; does not fit in RAM next to the rest |
+| Orchestration | LangGraph | Explicit state graphs for ingest and search; every node's usage and latency in the state |
 | Observability / eval | Langfuse (self-hosted) | Traces, datasets, experiments, scores |
 | Interface | FastAPI + aiogram 3 | |
 | Infra | Docker Compose, Makefile, uv | `make up` brings everything up |
@@ -150,7 +167,7 @@ so the vision rows are approximate; everything else is a straight multiplication
 | Research-mode question (20 tasks of D9, run A) | 3 313 / 933 | 236 (90–465) | $0.0080 | $0.0160 |
 | Faithfulness check of one answer (claims → one verification call per claim) | 8 541 / 672 (5–20 claims) | included above | $0.012 | $0.024 |
 | Judge one pooled (query, post) pair (`judge_relevance.v1`, D8) | not recorded | 6.9 at concurrency 2 | | |
-| One digest issue (planner + curator in code, editor + critic) | <!-- PENDING --> | | | |
+| One digest issue (10 items; planner + curator in code, editor + critic, 2 rounds) | 11 978 / 2 671 | 866 under contention | $0.025 | $0.051 |
 
 All agent timings were taken while the ingest pass, the pool judge or another evaluation
 held the model — the D1 benchmark's 19 tok/s generation and 260 tok/s prefill on an idle box

@@ -117,8 +117,6 @@ def test_explain_reads_the_score_components() -> None:
         "score_parts": {"similarity": 0.9, "topic": 0.9, "channel": 0.7, "engagement": 0.8},
     }
     text = explain(item, {"per_topic": {"humor": 4}})
-    assert (
-        text.startswith("Итоговый балл 0.81.") and "очень похоже" in text and "в приоритете" in text
-    )
+    assert text.startswith("Итоговый балл 0.81. Очень похоже") and "в приоритете" in text
     assert "популярнее" in text and "4 мест" in text and "свежий" in text
     assert "не сохранены" in explain({"topic": "humor"}, {})
