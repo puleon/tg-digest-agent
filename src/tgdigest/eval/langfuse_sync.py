@@ -9,7 +9,7 @@ duplicates.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -76,7 +76,7 @@ def record_run(
     dataset: str,
     run_name: str,
     outputs: dict[str, Any],
-    scores: dict[str, dict[str, float | str]],
+    scores: Mapping[str, Mapping[str, float | str]],
     *,
     description: str | None = None,
     metadata: dict[str, str] | None = None,
