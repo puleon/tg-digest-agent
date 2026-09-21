@@ -162,6 +162,8 @@ class UserProfile(Base):
     channel_affinity_json: Mapped[dict[str, Any]] = mapped_column(JSONType, default=dict)
     interest_centroids: Mapped[list[Any]] = mapped_column(JSONType, default=list)
     negative_prefs: Mapped[list[Any]] = mapped_column(JSONType, default=list)
+    stats_json: Mapped[dict[str, Any]] = mapped_column(JSONType, default=dict)
+    """``like_rate``, ``votes`` — what the scorer needs besides the vectors."""
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
