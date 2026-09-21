@@ -49,13 +49,13 @@ async def onboarding_sample(
     since: datetime | None = None,
     seed: int = 0,
 ) -> list[OnboardingPost]:
-    """Stratified cold-start sample (SPEC §6.6): per topic, spread over channels, enriched
-    posts only (so the profile learns from what the index knows), ads excluded."""
+    """Stratified cold-start sample (SPEC §6.6): per topic, spread over channels; posts
+    labelled as ads are excluded (unlabelled ones stay: enrichment may still be running)."""
     since = since or datetime.now(UTC) - timedelta(days=90)
     stmt = (
         select(Post, Channel.username, Channel.topic)
         .join(Channel, Channel.id == Post.channel_id)
-        .join(Enrichment, Enrichment.post_id == Post.id)
+        .outerjoin(Enrichment, Enrichment.post_id == Post.id)
         .where(Post.posted_at >= since, Enrichment.is_ad.is_not(True))
         .where((Post.grouped_id.is_(None)) | (Post.text != ""))
     )
