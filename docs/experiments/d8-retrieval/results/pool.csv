@@ -1,0 +1,1857 @@
+query_id,post_id,found_by
+c01,4348,bm25:full@1 dense:full@3 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@4 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@4
+c01,4376,bm25:full@2 dense:full@2 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+c01,4828,bm25:full@3 dense:full@4 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8
+c01,4377,bm25:full@4 dense:full@1 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2
+c01,5050,bm25:full@5 dense:full@11 hybrid+rerank:full@13
+c01,4905,bm25:full@6
+c01,4990,bm25:full@7 dense:full@5 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9
+c01,18712,bm25:full@8
+c01,5231,bm25:full@9 dense:full@8
+c01,5075,bm25:full@10
+c01,5223,bm25:full@11
+c01,5083,bm25:full@12
+c01,4999,bm25:full@13
+c01,4764,bm25:full@14
+c01,5544,bm25:full@15
+c01,5836,bm25:full@16
+c01,4839,bm25:full@17 hybrid+rerank:full@16 sparse:full@8
+c01,5527,bm25:full@18
+c01,19234,bm25:full@19 sparse:full@7
+c01,20921,bm25:full@20
+c01,18975,dense:full@6
+c01,5167,dense:full@7 hybrid+rerank:full@14 hybrid:full@5 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@5 sparse:full@4
+c01,4827,dense:full@9 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+c01,20101,dense:full@10 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@6
+c01,4800,dense:full@12 hybrid+rerank:full@12
+c01,18840,dense:full@13 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@9
+c01,5235,dense:full@14
+c01,20401,dense:full@15
+c01,5121,dense:full@16
+c01,20371,dense:full@17 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+c01,4846,dense:full@18 hybrid+rerank:full@11
+c01,20232,dense:full@19
+c01,5340,dense:full@20
+c01,5186,hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@3
+c01,5420,hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10 sparse:full@5
+c01,6905,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 sparse:full@10
+c01,5205,hybrid+rerank:full@15
+c01,3038,hybrid+rerank:full@17
+c01,5826,hybrid+rerank:full@18
+c01,2893,hybrid+rerank:full@19
+c01,5640,hybrid+rerank:full@20
+c02,4768,bm25:full@1 dense:full@18 sparse:full@8
+c02,19015,bm25:full@2 dense:full@2 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+c02,18807,bm25:full@3 dense:full@1 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2
+c02,5771,bm25:full@4 dense:full@20 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4
+c02,4314,bm25:full@5 dense:full@4 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@7 hybrid:text_ocr_caption@8
+c02,18836,bm25:full@6 dense:full@13 hybrid+rerank:full@11 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@8 hybrid:text_ocr_caption@9 sparse:full@6
+c02,4339,bm25:full@7 dense:full@3 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@6 hybrid:text_ocr_caption@5
+c02,18595,bm25:full@8 dense:full@19
+c02,21685,bm25:full@9
+c02,18614,bm25:full@10
+c02,19337,bm25:full@11 dense:full@17 sparse:full@9
+c02,4922,bm25:full@12
+c02,5038,bm25:full@13
+c02,19474,bm25:full@14
+c02,20156,bm25:full@15
+c02,6036,bm25:full@16 hybrid+rerank:full@19 hybrid:full@7 hybrid:text@4 hybrid:text_ocr@9 hybrid:text_ocr_caption@7 sparse:full@4
+c02,4850,bm25:full@17
+c02,19582,bm25:full@18
+c02,5035,bm25:full@19
+c02,19208,bm25:full@20
+c02,4835,dense:full@5 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+c02,4920,dense:full@6 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6
+c02,4650,dense:full@7 hybrid+rerank:full@13
+c02,19379,dense:full@8 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@4 hybrid:text_ocr_caption@6 sparse:full@5
+c02,5026,dense:full@9 hybrid+rerank:full@15
+c02,4730,dense:full@10 hybrid+rerank:full@14
+c02,4072,dense:full@11 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+c02,4818,dense:full@12 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+c02,4767,dense:full@14 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@7
+c02,18109,dense:full@15 hybrid+rerank:full@16 sparse:full@10
+c02,5132,dense:full@16 hybrid:full@4 hybrid:text@7 hybrid:text_ocr@5 hybrid:text_ocr_caption@4 sparse:full@3
+c02,4824,hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+c02,6836,hybrid+rerank:full@12
+c02,6942,hybrid+rerank:full@17
+c02,4807,hybrid+rerank:full@18
+c02,6623,hybrid+rerank:full@20
+c03,6061,bm25:full@1 dense:full@7 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@5 hybrid:text@1 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@2
+c03,18665,bm25:full@2 dense:full@2 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text@4 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@4
+c03,6102,bm25:full@3 dense:full@6 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@7 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+c03,19067,bm25:full@4 dense:full@4 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@5
+c03,21074,bm25:full@5
+c03,20882,bm25:full@6 dense:full@1 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@2 hybrid:text@5 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@7
+c03,4523,bm25:full@7 dense:full@3 hybrid+rerank:full@12 hybrid:full@4 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@3
+c03,6329,bm25:full@8 dense:full@18 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+c03,21429,bm25:full@9
+c03,19734,bm25:full@10 sparse:full@10
+c03,18849,bm25:full@11
+c03,4311,bm25:full@12 dense:full@12 hybrid+rerank:full@11
+c03,5365,bm25:full@13
+c03,6105,bm25:full@14 dense:full@10 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@10 hybrid:text@2 hybrid:text_ocr_caption@10
+c03,5664,bm25:full@15
+c03,18900,bm25:full@16
+c03,5683,bm25:full@17 dense:full@8 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@9 hybrid:text@8 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@8
+c03,3957,bm25:full@18 dense:full@17
+c03,6067,bm25:full@19 dense:full@11 hybrid+rerank:full@13 hybrid+rerank:text@10
+c03,21683,bm25:full@20
+c03,5156,dense:full@5 hybrid+rerank:full@10 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@10 hybrid:full@8 hybrid:text@10 hybrid:text_ocr@8 hybrid:text_ocr_caption@8
+c03,6040,dense:full@9 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@7 hybrid:text@9 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@6
+c03,18924,dense:full@13
+c03,5494,dense:full@14
+c03,3823,dense:full@15
+c03,19726,dense:full@16 hybrid+rerank:full@15
+c03,20900,dense:full@19
+c03,19132,dense:full@20
+c03,6086,hybrid+rerank:full@16 hybrid:text_ocr@10 sparse:full@9
+c03,19265,hybrid+rerank:full@14
+c03,19580,hybrid+rerank:full@17
+c03,20656,hybrid+rerank:full@18
+c03,19429,hybrid+rerank:full@19
+c03,5477,hybrid+rerank:full@20
+c04,21705,bm25:full@1 dense:full@12 hybrid+rerank:full@2 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@2 sparse:full@1
+c04,20336,bm25:full@2
+c04,19038,bm25:full@3
+c04,20281,bm25:full@4
+c04,19553,bm25:full@5
+c04,20980,bm25:full@6
+c04,5277,bm25:full@7
+c04,20391,bm25:full@8
+c04,20363,bm25:full@9
+c04,19906,bm25:full@10
+c04,20875,bm25:full@11
+c04,20530,bm25:full@12
+c04,20791,bm25:full@13
+c04,5740,bm25:full@14 dense:full@4 hybrid+rerank:full@20 hybrid:full@8 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@8
+c04,5443,bm25:full@15
+c04,20549,bm25:full@16
+c04,20799,bm25:full@17
+c04,5506,bm25:full@18 sparse:full@10
+c04,20742,bm25:full@19
+c04,21085,bm25:full@20 dense:full@17
+c04,20284,dense:full@1 hybrid+rerank:full@6 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@6 hybrid:full@3 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@3
+c04,4749,dense:full@2 hybrid:full@4 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@4
+c04,5585,dense:full@3 hybrid+rerank:full@16 hybrid:full@1 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@1 sparse:full@2
+c04,5561,dense:full@5 hybrid+rerank:full@3 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@3 hybrid:full@9 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@9
+c04,4765,dense:full@6
+c04,20958,dense:full@7 hybrid+rerank:full@10 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@10
+c04,5275,dense:full@8
+c04,20834,dense:full@9 hybrid+rerank:full@7 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@7
+c04,4082,dense:full@10
+c04,4915,dense:full@11
+c04,18251,dense:full@13 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@7
+c04,5595,dense:full@14 hybrid+rerank:full@4 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@4 hybrid:full@7 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@7 sparse:full@5
+c04,5945,dense:full@15 hybrid+rerank:full@15 sparse:full@8
+c04,5837,dense:full@16 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@5 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@5 sparse:full@3
+c04,5495,dense:full@18 hybrid+rerank:full@17
+c04,21187,dense:full@19 hybrid+rerank:full@8 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@8 hybrid:full@6 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@6 sparse:full@4
+c04,21102,dense:full@20 hybrid+rerank:full@19
+c04,6133,hybrid+rerank:full@11 hybrid+rerank:text@10 sparse:full@6
+c04,15045,sparse:full@9
+c04,5934,hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+c04,21627,hybrid+rerank:full@9 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@9
+c04,21371,hybrid+rerank:full@12
+c04,21002,hybrid+rerank:full@13
+c04,5565,hybrid+rerank:full@14
+c04,6024,hybrid+rerank:full@18
+c05,3579,bm25:full@1 dense:full@1 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@3
+c05,3659,bm25:full@2 dense:full@17
+c05,3574,bm25:full@3 dense:full@10
+c05,2621,bm25:full@4 dense:full@2 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@4
+c05,3588,bm25:full@5 dense:full@15 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+c05,3760,bm25:full@6 dense:full@7 hybrid:text@9 hybrid:text_ocr@9
+c05,6149,bm25:full@7 dense:full@4 hybrid+rerank:full@16 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@10
+c05,4663,bm25:full@8 hybrid+rerank:full@13
+c05,4027,bm25:full@9 dense:full@11 hybrid+rerank:full@6 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@6 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@5
+c05,2698,bm25:full@10 dense:full@8 hybrid+rerank:full@14 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@7
+c05,2717,bm25:full@11 dense:full@12 hybrid+rerank:full@15
+c05,13002,bm25:full@12
+c05,4715,bm25:full@13
+c05,5254,bm25:full@14 dense:full@3 hybrid+rerank:full@18 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+c05,4605,bm25:full@15 dense:full@20 hybrid+rerank:full@20
+c05,2324,bm25:full@16
+c05,4526,bm25:full@17
+c05,4574,bm25:full@18
+c05,4664,bm25:full@19
+c05,4570,bm25:full@20
+c05,3567,dense:full@5 hybrid+rerank:full@11 hybrid:full@9 hybrid:text_ocr_caption@9
+c05,3520,dense:full@6 hybrid+rerank:full@5 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@5
+c05,3582,dense:full@9 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+c05,3457,dense:full@13 hybrid+rerank:full@12
+c05,2291,dense:full@14 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@6
+c05,3725,dense:full@16 hybrid+rerank:full@17 sparse:full@9
+c05,6131,dense:full@18 hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7
+c05,3592,dense:full@19
+c05,2654,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 sparse:full@8
+c05,3568,hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+c05,2248,hybrid+rerank:full@19
+c05,1708,hybrid+rerank:text@5
+c06,7713,bm25:full@1 dense:full@1 hybrid+rerank:full@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@1 hybrid:text_ocr_caption@1 sparse:full@6
+c06,7729,bm25:full@2 dense:full@3 hybrid+rerank:full@2 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text@10 hybrid:text_ocr@7 hybrid:text_ocr_caption@3 sparse:full@4
+c06,7745,bm25:full@3 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@5 hybrid:text_ocr_caption@5 sparse:full@2
+c06,7761,bm25:full@4 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@2 hybrid:text_ocr@3 hybrid:text_ocr_caption@2 sparse:full@1
+c06,7412,bm25:full@5 dense:full@11 hybrid+rerank:full@20
+c06,7430,bm25:full@6 dense:full@6 hybrid+rerank:full@19 hybrid:text@8 hybrid:text_ocr@8
+c06,7446,bm25:full@7 dense:full@18
+c06,7462,bm25:full@8 dense:full@19 hybrid+rerank:full@15
+c06,7478,bm25:full@9 dense:full@5 hybrid+rerank:full@13 hybrid+rerank:text@10 hybrid:full@9 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@9
+c06,7494,bm25:full@10 dense:full@8 hybrid+rerank:full@17 hybrid:text@9
+c06,7510,bm25:full@11 dense:full@16
+c06,7526,bm25:full@12 dense:full@20 hybrid+rerank:full@16
+c06,7542,bm25:full@13 dense:full@13 hybrid+rerank:full@18 hybrid:text@7 hybrid:text_ocr@10 sparse:full@8
+c06,7558,bm25:full@14 dense:full@15 hybrid+rerank:full@11 hybrid+rerank:text@8 hybrid:full@10 hybrid:text@6 hybrid:text_ocr@9 hybrid:text_ocr_caption@10 sparse:full@7
+c06,7574,bm25:full@15 dense:full@4 hybrid+rerank:full@9 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@9 hybrid:full@6 hybrid:text@1 hybrid:text_ocr@2 hybrid:text_ocr_caption@6 sparse:full@5
+c06,7589,bm25:full@16 dense:full@14 hybrid+rerank:full@12 hybrid+rerank:text@9
+c06,7604,bm25:full@17 dense:full@12 hybrid+rerank:full@8 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@8 hybrid:full@7 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@7 sparse:full@3
+c06,7619,bm25:full@18 dense:full@9 hybrid+rerank:full@6 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@6
+c06,7648,bm25:full@19 dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@5 hybrid:full@4 hybrid:text@2 hybrid:text_ocr@1 hybrid:text_ocr_caption@4 sparse:full@10
+c06,7663,bm25:full@20 dense:full@17 hybrid+rerank:full@14
+c06,7681,dense:full@7 hybrid+rerank:full@7 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@7 hybrid:full@8 hybrid:text@4 hybrid:text_ocr@6 hybrid:text_ocr_caption@8 sparse:full@9
+c06,7697,dense:full@10 hybrid+rerank:full@10 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@10
+c07,18955,bm25:full@1
+c07,18420,bm25:full@2 dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+c07,18130,bm25:full@3 dense:full@3 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+c07,4149,bm25:full@4 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+c07,18616,bm25:full@5 dense:full@20 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@4
+c07,2596,bm25:full@6
+c07,18141,bm25:full@7 dense:full@7 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@6
+c07,22767,bm25:full@8
+c07,9022,bm25:full@9
+c07,24689,bm25:full@10
+c07,2698,bm25:full@11
+c07,18091,bm25:full@12
+c07,25110,bm25:full@13
+c07,6085,bm25:full@14
+c07,20181,bm25:full@15
+c07,19983,bm25:full@16
+c07,11711,bm25:full@17
+c07,22568,bm25:full@18
+c07,21703,bm25:full@19
+c07,24620,bm25:full@20
+c07,7946,dense:full@4 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@5
+c07,5261,dense:full@5 hybrid+rerank:full@17 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+c07,2214,dense:full@6 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8
+c07,2865,dense:full@8 hybrid+rerank:full@20
+c07,25764,dense:full@9
+c07,24839,dense:full@10
+c07,4240,dense:full@11 hybrid+rerank:full@14
+c07,20908,dense:full@12 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+c07,25175,dense:full@13 hybrid+rerank:full@12
+c07,20900,dense:full@14 hybrid+rerank:full@11 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9
+c07,25288,dense:full@15 hybrid+rerank:full@13
+c07,5373,dense:full@16
+c07,20259,dense:full@17 hybrid+rerank:full@16
+c07,3635,dense:full@18 hybrid+rerank:full@15
+c07,24827,dense:full@19
+c07,6326,hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@7
+c07,3762,sparse:full@8
+c07,23292,sparse:full@9
+c07,23546,sparse:full@10
+c07,4093,hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6
+c07,6840,hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+c07,7924,hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+c07,25174,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+c07,3747,hybrid+rerank:full@18
+c07,18122,hybrid+rerank:full@19
+c08,7120,bm25:full@1
+c08,6841,bm25:full@2
+c08,18100,bm25:full@3 dense:full@2 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@2 hybrid:text_ocr_caption@3 sparse:full@2
+c08,16916,bm25:full@4
+c08,4295,bm25:full@5 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@2 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@3
+c08,4848,bm25:full@6
+c08,9325,bm25:full@7 hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@5 hybrid:text_ocr@4 hybrid:text_ocr_caption@5 sparse:full@4
+c08,19769,bm25:full@8 hybrid+rerank:full@8 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@8
+c08,5202,bm25:full@9 dense:full@17
+c08,5022,bm25:full@10 hybrid+rerank:full@9 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@9 hybrid:full@6 hybrid:text@4 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@5
+c08,1754,bm25:full@11 dense:full@3 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@4 hybrid:text_ocr@5 hybrid:text_ocr_caption@4
+c08,19359,bm25:full@12
+c08,8336,bm25:full@13
+c08,12820,bm25:full@14
+c08,12958,bm25:full@15
+c08,13587,bm25:full@16
+c08,21251,bm25:full@17
+c08,4825,bm25:full@18
+c08,5185,bm25:full@19
+c08,12791,bm25:full@20
+c08,7939,dense:full@4 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@2 hybrid:text@1 hybrid:text_ocr@3 hybrid:text_ocr_caption@2 sparse:full@1
+c08,3883,dense:full@5 hybrid:full@7 hybrid:text@5 hybrid:text_ocr@8 hybrid:text_ocr_caption@7
+c08,4385,dense:full@6 hybrid:full@10 hybrid:text@7 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+c08,18114,dense:full@7 hybrid+rerank:full@20 hybrid:text@9
+c08,20410,dense:full@8
+c08,5478,dense:full@9
+c08,3154,dense:full@10
+c08,5157,dense:full@11
+c08,4330,dense:full@12 hybrid+rerank:full@19
+c08,21973,dense:full@13 hybrid+rerank:full@15
+c08,20022,dense:full@14
+c08,21303,dense:full@15
+c08,21916,dense:full@16 hybrid+rerank:full@17
+c08,21630,dense:full@18
+c08,2430,dense:full@19 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:text@8 hybrid:text_ocr@9 sparse:full@10
+c08,18313,dense:full@20
+c08,1964,hybrid:full@9 hybrid:text_ocr_caption@9 sparse:full@6
+c08,7955,hybrid+rerank:full@14 hybrid:full@8 hybrid:text@6 hybrid:text_ocr@7 hybrid:text_ocr_caption@8 sparse:full@7
+c08,6639,hybrid+rerank:full@10 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@10 hybrid:text@10 sparse:full@8
+c08,3926,sparse:full@9
+c08,6437,hybrid+rerank:full@6 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@6
+c08,3906,hybrid+rerank:full@11
+c08,19908,hybrid+rerank:full@12
+c08,19015,hybrid+rerank:full@13
+c08,4200,hybrid+rerank:full@16
+c08,20525,hybrid+rerank:full@18
+c08,4108,hybrid+rerank:text@8
+c08,19467,hybrid+rerank:text@10
+c09,21618,bm25:full@1 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+c09,3468,bm25:full@2 dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@3
+c09,2695,bm25:full@3 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@5
+c09,7796,bm25:full@4
+c09,6551,bm25:full@5 dense:full@3 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+c09,2516,bm25:full@6
+c09,5323,bm25:full@7 sparse:full@10
+c09,20156,bm25:full@8
+c09,5380,bm25:full@9
+c09,2356,bm25:full@10
+c09,11024,bm25:full@11
+c09,3984,bm25:full@12
+c09,2669,bm25:full@13
+c09,2456,bm25:full@14 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 sparse:full@7
+c09,3930,bm25:full@15
+c09,7656,bm25:full@16
+c09,19683,bm25:full@17
+c09,6756,bm25:full@18
+c09,21728,bm25:full@19
+c09,11735,bm25:full@20
+c09,5315,dense:full@1 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3
+c09,7683,dense:full@4 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@7 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@7
+c09,7730,dense:full@5 hybrid+rerank:full@17
+c09,7463,dense:full@6 hybrid+rerank:text_ocr_caption@8
+c09,7431,dense:full@7 hybrid+rerank:text@10
+c09,7762,dense:full@8 hybrid+rerank:full@14
+c09,7413,dense:full@9 hybrid+rerank:full@20
+c09,7447,dense:full@10
+c09,7559,dense:full@11 hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+c09,7543,dense:full@12
+c09,7794,dense:full@13 hybrid+rerank:full@12
+c09,7778,dense:full@14
+c09,7575,dense:full@15
+c09,7698,dense:full@16 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@9 hybrid:text_ocr_caption@9
+c09,7664,dense:full@17 hybrid:text@9
+c09,7682,dense:full@18 hybrid+rerank:full@13
+c09,7620,dense:full@19 hybrid+rerank:full@18 hybrid+rerank:text@8
+c09,7527,dense:full@20 hybrid+rerank:full@19
+c09,2518,hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+c09,6635,hybrid:full@6 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@6 sparse:full@4
+c09,4023,hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@6
+c09,2611,sparse:full@8
+c09,7946,sparse:full@9
+c09,2502,hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+c09,3473,hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+c09,7746,hybrid+rerank:full@8
+c09,7714,hybrid+rerank:full@9
+c09,7590,hybrid+rerank:full@11 hybrid:text_ocr@9
+c09,7605,hybrid+rerank:full@15
+c09,7495,hybrid+rerank:full@16
+c10,4839,bm25:full@1 dense:full@14 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+c10,5427,bm25:full@2 dense:full@1 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@4
+c10,5514,bm25:full@3
+c10,1843,bm25:full@4
+c10,6582,bm25:full@5
+c10,6507,bm25:full@6
+c10,6459,bm25:full@7
+c10,6571,bm25:full@8
+c10,6614,bm25:full@9
+c10,4489,bm25:full@10
+c10,5531,bm25:full@11
+c10,6375,bm25:full@12
+c10,6409,bm25:full@13
+c10,11135,bm25:full@14
+c10,4257,bm25:full@15
+c10,4664,bm25:full@16
+c10,4779,bm25:full@17
+c10,13452,bm25:full@18
+c10,13360,bm25:full@19
+c10,5497,bm25:full@20 dense:full@9 hybrid+rerank:full@11
+c10,18712,dense:full@2 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@5 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@5 sparse:full@8
+c10,4610,dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@6 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@6
+c10,4659,dense:full@4 hybrid+rerank:full@13 hybrid:full@4 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@4 sparse:full@3
+c10,19232,dense:full@5 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+c10,5559,dense:full@6 hybrid:full@10 hybrid:text_ocr_caption@10
+c10,5545,dense:full@7 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+c10,5447,dense:full@8 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+c10,5131,dense:full@10
+c10,21665,dense:full@11 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+c10,18443,dense:full@12 hybrid+rerank:full@20
+c10,1762,dense:full@13 hybrid+rerank:full@16 hybrid:text@6 hybrid:text_ocr@6
+c10,5285,dense:full@15 hybrid+rerank:full@15
+c10,5017,dense:full@16
+c10,3769,dense:full@17
+c10,5640,dense:full@18 hybrid+rerank:full@12
+c10,20245,dense:full@19 hybrid+rerank:full@17
+c10,6079,dense:full@20
+c10,2290,hybrid:full@8 hybrid:text@8 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@5
+c10,2696,hybrid+rerank:full@18 hybrid:full@7 hybrid:text@9 hybrid:text_ocr@8 hybrid:text_ocr_caption@7 sparse:full@6
+c10,19063,hybrid:full@9 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@9 sparse:full@7
+c10,21890,sparse:full@9
+c10,6796,sparse:full@10
+c10,5362,hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+c10,3038,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+c10,5083,hybrid+rerank:full@14
+c10,2147,hybrid+rerank:full@19
+c11,20244,bm25:full@1
+c11,3853,bm25:full@2 dense:full@1 hybrid+rerank:full@7 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@7 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@2
+c11,20582,bm25:full@3 hybrid:full@9 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@9 sparse:full@4
+c11,4673,bm25:full@4 dense:full@9 hybrid:text@9
+c11,24707,bm25:full@5 dense:full@4 hybrid+rerank:full@15 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+c11,6754,bm25:full@6
+c11,14660,bm25:full@7
+c11,4275,bm25:full@8 dense:full@20 hybrid+rerank:full@18 sparse:full@9
+c11,14721,bm25:full@9
+c11,4574,bm25:full@10
+c11,11912,bm25:full@11
+c11,3925,bm25:full@12 hybrid+rerank:full@20
+c11,2150,bm25:full@13
+c11,2963,bm25:full@14 dense:full@19 hybrid+rerank:full@9 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@9 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+c11,5011,bm25:full@15
+c11,5575,bm25:full@16 hybrid+rerank:full@14 sparse:full@8
+c11,4998,bm25:full@17
+c11,3763,bm25:full@18 dense:full@3 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@3 sparse:full@3
+c11,13962,bm25:full@19
+c11,5088,bm25:full@20
+c11,6002,dense:full@2 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@4 hybrid:text_ocr@3 hybrid:text_ocr_caption@4
+c11,18688,dense:full@5 hybrid:full@7 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@7
+c11,7095,dense:full@6 hybrid+rerank:full@3 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@3 hybrid:full@6 hybrid:text@4 hybrid:text_ocr_caption@6 sparse:full@10
+c11,5685,dense:full@7
+c11,18488,dense:full@8
+c11,5735,dense:full@10
+c11,4369,dense:full@11
+c11,6113,dense:full@12
+c11,4220,dense:full@13
+c11,7088,dense:full@14
+c11,2731,dense:full@15 hybrid+rerank:full@10 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@10 hybrid:full@8 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@8 sparse:full@6
+c11,4302,dense:full@16
+c11,3754,dense:full@17 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+c11,24882,dense:full@18
+c11,6753,hybrid+rerank:full@4 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@4 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@5
+c11,6180,sparse:full@7
+c11,6742,hybrid+rerank:full@2 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@2
+c11,6638,hybrid+rerank:full@6 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@6
+c11,2928,hybrid+rerank:full@8 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@8
+c11,6733,hybrid+rerank:full@11 hybrid+rerank:text@9
+c11,5855,hybrid+rerank:full@12
+c11,4613,hybrid+rerank:full@13
+c11,6752,hybrid+rerank:full@16
+c11,24708,hybrid+rerank:full@17
+c11,7154,hybrid+rerank:full@19
+c11,9715,hybrid:text_ocr@9
+c12,20666,bm25:full@1 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+c12,5365,bm25:full@2 dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@4 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@4
+c12,20641,bm25:full@3 dense:full@14 hybrid+rerank:full@13 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@8 hybrid:text_ocr_caption@9 sparse:full@8
+c12,20852,bm25:full@4 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@2 sparse:full@2
+c12,19910,bm25:full@5 dense:full@13 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 sparse:full@10
+c12,21304,bm25:full@6 dense:full@4 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@3
+c12,18342,bm25:full@7 dense:full@9 hybrid+rerank:full@11 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@9
+c12,20431,bm25:full@8 dense:full@7 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@7 hybrid:text@6 hybrid:text_ocr@5 hybrid:text_ocr_caption@6 sparse:full@6
+c12,19490,bm25:full@9 dense:full@19 hybrid+rerank:full@17
+c12,20838,bm25:full@10 dense:full@10 hybrid+rerank:full@16
+c12,21638,bm25:full@11 dense:full@11 hybrid+rerank:full@12 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+c12,17990,bm25:full@12 dense:full@12 hybrid+rerank:full@14
+c12,5578,bm25:full@13 dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@1 sparse:full@1
+c12,4815,bm25:full@14
+c12,19776,bm25:full@15 hybrid+rerank:full@15
+c12,5808,bm25:full@16 dense:full@5 hybrid+rerank:full@5 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@5 hybrid:full@5 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@5 sparse:full@5
+c12,20851,bm25:full@17
+c12,8771,bm25:full@18
+c12,8177,bm25:full@19
+c12,9146,bm25:full@20
+c12,5627,dense:full@6 hybrid+rerank:full@6 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@6 hybrid:full@6 hybrid:text@5 hybrid:text_ocr@6 hybrid:text_ocr_caption@7 sparse:full@7
+c12,21312,dense:full@8 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+c12,17893,dense:full@15
+c12,20390,dense:full@16
+c12,5491,dense:full@17
+c12,5866,dense:full@18 hybrid+rerank:full@20
+c12,25498,dense:full@20
+c12,6181,hybrid+rerank:full@18
+c12,20392,hybrid+rerank:full@19
+c13,4884,bm25:full@1 hybrid+rerank:full@18
+c13,4154,bm25:full@2 dense:full@10 hybrid+rerank:full@19
+c13,20372,bm25:full@3 dense:full@3 hybrid+rerank:full@8 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@8 hybrid:full@6 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@6
+c13,18428,bm25:full@4 dense:full@9 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+c13,2958,bm25:full@5 dense:full@7 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+c13,21746,bm25:full@6 hybrid+rerank:full@14 hybrid:full@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@5
+c13,5884,bm25:full@7 dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@2 hybrid:text_ocr_caption@3 sparse:full@4
+c13,6006,bm25:full@8 dense:full@12 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@3 hybrid:text_ocr_caption@2 sparse:full@1
+c13,4883,bm25:full@9 dense:full@14 hybrid+rerank:full@11
+c13,4153,bm25:full@10 dense:full@4 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@5 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@5 sparse:full@9
+c13,21458,bm25:full@11 dense:full@19 hybrid+rerank:full@9 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@9 sparse:full@8
+c13,20078,bm25:full@12
+c13,4119,bm25:full@13 dense:full@17 hybrid+rerank:full@20 sparse:full@10
+c13,7225,bm25:full@14 hybrid+rerank:full@16
+c13,5594,bm25:full@15 dense:full@18 hybrid+rerank:full@15 hybrid:text@8 hybrid:text_ocr@9
+c13,20835,bm25:full@16
+c13,5934,bm25:full@17 dense:full@15 hybrid+rerank:full@13 hybrid:full@9 hybrid:text_ocr_caption@9 sparse:full@6
+c13,5201,bm25:full@18 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@3
+c13,4885,bm25:full@19 dense:full@6 hybrid:full@8 hybrid:text@9 hybrid:text_ocr@8 hybrid:text_ocr_caption@8
+c13,19664,bm25:full@20 hybrid+rerank:full@12
+c13,5890,dense:full@5 hybrid+rerank:full@10 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@10 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+c13,21446,dense:full@8 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:text@10
+c13,20423,dense:full@11
+c13,20606,dense:full@13
+c13,20693,dense:full@16
+c13,19292,dense:full@20
+c13,3807,sparse:full@7
+c13,7274,hybrid+rerank:full@17
+s01,18207,bm25:full@1 dense:full@7 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@5 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@5 sparse:full@3
+s01,18508,bm25:full@2 dense:full@10
+s01,18157,bm25:full@3 dense:full@2 hybrid+rerank:full@12 hybrid:full@3 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@3 sparse:full@5
+s01,18030,bm25:full@4 dense:full@18 hybrid+rerank:full@13 hybrid:full@7 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@7 sparse:full@4
+s01,18158,bm25:full@5 dense:full@1 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@1 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@1 sparse:full@9
+s01,19693,bm25:full@6
+s01,18161,bm25:full@7 hybrid+rerank:full@18
+s01,12730,bm25:full@8 dense:full@13 hybrid+rerank:full@20
+s01,12735,bm25:full@9
+s01,12758,bm25:full@10
+s01,22435,bm25:full@11 dense:full@14 hybrid+rerank:full@10 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@10 hybrid:full@2 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@2 sparse:full@1
+s01,18152,bm25:full@12
+s01,18115,bm25:full@13 dense:full@9 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@7
+s01,22439,bm25:full@14 dense:full@11 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+s01,22836,bm25:full@15 dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@6 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@6 sparse:full@10
+s01,18290,bm25:full@16
+s01,10514,bm25:full@17 dense:full@16 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@10 hybrid:text_ocr_caption@10 sparse:full@6
+s01,10604,bm25:full@18
+s01,18212,bm25:full@19 dense:full@5 hybrid:full@8 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@8
+s01,22442,bm25:full@20
+s01,18560,dense:full@4 hybrid+rerank:full@19
+s01,1619,dense:full@6 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:text@2 hybrid:text_ocr@2
+s01,22707,dense:full@8 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+s01,18221,dense:full@12 hybrid+rerank:full@11 hybrid+rerank:text@10
+s01,7223,dense:full@15 hybrid+rerank:full@14
+s01,18820,dense:full@17 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+s01,18179,dense:full@19
+s01,22674,dense:full@20 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+s01,18170,sparse:full@8
+s01,22260,hybrid+rerank:full@15
+s01,23925,hybrid+rerank:full@16
+s01,22702,hybrid+rerank:full@17
+s02,24635,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+s02,362,bm25:full@2 dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+s02,24628,bm25:full@3 dense:full@3 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+s02,1317,bm25:full@4
+s02,1102,bm25:full@5
+s02,17957,bm25:full@6 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 sparse:full@6
+s02,20892,bm25:full@7 dense:full@17 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@10
+s02,20365,bm25:full@8
+s02,341,bm25:full@9 dense:full@5 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@7 hybrid:text@6 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+s02,21010,bm25:full@10
+s02,24627,bm25:full@11 dense:full@6 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9
+s02,250,bm25:full@12
+s02,4349,bm25:full@13
+s02,1302,bm25:full@14
+s02,25686,bm25:full@15
+s02,21707,bm25:full@16
+s02,5556,bm25:full@17
+s02,2672,bm25:full@18
+s02,5200,bm25:full@19
+s02,18612,bm25:full@20
+s02,361,dense:full@4 hybrid+rerank:full@17 hybrid:full@6 hybrid:text@5 hybrid:text_ocr@6 hybrid:text_ocr_caption@6
+s02,24607,dense:full@7 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@4
+s02,519,dense:full@8 hybrid+rerank:full@14
+s02,24634,dense:full@9 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6
+s02,5166,dense:full@10 hybrid:full@5 hybrid:text@7 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@7
+s02,25786,dense:full@11 hybrid+rerank:full@11
+s02,4046,dense:full@12
+s02,24954,dense:full@13
+s02,18655,dense:full@14
+s02,1044,dense:full@15 hybrid+rerank:full@19
+s02,19887,dense:full@16
+s02,25784,dense:full@18
+s02,25481,dense:full@19 hybrid+rerank:full@13
+s02,24924,dense:full@20
+s02,22271,hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@5
+s02,22113,sparse:full@8
+s02,6483,sparse:full@9
+s02,25621,hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s02,765,hybrid+rerank:full@12
+s02,24767,hybrid+rerank:full@15
+s02,1498,hybrid+rerank:full@16
+s02,813,hybrid+rerank:full@18
+s02,758,hybrid+rerank:full@20
+s03,21642,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@2
+s03,19831,bm25:full@2 hybrid+rerank:full@19
+s03,7402,bm25:full@3 dense:full@9
+s03,25653,bm25:full@4 dense:full@16 hybrid+rerank:full@20
+s03,24644,bm25:full@5 hybrid+rerank:full@17
+s03,21692,bm25:full@6 dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@8
+s03,13618,bm25:full@7 dense:full@20
+s03,25498,bm25:full@8 dense:full@11
+s03,7224,bm25:full@9 hybrid+rerank:full@13
+s03,24778,bm25:full@10
+s03,1460,bm25:full@11 dense:full@10
+s03,20246,bm25:full@12 dense:full@4 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@8 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@8 sparse:full@10
+s03,21228,bm25:full@13 dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@9
+s03,25311,bm25:full@14 dense:full@14
+s03,25840,bm25:full@15 hybrid+rerank:full@18
+s03,25891,bm25:full@16
+s03,7399,bm25:full@17
+s03,25907,bm25:full@18
+s03,7834,bm25:full@19
+s03,20263,bm25:full@20 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s03,7377,dense:full@5 hybrid+rerank:full@15 hybrid:full@6 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@7 sparse:full@6
+s03,24899,dense:full@6 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@7 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@5
+s03,25913,dense:full@7 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@3
+s03,25951,dense:full@8 hybrid+rerank:full@12
+s03,25457,dense:full@12 hybrid+rerank:full@11
+s03,4047,dense:full@13 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+s03,25807,dense:full@15 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@7
+s03,7300,dense:full@17 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@9 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@9 sparse:full@4
+s03,25932,dense:full@18
+s03,25959,dense:full@19 hybrid+rerank:full@16
+s03,25915,hybrid+rerank:full@14
+s04,7398,bm25:full@1 dense:full@15
+s04,18064,bm25:full@2 dense:full@3 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+s04,19648,bm25:full@3
+s04,19627,bm25:full@4
+s04,18982,bm25:full@5 dense:full@19 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+s04,21896,bm25:full@6 dense:full@13 hybrid+rerank:full@11 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@6
+s04,24984,bm25:full@7
+s04,18141,bm25:full@8
+s04,20013,bm25:full@9
+s04,19317,bm25:full@10
+s04,5064,bm25:full@11 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@5
+s04,4242,bm25:full@12
+s04,19778,bm25:full@13 dense:full@14 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+s04,18737,bm25:full@14
+s04,5705,bm25:full@15
+s04,18835,bm25:full@16 hybrid+rerank:full@19
+s04,16864,bm25:full@17
+s04,20699,bm25:full@18
+s04,21726,bm25:full@19 dense:full@16
+s04,20785,bm25:full@20
+s04,18513,dense:full@1 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2
+s04,21204,dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@10
+s04,18204,dense:full@4 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+s04,21025,dense:full@5 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@3
+s04,24880,dense:full@6
+s04,24607,dense:full@7
+s04,18351,dense:full@8 hybrid+rerank:full@13 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+s04,19912,dense:full@9
+s04,18674,dense:full@10 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6
+s04,19299,dense:full@11 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@4
+s04,17915,dense:full@12 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s04,19415,dense:full@17
+s04,20348,dense:full@18 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+s04,21391,dense:full@20 hybrid+rerank:full@15 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@2
+s04,21403,sparse:full@7
+s04,22746,sparse:full@8
+s04,23045,sparse:full@9
+s04,19138,hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+s04,19663,hybrid+rerank:full@12
+s04,20849,hybrid+rerank:full@14
+s04,20190,hybrid+rerank:full@16
+s04,21579,hybrid+rerank:full@17
+s04,20503,hybrid+rerank:full@18
+s04,24756,hybrid+rerank:full@20
+s05,21752,bm25:full@1 dense:full@1 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+s05,19678,bm25:full@2 dense:full@2 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+s05,21750,bm25:full@3 dense:full@3 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@5
+s05,18012,bm25:full@4 dense:full@4 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+s05,21753,bm25:full@5 dense:full@5 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@6
+s05,18021,bm25:full@6 dense:full@7 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@4
+s05,21681,bm25:full@7 dense:full@6 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@8 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@7
+s05,6060,bm25:full@8 dense:full@19 hybrid:full@9 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@9 sparse:full@8
+s05,5614,bm25:full@9
+s05,18498,bm25:full@10 dense:full@17
+s05,21749,bm25:full@11 sparse:full@9
+s05,20415,bm25:full@12
+s05,17923,bm25:full@13 dense:full@9 hybrid+rerank:full@11 hybrid+rerank:text_ocr_caption@10
+s05,19355,bm25:full@14 dense:full@12
+s05,23463,bm25:full@15 hybrid+rerank:full@19 sparse:full@10
+s05,21425,bm25:full@16
+s05,5871,bm25:full@17
+s05,8645,bm25:full@18
+s05,18731,bm25:full@19 dense:full@16
+s05,6053,bm25:full@20
+s05,19442,dense:full@8 hybrid+rerank:full@17 hybrid:full@8 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@8
+s05,18664,dense:full@10 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@9 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+s05,21592,dense:full@11
+s05,21087,dense:full@13
+s05,20377,dense:full@14
+s05,20249,dense:full@15 hybrid+rerank:full@18
+s05,20929,dense:full@18
+s05,17995,dense:full@20
+s05,1772,hybrid+rerank:full@7 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@7
+s05,7039,hybrid+rerank:full@8
+s05,21723,hybrid+rerank:full@12
+s05,4092,hybrid+rerank:full@13
+s05,19996,hybrid+rerank:full@14
+s05,21911,hybrid+rerank:full@15
+s05,13414,hybrid+rerank:full@16
+s05,19774,hybrid+rerank:full@20
+s05,8618,hybrid+rerank:text@7
+s06,22345,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+s06,22234,bm25:full@2
+s06,22411,bm25:full@3 dense:full@3 hybrid+rerank:full@19 hybrid:full@4 hybrid:text@4 hybrid:text_ocr_caption@4
+s06,23804,bm25:full@4
+s06,22360,bm25:full@5
+s06,22194,bm25:full@6
+s06,23253,bm25:full@7
+s06,23585,bm25:full@8
+s06,23515,bm25:full@9
+s06,23386,bm25:full@10
+s06,22271,bm25:full@11 dense:full@8 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@7 hybrid:text_ocr_caption@5 sparse:full@7
+s06,22180,bm25:full@12 dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+s06,23394,bm25:full@13
+s06,24028,bm25:full@14
+s06,24270,bm25:full@15
+s06,24329,bm25:full@16
+s06,16790,bm25:full@17
+s06,17042,bm25:full@18
+s06,22346,bm25:full@19 dense:full@15
+s06,22414,bm25:full@20
+s06,24362,dense:full@4 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+s06,25011,dense:full@5 hybrid:full@8 hybrid:text@8 hybrid:text_ocr_caption@8
+s06,22960,dense:full@6 hybrid:full@7 hybrid:text@6 hybrid:text_ocr_caption@7
+s06,22837,dense:full@7 hybrid:full@10 hybrid:text@10 hybrid:text_ocr_caption@10
+s06,24424,dense:full@9
+s06,22390,dense:full@10 hybrid+rerank:full@20
+s06,22171,dense:full@11
+s06,9983,dense:full@12 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+s06,22113,dense:full@13
+s06,23134,dense:full@14
+s06,475,dense:full@16
+s06,4430,dense:full@17
+s06,23785,dense:full@18 hybrid+rerank:full@11
+s06,23044,dense:full@19
+s06,24291,dense:full@20
+s06,2140,hybrid:full@6 hybrid:text@7 hybrid:text_ocr@8 hybrid:text_ocr_caption@6 sparse:full@4
+s06,22024,hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@5
+s06,21886,sparse:full@6
+s06,2133,sparse:full@8
+s06,16381,hybrid:text_ocr@4 sparse:full@9
+s06,22413,sparse:full@10
+s06,22181,hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4
+s06,23827,hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6
+s06,24287,hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7
+s06,4428,hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8
+s06,4856,hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+s06,23296,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+s06,24387,hybrid+rerank:full@12
+s06,231,hybrid+rerank:full@13
+s06,23788,hybrid+rerank:full@14
+s06,23829,hybrid+rerank:full@15
+s06,4431,hybrid+rerank:full@16
+s06,23778,hybrid+rerank:full@17
+s06,23297,hybrid+rerank:full@18
+s06,8433,hybrid:text_ocr@5
+s06,16982,hybrid:text_ocr@6
+s06,17860,hybrid:text_ocr@10
+s06,23784,hybrid+rerank:text@5
+s06,17863,hybrid+rerank:text@6
+s06,17848,hybrid+rerank:text@7
+s06,17858,hybrid+rerank:text@8
+s06,4201,hybrid+rerank:text@9
+s06,25535,hybrid+rerank:text@10
+s07,25257,bm25:full@1
+s07,25400,bm25:full@2 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+s07,24980,bm25:full@3 hybrid+rerank:full@11 sparse:full@8
+s07,25358,bm25:full@4 dense:full@4 hybrid+rerank:full@5 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@5 hybrid:full@7 hybrid:text@9 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+s07,24678,bm25:full@5 dense:full@13 hybrid+rerank:full@2 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+s07,20807,bm25:full@6
+s07,25285,bm25:full@7 hybrid+rerank:full@16 hybrid:full@9 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@5
+s07,18881,bm25:full@8
+s07,19862,bm25:full@9
+s07,18262,bm25:full@10
+s07,21654,bm25:full@11
+s07,7984,bm25:full@12
+s07,18951,bm25:full@13
+s07,19557,bm25:full@14
+s07,7064,bm25:full@15
+s07,21242,bm25:full@16
+s07,7983,bm25:full@17
+s07,19584,bm25:full@18
+s07,4170,bm25:full@19
+s07,21422,bm25:full@20
+s07,1078,dense:full@1 hybrid:full@2 hybrid:text@4 hybrid:text_ocr@1 hybrid:text_ocr_caption@1
+s07,12421,dense:full@2 hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@4 hybrid:text@5 hybrid:text_ocr@4 hybrid:text_ocr_caption@4
+s07,5239,dense:full@3 hybrid:full@5 hybrid:text_ocr@8 hybrid:text_ocr_caption@6
+s07,4907,dense:full@5 hybrid:full@10 hybrid:text_ocr_caption@9
+s07,4739,dense:full@6
+s07,25762,dense:full@7 hybrid+rerank:full@12
+s07,25463,dense:full@8 hybrid+rerank:full@20
+s07,1762,dense:full@9
+s07,4661,dense:full@10
+s07,10131,dense:full@11
+s07,9143,dense:full@12
+s07,20467,dense:full@14
+s07,14022,dense:full@15
+s07,10144,dense:full@16
+s07,17010,dense:full@17
+s07,8657,dense:full@18
+s07,4093,dense:full@19
+s07,9220,dense:full@20
+s07,24491,hybrid+rerank:full@1 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+s07,1515,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@5 sparse:full@3
+s07,24480,hybrid+rerank:full@6 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@6 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@4
+s07,19103,sparse:full@6
+s07,19783,sparse:full@7
+s07,25298,hybrid+rerank:full@7 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@7 sparse:full@9
+s07,24165,sparse:full@10
+s07,25381,hybrid+rerank:full@3 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@3
+s07,7400,hybrid+rerank:full@4 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@4
+s07,25221,hybrid+rerank:full@13
+s07,9057,hybrid+rerank:full@14
+s07,25860,hybrid+rerank:full@15
+s07,25720,hybrid+rerank:full@17
+s07,17915,hybrid+rerank:full@18
+s07,7701,hybrid+rerank:full@19
+s07,9234,hybrid:text@1
+s07,1970,hybrid:text@7 hybrid:text_ocr@5
+s07,1875,hybrid+rerank:text@1
+s07,1814,hybrid+rerank:text@2
+s07,1894,hybrid+rerank:text@9
+s08,4124,bm25:full@1
+s08,1359,bm25:full@2 hybrid+rerank:full@17 sparse:full@10
+s08,311,bm25:full@3 dense:full@1 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@2
+s08,19185,bm25:full@4
+s08,2960,bm25:full@5
+s08,21775,bm25:full@6
+s08,3772,bm25:full@7
+s08,815,bm25:full@8 sparse:full@7
+s08,1302,bm25:full@9 hybrid+rerank:full@12 sparse:full@9
+s08,786,bm25:full@10 dense:full@7 hybrid+rerank:full@11
+s08,18576,bm25:full@11 dense:full@4 hybrid+rerank:full@13 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@5
+s08,1369,bm25:full@12
+s08,455,bm25:full@13 dense:full@19 hybrid+rerank:full@15
+s08,2826,bm25:full@14
+s08,22237,bm25:full@15
+s08,25115,bm25:full@16
+s08,1337,bm25:full@17 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@3
+s08,23577,bm25:full@18
+s08,724,bm25:full@19 dense:full@2 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4
+s08,7938,bm25:full@20
+s08,799,dense:full@3 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+s08,24682,dense:full@5 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+s08,20011,dense:full@6 hybrid+rerank:full@18 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+s08,684,dense:full@8
+s08,54,dense:full@9 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@6
+s08,25784,dense:full@10 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+s08,181,dense:full@11 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+s08,776,dense:full@12 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s08,1327,dense:full@13 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1
+s08,840,dense:full@14
+s08,943,dense:full@15
+s08,737,dense:full@16
+s08,25782,dense:full@17
+s08,395,dense:full@18
+s08,321,dense:full@20 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4
+s08,1237,hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+s08,24757,hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@4
+s08,1532,sparse:full@8
+s08,25692,hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+s08,165,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+s08,163,hybrid+rerank:full@14
+s08,1221,hybrid+rerank:full@16
+s08,841,hybrid+rerank:full@19
+s08,1394,hybrid+rerank:full@20
+s09,5458,bm25:full@1 dense:full@5 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+s09,21033,bm25:full@2 dense:full@9 hybrid+rerank:full@12 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+s09,20524,bm25:full@3 dense:full@4 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@5
+s09,21747,bm25:full@4 dense:full@10 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+s09,5408,bm25:full@5 dense:full@6 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+s09,20678,bm25:full@6
+s09,20780,bm25:full@7 dense:full@12 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+s09,20638,bm25:full@8 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@4
+s09,21407,bm25:full@9 dense:full@13 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+s09,3879,bm25:full@10 dense:full@11
+s09,4265,bm25:full@11 dense:full@8 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9
+s09,4761,bm25:full@12
+s09,18555,bm25:full@13 dense:full@7 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+s09,3895,bm25:full@14 hybrid+rerank:full@19 sparse:full@8
+s09,4273,bm25:full@15 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@3
+s09,4798,bm25:full@16 dense:full@19
+s09,5576,bm25:full@17
+s09,19341,bm25:full@18 dense:full@16 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s09,5730,bm25:full@19
+s09,18672,bm25:full@20 sparse:full@9
+s09,5396,dense:full@2 hybrid+rerank:full@14 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+s09,18961,dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+s09,20505,dense:full@14 hybrid+rerank:full@13
+s09,5241,dense:full@15
+s09,4424,dense:full@17
+s09,20439,dense:full@18 hybrid+rerank:full@11
+s09,19476,dense:full@20 hybrid+rerank:full@15 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@7
+s09,19046,sparse:full@6
+s09,19403,sparse:full@10
+s09,3759,hybrid+rerank:full@16
+s09,18172,hybrid+rerank:full@17
+s09,5500,hybrid+rerank:full@18
+s09,20136,hybrid+rerank:full@20
+s10,21091,bm25:full@1 dense:full@11 hybrid+rerank:full@20 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@4
+s10,20839,bm25:full@2 dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+s10,20709,bm25:full@3 dense:full@12 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+s10,20877,bm25:full@4 dense:full@19
+s10,19526,bm25:full@5 sparse:full@7
+s10,21010,bm25:full@6 dense:full@9 hybrid+rerank:full@13 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+s10,19028,bm25:full@7 dense:full@2 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4
+s10,19225,bm25:full@8 dense:full@8 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+s10,21487,bm25:full@9 dense:full@16 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+s10,18035,bm25:full@10 dense:full@5 hybrid+rerank:full@19 hybrid:full@9 hybrid:text@10 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@8
+s10,5501,bm25:full@11 hybrid+rerank:full@17 hybrid:full@10 hybrid:text@9 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@3
+s10,20600,bm25:full@12 dense:full@7 hybrid+rerank:full@11
+s10,18531,bm25:full@13 dense:full@14
+s10,13254,bm25:full@14
+s10,20765,bm25:full@15 dense:full@6 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@6
+s10,19654,bm25:full@16 dense:full@4 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@10
+s10,20300,bm25:full@17 dense:full@1 hybrid+rerank:full@18 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2
+s10,20307,bm25:full@18
+s10,20897,bm25:full@19
+s10,19444,bm25:full@20
+s10,20837,dense:full@10 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+s10,20003,dense:full@13 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+s10,16823,dense:full@15
+s10,20515,dense:full@17 hybrid+rerank:full@15 sparse:full@9
+s10,21652,dense:full@18
+s10,21372,dense:full@20
+s10,19448,hybrid+rerank:full@16 sparse:full@5
+s10,20851,hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+s10,20778,hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s10,21001,hybrid+rerank:full@12
+s10,20726,hybrid+rerank:full@14
+s11,23975,bm25:full@1 dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+s11,23478,bm25:full@2 dense:full@7 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@8
+s11,23236,bm25:full@3 dense:full@11 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6
+s11,24359,bm25:full@4 dense:full@9 hybrid+rerank:full@12 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@10
+s11,23177,bm25:full@5 dense:full@4 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@6
+s11,23077,bm25:full@6 dense:full@5 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@5
+s11,23301,bm25:full@7 dense:full@10 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@4
+s11,23768,bm25:full@8 dense:full@1 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@2
+s11,24206,bm25:full@9 dense:full@6 hybrid+rerank:full@11 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@7
+s11,22679,bm25:full@10 dense:full@12 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+s11,22503,bm25:full@11
+s11,24086,bm25:full@12 dense:full@8 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@9
+s11,23939,bm25:full@13
+s11,22759,bm25:full@14
+s11,23584,bm25:full@15 dense:full@13 hybrid+rerank:full@13
+s11,24393,bm25:full@16
+s11,23686,bm25:full@17 dense:full@17
+s11,4868,bm25:full@18
+s11,11939,bm25:full@19
+s11,23870,bm25:full@20 dense:full@3 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+s11,11471,dense:full@14 hybrid+rerank:full@14
+s11,23387,dense:full@15
+s11,22867,dense:full@16
+s11,11676,dense:full@18
+s11,11463,dense:full@19
+s11,23819,dense:full@20
+s11,22642,hybrid+rerank:full@15
+s11,3087,hybrid+rerank:full@16
+s11,25937,hybrid+rerank:full@17
+s11,24508,hybrid+rerank:full@18
+s11,3137,hybrid+rerank:full@19
+s11,24422,hybrid+rerank:full@20
+s12,367,bm25:full@1
+s12,25806,bm25:full@2
+s12,20493,bm25:full@3
+s12,1142,bm25:full@4 hybrid+rerank:full@20
+s12,21413,bm25:full@5
+s12,19771,bm25:full@6
+s12,20747,bm25:full@7 dense:full@3 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+s12,24867,bm25:full@8
+s12,18178,bm25:full@9
+s12,20257,bm25:full@10
+s12,19502,bm25:full@11
+s12,20142,bm25:full@12
+s12,24815,bm25:full@13
+s12,20278,bm25:full@14 dense:full@1 hybrid+rerank:full@12 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1
+s12,20125,bm25:full@15 dense:full@18
+s12,21571,bm25:full@16
+s12,18992,bm25:full@17
+s12,18116,bm25:full@18
+s12,19444,bm25:full@19 dense:full@2 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3
+s12,19296,bm25:full@20 sparse:full@10
+s12,20874,dense:full@4 hybrid+rerank:full@16 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@9
+s12,999,dense:full@5
+s12,529,dense:full@6
+s12,457,dense:full@7
+s12,21555,dense:full@8 hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10 hybrid:full@10 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+s12,20301,dense:full@9 hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+s12,18832,dense:full@10 hybrid+rerank:full@15
+s12,18824,dense:full@11 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8
+s12,21133,dense:full@12 hybrid+rerank:full@13 sparse:full@9
+s12,25430,dense:full@13
+s12,765,dense:full@14 hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+s12,25554,dense:full@15
+s12,5510,dense:full@16
+s12,19642,dense:full@17
+s12,21729,dense:full@19
+s12,18885,dense:full@20
+s12,20789,hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+s12,19513,hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+s12,19957,hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@3
+s12,20085,hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@4
+s12,20235,hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@9 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@5
+s12,21030,sparse:full@6
+s12,19568,hybrid+rerank:full@11 sparse:full@7
+s12,9318,sparse:full@8
+s12,21258,hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1
+s12,20943,hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+s12,18148,hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+s12,5012,hybrid+rerank:full@14
+s12,19850,hybrid+rerank:full@17
+s12,4033,hybrid+rerank:full@18
+s12,7924,hybrid+rerank:full@19
+s13,18459,bm25:full@1
+s13,19097,bm25:full@2
+s13,25701,bm25:full@3 dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+s13,2717,bm25:full@4
+s13,24691,bm25:full@5
+s13,7771,bm25:full@6
+s13,19203,bm25:full@7
+s13,2239,bm25:full@8
+s13,25301,bm25:full@9
+s13,4211,bm25:full@10
+s13,24844,bm25:full@11 dense:full@4 hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7
+s13,24942,bm25:full@12
+s13,20832,bm25:full@13
+s13,18996,bm25:full@14
+s13,2928,bm25:full@15
+s13,2856,bm25:full@16
+s13,25468,bm25:full@17
+s13,8343,bm25:full@18
+s13,6826,bm25:full@19
+s13,2760,bm25:full@20
+s13,19974,dense:full@1 hybrid+rerank:full@14 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2
+s13,24871,dense:full@3 hybrid+rerank:full@12 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4
+s13,24665,dense:full@5 hybrid+rerank:full@18 hybrid:full@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10
+s13,24886,dense:full@6 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@9
+s13,24607,dense:full@7
+s13,25426,dense:full@8
+s13,24581,dense:full@9
+s13,383,dense:full@10
+s13,18610,dense:full@11
+s13,24633,dense:full@12
+s13,24879,dense:full@13 hybrid+rerank:full@13
+s13,463,dense:full@14
+s13,18144,dense:full@15 hybrid+rerank:full@17
+s13,19736,dense:full@16 hybrid+rerank:full@11
+s13,25761,dense:full@17
+s13,18795,dense:full@18
+s13,24631,dense:full@19
+s13,250,dense:full@20
+s13,25276,hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+s13,25440,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@5 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@5 sparse:full@3
+s13,19177,hybrid:full@8 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@4
+s13,24658,hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@9 hybrid:text@10 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@5
+s13,24657,hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 sparse:full@6
+s13,24905,sparse:full@7
+s13,25180,sparse:full@8
+s13,25666,sparse:full@10
+s13,18520,hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2
+s13,24612,hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+s13,19786,hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+s13,25092,hybrid+rerank:full@10 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@10
+s13,18263,hybrid+rerank:full@15
+s13,21571,hybrid+rerank:full@16
+s13,25258,hybrid+rerank:full@19
+s13,24757,hybrid+rerank:full@20
+s13,10521,hybrid:text@9
+h01,5033,bm25:full@1
+h01,18379,bm25:full@2
+h01,19792,bm25:full@3
+h01,22643,bm25:full@4
+h01,13070,bm25:full@5
+h01,11408,bm25:full@6 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@7 hybrid:text_ocr_caption@6 sparse:full@3
+h01,2894,bm25:full@7
+h01,9234,bm25:full@8 hybrid+rerank:text@6
+h01,9576,bm25:full@9
+h01,23446,bm25:full@10
+h01,4463,bm25:full@11
+h01,20775,bm25:full@12
+h01,10815,bm25:full@13 hybrid+rerank:text@7 hybrid:text@7 hybrid:text_ocr@10
+h01,13661,bm25:full@14
+h01,17747,bm25:full@15
+h01,4735,bm25:full@16
+h01,19377,bm25:full@17
+h01,19372,bm25:full@18
+h01,13042,bm25:full@19
+h01,17836,bm25:full@20
+h01,15302,dense:full@1 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@2
+h01,1906,dense:full@2 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@4 hybrid:text_ocr_caption@3
+h01,8592,dense:full@3 hybrid+rerank:full@14 hybrid:full@5 hybrid:text_ocr@9 hybrid:text_ocr_caption@5
+h01,9416,dense:full@4 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@8 hybrid:text_ocr_caption@8
+h01,10238,dense:full@5 hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7 hybrid:full@9 hybrid:text_ocr_caption@9
+h01,9907,dense:full@6 hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h01,17473,dense:full@7
+h01,8253,dense:full@8
+h01,16661,dense:full@9 hybrid+rerank:full@11
+h01,16133,dense:full@10 hybrid+rerank:full@8 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@8
+h01,13816,dense:full@11
+h01,13831,dense:full@12
+h01,9295,dense:full@13 hybrid+rerank:full@16
+h01,16018,dense:full@14 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+h01,8178,dense:full@15
+h01,15568,dense:full@16 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3
+h01,8484,dense:full@17
+h01,15631,dense:full@18 hybrid+rerank:full@4 hybrid+rerank:text_ocr_caption@4
+h01,9464,dense:full@19 hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6
+h01,10221,dense:full@20 hybrid+rerank:full@13
+h01,7316,hybrid:full@1 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@1 sparse:full@1
+h01,24492,hybrid:full@3 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+h01,14008,hybrid+rerank:full@15 hybrid:full@7 hybrid:text_ocr@1 hybrid:text_ocr_caption@7 sparse:full@4
+h01,590,hybrid:full@10 hybrid:text@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@10 sparse:full@5
+h01,6289,sparse:full@6
+h01,15241,hybrid+rerank:text@10 sparse:full@7
+h01,20199,sparse:full@8
+h01,21931,sparse:full@9
+h01,12002,sparse:full@10
+h01,24593,hybrid+rerank:full@12 hybrid+rerank:text@1
+h01,15361,hybrid+rerank:full@17
+h01,8288,hybrid+rerank:full@18
+h01,8234,hybrid+rerank:full@19
+h01,15609,hybrid+rerank:full@20
+h01,15997,hybrid+rerank:text@4 hybrid:text@1
+h01,15202,hybrid:text@4
+h01,23510,hybrid:text@9 hybrid:text_ocr@6
+h01,14302,hybrid:text@10
+h01,17765,hybrid:text_ocr@3
+h01,5283,hybrid+rerank:text@2
+h01,15526,hybrid+rerank:text@3
+h01,10972,hybrid+rerank:text@5
+h01,23862,hybrid+rerank:text@8
+h02,8575,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@1
+h02,12032,bm25:full@2
+h02,19731,bm25:full@3
+h02,23218,bm25:full@4 hybrid+rerank:full@3 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@3 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@2 sparse:full@1
+h02,16742,bm25:full@5
+h02,23482,bm25:full@6
+h02,8756,bm25:full@7
+h02,13617,bm25:full@8
+h02,1380,bm25:full@9
+h02,7992,bm25:full@10
+h02,22534,bm25:full@11
+h02,20429,bm25:full@12
+h02,8394,bm25:full@13
+h02,9386,bm25:full@14
+h02,17645,bm25:full@15
+h02,17816,bm25:full@16
+h02,8563,bm25:full@17
+h02,8812,bm25:full@18
+h02,3535,bm25:full@19
+h02,9182,bm25:full@20
+h02,9096,dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@4 hybrid:text_ocr_caption@3
+h02,8086,dense:full@3 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@5 hybrid:text_ocr_caption@6
+h02,1762,dense:full@4 hybrid:full@8 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@8
+h02,8621,dense:full@5 hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7 hybrid:text_ocr_caption@9
+h02,8696,dense:full@6 hybrid+rerank:full@11
+h02,8792,dense:full@7 hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h02,9703,dense:full@8
+h02,9421,dense:full@9 hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6
+h02,8921,dense:full@10 hybrid+rerank:full@18
+h02,9252,dense:full@11 hybrid+rerank:full@19 hybrid+rerank:text@2 hybrid:full@10 hybrid:text@2 hybrid:text_ocr@5 hybrid:text_ocr_caption@10
+h02,17424,dense:full@12
+h02,8487,dense:full@13
+h02,13963,dense:full@14 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+h02,16454,dense:full@15 hybrid+rerank:full@14
+h02,16506,dense:full@16
+h02,16248,dense:full@17 hybrid+rerank:full@16
+h02,8363,dense:full@18
+h02,8403,dense:full@19
+h02,10272,dense:full@20 hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8
+h02,7064,hybrid+rerank:text@8 hybrid:full@3 hybrid:text@4 hybrid:text_ocr@3 hybrid:text_ocr_caption@4 sparse:full@2
+h02,22657,hybrid:full@6 hybrid:text@5 hybrid:text_ocr@7 hybrid:text_ocr_caption@5 sparse:full@3
+h02,21389,hybrid:full@7 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@7 sparse:full@4
+h02,7271,hybrid:full@9 sparse:full@5
+h02,22842,hybrid:text@8 sparse:full@6
+h02,25394,hybrid+rerank:full@4 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@4 sparse:full@7
+h02,17049,sparse:full@8
+h02,25095,sparse:full@9
+h02,24485,hybrid+rerank:full@12 hybrid+rerank:text@6 sparse:full@10
+h02,17395,hybrid+rerank:full@13
+h02,24442,hybrid+rerank:full@15 hybrid+rerank:text@7
+h02,16612,hybrid+rerank:full@17
+h02,10096,hybrid+rerank:full@20
+h02,1679,hybrid+rerank:text@5 hybrid:text@6
+h02,12555,hybrid+rerank:text@4 hybrid:text@7
+h02,20466,hybrid:text@9
+h02,9765,hybrid:text_ocr@6
+h02,9281,hybrid:text_ocr@8
+h02,9661,hybrid:text_ocr@9
+h02,24417,hybrid+rerank:text@9
+h02,24441,hybrid+rerank:text@10
+h03,21750,bm25:full@1
+h03,5356,bm25:full@2
+h03,10990,bm25:full@3
+h03,5510,bm25:full@4 dense:full@11
+h03,11210,bm25:full@5 dense:full@7 hybrid:full@8 hybrid:text@8 hybrid:text_ocr_caption@8
+h03,6327,bm25:full@6 sparse:full@7
+h03,11857,bm25:full@7 hybrid:text@10 sparse:full@6
+h03,25730,bm25:full@8 dense:full@10 hybrid+rerank:full@11 hybrid+rerank:text@4 hybrid:full@7 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@7 sparse:full@8
+h03,9522,bm25:full@9 dense:full@8 hybrid+rerank:full@10 hybrid:text_ocr@7
+h03,9735,bm25:full@10
+h03,9142,bm25:full@11 dense:full@2 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@3 hybrid:text_ocr@2 hybrid:text_ocr_caption@4
+h03,25555,bm25:full@12
+h03,18161,bm25:full@13
+h03,10288,bm25:full@14 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1
+h03,10547,bm25:full@15
+h03,25282,bm25:full@16
+h03,25947,bm25:full@17
+h03,18935,bm25:full@18
+h03,15639,bm25:full@19 hybrid+rerank:full@8 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@9
+h03,5237,bm25:full@20
+h03,5283,dense:full@1 hybrid+rerank:full@4 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@4 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@5 hybrid:text_ocr_caption@2
+h03,8900,dense:full@3 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+h03,457,dense:full@4 hybrid+rerank:full@16 hybrid+rerank:text@9 hybrid:full@9 hybrid:text@4 hybrid:text_ocr_caption@9
+h03,5239,dense:full@5 hybrid:text@7 hybrid:text_ocr_caption@10
+h03,529,dense:full@6
+h03,20467,dense:full@9
+h03,23101,dense:full@12 hybrid+rerank:full@17 hybrid+rerank:text@10
+h03,4778,dense:full@13 hybrid+rerank:full@13 hybrid+rerank:text@6 hybrid:full@4 hybrid:text@1 hybrid:text_ocr@4 hybrid:text_ocr_caption@3 sparse:full@2
+h03,5488,dense:full@14 hybrid+rerank:full@9 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@10 hybrid:full@6 hybrid:text@3 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@4
+h03,10485,dense:full@15
+h03,16308,dense:full@16 hybrid+rerank:full@19
+h03,18037,dense:full@17
+h03,22937,dense:full@18
+h03,23709,dense:full@19
+h03,24394,dense:full@20 hybrid+rerank:full@20
+h03,8244,hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@5 hybrid:text_ocr@3 hybrid:text_ocr_caption@5 sparse:full@3
+h03,9759,hybrid:full@10 sparse:full@5
+h03,12620,hybrid:text@6 sparse:full@9
+h03,13420,sparse:full@10
+h03,16029,hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+h03,9713,hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7
+h03,4264,hybrid+rerank:full@12 hybrid+rerank:text@5
+h03,9228,hybrid+rerank:full@14
+h03,18204,hybrid+rerank:full@15 hybrid+rerank:text@7
+h03,8879,hybrid+rerank:full@18 hybrid:text_ocr@10
+h03,6157,hybrid+rerank:text_ocr_caption@8 hybrid:text@5 hybrid:text_ocr@8
+h03,15794,hybrid+rerank:text@2
+h04,15441,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@4 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@2
+h04,15309,bm25:full@2 hybrid+rerank:text@7 hybrid:text@9 sparse:full@8
+h04,15877,bm25:full@3 hybrid+rerank:full@16 hybrid+rerank:text@3 hybrid:full@2 hybrid:text@5 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+h04,1817,bm25:full@4
+h04,13683,bm25:full@5
+h04,17744,bm25:full@6
+h04,15470,bm25:full@7
+h04,10484,bm25:full@8
+h04,8117,bm25:full@9
+h04,7993,bm25:full@10
+h04,15997,bm25:full@11
+h04,10810,bm25:full@12
+h04,12290,bm25:full@13
+h04,16309,bm25:full@14
+h04,16329,bm25:full@15
+h04,16081,bm25:full@16 hybrid+rerank:full@6 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@6 hybrid:text@2
+h04,9775,bm25:full@17
+h04,1963,bm25:full@18
+h04,20954,bm25:full@19
+h04,10018,bm25:full@20
+h04,16103,dense:full@2 hybrid+rerank:full@3 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@3 hybrid:full@4 hybrid:text_ocr@4 hybrid:text_ocr_caption@4
+h04,15500,dense:full@3 hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10 hybrid:full@5 hybrid:text_ocr_caption@5
+h04,15236,dense:full@4 hybrid+rerank:full@2 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@2 hybrid:full@6 hybrid:text@3 hybrid:text_ocr@5 hybrid:text_ocr_caption@6 sparse:full@7
+h04,15635,dense:full@5 hybrid+rerank:full@7 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@7 hybrid:full@3 hybrid:text@1 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+h04,16173,dense:full@6 hybrid+rerank:full@4 hybrid+rerank:text_ocr_caption@4 hybrid:text_ocr@10
+h04,15830,dense:full@7 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+h04,16477,dense:full@8 hybrid+rerank:full@13
+h04,15408,dense:full@9 hybrid:full@10 hybrid:text@6 hybrid:text_ocr_caption@10 sparse:full@10
+h04,15561,dense:full@10 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5 hybrid:text_ocr@8
+h04,15951,dense:full@11 hybrid+rerank:full@14
+h04,15527,dense:full@12 hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@5
+h04,15725,dense:full@13 hybrid:full@9 hybrid:text_ocr@6 hybrid:text_ocr_caption@9 sparse:full@6
+h04,5510,dense:full@14 hybrid+rerank:text@9
+h04,15678,dense:full@15
+h04,16702,dense:full@16
+h04,15566,dense:full@17 hybrid+rerank:full@11
+h04,15266,dense:full@18
+h04,15684,dense:full@19 hybrid:text@7
+h04,15489,dense:full@20 hybrid+rerank:full@20
+h04,15852,hybrid+rerank:full@18 hybrid+rerank:text@4 hybrid:full@8 hybrid:text@10 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@4
+h04,15772,hybrid+rerank:full@19 sparse:full@9
+h04,15541,hybrid+rerank:full@12 hybrid+rerank:text@10
+h04,15616,hybrid+rerank:full@15
+h04,15867,hybrid+rerank:full@17 hybrid:text@8
+h05,11043,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+h05,22229,bm25:full@2 dense:full@10 hybrid+rerank:full@8 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@8 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+h05,11686,bm25:full@3 hybrid:full@4 hybrid:text@5 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@3
+h05,7516,bm25:full@4 hybrid:full@7 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@8 sparse:full@4
+h05,24563,bm25:full@5 dense:full@6
+h05,8306,bm25:full@6
+h05,24675,bm25:full@7
+h05,17260,bm25:full@8
+h05,16881,bm25:full@9
+h05,20133,bm25:full@10
+h05,16597,bm25:full@11
+h05,15934,bm25:full@12
+h05,15373,bm25:full@13 hybrid+rerank:full@9 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@9 hybrid:full@9 hybrid:text@10 hybrid:text_ocr@9 hybrid:text_ocr_caption@9 sparse:full@5
+h05,25288,bm25:full@14
+h05,23867,bm25:full@15
+h05,25925,bm25:full@16
+h05,20503,bm25:full@17
+h05,3112,bm25:full@18
+h05,23143,bm25:full@19 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 sparse:full@8
+h05,24634,bm25:full@20
+h05,11080,dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3
+h05,11896,dense:full@3 hybrid:full@5 hybrid:text@7 hybrid:text_ocr_caption@5
+h05,11823,dense:full@4 hybrid+rerank:full@6 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@6 hybrid:full@8 hybrid:text@9 hybrid:text_ocr_caption@7
+h05,15137,dense:full@5 hybrid:full@6 hybrid:text_ocr_caption@6
+h05,12442,dense:full@7
+h05,17112,dense:full@8 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+h05,23060,dense:full@9 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+h05,12324,dense:full@11
+h05,11236,dense:full@12
+h05,11277,dense:full@13
+h05,23828,dense:full@14
+h05,11322,dense:full@15
+h05,12182,dense:full@16
+h05,12089,dense:full@17
+h05,20873,dense:full@18
+h05,11612,dense:full@19
+h05,7039,dense:full@20
+h05,22913,hybrid:full@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@10 sparse:full@6
+h05,24268,sparse:full@7
+h05,22082,sparse:full@9
+h05,4889,sparse:full@10
+h05,24325,hybrid+rerank:full@7 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@7
+h05,10926,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h05,10524,hybrid+rerank:full@11
+h05,10869,hybrid+rerank:full@12
+h05,24350,hybrid+rerank:full@13
+h05,7396,hybrid+rerank:full@14
+h05,23298,hybrid+rerank:full@15
+h05,9081,hybrid+rerank:full@16
+h05,4428,hybrid+rerank:full@17
+h05,24374,hybrid+rerank:full@18
+h05,24287,hybrid+rerank:full@19
+h05,23385,hybrid+rerank:full@20
+h05,10031,hybrid+rerank:text@8 hybrid:text@4 hybrid:text_ocr@7
+h05,12552,hybrid:text@8
+h05,9844,hybrid:text_ocr@5
+h05,17071,hybrid:text_ocr@8
+h05,8005,hybrid+rerank:text@10
+h06,11022,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+h06,13505,bm25:full@2
+h06,12050,bm25:full@3 dense:full@9 hybrid:full@10 hybrid:text_ocr_caption@10
+h06,13098,bm25:full@4
+h06,13366,bm25:full@5
+h06,12860,bm25:full@6
+h06,17773,bm25:full@7 sparse:full@9
+h06,16316,bm25:full@8
+h06,11820,bm25:full@9
+h06,10952,bm25:full@10
+h06,1578,bm25:full@11 hybrid:text@7
+h06,8529,bm25:full@12 sparse:full@10
+h06,14316,bm25:full@13
+h06,14801,bm25:full@14
+h06,10509,bm25:full@15 dense:full@14 hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6 hybrid:text_ocr@10
+h06,17842,bm25:full@16
+h06,11132,bm25:full@17
+h06,21317,bm25:full@18
+h06,25510,bm25:full@19
+h06,11528,bm25:full@20
+h06,11478,dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@5 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+h06,14888,dense:full@3 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@3
+h06,10537,dense:full@4 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@4 hybrid:text@8 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@4
+h06,11339,dense:full@5 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@5 sparse:full@6
+h06,15863,dense:full@6 hybrid+rerank:full@17 hybrid+rerank:text@9 hybrid:full@5 hybrid:text@6 hybrid:text_ocr@5 hybrid:text_ocr_caption@6 sparse:full@5
+h06,15230,dense:full@7 hybrid+rerank:full@15 hybrid:full@7 hybrid:text@10 hybrid:text_ocr_caption@7
+h06,12049,dense:full@8 hybrid:full@8 hybrid:text_ocr@7 hybrid:text_ocr_caption@8
+h06,12069,dense:full@10 hybrid+rerank:full@12 hybrid+rerank:text@10 hybrid:full@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@9
+h06,11285,dense:full@11 hybrid+rerank:full@7 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@7
+h06,11620,dense:full@12 hybrid+rerank:full@11 hybrid+rerank:text@7
+h06,11109,dense:full@13 hybrid+rerank:full@14
+h06,10489,dense:full@15 hybrid+rerank:full@18
+h06,11926,dense:full@16
+h06,14803,dense:full@17 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+h06,10647,dense:full@18
+h06,10708,dense:full@19 hybrid+rerank:full@8 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@8
+h06,11397,dense:full@20
+h06,12073,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10 sparse:full@7
+h06,10634,hybrid+rerank:full@16 hybrid:text@5 sparse:full@8
+h06,12304,hybrid+rerank:full@13
+h06,25232,hybrid+rerank:full@19
+h06,24565,hybrid+rerank:full@20
+h06,12065,hybrid+rerank:text@8 hybrid:text@4
+h06,12204,hybrid:text@9
+h06,12609,hybrid+rerank:text@3 hybrid:text_ocr@8
+h07,16370,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+h07,12002,bm25:full@2 hybrid+rerank:full@16
+h07,9576,bm25:full@3
+h07,8446,bm25:full@4
+h07,25274,bm25:full@5
+h07,16786,bm25:full@6
+h07,9101,bm25:full@7
+h07,16516,bm25:full@8
+h07,25159,bm25:full@9
+h07,17082,bm25:full@10
+h07,11172,bm25:full@11
+h07,9735,bm25:full@12
+h07,17110,bm25:full@13
+h07,22933,bm25:full@14
+h07,25845,bm25:full@15
+h07,13774,bm25:full@16
+h07,16480,bm25:full@17
+h07,10197,bm25:full@18
+h07,8689,bm25:full@19
+h07,8267,bm25:full@20
+h07,16408,dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@3 hybrid:text_ocr@7 hybrid:text_ocr_caption@3
+h07,17429,dense:full@3 hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6 hybrid:full@5 hybrid:text_ocr_caption@5
+h07,16387,dense:full@4 hybrid+rerank:full@11 hybrid:full@7 hybrid:text_ocr_caption@6
+h07,16607,dense:full@5 hybrid+rerank:full@15 hybrid:full@9 hybrid:text_ocr_caption@9
+h07,8920,dense:full@6 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+h07,17366,dense:full@7 hybrid+rerank:full@12
+h07,17782,dense:full@8 hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7
+h07,16426,dense:full@9
+h07,17023,dense:full@10 hybrid+rerank:full@4 hybrid+rerank:text_ocr_caption@4 hybrid:text_ocr@2
+h07,16816,dense:full@11 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+h07,9758,dense:full@12
+h07,10004,dense:full@13 hybrid+rerank:full@17
+h07,9968,dense:full@14
+h07,17519,dense:full@15 hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8
+h07,16859,dense:full@16
+h07,8109,dense:full@17 hybrid+rerank:full@19
+h07,8281,dense:full@18
+h07,16247,dense:full@19
+h07,8548,dense:full@20 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3
+h07,16284,hybrid:full@2 hybrid:text_ocr@4 hybrid:text_ocr_caption@2 sparse:full@2
+h07,7398,hybrid:full@4 hybrid:text@4 hybrid:text_ocr@6 hybrid:text_ocr_caption@4 sparse:full@3
+h07,17018,hybrid:full@6 hybrid:text_ocr@3 hybrid:text_ocr_caption@7 sparse:full@4
+h07,16081,hybrid:full@8 hybrid:text_ocr_caption@8 sparse:full@5
+h07,17518,hybrid:full@10 hybrid:text_ocr@8 hybrid:text_ocr_caption@10 sparse:full@6
+h07,4147,hybrid:text@6 sparse:full@7
+h07,17703,sparse:full@8
+h07,10474,hybrid:text@9 sparse:full@9
+h07,17994,hybrid+rerank:full@14 hybrid+rerank:text@10 sparse:full@10
+h07,8397,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h07,16205,hybrid+rerank:full@13
+h07,8521,hybrid+rerank:full@18
+h07,8707,hybrid+rerank:full@20
+h07,12321,hybrid+rerank:text@6 hybrid:text@1
+h07,10972,hybrid+rerank:text@2 hybrid:text@2 hybrid:text_ocr@9
+h07,1975,hybrid:text@3
+h07,11939,hybrid:text@5
+h07,11408,hybrid:text@7
+h07,23332,hybrid:text@8
+h07,10815,hybrid+rerank:text@5 hybrid:text@10
+h07,16227,hybrid:text_ocr@5
+h07,8242,hybrid:text_ocr@10
+h07,9234,hybrid+rerank:text@1
+h07,20467,hybrid+rerank:text@3
+h07,8879,hybrid+rerank:text@4
+h07,24349,hybrid+rerank:text@7
+h07,25118,hybrid+rerank:text@8
+h07,1970,hybrid+rerank:text@9
+h08,999,bm25:full@1 dense:full@3 hybrid+rerank:full@13 hybrid:full@5 hybrid:text@8 hybrid:text_ocr@5 hybrid:text_ocr_caption@5
+h08,11340,bm25:full@2
+h08,25044,bm25:full@3 dense:full@5 hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+h08,5086,bm25:full@4
+h08,16873,bm25:full@5
+h08,10520,bm25:full@6
+h08,16828,bm25:full@7
+h08,8239,bm25:full@8
+h08,11500,bm25:full@9 sparse:full@8
+h08,19771,bm25:full@10
+h08,8565,bm25:full@11
+h08,17358,bm25:full@12
+h08,3519,bm25:full@13
+h08,2065,bm25:full@14
+h08,21916,bm25:full@15
+h08,19661,bm25:full@16
+h08,825,bm25:full@17
+h08,5258,bm25:full@18 dense:full@2 hybrid+rerank:full@4 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@4 hybrid:full@3 hybrid:text@4 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@7
+h08,10358,bm25:full@19
+h08,16258,bm25:full@20
+h08,9258,dense:full@1 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@2 hybrid:text@5 hybrid:text_ocr@2 hybrid:text_ocr_caption@2
+h08,765,dense:full@4 hybrid+rerank:full@20 hybrid:full@8 hybrid:text_ocr@8 hybrid:text_ocr_caption@8
+h08,5012,dense:full@6 hybrid:full@10 hybrid:text_ocr_caption@10
+h08,2657,dense:full@7
+h08,7000,dense:full@8
+h08,20777,dense:full@9
+h08,20876,dense:full@10
+h08,13935,dense:full@11 hybrid+rerank:full@14 hybrid+rerank:text@5
+h08,5443,dense:full@12 hybrid+rerank:full@16
+h08,18835,dense:full@13
+h08,9318,dense:full@14 hybrid+rerank:full@11
+h08,20789,dense:full@15 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 sparse:full@10
+h08,22787,dense:full@16
+h08,5052,dense:full@17
+h08,21030,dense:full@18 hybrid+rerank:full@12
+h08,4177,dense:full@19 hybrid+rerank:full@18
+h08,7939,dense:full@20 hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@4 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@4 sparse:full@2
+h08,7957,hybrid+rerank:full@2 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6 sparse:full@3
+h08,20235,hybrid+rerank:full@19 hybrid:full@7 hybrid:text@7 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@4
+h08,2426,hybrid:full@9 hybrid:text@10 hybrid:text_ocr@10 hybrid:text_ocr_caption@9 sparse:full@5
+h08,5361,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10 sparse:full@6
+h08,7955,hybrid+rerank:full@17 sparse:full@9
+h08,25056,hybrid+rerank:full@5 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@5
+h08,19513,hybrid+rerank:full@6 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@6
+h08,20085,hybrid+rerank:full@7 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@7
+h08,19957,hybrid+rerank:full@8 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@8
+h08,21258,hybrid+rerank:full@15
+h08,1796,hybrid+rerank:text@4 hybrid:text@2
+h08,12522,hybrid:text@9
+h08,16974,hybrid:text_ocr@9
+h09,9089,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@1 sparse:full@1
+h09,16964,bm25:full@2
+h09,9213,bm25:full@3 dense:full@11 hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@2
+h09,8239,bm25:full@4
+h09,16238,bm25:full@5
+h09,25813,bm25:full@6
+h09,22727,bm25:full@7
+h09,21633,bm25:full@8 dense:full@5 hybrid+rerank:full@2 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@2 hybrid:full@10 hybrid:text@10 hybrid:text_ocr_caption@9
+h09,10646,bm25:full@9
+h09,12758,bm25:full@10
+h09,8563,bm25:full@11
+h09,10731,bm25:full@12 hybrid:text@9
+h09,6046,bm25:full@13
+h09,8875,bm25:full@14
+h09,14044,bm25:full@15
+h09,17290,bm25:full@16
+h09,16394,bm25:full@17
+h09,17574,bm25:full@18
+h09,15793,bm25:full@19
+h09,16014,bm25:full@20
+h09,12301,dense:full@2 hybrid+rerank:full@18 hybrid:full@3 hybrid:text@4 hybrid:text_ocr_caption@3
+h09,10586,dense:full@3 hybrid:full@5 hybrid:text@5 hybrid:text_ocr_caption@5
+h09,12438,dense:full@4 hybrid+rerank:full@15 hybrid:full@8 hybrid:text@8 hybrid:text_ocr_caption@7
+h09,9568,dense:full@6 hybrid:full@6 hybrid:text_ocr@5 hybrid:text_ocr_caption@6 sparse:full@10
+h09,23495,dense:full@7 hybrid+rerank:full@3 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@3
+h09,22554,dense:full@8
+h09,20702,dense:full@9 hybrid+rerank:full@11 hybrid+rerank:text@9
+h09,25224,dense:full@10 hybrid+rerank:full@20
+h09,9053,dense:full@12 hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h09,3835,dense:full@13 hybrid+rerank:full@17
+h09,11321,dense:full@14 hybrid+rerank:full@4 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@4
+h09,4485,dense:full@15
+h09,22719,dense:full@16
+h09,17039,dense:full@17 hybrid+rerank:full@14
+h09,10631,dense:full@18
+h09,15229,dense:full@19
+h09,23137,dense:full@20 hybrid+rerank:full@16
+h09,22401,hybrid:full@4 hybrid:text@2 hybrid:text_ocr@6 hybrid:text_ocr_caption@4 sparse:full@3
+h09,20943,hybrid:full@7 hybrid:text@3 hybrid:text_ocr@8 hybrid:text_ocr_caption@8 sparse:full@4
+h09,25330,hybrid+rerank:full@12 hybrid+rerank:text@10 hybrid:full@9 hybrid:text@6 hybrid:text_ocr@9 hybrid:text_ocr_caption@10 sparse:full@5
+h09,7180,hybrid+rerank:full@13 hybrid:text@7 sparse:full@6
+h09,23864,sparse:full@7
+h09,23672,sparse:full@8
+h09,25118,sparse:full@9
+h09,25914,hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5
+h09,24491,hybrid+rerank:full@6 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@6
+h09,24524,hybrid+rerank:full@7 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@7
+h09,24843,hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+h09,22729,hybrid+rerank:full@19
+h09,12552,hybrid:text@1
+h09,17584,hybrid:text_ocr@3
+h09,13823,hybrid:text_ocr@4
+h09,17545,hybrid:text_ocr@7
+h09,13840,hybrid:text_ocr@10
+h09,11563,hybrid+rerank:text@2
+h09,10964,hybrid+rerank:text@8
+h10,14092,bm25:full@1 dense:full@2 hybrid+rerank:full@5 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@5 hybrid:full@3 hybrid:text@1 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@9
+h10,7460,bm25:full@2
+h10,20117,bm25:full@3
+h10,4175,bm25:full@4
+h10,5174,bm25:full@5
+h10,23080,bm25:full@6
+h10,24835,bm25:full@7
+h10,18975,bm25:full@8
+h10,4106,bm25:full@9
+h10,4346,bm25:full@10
+h10,19407,bm25:full@11
+h10,2636,bm25:full@12
+h10,20364,bm25:full@13
+h10,22872,bm25:full@14
+h10,20331,bm25:full@15
+h10,4373,bm25:full@16
+h10,21308,bm25:full@17
+h10,24221,bm25:full@18
+h10,25032,bm25:full@19
+h10,5312,bm25:full@20
+h10,10724,dense:full@1 hybrid:full@2 hybrid:text@3 hybrid:text_ocr@1 hybrid:text_ocr_caption@1
+h10,14367,dense:full@3 hybrid+rerank:full@10 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@10 hybrid:full@4 hybrid:text@7 hybrid:text_ocr@6 hybrid:text_ocr_caption@5
+h10,25354,dense:full@4 hybrid:full@9 hybrid:text_ocr_caption@9
+h10,14262,dense:full@5
+h10,5166,dense:full@6 hybrid+rerank:full@2 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@2 hybrid:full@8 hybrid:text_ocr_caption@8
+h10,3813,dense:full@7 hybrid+rerank:full@19
+h10,23709,dense:full@8
+h10,12766,dense:full@9
+h10,3457,dense:full@10
+h10,12819,dense:full@11
+h10,10814,dense:full@12 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 hybrid:text_ocr@8
+h10,11909,dense:full@13
+h10,11591,dense:full@14
+h10,24037,dense:full@15 hybrid+rerank:full@18
+h10,4605,dense:full@16
+h10,10552,dense:full@17 hybrid+rerank:full@15
+h10,24629,dense:full@18 hybrid+rerank:full@4 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@4
+h10,25174,dense:full@19
+h10,3520,dense:full@20
+h10,3070,hybrid:full@1 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+h10,2750,hybrid:full@5 hybrid:text@4 hybrid:text_ocr@5 hybrid:text_ocr_caption@4 sparse:full@2
+h10,6120,hybrid:full@6 hybrid:text@5 hybrid:text_ocr@7 hybrid:text_ocr_caption@6 sparse:full@3
+h10,3262,hybrid+rerank:full@20 hybrid:full@7 hybrid:text_ocr@10 hybrid:text_ocr_caption@7 sparse:full@4
+h10,2610,hybrid:full@10 hybrid:text@9 hybrid:text_ocr@9 hybrid:text_ocr_caption@10 sparse:full@5
+h10,24536,hybrid+rerank:full@3 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@3 sparse:full@6
+h10,2691,sparse:full@7
+h10,2891,hybrid+rerank:full@14 sparse:full@8
+h10,3201,sparse:full@10
+h10,3821,hybrid+rerank:full@1 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@1
+h10,14069,hybrid+rerank:full@6 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@6
+h10,25866,hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7
+h10,24634,hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8
+h10,1974,hybrid+rerank:full@11 hybrid+rerank:text@7
+h10,14649,hybrid+rerank:full@12
+h10,11025,hybrid+rerank:full@13
+h10,25625,hybrid+rerank:full@16
+h10,341,hybrid+rerank:full@17
+h10,10685,hybrid:text@6 hybrid:text_ocr@4
+h10,10796,hybrid:text@8
+h10,10652,hybrid:text@10
+h10,1597,hybrid+rerank:text@2
+h10,6018,hybrid+rerank:text@10
+h11,25626,bm25:full@1 hybrid+rerank:full@6 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@6 hybrid:full@8 hybrid:text@8 hybrid:text_ocr@7 hybrid:text_ocr_caption@7 sparse:full@4
+h11,8129,bm25:full@2 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@2
+h11,2055,bm25:full@3 hybrid+rerank:full@2 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@2 hybrid:full@2 hybrid:text@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@1 sparse:full@1
+h11,18862,bm25:full@4 hybrid+rerank:full@5 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@5 hybrid:full@6 hybrid:text@5 hybrid:text_ocr@5 hybrid:text_ocr_caption@6 sparse:full@3
+h11,16846,bm25:full@5 hybrid:text_ocr@9 sparse:full@8
+h11,17131,bm25:full@6
+h11,17890,bm25:full@7 sparse:full@9
+h11,2063,bm25:full@8
+h11,25155,bm25:full@9
+h11,25003,bm25:full@10
+h11,24127,bm25:full@11 hybrid+rerank:full@4 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@4
+h11,25109,bm25:full@12
+h11,2610,bm25:full@13
+h11,2691,bm25:full@14
+h11,2750,bm25:full@15
+h11,25649,bm25:full@16
+h11,3070,bm25:full@17
+h11,24159,bm25:full@18
+h11,25556,bm25:full@19 hybrid+rerank:full@3 hybrid+rerank:text@2 hybrid+rerank:text_ocr_caption@3
+h11,24416,bm25:full@20
+h11,21898,dense:full@2
+h11,7352,dense:full@3
+h11,2367,dense:full@4
+h11,23828,dense:full@5
+h11,23785,dense:full@6
+h11,4429,dense:full@7
+h11,4431,dense:full@8
+h11,20873,dense:full@9
+h11,24540,dense:full@10
+h11,24742,dense:full@11
+h11,25937,dense:full@12
+h11,7039,dense:full@13
+h11,3298,dense:full@14
+h11,24291,dense:full@15
+h11,7357,dense:full@16
+h11,24144,dense:full@17
+h11,3142,dense:full@18
+h11,24505,dense:full@19
+h11,475,dense:full@20
+h11,24054,hybrid+rerank:full@7 hybrid+rerank:text@6 hybrid+rerank:text_ocr_caption@7 hybrid:full@4 hybrid:text@4 hybrid:text_ocr@3 hybrid:text_ocr_caption@3 sparse:full@2
+h11,24544,hybrid:full@10 hybrid:text@10 hybrid:text_ocr_caption@9 sparse:full@5
+h11,16196,sparse:full@6
+h11,13595,sparse:full@7
+h11,3807,sparse:full@10
+h11,4201,hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8 hybrid:full@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@4
+h11,3137,hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@5 hybrid:text_ocr@6 hybrid:text_ocr_caption@5
+h11,4856,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10 hybrid:full@7 hybrid:text_ocr_caption@8
+h11,7395,hybrid+rerank:full@11 hybrid:full@9 hybrid:text_ocr_caption@10
+h11,25506,hybrid+rerank:full@12
+h11,20864,hybrid+rerank:full@13
+h11,25232,hybrid+rerank:full@14
+h11,3335,hybrid+rerank:full@15
+h11,24912,hybrid+rerank:full@16 hybrid:text_ocr@8
+h11,4930,hybrid+rerank:full@17
+h11,3139,hybrid+rerank:full@18
+h11,23735,hybrid+rerank:full@19
+h11,23069,hybrid+rerank:full@20
+h11,12529,hybrid:text@1
+h11,17865,hybrid+rerank:text@7 hybrid:text@3
+h11,17859,hybrid+rerank:text@8 hybrid:text@6
+h11,23736,hybrid+rerank:text@9 hybrid:text@7
+h11,24906,hybrid+rerank:text@10 hybrid:text@9
+h11,23068,hybrid:text_ocr@10
+h12,13683,bm25:full@1
+h12,17744,bm25:full@2
+h12,1817,bm25:full@3 hybrid:full@3 hybrid:text_ocr_caption@3 sparse:full@2
+h12,8117,bm25:full@4 hybrid:full@5 hybrid:text_ocr@2 hybrid:text_ocr_caption@5 sparse:full@3
+h12,15470,bm25:full@5
+h12,15997,bm25:full@6 hybrid:text@8
+h12,10810,bm25:full@7
+h12,12290,bm25:full@8
+h12,10484,bm25:full@9 sparse:full@9
+h12,7993,bm25:full@10
+h12,9775,bm25:full@11
+h12,10018,bm25:full@12
+h12,17128,bm25:full@13
+h12,17801,bm25:full@14 hybrid:text_ocr@5 sparse:full@6
+h12,17851,bm25:full@15
+h12,13700,bm25:full@16
+h12,16614,bm25:full@17
+h12,16309,bm25:full@18
+h12,8053,bm25:full@19
+h12,16329,bm25:full@20
+h12,12043,dense:full@1 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@1 hybrid:text_ocr_caption@2
+h12,17733,dense:full@2 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2 hybrid:full@4 hybrid:text_ocr_caption@4
+h12,17265,dense:full@3 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@6 hybrid:text_ocr@6 hybrid:text_ocr_caption@6
+h12,17091,dense:full@4 hybrid+rerank:full@14 hybrid:full@8 hybrid:text_ocr_caption@7
+h12,17544,dense:full@5 hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9 hybrid:full@10 hybrid:text_ocr_caption@10
+h12,20467,dense:full@6 hybrid+rerank:full@12 hybrid+rerank:text@5 hybrid:text@5 hybrid:text_ocr@8
+h12,16802,dense:full@7 hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6
+h12,11408,dense:full@8 hybrid+rerank:full@15 hybrid+rerank:text@7 hybrid:text@7
+h12,16720,dense:full@9 hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7 hybrid:text_ocr@3
+h12,17109,dense:full@10 hybrid+rerank:full@4 hybrid+rerank:text_ocr_caption@4
+h12,14673,dense:full@11 hybrid+rerank:full@17
+h12,11684,dense:full@12 hybrid+rerank:full@19
+h12,17617,dense:full@13
+h12,12004,dense:full@14 hybrid+rerank:full@10 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@10
+h12,9434,dense:full@15
+h12,17809,dense:full@16
+h12,14998,dense:full@17 hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8
+h12,8858,dense:full@18
+h12,8794,dense:full@19 hybrid+rerank:full@18
+h12,14955,dense:full@20 hybrid+rerank:full@20
+h12,11939,hybrid:full@2 hybrid:text@2 hybrid:text_ocr@4 hybrid:text_ocr_caption@1 sparse:full@1
+h12,12363,hybrid:full@7 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@4
+h12,6572,hybrid:full@9 hybrid:text@6 hybrid:text_ocr_caption@9 sparse:full@5
+h12,20954,sparse:full@7
+h12,15747,sparse:full@8
+h12,16081,hybrid:text@10 sparse:full@10
+h12,10655,hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+h12,405,hybrid+rerank:full@11 hybrid+rerank:text@4
+h12,9230,hybrid+rerank:full@13
+h12,20989,hybrid+rerank:full@16 hybrid+rerank:text@8
+h12,10972,hybrid+rerank:text@1 hybrid:text@1 hybrid:text_ocr@1
+h12,10815,hybrid:text@3 hybrid:text_ocr@10
+h12,1963,hybrid:text@4
+h12,1970,hybrid:text@9
+h12,13942,hybrid:text_ocr@7
+h12,10606,hybrid+rerank:text@2
+h12,9234,hybrid+rerank:text@6
+h12,12964,hybrid+rerank:text@9
+h12,12268,hybrid+rerank:text@10
+h13,16154,bm25:full@1 dense:full@1 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@2 hybrid:text_ocr@2 hybrid:text_ocr_caption@1
+h13,21075,bm25:full@2 hybrid:full@4 hybrid:text@3 hybrid:text_ocr@4 hybrid:text_ocr_caption@3 sparse:full@2
+h13,14028,bm25:full@3
+h13,21532,bm25:full@4 hybrid+rerank:full@2 hybrid+rerank:text@3 hybrid+rerank:text_ocr_caption@2 hybrid:full@6 hybrid:text@6 hybrid:text_ocr@5 hybrid:text_ocr_caption@6 sparse:full@3
+h13,20736,bm25:full@5
+h13,2518,bm25:full@6
+h13,23304,bm25:full@7
+h13,19693,bm25:full@8
+h13,22596,bm25:full@9
+h13,23418,bm25:full@10
+h13,14446,bm25:full@11
+h13,22146,bm25:full@12
+h13,22946,bm25:full@13
+h13,14558,bm25:full@14
+h13,3616,bm25:full@15
+h13,10049,bm25:full@16
+h13,2476,bm25:full@17
+h13,22551,bm25:full@18
+h13,7789,bm25:full@19
+h13,25611,bm25:full@20
+h13,13009,dense:full@2 hybrid+rerank:full@4 hybrid+rerank:text@5 hybrid+rerank:text_ocr_caption@4 hybrid:full@3 hybrid:text@4 hybrid:text_ocr_caption@4
+h13,21728,dense:full@3 hybrid:full@5 hybrid:text@10 hybrid:text_ocr_caption@5
+h13,23809,dense:full@4 hybrid:full@7 hybrid:text_ocr_caption@7
+h13,16925,dense:full@5 hybrid:full@10 hybrid:text_ocr_caption@10
+h13,11321,dense:full@6 hybrid+rerank:full@3 hybrid+rerank:text@4 hybrid+rerank:text_ocr_caption@3
+h13,9262,dense:full@7
+h13,7039,dense:full@8
+h13,7352,dense:full@9
+h13,7177,dense:full@10
+h13,24742,dense:full@11
+h13,25937,dense:full@12
+h13,2367,dense:full@13
+h13,7379,dense:full@14
+h13,7357,dense:full@15
+h13,24505,dense:full@16 hybrid+rerank:full@17
+h13,24540,dense:full@17 hybrid+rerank:full@15
+h13,3142,dense:full@18
+h13,3298,dense:full@19
+h13,20873,dense:full@20
+h13,23427,hybrid:full@1 hybrid:text@1 hybrid:text_ocr@1 hybrid:text_ocr_caption@2 sparse:full@1
+h13,14561,hybrid:full@8 hybrid:text_ocr@9 hybrid:text_ocr_caption@8 sparse:full@4
+h13,25740,hybrid+rerank:full@7 hybrid+rerank:text@10 hybrid+rerank:text_ocr_caption@7 hybrid:full@9 hybrid:text@9 hybrid:text_ocr_caption@9 sparse:full@5
+h13,16283,sparse:full@6
+h13,10603,hybrid+rerank:full@5 hybrid+rerank:text@7 hybrid+rerank:text_ocr_caption@5 sparse:full@7
+h13,21560,sparse:full@8
+h13,22768,sparse:full@9
+h13,7548,sparse:full@10
+h13,24315,hybrid+rerank:full@6 hybrid+rerank:text@8 hybrid+rerank:text_ocr_caption@6
+h13,22897,hybrid+rerank:full@8 hybrid+rerank:text_ocr_caption@8
+h13,22674,hybrid+rerank:full@9 hybrid+rerank:text_ocr_caption@9
+h13,24700,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h13,7396,hybrid+rerank:full@11
+h13,24690,hybrid+rerank:full@12
+h13,24565,hybrid+rerank:full@13
+h13,24912,hybrid+rerank:full@14
+h13,21650,hybrid+rerank:full@16
+h13,24622,hybrid+rerank:full@18
+h13,22698,hybrid+rerank:full@19
+h13,20891,hybrid+rerank:full@20
+h13,1962,hybrid+rerank:text@1 hybrid:text@2
+h13,12396,hybrid:text@5
+h13,1826,hybrid:text@7
+h13,11942,hybrid+rerank:text@9 hybrid:text@8 hybrid:text_ocr@8
+h13,8200,hybrid:text_ocr@3
+h13,17067,hybrid:text_ocr@6
+h13,17009,hybrid:text_ocr@7
+h13,8330,hybrid:text_ocr@10
+h13,11894,hybrid+rerank:text@2
+h13,6226,hybrid+rerank:text@6
+h14,25019,bm25:full@1 hybrid+rerank:full@8 hybrid+rerank:text@1 hybrid+rerank:text_ocr_caption@8 hybrid:full@3 hybrid:text@3 hybrid:text_ocr@6 hybrid:text_ocr_caption@4 sparse:full@2
+h14,23461,bm25:full@2
+h14,23770,bm25:full@3
+h14,12872,bm25:full@4 sparse:full@8
+h14,15497,bm25:full@5 hybrid+rerank:text@5 hybrid:full@2 hybrid:text@1 hybrid:text_ocr@2 hybrid:text_ocr_caption@2 sparse:full@1
+h14,8117,bm25:full@6 dense:full@7 hybrid+rerank:full@3 hybrid+rerank:text_ocr_caption@3 hybrid:full@5 hybrid:text_ocr@1 hybrid:text_ocr_caption@5 sparse:full@6
+h14,10713,bm25:full@7
+h14,17000,bm25:full@8
+h14,8841,bm25:full@9 hybrid+rerank:text@6 hybrid:full@8 hybrid:text@7 hybrid:text_ocr@10 hybrid:text_ocr_caption@8 sparse:full@4
+h14,13127,bm25:full@10 hybrid:full@7 hybrid:text@5 hybrid:text_ocr_caption@7 sparse:full@3
+h14,10506,bm25:full@11
+h14,19156,bm25:full@12
+h14,17269,bm25:full@13
+h14,18542,bm25:full@14
+h14,11455,bm25:full@15
+h14,11571,bm25:full@16
+h14,24763,bm25:full@17
+h14,19668,bm25:full@18
+h14,8619,bm25:full@19 hybrid+rerank:full@6 hybrid+rerank:text_ocr_caption@6 hybrid:text_ocr@4
+h14,21029,bm25:full@20
+h14,9182,dense:full@1 hybrid+rerank:full@19 hybrid:full@1 hybrid:text_ocr@5 hybrid:text_ocr_caption@1
+h14,5283,dense:full@2 hybrid+rerank:text@2 hybrid:full@4 hybrid:text@2 hybrid:text_ocr@3 hybrid:text_ocr_caption@3
+h14,17809,dense:full@3 hybrid+rerank:full@20 hybrid:full@6 hybrid:text_ocr_caption@6
+h14,17488,dense:full@4 hybrid+rerank:full@18 hybrid:full@9 hybrid:text_ocr_caption@9
+h14,16792,dense:full@5 hybrid+rerank:full@1 hybrid+rerank:text_ocr_caption@1 hybrid:full@10
+h14,8756,dense:full@6 hybrid+rerank:full@5 hybrid+rerank:text_ocr_caption@5
+h14,9926,dense:full@8
+h14,9386,dense:full@9 hybrid+rerank:full@15
+h14,16417,dense:full@10 hybrid+rerank:full@16
+h14,17700,dense:full@11
+h14,17516,dense:full@12
+h14,23389,dense:full@13 hybrid:text@8 hybrid:text_ocr@8
+h14,17645,dense:full@14 hybrid:text_ocr@7
+h14,13799,dense:full@15 hybrid+rerank:full@12
+h14,9860,dense:full@16 hybrid+rerank:full@14
+h14,17058,dense:full@17
+h14,9661,dense:full@18 hybrid+rerank:full@13
+h14,16731,dense:full@19 hybrid+rerank:full@2 hybrid+rerank:text_ocr_caption@2
+h14,10316,dense:full@20
+h14,758,hybrid:text@10 hybrid:text_ocr_caption@10 sparse:full@5
+h14,13617,hybrid:text@9 sparse:full@7
+h14,11310,sparse:full@9
+h14,3098,sparse:full@10
+h14,8891,hybrid+rerank:full@4 hybrid+rerank:text_ocr_caption@4
+h14,10176,hybrid+rerank:full@7 hybrid+rerank:text_ocr_caption@7
+h14,9634,hybrid+rerank:full@9 hybrid+rerank:text@9 hybrid+rerank:text_ocr_caption@9
+h14,8312,hybrid+rerank:full@10 hybrid+rerank:text_ocr_caption@10
+h14,16742,hybrid+rerank:full@11
+h14,17859,hybrid+rerank:full@17
+h14,10476,hybrid:text@4
+h14,12555,hybrid:text@6
+h14,8394,hybrid:text_ocr@9
+h14,23218,hybrid+rerank:text@3
+h14,25564,hybrid+rerank:text@4
+h14,1077,hybrid+rerank:text@7
+h14,25796,hybrid+rerank:text@8
+h14,2655,hybrid+rerank:text@10

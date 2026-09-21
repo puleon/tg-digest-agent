@@ -1,0 +1,1857 @@
+query_id,post_id,grade,reason,model,seconds
+c01,4348,2,Post announces the trailer release,qwen3.6-35b-a3b,7.61
+c01,4376,2,Post directly provides the requested trailer,qwen3.6-35b-a3b,7.33
+c01,4828,2,Post explicitly mentions Nolan's Odyssey trailer,qwen3.6-35b-a3b,3.08
+c01,4377,1,"Post mentions poster, not trailer",qwen3.6-35b-a3b,4.17
+c01,5050,2,Post explicitly mentions the trailer for Nolan's Odyssey,qwen3.6-35b-a3b,4.40
+c01,4905,1,"Related merchandise, not the trailer itself",qwen3.6-35b-a3b,4.54
+c01,4990,1,Mentions the film but not the trailer,qwen3.6-35b-a3b,5.22
+c01,18712,1,"Shows a still, not the trailer",qwen3.6-35b-a3b,5.67
+c01,5231,2,Post confirms the premiere of Nolan's Odyssey,qwen3.6-35b-a3b,5.88
+c01,5075,2,Post discusses Nolan's Odyssey film details,qwen3.6-35b-a3b,5.07
+c01,5223,1,"Mentions premiere, not the trailer itself",qwen3.6-35b-a3b,4.79
+c01,5083,1,"Shows actors, not the trailer itself",qwen3.6-35b-a3b,7.99
+c01,4999,2,Post shows new promo for Nolan's Odyssey,qwen3.6-35b-a3b,7.91
+c01,4764,1,"Mentions prop, not the trailer itself",qwen3.6-35b-a3b,8.66
+c01,5544,1,"Mentions Nolan and Odyssey premiere, not trailer",qwen3.6-35b-a3b,7.01
+c01,5836,0,"Shows actress, not the trailer",qwen3.6-35b-a3b,4.19
+c01,4839,1,"Post shows poster and ticket sales, not the trailer itself.",qwen3.6-35b-a3b,6.46
+c01,5527,0,"Post discusses box office, not the trailer",qwen3.6-35b-a3b,6.37
+c01,19234,1,"News about runtime, not the trailer itself",qwen3.6-35b-a3b,6.39
+c01,20921,2,Post shows new photos from the filming of Nolan's Odyssey,qwen3.6-35b-a3b,6.03
+c01,18975,1,"Shows Nolan on set, not the trailer",qwen3.6-35b-a3b,4.98
+c01,5167,2,Post explicitly mentions the trailer for Nolan's Odyssey,qwen3.6-35b-a3b,5.21
+c01,4827,1,"Poster, not a trailer",qwen3.6-35b-a3b,5.03
+c01,20101,2,Post discusses the trailer of Nolan's Odyssey,qwen3.6-35b-a3b,5.31
+c01,4800,1,"Shows behind-the-scenes, not the trailer itself",qwen3.6-35b-a3b,4.66
+c01,18840,2,Post announces the Nolan Odyssey trailer,qwen3.6-35b-a3b,4.63
+c01,5235,1,"Shows premiere, not the trailer itself",qwen3.6-35b-a3b,5.77
+c01,20401,0,"Post discusses box office, not the trailer",qwen3.6-35b-a3b,7.20
+c01,5121,2,Post shows poster and frame from Nolan's Odyssey,qwen3.6-35b-a3b,7.01
+c01,20371,1,Mentions Nolan's Odyssey but focuses on AI film,qwen3.6-35b-a3b,11.06
+c01,4846,2,Post shows the requested movie poster,qwen3.6-35b-a3b,4.85
+c01,20232,0,"No trailer shown, only news",qwen3.6-35b-a3b,5.88
+c01,5340,0,"Post is a review, not a trailer.",qwen3.6-35b-a3b,13.69
+c01,5186,1,"Discussion of trailer reception, not the trailer itself",qwen3.6-35b-a3b,15.17
+c01,5420,0,"Post is about Grok, not Nolan's film",qwen3.6-35b-a3b,12.30
+c01,6905,1,"Discusses trailer reception, not the trailer itself",qwen3.6-35b-a3b,15.06
+c01,5205,2,Post discusses the Nolan Odyssey trailer,qwen3.6-35b-a3b,12.44
+c01,3038,0,"Post discusses release, not the trailer itself",qwen3.6-35b-a3b,8.45
+c01,5826,0,"Post discusses Odyssey box office, not Nolan trailer",qwen3.6-35b-a3b,8.25
+c01,2893,0,"Post discusses interview, not trailer",qwen3.6-35b-a3b,9.37
+c01,5640,0,"Fake concept, not a real trailer",qwen3.6-35b-a3b,6.50
+c02,4768,1,"Mentions A24 and the film, but not posters",qwen3.6-35b-a3b,7.15
+c02,19015,0,"Post is about teaser, not posters",qwen3.6-35b-a3b,8.30
+c02,18807,0,"Post shows frames, not posters.",qwen3.6-35b-a3b,5.20
+c02,5771,0,"Post discusses film news, not posters.",qwen3.6-35b-a3b,6.01
+c02,4314,1,"Mentions the film but shows a teaser, not posters",qwen3.6-35b-a3b,5.27
+c02,18836,0,"Post shows a frame, not a poster",qwen3.6-35b-a3b,4.31
+c02,4339,1,"Mentions the film but shows a teaser, not posters",qwen3.6-35b-a3b,4.70
+c02,18595,0,"Post shows frames, not posters",qwen3.6-35b-a3b,6.54
+c02,21685,0,"Post discusses Hideo Kojima, not posters",qwen3.6-35b-a3b,5.59
+c02,18614,0,"No posters shown, only behind-the-scenes photo",qwen3.6-35b-a3b,6.17
+c02,19337,1,Mentions film but no posters shown,qwen3.6-35b-a3b,5.14
+c02,4922,1,"Mentions film and studio, but no posters",qwen3.6-35b-a3b,6.04
+c02,5038,0,"No posters shown, only box office stats",qwen3.6-35b-a3b,5.11
+c02,19474,0,"News about sequel, not posters",qwen3.6-35b-a3b,4.55
+c02,20156,1,"Mentions film but discusses liminal spaces, not posters",qwen3.6-35b-a3b,7.05
+c02,6036,0,"Post discusses sequel rumors, not posters.",qwen3.6-35b-a3b,6.49
+c02,4850,1,Mentions film but no posters shown,qwen3.6-35b-a3b,7.23
+c02,19582,0,"Post discusses director's interest in Portal, not posters.",qwen3.6-35b-a3b,8.98
+c02,5035,0,"Post is about Batman, not the requested film",qwen3.6-35b-a3b,9.81
+c02,19208,0,Posters for a different film,qwen3.6-35b-a3b,6.95
+c02,4835,2,Post shows poster for the specified film,qwen3.6-35b-a3b,5.90
+c02,4920,2,Post shows poster for the specified film,qwen3.6-35b-a3b,8.49
+c02,4650,2,Post shows poster for the specified film,qwen3.6-35b-a3b,8.14
+c02,19379,1,Mentions film but no posters shown,qwen3.6-35b-a3b,4.55
+c02,5026,2,Post shows poster for the specified film,qwen3.6-35b-a3b,4.01
+c02,4730,2,Post shows poster for the specified film,qwen3.6-35b-a3b,4.27
+c02,4072,2,Post shows poster for the specified film,qwen3.6-35b-a3b,3.72
+c02,4818,2,Post shows poster for specified film,qwen3.6-35b-a3b,6.03
+c02,4767,1,"Related to A24 film, but sells wallpaper, not posters",qwen3.6-35b-a3b,6.54
+c02,18109,0,"Post is about trailer, not posters",qwen3.6-35b-a3b,4.85
+c02,5132,0,"Post discusses extended cut, not posters.",qwen3.6-35b-a3b,4.89
+c02,4824,0,"Post discusses box office, not posters",qwen3.6-35b-a3b,6.36
+c02,6836,0,"Post discusses A24 marketing, not the specific poster.",qwen3.6-35b-a3b,10.02
+c02,6942,0,"Post discusses copyright, not posters",qwen3.6-35b-a3b,7.68
+c02,4807,2,Directly shows the requested posters,qwen3.6-35b-a3b,7.50
+c02,6623,0,"Post discusses film lore, not posters",qwen3.6-35b-a3b,10.52
+c03,6061,2,Discusses candidates for new James Bond role,qwen3.6-35b-a3b,10.98
+c03,18665,2,Discusses potential new James Bond actor,qwen3.6-35b-a3b,6.27
+c03,6102,2,Directly answers the query about the new James Bond actor.,qwen3.6-35b-a3b,8.44
+c03,19067,1,"Related news about Bond casting, not the answer",qwen3.6-35b-a3b,6.69
+c03,21074,0,"Post is about Harry Potter, not James Bond",qwen3.6-35b-a3b,5.89
+c03,20882,1,Mentions Bond casting but no name,qwen3.6-35b-a3b,4.24
+c03,4523,1,"Mentions casting, but no actor named",qwen3.6-35b-a3b,5.51
+c03,6329,2,User asks who plays Bond; post names Yulan,qwen3.6-35b-a3b,6.84
+c03,21429,0,"Post is about RoboCop, not James Bond",qwen3.6-35b-a3b,6.33
+c03,19734,0,"Post is about Indiana Jones, not James Bond casting.",qwen3.6-35b-a3b,7.78
+c03,18849,0,"Post discusses games, not the actor.",qwen3.6-35b-a3b,7.17
+c03,4311,2,Mentions Callum Turner as Bond candidate,qwen3.6-35b-a3b,11.85
+c03,5365,0,"Post is about God of War, not James Bond",qwen3.6-35b-a3b,15.21
+c03,6105,0,"Post discusses script, not actor casting",qwen3.6-35b-a3b,10.88
+c03,5664,0,"Post is about a different movie, not Bond casting",qwen3.6-35b-a3b,4.81
+c03,18900,0,"Post is about Avatar lawsuit, not Bond",qwen3.6-35b-a3b,6.26
+c03,5683,2,Directly answers the query with a specific candidate.,qwen3.6-35b-a3b,12.06
+c03,3957,0,"Post is about Lord of the Rings, not James Bond",qwen3.6-35b-a3b,9.15
+c03,6067,1,Confirms casting but does not name the actor,qwen3.6-35b-a3b,6.58
+c03,21683,0,"Post is about Harry Potter, not James Bond",qwen3.6-35b-a3b,11.16
+c03,5156,2,Directly answers who will not play Bond,qwen3.6-35b-a3b,12.59
+c03,6040,2,Directly addresses the query about the new Bond actor,qwen3.6-35b-a3b,9.22
+c03,18924,0,"Post is about Batman, not James Bond",qwen3.6-35b-a3b,3.33
+c03,5494,0,"Post is about The Mummy, not James Bond",qwen3.6-35b-a3b,5.01
+c03,3823,0,"Post is about Harry Potter, not James Bond",qwen3.6-35b-a3b,4.92
+c03,19726,1,"Mentions new Bond director, not actor",qwen3.6-35b-a3b,6.13
+c03,20900,0,"Post is about The Mummy, not James Bond",qwen3.6-35b-a3b,6.96
+c03,19132,0,"Post is about Green Lantern, not James Bond.",qwen3.6-35b-a3b,9.54
+c03,6086,0,"Post shows old posters, not new Bond actor",qwen3.6-35b-a3b,15.23
+c03,19265,0,"Post discusses screenwriter, not actor",qwen3.6-35b-a3b,11.22
+c03,19580,1,"Discusses Bond actors, not new casting",qwen3.6-35b-a3b,7.82
+c03,20656,0,"Post is about Black Panther, not James Bond",qwen3.6-35b-a3b,5.13
+c03,19429,0,"Post discusses Star Wars, not James Bond",qwen3.6-35b-a3b,5.49
+c03,5477,0,"Post is about Ghost Rider, not James Bond",qwen3.6-35b-a3b,10.77
+c04,21705,2,Directly answers the query about box office,qwen3.6-35b-a3b,5.43
+c04,20336,0,"Promo and release date, not box office",qwen3.6-35b-a3b,6.04
+c04,19038,1,Mentions film but no box office data,qwen3.6-35b-a3b,5.42
+c04,20281,0,"Post discusses trailer, not box office revenue",qwen3.6-35b-a3b,4.81
+c04,19553,1,Mentions film but no box office data,qwen3.6-35b-a3b,7.14
+c04,20980,0,"Post discusses filming, not box office revenue.",qwen3.6-35b-a3b,6.66
+c04,5277,1,Mentions film but no box office data,qwen3.6-35b-a3b,7.33
+c04,20391,0,"Promo info, not box office data",qwen3.6-35b-a3b,5.91
+c04,20363,1,"Promotional news, not box office data",qwen3.6-35b-a3b,5.04
+c04,19906,0,"Post is about trailer, not box office",qwen3.6-35b-a3b,6.18
+c04,20875,1,Mentions film but focuses on game sales,qwen3.6-35b-a3b,5.61
+c04,20530,0,"Post discusses trailer, not box office",qwen3.6-35b-a3b,6.23
+c04,20791,0,"Post discusses marketing costs, not box office revenue.",qwen3.6-35b-a3b,8.89
+c04,5740,2,Directly answers the query about box office,qwen3.6-35b-a3b,5.46
+c04,5443,1,Mentions film but focuses on giveaway,qwen3.6-35b-a3b,6.70
+c04,20549,2,Mentions Spider-Man: New Day box office,qwen3.6-35b-a3b,7.95
+c04,20799,1,Mentions film but not box office,qwen3.6-35b-a3b,5.18
+c04,5506,0,"Post discusses reviews, not box office revenue.",qwen3.6-35b-a3b,11.17
+c04,20742,1,"Same film, but different topic",qwen3.6-35b-a3b,9.09
+c04,21085,0,"Post is about a fan poster, not box office",qwen3.6-35b-a3b,4.85
+c04,20284,2,Directly answers the query about box office,qwen3.6-35b-a3b,3.04
+c04,4749,1,Related film but no box office data,qwen3.6-35b-a3b,4.86
+c04,5585,2,Directly answers query about box office,qwen3.6-35b-a3b,4.78
+c04,5561,2,Directly answers the query about box office,qwen3.6-35b-a3b,5.60
+c04,4765,1,Related film but no box office data,qwen3.6-35b-a3b,5.50
+c04,20958,2,Directly answers the query about box office,qwen3.6-35b-a3b,4.64
+c04,5275,0,"Post shows a Lego poster, not box office data",qwen3.6-35b-a3b,6.42
+c04,20834,2,Directly answers the query about box office,qwen3.6-35b-a3b,4.46
+c04,4082,1,Mentions film but no box office data,qwen3.6-35b-a3b,2.73
+c04,4915,1,Related film but no box office data,qwen3.6-35b-a3b,5.64
+c04,18251,0,"Post discusses reshoots, not box office revenue",qwen3.6-35b-a3b,6.88
+c04,5595,2,Directly states the box office revenue,qwen3.6-35b-a3b,6.45
+c04,5945,1,Mentions Spider-Man but lacks specific box office data,qwen3.6-35b-a3b,5.59
+c04,5837,2,Directly answers box office query,qwen3.6-35b-a3b,7.66
+c04,5495,2,Directly addresses box office predictions,qwen3.6-35b-a3b,7.22
+c04,21187,2,Directly answers the query about box office,qwen3.6-35b-a3b,4.89
+c04,21102,2,Post discusses box office success of the film,qwen3.6-35b-a3b,4.80
+c04,6133,2,Directly states Spider-Man box office,qwen3.6-35b-a3b,7.99
+c04,15045,1,Mentions box office but focuses on piracy ban,qwen3.6-35b-a3b,8.21
+c04,5934,2,Contains exact box office figures for the film,qwen3.6-35b-a3b,5.53
+c04,21627,2,Directly states the box office revenue,qwen3.6-35b-a3b,5.46
+c04,21371,2,Directly answers query with box office data,qwen3.6-35b-a3b,5.43
+c04,21002,2,Directly answers the query with box office figures,qwen3.6-35b-a3b,5.44
+c04,5565,2,Post lists box office for the queried film,qwen3.6-35b-a3b,6.59
+c04,6024,2,Directly answers the query about box office,qwen3.6-35b-a3b,6.60
+c05,3579,2,Directly confirms the film is at Cannes,qwen3.6-35b-a3b,4.67
+c05,3659,2,Post discusses Zvyagintsev's Minotaur at Cannes,qwen3.6-35b-a3b,5.67
+c05,3574,2,"Post shows Minotaur footage, relevant to Cannes",qwen3.6-35b-a3b,5.26
+c05,2621,2,Directly addresses the query about the film at Cannes,qwen3.6-35b-a3b,4.53
+c05,3588,2,Post discusses Zvyagintsev's Minotaur at Cannes,qwen3.6-35b-a3b,13.27
+c05,3760,1,"Same film, different festival news",qwen3.6-35b-a3b,7.62
+c05,6149,2,Post confirms Minotaur won Grand Prix at Cannes,qwen3.6-35b-a3b,9.28
+c05,4663,2,Confirms Minotaur won Grand Prix at Cannes,qwen3.6-35b-a3b,13.50
+c05,4027,2,Post confirms Minotaur in Cannes competition,qwen3.6-35b-a3b,9.33
+c05,2698,2,Post lists review of Zvyagintsev's Minotaur,qwen3.6-35b-a3b,10.01
+c05,2717,2,Post confirms Minotaur at Cannes,qwen3.6-35b-a3b,7.86
+c05,13002,2,Directly addresses the query about the film,qwen3.6-35b-a3b,4.84
+c05,4715,0,"Post discusses Pan's Labyrinth, not Minotaur",qwen3.6-35b-a3b,6.01
+c05,5254,2,Post confirms Minotaur won Grand Prix at Cannes,qwen3.6-35b-a3b,5.82
+c05,4605,2,Post discusses Zvyagintev's Minotaur at Cannes,qwen3.6-35b-a3b,5.03
+c05,2324,0,Different film and director mentioned,qwen3.6-35b-a3b,3.83
+c05,4526,0,"Post discusses a different film, not Zvyagintsev's Minotaur",qwen3.6-35b-a3b,5.01
+c05,4574,0,Different director and film,qwen3.6-35b-a3b,3.05
+c05,4664,0,No mention of Zvyagintsev or Minotaur,qwen3.6-35b-a3b,7.28
+c05,4570,0,Discusses different film and director,qwen3.6-35b-a3b,3.47
+c05,3567,2,Post discusses Zvyagintev's Minotaur at Cannes,qwen3.6-35b-a3b,7.43
+c05,3520,2,Confirms Minotaur in Cannes main competition,qwen3.6-35b-a3b,7.95
+c05,3582,2,Post discusses Minotaur at Cannes,qwen3.6-35b-a3b,8.41
+c05,3457,2,Post discusses Zvyagintsev's Minotaur at Cannes,qwen3.6-35b-a3b,11.01
+c05,2291,2,Post lists Minotaur in Cannes 2026,qwen3.6-35b-a3b,11.40
+c05,3725,1,"Mentions film but focuses on posters, not Cannes",qwen3.6-35b-a3b,14.48
+c05,6131,2,Post confirms Minotaur at Cannes,qwen3.6-35b-a3b,13.13
+c05,3592,1,Mentions Zvyagintsev's film but not Cannes screening,qwen3.6-35b-a3b,9.53
+c05,2654,2,Post confirms Minotaur won Grand Prix,qwen3.6-35b-a3b,9.91
+c05,3568,2,Confirms Minotaur screening at Cannes,qwen3.6-35b-a3b,6.40
+c05,2248,2,Directly addresses the query about Minotaur at Cannes,qwen3.6-35b-a3b,5.17
+c05,1708,0,"Generic Cannes festival imagery, no Zvyagintsev",qwen3.6-35b-a3b,5.30
+c06,7713,2,Directly shows the requested 1987 magazine cover,qwen3.6-35b-a3b,6.48
+c06,7729,2,Directly shows the requested 1987 magazine cover,qwen3.6-35b-a3b,7.35
+c06,7745,2,Directly shows the requested 1987 magazine cover,qwen3.6-35b-a3b,6.95
+c06,7761,2,Directly shows the requested 1987 magazine cover,qwen3.6-35b-a3b,6.42
+c06,7412,2,Post provides the requested magazine cover,qwen3.6-35b-a3b,6.08
+c06,7430,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,8.82
+c06,7446,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,5.64
+c06,7462,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,4.06
+c06,7478,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,4.06
+c06,7494,2,Post provides the requested magazine cover,qwen3.6-35b-a3b,6.07
+c06,7510,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,4.21
+c06,7526,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,4.68
+c06,7542,2,Directly provides the requested magazine issue,qwen3.6-35b-a3b,6.69
+c06,7558,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,3.85
+c06,7574,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,6.48
+c06,7589,2,Directly provides the requested magazine issue,qwen3.6-35b-a3b,6.15
+c06,7604,2,Directly provides the requested magazine cover,qwen3.6-35b-a3b,4.65
+c06,7619,2,Post provides the requested magazine cover,qwen3.6-35b-a3b,4.13
+c06,7648,2,Directly provides the requested magazine issue,qwen3.6-35b-a3b,3.90
+c06,7663,2,Directly provides the requested magazine issue,qwen3.6-35b-a3b,3.50
+c06,7681,2,Post offers the requested 1987 magazine issue,qwen3.6-35b-a3b,5.56
+c06,7697,2,Directly provides the requested magazine issue,qwen3.6-35b-a3b,3.96
+c07,18955,0,"Post discusses War of the Worlds, not The Mummy",qwen3.6-35b-a3b,5.80
+c07,18420,2,Directly provides critic reviews for the film.,qwen3.6-35b-a3b,5.53
+c07,18130,0,"Post is about trailer, not reviews",qwen3.6-35b-a3b,6.10
+c07,4149,2,Directly provides critic reviews for the film.,qwen3.6-35b-a3b,5.83
+c07,18616,0,"Post discusses release date, not reviews",qwen3.6-35b-a3b,5.57
+c07,2596,0,"Post is about James Gray, not Guillermo del Toro",qwen3.6-35b-a3b,6.75
+c07,18141,1,"Mentions trailer, not reviews",qwen3.6-35b-a3b,7.48
+c07,22767,0,"Post is about archaeology, not film reviews",qwen3.6-35b-a3b,14.34
+c07,9022,0,Meme unrelated to The Mummy film reviews,qwen3.6-35b-a3b,12.21
+c07,24689,0,"Post discusses Russian literature awards, not the film.",qwen3.6-35b-a3b,8.04
+c07,2698,0,No mention of Cronin's Mummy,qwen3.6-35b-a3b,5.63
+c07,18091,0,"Post discusses Scream 7, not The Mummy",qwen3.6-35b-a3b,6.17
+c07,25110,0,"Post is about author Brussolo, not the film",qwen3.6-35b-a3b,6.52
+c07,6085,0,Post discusses a different film entirely,qwen3.6-35b-a3b,6.48
+c07,20181,0,"Post discusses Minions, not The Mummy",qwen3.6-35b-a3b,11.39
+c07,19983,0,"Post discusses Supergirl, not The Mummy",qwen3.6-35b-a3b,11.07
+c07,11711,0,"Post is about BMW, not the movie",qwen3.6-35b-a3b,10.50
+c07,22568,0,"Post is about a hedgehog mummy, not the film.",qwen3.6-35b-a3b,12.53
+c07,21703,0,"Post is about a video game, not the film.",qwen3.6-35b-a3b,12.03
+c07,24620,0,"Post discusses Sapkowski's book, not the film",qwen3.6-35b-a3b,8.86
+c07,7946,2,Direct review of Cronin's Mummy,qwen3.6-35b-a3b,10.18
+c07,5261,0,"Post discusses Moana remake, not The Mummy.",qwen3.6-35b-a3b,9.45
+c07,2214,0,"Post discusses Rosebud Pruning, not The Mummy",qwen3.6-35b-a3b,8.73
+c07,2865,0,Post is about a different film,qwen3.6-35b-a3b,4.56
+c07,25764,0,Post discusses ,qwen3.6-35b-a3b,6.34
+c07,24839,0,"Post discusses a book, not the film.",qwen3.6-35b-a3b,7.33
+c07,4240,0,"Release date news, not critic reviews",qwen3.6-35b-a3b,8.18
+c07,20908,0,"Post mentions old Mummy cast, not Cronin's film reviews",qwen3.6-35b-a3b,9.09
+c07,25175,0,"Post discusses a different film, not The Mummy.",qwen3.6-35b-a3b,7.00
+c07,20900,0,"News about casting, not reviews",qwen3.6-35b-a3b,6.14
+c07,25288,0,"Post discusses Ranovskaya, not Cronin's Mummy",qwen3.6-35b-a3b,9.34
+c07,5373,0,"Post discusses Kubrick, not Cronin's Mummy",qwen3.6-35b-a3b,12.89
+c07,20259,0,"Post discusses Moana, not The Mummy",qwen3.6-35b-a3b,10.59
+c07,3635,0,"Post is about tоска, not The Mummy",qwen3.6-35b-a3b,9.48
+c07,24827,0,"Post discusses a book, not the film",qwen3.6-35b-a3b,10.63
+c07,6326,0,"Post is about Last Ronin 2, not The Mummy.",qwen3.6-35b-a3b,9.73
+c07,3762,0,"News about filming, not reviews",qwen3.6-35b-a3b,6.87
+c07,23292,0,"Post is about astronomy, not the movie",qwen3.6-35b-a3b,5.78
+c07,23546,0,"Post is about astronomy, not the movie",qwen3.6-35b-a3b,8.07
+c07,4093,1,Mentions review but not specific to the film,qwen3.6-35b-a3b,5.62
+c07,6840,0,"Post discusses Exhuma, not The Mummy",qwen3.6-35b-a3b,10.86
+c07,7924,0,"Giveaway post, not a review",qwen3.6-35b-a3b,9.32
+c07,25174,0,Post discusses a different film and author,qwen3.6-35b-a3b,6.71
+c07,3747,0,"Post discusses Werner Herzog's film, not The Mummy",qwen3.6-35b-a3b,8.22
+c07,18122,0,"Post discusses Mario movie, not The Mummy",qwen3.6-35b-a3b,6.95
+c08,7120,0,"Post describes a search tool, not new films",qwen3.6-35b-a3b,6.23
+c08,6841,0,"Post discusses Asian horror, not Blumhouse",qwen3.6-35b-a3b,5.66
+c08,18100,2,Directly answers query about new Blumhouse horror,qwen3.6-35b-a3b,6.17
+c08,16916,0,"Post is about Indian horror, not Blumhouse",qwen3.6-35b-a3b,5.90
+c08,4295,2,Post announces new Blumhouse horror movie,qwen3.6-35b-a3b,7.46
+c08,4848,0,"Post about John Carpenter, not Blumhouse",qwen3.6-35b-a3b,9.89
+c08,9325,1,"Meme about horror genres, not new Blumhouse films",qwen3.6-35b-a3b,12.81
+c08,19769,2,Post mentions Blumhouse producing a horror film,qwen3.6-35b-a3b,7.23
+c08,5202,1,Mentions horror films but not Blumhouse,qwen3.6-35b-a3b,5.38
+c08,5022,2,News about new Blumhouse horror film,qwen3.6-35b-a3b,5.21
+c08,1754,2,Post announces new Blumhouse horror film,qwen3.6-35b-a3b,6.52
+c08,19359,0,"Post is about Cannes, not Blumhouse",qwen3.6-35b-a3b,8.96
+c08,8336,0,"Post is about workday emotions, not Blumhouse horror films",qwen3.6-35b-a3b,7.76
+c08,12820,0,"Post is about electric scooters, not horror movies",qwen3.6-35b-a3b,4.08
+c08,12958,0,"Post is about Russian science, not horror movies",qwen3.6-35b-a3b,5.87
+c08,13587,0,Unrelated German politics news,qwen3.6-35b-a3b,8.86
+c08,21251,1,Related film but not Blumhouse,qwen3.6-35b-a3b,6.88
+c08,4825,0,"Superhero film, not Blumhouse horror",qwen3.6-35b-a3b,2.71
+c08,5185,0,"Post is about Minions, not Blumhouse horror",qwen3.6-35b-a3b,3.54
+c08,12791,0,"Post is about food standards, not horror movies",qwen3.6-35b-a3b,3.11
+c08,7939,2,Announces new Blumhouse horror film,qwen3.6-35b-a3b,5.19
+c08,3883,1,"Related horror, but not Blumhouse",qwen3.6-35b-a3b,4.77
+c08,4385,0,"Post is about Evil Dead, not Blumhouse",qwen3.6-35b-a3b,5.45
+c08,18114,1,"Mentions Scream 8, not Blumhouse",qwen3.6-35b-a3b,9.72
+c08,20410,0,"Post is about Ramsey Campbell, not Blumhouse",qwen3.6-35b-a3b,9.57
+c08,5478,0,"Post is about Avengers, not Blumhouse horror",qwen3.6-35b-a3b,10.83
+c08,3154,0,"Russian thriller, not Blumhouse horror",qwen3.6-35b-a3b,8.09
+c08,5157,0,"Post is about Evil Dead, not Blumhouse",qwen3.6-35b-a3b,7.14
+c08,4330,2,Post confirms new Blumhouse horror sequel,qwen3.6-35b-a3b,9.24
+c08,21973,0,"Post is about a TV series, not Blumhouse horror films",qwen3.6-35b-a3b,10.90
+c08,20022,0,"Not Blumhouse, not horror",qwen3.6-35b-a3b,9.56
+c08,21303,0,No mention of Blumhouse or horror news,qwen3.6-35b-a3b,9.32
+c08,21916,2,Post announces new Blumhouse horror,qwen3.6-35b-a3b,10.70
+c08,21630,0,Not Blumhouse production,qwen3.6-35b-a3b,4.70
+c08,2430,1,Mentions Blumhouse but focuses on A24 film,qwen3.6-35b-a3b,14.53
+c08,18313,0,"Post is about Abattoir, not Blumhouse",qwen3.6-35b-a3b,4.41
+c08,1964,0,"Post is about a film festival, not new Blumhouse horror movies",qwen3.6-35b-a3b,14.13
+c08,7955,0,"Mentions DiCaprio, not Blumhouse",qwen3.6-35b-a3b,9.96
+c08,6639,1,"Marketing case, not the horror film itself",qwen3.6-35b-a3b,10.16
+c08,3926,0,Not related to Blumhouse or horror,qwen3.6-35b-a3b,15.85
+c08,6437,0,"Post discusses A24, not Blumhouse",qwen3.6-35b-a3b,19.64
+c08,3906,1,"Mentions horror, but not Blumhouse",qwen3.6-35b-a3b,12.42
+c08,19908,0,"Post is about anime, not Blumhouse",qwen3.6-35b-a3b,9.91
+c08,19015,0,"Post is about A24, not Blumhouse",qwen3.6-35b-a3b,8.99
+c08,4200,0,"Post is about Evil Dead, not Blumhouse",qwen3.6-35b-a3b,6.68
+c08,20525,1,"Horror news, but not Blumhouse",qwen3.6-35b-a3b,5.71
+c08,4108,0,Not Blumhouse films,qwen3.6-35b-a3b,4.39
+c08,19467,1,"Horror film, but not Blumhouse",qwen3.6-35b-a3b,4.33
+c09,21618,2,Recommends Soviet films with actor Leo,qwen3.6-35b-a3b,4.46
+c09,3468,2,Directly answers the query with a guide,qwen3.6-35b-a3b,5.21
+c09,2695,1,Discusses Soviet cinema but promotes an event,qwen3.6-35b-a3b,7.66
+c09,7796,2,Recommends a Soviet film with a famous song,qwen3.6-35b-a3b,7.65
+c09,6551,2,Directly recommends a Soviet film,qwen3.6-35b-a3b,5.76
+c09,2516,1,"Related to Soviet cinema discussion, not recommendations",qwen3.6-35b-a3b,5.29
+c09,5323,1,"Mentions Soviet sci-fi, but not a recommendation",qwen3.6-35b-a3b,10.32
+c09,20156,2,Post lists Soviet cinema recommendations,qwen3.6-35b-a3b,10.64
+c09,5380,1,Related to cinema but no specific recommendations,qwen3.6-35b-a3b,11.82
+c09,2356,2,Recommends Soviet film analysis,qwen3.6-35b-a3b,12.13
+c09,11024,0,Not relevant to Soviet cinema recommendations,qwen3.6-35b-a3b,13.32
+c09,3984,1,Mentions films but focuses on hotel promotion,qwen3.6-35b-a3b,17.66
+c09,2669,1,Mentions Soviet cinema era discussion,qwen3.6-35b-a3b,15.83
+c09,2456,1,Discusses Soviet cinema but is an event ad,qwen3.6-35b-a3b,19.47
+c09,3930,0,"Documentary about autism, not Soviet cinema",qwen3.6-35b-a3b,16.45
+c09,7656,2,Lists Soviet films for viewing,qwen3.6-35b-a3b,7.61
+c09,19683,0,"Post discusses Spielberg, not Soviet cinema",qwen3.6-35b-a3b,7.94
+c09,6756,1,"Mentions old western, but focuses on sound effect",qwen3.6-35b-a3b,6.39
+c09,21728,0,"Post suggests Lego horror, not Soviet cinema",qwen3.6-35b-a3b,3.55
+c09,11735,0,"Post is about a watch, not movies",qwen3.6-35b-a3b,3.40
+c09,5315,1,Mentions Soviet cinema but not specific recommendations,qwen3.6-35b-a3b,4.62
+c09,7683,2,Directly answers the query with a Soviet film recommendation,qwen3.6-35b-a3b,5.21
+c09,7730,0,No movie recommendations provided,qwen3.6-35b-a3b,3.21
+c09,7463,0,No content or recommendations provided,qwen3.6-35b-a3b,3.82
+c09,7431,0,No movie recommendations provided,qwen3.6-35b-a3b,3.59
+c09,7762,0,No movie recommendations provided,qwen3.6-35b-a3b,3.59
+c09,7413,0,No movie recommendations provided,qwen3.6-35b-a3b,3.72
+c09,7447,0,No movie recommendations provided,qwen3.6-35b-a3b,3.68
+c09,7559,0,No movie recommendations provided,qwen3.6-35b-a3b,4.48
+c09,7543,0,No movie recommendations provided,qwen3.6-35b-a3b,4.41
+c09,7794,0,No movie recommendations provided,qwen3.6-35b-a3b,6.00
+c09,7778,0,No movie recommendations provided,qwen3.6-35b-a3b,5.09
+c09,7575,0,No specific film recommendations provided,qwen3.6-35b-a3b,3.75
+c09,7698,0,No movie recommendations provided,qwen3.6-35b-a3b,3.66
+c09,7664,0,No specific film recommendations provided,qwen3.6-35b-a3b,3.87
+c09,7682,0,No movie recommendations provided,qwen3.6-35b-a3b,3.75
+c09,7620,0,No specific film recommendations provided,qwen3.6-35b-a3b,3.79
+c09,7527,0,No movie recommendations provided,qwen3.6-35b-a3b,5.04
+c09,2518,2,Lists Soviet films to watch,qwen3.6-35b-a3b,5.08
+c09,6635,0,"Post is about Kill Bill, not Soviet cinema",qwen3.6-35b-a3b,8.72
+c09,4023,2,Directly recommends Soviet cinema via magazine,qwen3.6-35b-a3b,10.53
+c09,2611,1,"Discussion about Soviet cinema, not recommendations",qwen3.6-35b-a3b,6.92
+c09,7946,0,"Review of American horror film, not Soviet cinema",qwen3.6-35b-a3b,7.96
+c09,2502,1,Discusses Soviet cinema but is an event announcement,qwen3.6-35b-a3b,12.92
+c09,3473,2,Recommends specific Soviet films to watch,qwen3.6-35b-a3b,7.70
+c09,7746,0,No movie recommendations provided,qwen3.6-35b-a3b,4.03
+c09,7714,0,No movie recommendations provided,qwen3.6-35b-a3b,3.90
+c09,7590,0,No movie recommendations provided,qwen3.6-35b-a3b,3.39
+c09,7605,0,No movie recommendations provided,qwen3.6-35b-a3b,3.39
+c09,7495,0,No movie recommendations provided,qwen3.6-35b-a3b,4.61
+c10,4839,2,Post features Matt Damon and his new film,qwen3.6-35b-a3b,6.45
+c10,5427,2,Directly lists best Matt Damon films,qwen3.6-35b-a3b,5.31
+c10,5514,0,"Post is about Spider-Man, not Matt Damon",qwen3.6-35b-a3b,7.62
+c10,1843,0,"Post is about Leonardo DiCaprio, not Matt Damon",qwen3.6-35b-a3b,6.70
+c10,6582,0,No mention of Matt Damon or his films,qwen3.6-35b-a3b,3.03
+c10,6507,0,No mention of Matt Damon or his films,qwen3.6-35b-a3b,5.08
+c10,6459,0,No mention of Matt Damon,qwen3.6-35b-a3b,3.39
+c10,6571,1,"General stylish films, not Matt Damon specific",qwen3.6-35b-a3b,5.69
+c10,6614,0,No mention of Matt Damon,qwen3.6-35b-a3b,4.49
+c10,4489,0,"Post discusses Ruben Östlund, not Matt Damon",qwen3.6-35b-a3b,4.84
+c10,5531,0,"Post is about Spider-Man, not Matt Damon",qwen3.6-35b-a3b,3.29
+c10,6375,1,"General stylish films, not Matt Damon specific",qwen3.6-35b-a3b,4.17
+c10,6409,0,No mention of Matt Damon,qwen3.6-35b-a3b,4.32
+c10,11135,0,No mention of Matt Damon or his films,qwen3.6-35b-a3b,5.63
+c10,4257,0,"Post is about John Hamm, not Matt Damon",qwen3.6-35b-a3b,4.91
+c10,4664,0,No mention of Matt Damon or his films,qwen3.6-35b-a3b,4.78
+c10,4779,0,"Post is about Marilyn Monroe, not Matt Damon",qwen3.6-35b-a3b,9.06
+c10,13452,0,"Post is about AI, not Matt Damon films",qwen3.6-35b-a3b,8.59
+c10,13360,0,"Post is about Soviet films, not Matt Damon",qwen3.6-35b-a3b,5.58
+c10,5497,1,"Mentions Damon, but about his film choices",qwen3.6-35b-a3b,7.36
+c10,18712,2,Directly mentions Matt Damon in a new film,qwen3.6-35b-a3b,11.24
+c10,4610,2,Directly addresses Matt Damon films,qwen3.6-35b-a3b,9.55
+c10,4659,2,Directly discusses Matt Damon films,qwen3.6-35b-a3b,5.87
+c10,19232,2,Directly answers query about Matt Damon films,qwen3.6-35b-a3b,5.67
+c10,5559,0,Mentions unrelated people named Damon,qwen3.6-35b-a3b,4.95
+c10,5545,2,Directly lists Matt Damon films,qwen3.6-35b-a3b,4.53
+c10,5447,2,Directly answers query about Matt Damon films,qwen3.6-35b-a3b,7.14
+c10,5131,0,Wrong actor and director,qwen3.6-35b-a3b,5.60
+c10,21665,2,Directly discusses Matt Damon's upcoming film,qwen3.6-35b-a3b,5.80
+c10,18443,0,"Мэтт Смит, а не Мэтт Дэймон",qwen3.6-35b-a3b,6.38
+c10,1762,0,"Post is a meme, not about movies",qwen3.6-35b-a3b,5.56
+c10,5285,2,Shows Matt Damon as requested,qwen3.6-35b-a3b,3.71
+c10,5017,0,"Post is about Ewan McGregor, not Matt Damon",qwen3.6-35b-a3b,7.14
+c10,3769,0,"Мэтт Ривз, а не Мэтт Дэймон",qwen3.6-35b-a3b,13.61
+c10,5640,2,Post lists Matt Damon in Nolan's film,qwen3.6-35b-a3b,8.74
+c10,20245,0,No Matt Damon mentioned or shown,qwen3.6-35b-a3b,7.02
+c10,6079,0,"Post is about Robert Pattinson, not Matt Damon",qwen3.6-35b-a3b,12.52
+c10,2290,0,"Post is about a different film, not Matt Damon",qwen3.6-35b-a3b,13.38
+c10,2696,0,"Post is about De Niro and Scorsese, not Damon",qwen3.6-35b-a3b,27.58
+c10,19063,0,"Post is about Matt Reeves, not Matt Damon",qwen3.6-35b-a3b,32.89
+c10,21890,0,"Post is about Arrietty, not Matt Damon films",qwen3.6-35b-a3b,19.03
+c10,6796,0,No mention of Matt Damon,qwen3.6-35b-a3b,12.65
+c10,5362,2,Directly discusses Matt Damon's new film,qwen3.6-35b-a3b,11.88
+c10,3038,2,Post discusses Matt Damon's film Odyssey,qwen3.6-35b-a3b,11.03
+c10,5083,2,Post mentions Matt Damon in context of his film,qwen3.6-35b-a3b,8.05
+c10,2147,0,"Film stars Bruce Willis, not Matt Damon",qwen3.6-35b-a3b,7.06
+c11,20244,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,5.06
+c11,3853,0,No mention of Paul Dano,qwen3.6-35b-a3b,5.05
+c11,20582,0,No mention of Paul Dano or the specific meme,qwen3.6-35b-a3b,8.04
+c11,4673,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,4.01
+c11,24707,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,5.48
+c11,6754,0,"Post discusses Tarantino, not Paul Dano",qwen3.6-35b-a3b,6.05
+c11,14660,0,"Post is about Medvedev, not Paul Dano or Tarantino",qwen3.6-35b-a3b,6.75
+c11,4275,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,12.77
+c11,14721,0,"Irrelevant political content, no Paul Dano or Tarantino",qwen3.6-35b-a3b,9.46
+c11,4574,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,5.29
+c11,11912,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,6.68
+c11,3925,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,9.50
+c11,2150,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,10.64
+c11,2963,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,7.31
+c11,5011,0,"Post is about Fast & Furious, not Paul Dano",qwen3.6-35b-a3b,6.97
+c11,5575,0,"Post discusses Fincher, not Paul Dano.",qwen3.6-35b-a3b,5.92
+c11,4998,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,5.18
+c11,3763,0,No mention of Paul Dano,qwen3.6-35b-a3b,4.95
+c11,13962,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,5.17
+c11,5088,0,No mention of Paul Dano,qwen3.6-35b-a3b,4.99
+c11,6002,2,Post shows Paul Dano as Tarantino meme,qwen3.6-35b-a3b,4.67
+c11,18688,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,6.92
+c11,7095,0,"Post is about film Motor City, not Paul Dano as Tarantino",qwen3.6-35b-a3b,8.50
+c11,5685,0,"Post is about IT, not Paul Dano as Tarantino",qwen3.6-35b-a3b,7.75
+c11,18488,0,"Post is about David Tennant, not Paul Dano",qwen3.6-35b-a3b,7.03
+c11,5735,0,Wrong actor and character,qwen3.6-35b-a3b,4.06
+c11,4369,0,"Post is about Anthony Bourdain biopic, not Paul Dano",qwen3.6-35b-a3b,5.81
+c11,6113,0,"Post is about Sylvester Stallone, not Paul Dano or Tarantino",qwen3.6-35b-a3b,15.81
+c11,4220,0,"Post is about Paolo Sorrentino's film, not Paul Dano.",qwen3.6-35b-a3b,10.51
+c11,7088,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,6.86
+c11,2731,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,6.51
+c11,4302,0,"Post is about Al Pacino, not Paul Dano",qwen3.6-35b-a3b,7.34
+c11,3754,0,"Post is about film Dau, not Paul Dano",qwen3.6-35b-a3b,7.18
+c11,24882,0,"Post is about Dmitry Lysenkov, not Paul Dano",qwen3.6-35b-a3b,5.26
+c11,6753,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,14.70
+c11,6180,0,No mention of Paul Dano,qwen3.6-35b-a3b,14.14
+c11,6742,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,8.38
+c11,6638,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,12.64
+c11,2928,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,13.32
+c11,6733,0,"Post discusses Kill Bill plot, not Paul Dano",qwen3.6-35b-a3b,7.67
+c11,5855,0,"Post is about Sergey Gorodnichiy, not Paul Dano",qwen3.6-35b-a3b,12.26
+c11,4613,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,22.23
+c11,6752,0,"Post discusses Kill Bill, not Paul Dano as Tarantino",qwen3.6-35b-a3b,24.21
+c11,24708,0,No mention of Paul Dano or Tarantino role,qwen3.6-35b-a3b,17.26
+c11,7154,0,"Post discusses Pattinson, not Dano or Tarantino",qwen3.6-35b-a3b,16.77
+c11,9715,0,No mention of Paul Dano or Tarantino,qwen3.6-35b-a3b,18.65
+c12,20666,1,Mentions Kratos but not the series casting,qwen3.6-35b-a3b,11.97
+c12,5365,1,Mentions casting but no answer,qwen3.6-35b-a3b,3.77
+c12,20641,0,"Post discusses game release, not TV series casting",qwen3.6-35b-a3b,10.26
+c12,20852,2,Directly answers who plays Kratos,qwen3.6-35b-a3b,4.50
+c12,19910,0,Does not mention the actor playing Kratos,qwen3.6-35b-a3b,6.56
+c12,21304,2,Directly answers who plays Kratos,qwen3.6-35b-a3b,4.09
+c12,18342,0,"Post discusses game news, not the series or actor.",qwen3.6-35b-a3b,5.83
+c12,20431,2,Mentions Ryan Hurst plays Kratos,qwen3.6-35b-a3b,5.65
+c12,19490,1,"Same franchise, but wrong topic",qwen3.6-35b-a3b,6.06
+c12,20838,1,Related topic but wrong character,qwen3.6-35b-a3b,5.84
+c12,21638,2,Identifies Dave Bautista as Kratos,qwen3.6-35b-a3b,6.13
+c12,17990,0,"Post discusses Freya, not Kratos actor",qwen3.6-35b-a3b,5.73
+c12,5578,2,Directly answers who plays Kratos,qwen3.6-35b-a3b,5.17
+c12,4815,1,Mentions God of War but not the actor,qwen3.6-35b-a3b,5.23
+c12,19776,0,"Post discusses release dates, not casting.",qwen3.6-35b-a3b,8.87
+c12,5808,2,Directly answers who plays Kratos,qwen3.6-35b-a3b,7.42
+c12,20851,1,Mentions God of War but not Kratos actor,qwen3.6-35b-a3b,7.27
+c12,8771,0,"Meme about gameplay, not casting info",qwen3.6-35b-a3b,5.47
+c12,8177,0,"Post is about religion, not God of War",qwen3.6-35b-a3b,7.06
+c12,9146,0,Irrelevant content about animals and angels,qwen3.6-35b-a3b,4.54
+c12,5627,2,Identifies Ryan Hurst as Kratos actor,qwen3.6-35b-a3b,6.63
+c12,21312,0,"Post is about fan art, not the actor.",qwen3.6-35b-a3b,9.21
+c12,17893,0,"Post is about The Last of Us, not God of War",qwen3.6-35b-a3b,13.63
+c12,20390,0,"Post is about House of the Dragon, not God of War",qwen3.6-35b-a3b,14.23
+c12,5491,0,"Post is about Cristiano Ronaldo, not God of War",qwen3.6-35b-a3b,12.14
+c12,5866,0,"Post is about RoboCop, not God of War",qwen3.6-35b-a3b,14.60
+c12,25498,0,Post is about a different series,qwen3.6-35b-a3b,14.68
+c12,6181,0,No mention of God of War or Kratos,qwen3.6-35b-a3b,10.66
+c12,20392,0,"Post is about Netflix series Below, not God of War",qwen3.6-35b-a3b,10.24
+c13,4884,2,Directly shows Ridley Scott's new poster,qwen3.6-35b-a3b,10.47
+c13,4154,2,Directly answers query about Ridley Scott,qwen3.6-35b-a3b,10.42
+c13,20372,2,Directly answers query about Ridley Scott's new project,qwen3.6-35b-a3b,11.89
+c13,18428,2,Directly answers query about Ridley Scott's new project,qwen3.6-35b-a3b,9.15
+c13,2958,2,Lists Ridley Scott's upcoming projects,qwen3.6-35b-a3b,9.77
+c13,21746,2,Directly answers query about Ridley Scott's news,qwen3.6-35b-a3b,11.27
+c13,5884,2,Post discusses Ridley Scott's new film,qwen3.6-35b-a3b,7.21
+c13,6006,2,Directly addresses Ridley Scott's new film,qwen3.6-35b-a3b,5.37
+c13,4883,2,Directly answers the query about Ridley Scott's new project,qwen3.6-35b-a3b,5.76
+c13,4153,2,Directly answers query about Ridley Scott's new project,qwen3.6-35b-a3b,7.25
+c13,21458,2,Reviews of Ridley Scott's new film,qwen3.6-35b-a3b,7.62
+c13,20078,1,"Mentions Ridley Scott, but not his news",qwen3.6-35b-a3b,7.05
+c13,4119,2,Directly answers the query with new Ridley Scott film news,qwen3.6-35b-a3b,10.66
+c13,7225,2,Post shows new Ridley Scott film trailer,qwen3.6-35b-a3b,10.05
+c13,5594,2,Announces new Ridley Scott film,qwen3.6-35b-a3b,5.62
+c13,20835,2,Directly addresses Ridley Scott's new projects,qwen3.6-35b-a3b,5.96
+c13,5934,2,Reports on Ridley Scott's new film performance,qwen3.6-35b-a3b,5.95
+c13,5201,2,Directly answers query about Ridley Scott's new projects,qwen3.6-35b-a3b,4.98
+c13,4885,2,Directly addresses Ridley Scott's film production speed.,qwen3.6-35b-a3b,5.43
+c13,19664,2,Directly answers query about Ridley Scott's new project,qwen3.6-35b-a3b,5.35
+c13,5890,2,Directly answers the query about Ridley Scott's new project,qwen3.6-35b-a3b,9.09
+c13,21446,2,Directly answers the query about Ridley Scott's new projects,qwen3.6-35b-a3b,10.80
+c13,20423,0,"Post is about Rick and Morty, not Ridley Scott",qwen3.6-35b-a3b,6.13
+c13,20606,0,"Post is about Scott Pilgrim, not Ridley Scott",qwen3.6-35b-a3b,5.29
+c13,20693,0,"Post is about Rick and Morty, not Ridley Scott",qwen3.6-35b-a3b,4.84
+c13,19292,0,"Post is about Rick and Morti, not Ridley Scott",qwen3.6-35b-a3b,3.15
+c13,3807,1,Mentions Ridley Scott but focuses on past Oscar win,qwen3.6-35b-a3b,10.40
+c13,7274,1,Mentions Ridley Scott only as director of The Martian,qwen3.6-35b-a3b,9.08
+s01,18207,2,Post shows Artemis II lunar images,qwen3.6-35b-a3b,4.59
+s01,18508,1,"Related Artemis II, but shows Earth, not Moon",qwen3.6-35b-a3b,4.58
+s01,18157,0,"Post shows launch, not lunar images",qwen3.6-35b-a3b,5.63
+s01,18030,0,"Text describes mission, not photos",qwen3.6-35b-a3b,6.16
+s01,18158,0,"Post shows Earth, not the Moon.",qwen3.6-35b-a3b,5.17
+s01,19693,0,"Post discusses Artemis III, not Artemis II",qwen3.6-35b-a3b,9.35
+s01,18161,0,"Post shows Earth, not the Moon.",qwen3.6-35b-a3b,7.32
+s01,12730,0,"Post is a conspiracy theory, not photos.",qwen3.6-35b-a3b,5.09
+s01,12735,0,"Fake news, not actual Artemis II photos",qwen3.6-35b-a3b,8.29
+s01,12758,0,"Post discusses conspiracy theory, not photos",qwen3.6-35b-a3b,9.60
+s01,22435,0,"Text article, not lunar images",qwen3.6-35b-a3b,7.83
+s01,18152,0,"Cosplay meme, not actual mission photos",qwen3.6-35b-a3b,5.16
+s01,18115,0,"Post discusses launch, not photos",qwen3.6-35b-a3b,6.29
+s01,22439,0,"Text only, no images provided",qwen3.6-35b-a3b,7.09
+s01,22836,2,Post contains Artemis 2 lunar images,qwen3.6-35b-a3b,6.70
+s01,18290,0,"Post recommends books, not photos.",qwen3.6-35b-a3b,5.31
+s01,10514,1,Mentions Artemis II but no photos,qwen3.6-35b-a3b,5.69
+s01,10604,0,"Post discusses UFOs, not Artemis II lunar images",qwen3.6-35b-a3b,9.61
+s01,18212,0,Post explicitly states it is not from Artemis,qwen3.6-35b-a3b,7.02
+s01,22442,0,"Text discusses launch, not lunar photos",qwen3.6-35b-a3b,5.57
+s01,18560,2,Post shows photos from Artemis mission,qwen3.6-35b-a3b,8.69
+s01,1619,0,"Image is fantasy art, not Artemis II photos",qwen3.6-35b-a3b,8.84
+s01,22707,2,Post contains Artemis 2 photos of the Moon,qwen3.6-35b-a3b,7.79
+s01,18221,1,"NASA photos, not Artemis II specific",qwen3.6-35b-a3b,6.47
+s01,7223,2,Post contains photos from Artemis II mission,qwen3.6-35b-a3b,5.77
+s01,18820,2,Post confirms release of Artemis 2 photos,qwen3.6-35b-a3b,5.40
+s01,18179,0,"Post discusses a movie, not lunar images",qwen3.6-35b-a3b,5.37
+s01,22674,0,"Shows Earth, not the Moon",qwen3.6-35b-a3b,5.79
+s01,18170,1,Mentions Artemis II but focuses on meteorites,qwen3.6-35b-a3b,7.61
+s01,22260,0,"Post is about Apollo 11, not Artemis II",qwen3.6-35b-a3b,8.15
+s01,23925,0,"Post is about Falcon 9, not Artemis II",qwen3.6-35b-a3b,8.02
+s01,22702,2,Post describes Artemis 2 lunar photos,qwen3.6-35b-a3b,10.30
+s02,24635,2,Post lists Fantlab Book of the Year 2025 winners,qwen3.6-35b-a3b,10.97
+s02,362,2,Announces 2025 Fantlab Book of the Year winners,qwen3.6-35b-a3b,8.87
+s02,24628,2,Directly addresses the 2025 Fantlab Book of the Year contest,qwen3.6-35b-a3b,9.21
+s02,1317,1,Mentions award but not 2025 winner,qwen3.6-35b-a3b,10.56
+s02,1102,1,Mentions FantLab awards but not 2025 book,qwen3.6-35b-a3b,9.85
+s02,17957,1,Mentions 2025 book award but different source,qwen3.6-35b-a3b,9.92
+s02,20892,1,"Mentions 2025 book, but different award",qwen3.6-35b-a3b,11.85
+s02,20365,0,"Post is about Marvel, not Fantlab awards",qwen3.6-35b-a3b,9.92
+s02,341,2,Directly answers the query about Fantlab Book of the Year 2025,qwen3.6-35b-a3b,7.68
+s02,21010,0,Не относится к Фантлабу или книге года,qwen3.6-35b-a3b,5.48
+s02,24627,2,Directly addresses the 2025 Fantlab Book of the Year,qwen3.6-35b-a3b,5.83
+s02,250,0,"Post is about an interview, not the award",qwen3.6-35b-a3b,3.50
+s02,4349,0,"Post is about Dwayne Johnson, not Fantlab book award",qwen3.6-35b-a3b,8.21
+s02,1302,0,"Post is about an artist, not the 2025 book award.",qwen3.6-35b-a3b,9.01
+s02,25686,0,"Post is about publishing, not Fantlab awards",qwen3.6-35b-a3b,9.40
+s02,21707,0,"Dragon Awards, not Fantlab",qwen3.6-35b-a3b,13.44
+s02,5556,0,"Post is about Game of Thrones, not Fantlab 2025",qwen3.6-35b-a3b,5.64
+s02,2672,0,"Post is about film, not Fantlab book award",qwen3.6-35b-a3b,15.21
+s02,5200,0,"Post is about a movie, not a book award.",qwen3.6-35b-a3b,11.89
+s02,18612,0,"Post is about a video game, not a book.",qwen3.6-35b-a3b,6.22
+s02,361,2,Post announces Fantlab Book of the Year winner,qwen3.6-35b-a3b,10.13
+s02,24607,0,"Podcast review, not the award list",qwen3.6-35b-a3b,15.52
+s02,519,0,"Discusses Cervantes, not 2025 Fantlab book",qwen3.6-35b-a3b,11.30
+s02,24634,2,Post discusses FantLab Book of the Year 2025,qwen3.6-35b-a3b,8.68
+s02,5166,0,"Post discusses collaboration, not book awards.",qwen3.6-35b-a3b,13.70
+s02,25786,1,"Mentions Fantlab award, but not 2025 book",qwen3.6-35b-a3b,12.71
+s02,4046,0,No mention of Fantlab or 2025 award,qwen3.6-35b-a3b,7.64
+s02,24954,0,"Mentions Ted Williams, not Fantlab",qwen3.6-35b-a3b,4.90
+s02,18655,0,"Post discusses sci-fi films, not books.",qwen3.6-35b-a3b,5.69
+s02,1044,0,"Post is about Hemingway, not Fantlab 2025 book",qwen3.6-35b-a3b,8.61
+s02,19887,0,"Collider list, not Fantlab 2025",qwen3.6-35b-a3b,7.73
+s02,25784,0,Not relevant to Fantlab book of the year,qwen3.6-35b-a3b,7.24
+s02,25481,0,"Post discusses Roscon awards, not Fantlab.",qwen3.6-35b-a3b,8.97
+s02,24924,0,"Post discusses 2024 books, not 2025 awards",qwen3.6-35b-a3b,11.04
+s02,22271,0,"Post is about neuroscience, not Fantlab book awards.",qwen3.6-35b-a3b,12.42
+s02,22113,0,"Post is about neuroscience, not Fantlab book awards",qwen3.6-35b-a3b,13.35
+s02,6483,0,"Post discusses a film, not a book award.",qwen3.6-35b-a3b,14.28
+s02,25621,0,"Post discusses AI plagiarism, not book awards",qwen3.6-35b-a3b,11.22
+s02,765,0,"Post is a poster giveaway, not the book list",qwen3.6-35b-a3b,10.97
+s02,24767,0,"Discusses Revizor award, not Fantlab",qwen3.6-35b-a3b,8.23
+s02,1498,0,"Describes Fantlab Lab, not the main award",qwen3.6-35b-a3b,6.65
+s02,813,0,"Post discusses comic anthology, not book of the year",qwen3.6-35b-a3b,10.77
+s02,758,0,"Post discusses FantaLab logo history, not 2025 book award",qwen3.6-35b-a3b,9.30
+s03,21642,2,Post announces the series release.,qwen3.6-35b-a3b,4.27
+s03,19831,2,Post discusses the new series adaptation.,qwen3.6-35b-a3b,5.66
+s03,7402,2,Post discusses the specified series,qwen3.6-35b-a3b,9.49
+s03,25653,2,Post discusses the TV series adaptation of the book.,qwen3.6-35b-a3b,8.77
+s03,24644,2,Directly addresses the 1989 adaptation of the book.,qwen3.6-35b-a3b,7.78
+s03,21692,2,Directly discusses the requested series,qwen3.6-35b-a3b,4.91
+s03,13618,2,Directly mentions the series 'Трудно быть богом',qwen3.6-35b-a3b,8.15
+s03,25498,2,Shows frames from the requested series,qwen3.6-35b-a3b,4.03
+s03,7224,1,"Mentions authors and title, but not the series",qwen3.6-35b-a3b,7.03
+s03,24778,1,Mentions series but focuses on comparison,qwen3.6-35b-a3b,5.48
+s03,1460,2,Post discusses the new series adaptation,qwen3.6-35b-a3b,3.87
+s03,20246,2,Post announces trailer for the requested series,qwen3.6-35b-a3b,5.33
+s03,21228,2,Post announces trailer for the requested series,qwen3.6-35b-a3b,5.39
+s03,25311,2,Directly discusses the requested series.,qwen3.6-35b-a3b,4.80
+s03,25840,2,Post discusses the upcoming series adaptation.,qwen3.6-35b-a3b,4.18
+s03,25891,2,Directly mentions the series and its characters.,qwen3.6-35b-a3b,4.38
+s03,7399,2,Post discusses the series and its characters.,qwen3.6-35b-a3b,3.33
+s03,25907,2,Post discusses the 2026 adaptation of the series.,qwen3.6-35b-a3b,6.56
+s03,7834,2,"Post mentions the film ""Трудно быть Богом""",qwen3.6-35b-a3b,6.39
+s03,20263,2,Post mentions the new series adaptation,qwen3.6-35b-a3b,13.32
+s03,7377,2,Trailer for the requested series,qwen3.6-35b-a3b,9.14
+s03,24899,2,Post discusses the series and book directly,qwen3.6-35b-a3b,10.17
+s03,25913,2,Post discusses the requested series adaptation,qwen3.6-35b-a3b,8.50
+s03,25951,2,Post discusses the TV series adaptation of the book.,qwen3.6-35b-a3b,23.44
+s03,25457,0,"Post discusses book cover, not TV series",qwen3.6-35b-a3b,19.52
+s03,4047,2,Directly addresses the series adaptation of Strugatsky's novel,qwen3.6-35b-a3b,24.17
+s03,25807,2,Post discusses the requested series adaptation.,qwen3.6-35b-a3b,21.45
+s03,7300,2,Directly discusses the requested series adaptation.,qwen3.6-35b-a3b,22.13
+s03,25932,2,Post discusses the series adaptation.,qwen3.6-35b-a3b,22.13
+s03,25959,2,Directly discusses the requested series,qwen3.6-35b-a3b,20.81
+s03,25915,2,Directly discusses the novel and its context.,qwen3.6-35b-a3b,20.67
+s04,7398,1,"General Star Trek info, not podcast episodes",qwen3.6-35b-a3b,10.42
+s04,18064,2,Post explicitly mentions Star Trek podcast episodes,qwen3.6-35b-a3b,9.88
+s04,19648,0,"Post is about a game, not the podcast",qwen3.6-35b-a3b,8.03
+s04,19627,0,"Post is about a game, not a podcast",qwen3.6-35b-a3b,8.09
+s04,18982,0,No mention of Star Trek in post,qwen3.6-35b-a3b,9.21
+s04,21896,0,No mention of Star Trek,qwen3.6-35b-a3b,9.69
+s04,24984,0,"Post is about Leonard Nimoy, not the podcast",qwen3.6-35b-a3b,9.94
+s04,18141,2,Post explicitly mentions Star Trek podcast episode,qwen3.6-35b-a3b,9.66
+s04,20013,0,"Post is about a movie, not a podcast",qwen3.6-35b-a3b,7.91
+s04,19317,0,"Post is about Star Wars, not Star Trek",qwen3.6-35b-a3b,8.04
+s04,5064,0,"Post discusses other movies, not Star Trek",qwen3.6-35b-a3b,7.90
+s04,4242,0,"Post is about Battlefield movie, not Star Trek",qwen3.6-35b-a3b,7.87
+s04,19778,2,Post discusses Star Trek episodes of the podcast,qwen3.6-35b-a3b,9.90
+s04,18737,0,"Post is about Andy Weir, not Star Trek",qwen3.6-35b-a3b,9.95
+s04,5705,0,"Post is about Star Wars, not Star Trek",qwen3.6-35b-a3b,9.61
+s04,18835,0,"Post discusses Gravity Falls, not Star Trek",qwen3.6-35b-a3b,10.04
+s04,16864,0,Unrelated marketplace review meme,qwen3.6-35b-a3b,8.88
+s04,20699,0,"Post discusses Mortal Kombat, not Star Trek",qwen3.6-35b-a3b,8.51
+s04,21726,0,"Post discusses 90s cartoons and Spider-Man, not Star Trek",qwen3.6-35b-a3b,9.02
+s04,20785,0,"Post is about D&D, not Star Trek podcast",qwen3.6-35b-a3b,9.67
+s04,18513,2,Post announces new Star Trek podcast episode,qwen3.6-35b-a3b,10.09
+s04,21204,0,"Post is about Lovecraft and Doctor Who, not Star Trek",qwen3.6-35b-a3b,11.00
+s04,18204,2,Post mentions Star Trek podcast episodes,qwen3.6-35b-a3b,4.86
+s04,21025,0,"Post discusses Doctor Who, not Star Trek",qwen3.6-35b-a3b,3.96
+s04,24880,0,Podcast name does not match query,qwen3.6-35b-a3b,3.75
+s04,24607,0,"Post is about ФантКаст, not Star Trek",qwen3.6-35b-a3b,5.36
+s04,18351,0,"Post is about detective games, not Star Trek",qwen3.6-35b-a3b,5.58
+s04,19912,0,No mention of Star Trek in the post,qwen3.6-35b-a3b,6.11
+s04,18674,2,Post announces new Star Trek podcast episodes,qwen3.6-35b-a3b,5.82
+s04,19299,0,"Post discusses Doctor Who and Shrek, not Star Trek",qwen3.6-35b-a3b,9.11
+s04,17915,0,No mention of Star Trek in the post,qwen3.6-35b-a3b,4.46
+s04,19415,0,"Post is about Soviet sci-fi, not Star Trek",qwen3.6-35b-a3b,7.33
+s04,20348,0,"Post discusses retro gaming and Amber, not Star Trek",qwen3.6-35b-a3b,7.58
+s04,21391,0,"Post is about Lovecraft, not Star Trek",qwen3.6-35b-a3b,6.80
+s04,21403,0,"Post is about horror, not Star Trek",qwen3.6-35b-a3b,5.68
+s04,22746,0,"Post is about N+1 podcast, not Star Trek",qwen3.6-35b-a3b,4.56
+s04,23045,0,"Post is about Chengdu, not Star Trek",qwen3.6-35b-a3b,5.83
+s04,19138,0,"Post discusses Shrek, not Star Trek",qwen3.6-35b-a3b,6.87
+s04,19663,0,"Post discusses Roger Zelazny and James Bond, not Star Trek",qwen3.6-35b-a3b,7.27
+s04,20849,0,"Post is about Doctor Who, not Star Trek",qwen3.6-35b-a3b,7.19
+s04,20190,0,"Post discusses Babylon 5 and Gothic, not Star Trek",qwen3.6-35b-a3b,7.50
+s04,21579,0,No mention of Star Trek,qwen3.6-35b-a3b,4.05
+s04,20503,0,"Post is about Mortal Kombat, not Star Trek",qwen3.6-35b-a3b,6.74
+s04,24756,1,"Podcast about Green and Lovecraft, not Star Trek",qwen3.6-35b-a3b,6.74
+s05,21752,2,Directly answers the query about the remake,qwen3.6-35b-a3b,2.85
+s05,19678,2,Directly confirms the Switch 2 remake,qwen3.6-35b-a3b,3.81
+s05,21750,2,Post directly addresses the query topic,qwen3.6-35b-a3b,3.59
+s05,18012,1,Mentions remake but not for Switch 2,qwen3.6-35b-a3b,4.16
+s05,21753,1,Mentions remake but not Switch 2,qwen3.6-35b-a3b,4.49
+s05,18021,2,Post mentions Ocarina of Time remake,qwen3.6-35b-a3b,4.45
+s05,21681,1,"Mentions Zelda anniversary, not Switch 2 remake",qwen3.6-35b-a3b,4.18
+s05,6060,0,"Post is about a movie, not a game remake.",qwen3.6-35b-a3b,4.26
+s05,5614,1,"Mentions Zelda, but unrelated to Switch 2 remake",qwen3.6-35b-a3b,3.91
+s05,18498,1,"Mentions Zelda adaptation, not Switch 2 remake",qwen3.6-35b-a3b,3.58
+s05,21749,0,"Post is about a film, not a game remake",qwen3.6-35b-a3b,4.09
+s05,20415,0,"Post is about KOTOR, not Zelda.",qwen3.6-35b-a3b,3.98
+s05,17923,0,"Post is about Pokemon, not Zelda",qwen3.6-35b-a3b,3.57
+s05,19355,0,Не относится к Zelda или Switch 2,qwen3.6-35b-a3b,4.48
+s05,23463,0,"Post discusses psychology, not a remake.",qwen3.6-35b-a3b,4.42
+s05,21425,0,"Post is about Heroes of Might and Magic, not Zelda.",qwen3.6-35b-a3b,4.30
+s05,5871,0,"Post is about Donnie Darko book, not Zelda",qwen3.6-35b-a3b,4.38
+s05,8645,0,Post is unrelated to Zelda or Switch 2,qwen3.6-35b-a3b,3.78
+s05,18731,0,"Post discusses Psychonauts, not Zelda",qwen3.6-35b-a3b,4.08
+s05,6053,0,"Post is about box office, not Zelda",qwen3.6-35b-a3b,4.09
+s05,19442,0,"Post is about Baldur's Gate 2, not Zelda",qwen3.6-35b-a3b,4.63
+s05,18664,0,"Post is about Gothic, not Zelda.",qwen3.6-35b-a3b,3.34
+s05,21592,0,"Post is about Onimusha, not Zelda.",qwen3.6-35b-a3b,3.72
+s05,21087,0,"Post is about Lord of the Rings, not Zelda",qwen3.6-35b-a3b,3.66
+s05,20377,0,"Post is about a TTRPG, not Zelda",qwen3.6-35b-a3b,3.99
+s05,20249,0,"Post is about Assassin's Creed, not Zelda",qwen3.6-35b-a3b,3.93
+s05,20929,0,"Post is about Little Nightmares, not Zelda",qwen3.6-35b-a3b,4.77
+s05,17995,0,"Post is about The Expanse game, not Zelda",qwen3.6-35b-a3b,3.19
+s05,1772,0,"Post is about Idris Elba, not Zelda",qwen3.6-35b-a3b,4.97
+s05,7039,0,No post data provided,qwen3.6-35b-a3b,1.94
+s05,21723,0,"Post is about Killzone, not Zelda",qwen3.6-35b-a3b,4.13
+s05,4092,0,"Post is about Escape from New York, not Zelda.",qwen3.6-35b-a3b,4.97
+s05,19996,0,"Post is about Gothic, not Zelda.",qwen3.6-35b-a3b,3.99
+s05,21911,0,"Post is about Rayman, not Zelda",qwen3.6-35b-a3b,3.61
+s05,13414,0,"Post is about Back to the Future, not Zelda",qwen3.6-35b-a3b,3.15
+s05,19774,0,"Post is about The Witcher, not Zelda.",qwen3.6-35b-a3b,3.87
+s05,8618,0,Post is about a different game on PS5,qwen3.6-35b-a3b,5.83
+s06,22345,2,Directly discusses brain organoids,qwen3.6-35b-a3b,8.23
+s06,22234,0,"Post discusses brain cortex, not organoids",qwen3.6-35b-a3b,7.37
+s06,22411,0,"Discusses brain anatomy, not organoids",qwen3.6-35b-a3b,5.30
+s06,23804,0,"Medical pathology, not biological organoids",qwen3.6-35b-a3b,6.49
+s06,22360,0,"Post discusses neurotransmitters, not organoids",qwen3.6-35b-a3b,6.62
+s06,22194,0,"Discusses memory, not brain organoids",qwen3.6-35b-a3b,6.42
+s06,23253,1,"Mentions brain cortex, not organoids",qwen3.6-35b-a3b,6.38
+s06,23585,0,"Post is about brain-computer interface, not organoids.",qwen3.6-35b-a3b,6.70
+s06,23515,0,"Post discusses concussions, not organoids.",qwen3.6-35b-a3b,7.15
+s06,23386,0,"Post discusses concussion recovery, not brain organoids.",qwen3.6-35b-a3b,6.63
+s06,22271,0,"Post discusses brain structure, not organoids",qwen3.6-35b-a3b,6.05
+s06,22180,2,Directly explains brain organoids,qwen3.6-35b-a3b,5.92
+s06,23394,0,"Post discusses spinal cord, not brain organoids.",qwen3.6-35b-a3b,3.13
+s06,24028,0,"Post is about exoskeletons, not brain organoids",qwen3.6-35b-a3b,5.84
+s06,24270,0,"Post discusses brain volume, not organoids.",qwen3.6-35b-a3b,5.71
+s06,24329,0,"Post discusses brain volume, not organoids.",qwen3.6-35b-a3b,5.51
+s06,16790,0,"Meme about brain usage myth, not organoids",qwen3.6-35b-a3b,6.06
+s06,17042,1,"Mentions brain lobes, but is a meme, not factual info.",qwen3.6-35b-a3b,7.83
+s06,22346,0,"Post discusses glutamate, not brain organoids",qwen3.6-35b-a3b,7.45
+s06,22414,1,Related topic but not about organoids,qwen3.6-35b-a3b,5.14
+s06,24362,2,Directly discusses brain organoids research,qwen3.6-35b-a3b,4.79
+s06,25011,0,"Post is a quote, not about organoids",qwen3.6-35b-a3b,4.88
+s06,22960,0,"Post discusses bacteria, not brain organoids.",qwen3.6-35b-a3b,5.21
+s06,22837,0,"Post discusses Alzheimer's drugs, not brain organoids",qwen3.6-35b-a3b,5.61
+s06,24424,0,"Post discusses brain plasticity, not organoids.",qwen3.6-35b-a3b,6.24
+s06,22390,0,"Discusses synapses, not organoids",qwen3.6-35b-a3b,6.10
+s06,22171,0,"Post discusses opioids, not brain organoids",qwen3.6-35b-a3b,5.02
+s06,9983,0,"Post shows nerves, not brain organoids",qwen3.6-35b-a3b,5.07
+s06,22113,0,"Post discusses brain development, not organoids.",qwen3.6-35b-a3b,5.62
+s06,23134,0,"Post discusses brain cortex, not organoids.",qwen3.6-35b-a3b,6.16
+s06,475,0,No post data provided,qwen3.6-35b-a3b,4.17
+s06,4430,0,No post data provided,qwen3.6-35b-a3b,2.12
+s06,23785,0,No post data provided,qwen3.6-35b-a3b,2.39
+s06,23044,0,No post data provided,qwen3.6-35b-a3b,2.39
+s06,24291,0,No post data provided,qwen3.6-35b-a3b,2.40
+s06,2140,0,"Post is about music, not brain organoids",qwen3.6-35b-a3b,4.58
+s06,22024,1,"Mentions brain sleep, not organoids",qwen3.6-35b-a3b,6.63
+s06,21886,2,Post discusses digital brain simulation,qwen3.6-35b-a3b,5.70
+s06,2133,0,"Post is about music, not brain organoids",qwen3.6-35b-a3b,4.97
+s06,16381,0,Meme is unrelated to brain organoids,qwen3.6-35b-a3b,4.77
+s06,22413,0,"Post discusses organic compounds, not brain organoids.",qwen3.6-35b-a3b,5.07
+s06,22181,2,Post lists facts about brain organoids,qwen3.6-35b-a3b,5.21
+s06,23827,0,No post data provided,qwen3.6-35b-a3b,3.83
+s06,24287,0,No post data provided,qwen3.6-35b-a3b,2.68
+s06,4428,0,No post data provided,qwen3.6-35b-a3b,2.46
+s06,4856,0,No post data provided,qwen3.6-35b-a3b,2.47
+s06,23296,0,No post data provided,qwen3.6-35b-a3b,2.47
+s06,24387,0,No post data provided,qwen3.6-35b-a3b,2.46
+s06,231,0,No post data provided,qwen3.6-35b-a3b,2.46
+s06,23788,0,No post data provided,qwen3.6-35b-a3b,2.46
+s06,23829,0,No post data provided,qwen3.6-35b-a3b,2.50
+s06,4431,0,No post data provided,qwen3.6-35b-a3b,2.60
+s06,23778,0,No post data provided,qwen3.6-35b-a3b,2.61
+s06,23297,0,No post data provided,qwen3.6-35b-a3b,2.59
+s06,8433,0,"Post is about a cat, not brain organoids",qwen3.6-35b-a3b,3.82
+s06,16982,0,"Meme about stupidity, not brain organoids",qwen3.6-35b-a3b,4.95
+s06,17860,0,"Meme about microplastics, not brain organoids",qwen3.6-35b-a3b,5.16
+s06,23784,0,No post data provided,qwen3.6-35b-a3b,5.06
+s06,17863,0,"Post is about office heat, not brain organoids",qwen3.6-35b-a3b,7.12
+s06,17848,0,"Post is about free-thinking people, not brain organoids.",qwen3.6-35b-a3b,8.54
+s06,17858,0,"Irrelevant subculture meme, not science",qwen3.6-35b-a3b,7.24
+s06,4201,0,No post data provided,qwen3.6-35b-a3b,4.28
+s06,25535,0,No post data provided,qwen3.6-35b-a3b,2.36
+s07,25257,2,Post discusses Lem's work and style directly,qwen3.6-35b-a3b,7.25
+s07,25400,2,Directly discusses Stanislaw Lem,qwen3.6-35b-a3b,5.91
+s07,24980,2,Directly discusses Stanislaw Lem,qwen3.6-35b-a3b,4.29
+s07,25358,2,Directly features Lem's bibliography,qwen3.6-35b-a3b,6.88
+s07,24678,2,Post discusses Stanislaw Lem directly,qwen3.6-35b-a3b,8.62
+s07,20807,0,"Post is about a video game, not Lem",qwen3.6-35b-a3b,15.06
+s07,25285,2,Directly mentions Lem and his translator,qwen3.6-35b-a3b,13.37
+s07,18881,0,"Post is about a video game, not Lem",qwen3.6-35b-a3b,7.60
+s07,19862,1,"Mentions Skyrim, not Lem",qwen3.6-35b-a3b,7.39
+s07,18262,0,"Post is about No Man's Sky, not Lem",qwen3.6-35b-a3b,7.49
+s07,21654,0,"Post is about Castlevania, not Lem",qwen3.6-35b-a3b,7.48
+s07,7984,0,"Post is about a thriller, not Lem",qwen3.6-35b-a3b,7.95
+s07,18951,1,"Mentions sci-fi, but not Lem",qwen3.6-35b-a3b,8.49
+s07,19557,1,"Упоминается Лем, но пост о Devil May Cry",qwen3.6-35b-a3b,8.39
+s07,7064,0,No mention of Lem or his works,qwen3.6-35b-a3b,8.93
+s07,21242,0,"Post is about Starship Troopers, not Lem",qwen3.6-35b-a3b,9.34
+s07,7983,0,"Post is about a movie, not Lem",qwen3.6-35b-a3b,9.95
+s07,19584,0,"Post is about video games, not Lem",qwen3.6-35b-a3b,8.96
+s07,4170,0,"Post is about James Bond, not Lem",qwen3.6-35b-a3b,7.63
+s07,21422,1,Mentions Lem's style but is about a game,qwen3.6-35b-a3b,7.73
+s07,1078,1,"Mentions Lem, but content is unrelated",qwen3.6-35b-a3b,7.94
+s07,12421,0,No connection to Lem or sci-fi,qwen3.6-35b-a3b,8.53
+s07,5239,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,7.29
+s07,4907,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,6.64
+s07,4739,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,11.28
+s07,25762,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,10.09
+s07,25463,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,5.82
+s07,1762,0,Unrelated meme about Matt Damon,qwen3.6-35b-a3b,6.60
+s07,4661,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,6.55
+s07,10131,0,Unrelated to Lem or sci-fi,qwen3.6-35b-a3b,6.72
+s07,9143,0,No mention of Lem or sci-fi,qwen3.6-35b-a3b,6.97
+s07,20467,0,"Post is about Lord of the Rings, not Lem",qwen3.6-35b-a3b,7.04
+s07,14022,0,No mention of Lem or sci-fi,qwen3.6-35b-a3b,6.77
+s07,10144,0,"Unrelated dreamcore meme, no Lem content",qwen3.6-35b-a3b,6.91
+s07,17010,0,No mention of Lem or his works,qwen3.6-35b-a3b,7.15
+s07,8657,0,"Post is about work burnout, not Lem",qwen3.6-35b-a3b,7.21
+s07,4093,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,7.05
+s07,9220,1,"Meme about Six Sense, not Lem",qwen3.6-35b-a3b,6.80
+s07,24491,2,Directly discusses Lem's concept regarding AI.,qwen3.6-35b-a3b,9.31
+s07,1515,2,Directly mentions Stanislaw Lem and his award,qwen3.6-35b-a3b,11.28
+s07,24480,2,Directly discusses Lem's Swarm concept,qwen3.6-35b-a3b,10.90
+s07,19103,0,"Post is about The Witcher 2, not Lem",qwen3.6-35b-a3b,11.41
+s07,19783,0,"General survey, no Lem content",qwen3.6-35b-a3b,4.63
+s07,25298,2,Directly discusses Stanislaw Lem's work,qwen3.6-35b-a3b,6.75
+s07,24165,0,"Anthropology news, not Lem",qwen3.6-35b-a3b,9.71
+s07,25381,2,"Post features Stanislaw Lem, matching query.",qwen3.6-35b-a3b,9.92
+s07,7400,2,"Post is about Stanislaw Lem, matching query.",qwen3.6-35b-a3b,6.55
+s07,25221,2,Direct quote from Lem matching query,qwen3.6-35b-a3b,10.85
+s07,9057,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,6.39
+s07,25860,0,No connection to Lem or sci-fi,qwen3.6-35b-a3b,3.11
+s07,25720,1,Mentions Lem's theme but vaguely,qwen3.6-35b-a3b,6.73
+s07,17915,1,"Mentions Le Guin, not Lem",qwen3.6-35b-a3b,8.74
+s07,7701,0,"Post is about a Soviet film, not Lem",qwen3.6-35b-a3b,10.03
+s07,9234,0,Unrelated to Lem or sci-fi,qwen3.6-35b-a3b,8.29
+s07,1970,0,"Image shows actors, not Lem",qwen3.6-35b-a3b,7.19
+s07,1875,0,No mention of Lem or relevant content,qwen3.6-35b-a3b,7.10
+s07,1814,0,"Irrelevant image of a woman, not Lem",qwen3.6-35b-a3b,7.26
+s07,1894,1,"Nolan meme, not Lem related",qwen3.6-35b-a3b,7.96
+s08,4124,0,"Post is about Criterion Collection, not Lovecraft",qwen3.6-35b-a3b,8.11
+s08,1359,1,"Mentions old editions, not new releases",qwen3.6-35b-a3b,8.93
+s08,311,2,Directly addresses new Lovecraft editions,qwen3.6-35b-a3b,8.82
+s08,19185,0,"Post is about The Boys, not Lovecraft",qwen3.6-35b-a3b,7.92
+s08,2960,0,"Post is about cinema archives, not Lovecraft",qwen3.6-35b-a3b,8.57
+s08,21775,0,"Post is about DC series, not Lovecraft",qwen3.6-35b-a3b,8.70
+s08,3772,0,"Post discusses films, not Lovecraft",qwen3.6-35b-a3b,8.27
+s08,815,1,Mentions Lovecraft but not new editions or debates,qwen3.6-35b-a3b,5.60
+s08,1302,2,Post discusses new Lovecraft editions,qwen3.6-35b-a3b,6.11
+s08,786,2,Directly addresses the controversy,qwen3.6-35b-a3b,10.01
+s08,18576,2,Post discusses new Lovecraft book and universe,qwen3.6-35b-a3b,7.16
+s08,1369,1,"Discusses controversies, not new editions",qwen3.6-35b-a3b,5.71
+s08,455,2,Discusses new Lovecraft editions and publishing context,qwen3.6-35b-a3b,9.61
+s08,2826,0,"Post is about Sokurov, not Lovecraft",qwen3.6-35b-a3b,21.42
+s08,22237,0,"Post is about black holes, not Lovecraft.",qwen3.6-35b-a3b,18.77
+s08,25115,0,"Post is about Norman, not Lovecraft",qwen3.6-35b-a3b,6.03
+s08,1337,1,"Mentions Lovecraft expert, not new editions",qwen3.6-35b-a3b,5.87
+s08,23577,0,"Post is about space exploration, not Lovecraft.",qwen3.6-35b-a3b,5.56
+s08,724,2,Post discusses new Lovecraft edition and controversy,qwen3.6-35b-a3b,5.34
+s08,7938,0,"Post discusses a film, not book editions",qwen3.6-35b-a3b,5.67
+s08,799,2,Directly addresses AI controversy in Lovecraft editions,qwen3.6-35b-a3b,5.77
+s08,24682,2,Discusses new Lovecraft edition and controversies,qwen3.6-35b-a3b,6.14
+s08,20011,2,Directly addresses new Lovecraft edition and controversy,qwen3.6-35b-a3b,6.22
+s08,684,2,Post discusses new Lovecraft edition and AI controversy,qwen3.6-35b-a3b,5.28
+s08,54,0,"Post discusses 1990s editions, not new ones",qwen3.6-35b-a3b,5.73
+s08,25784,1,"Mentions book news, but not Lovecraft",qwen3.6-35b-a3b,5.56
+s08,181,2,Describes new Lovecraft edition and details,qwen3.6-35b-a3b,5.48
+s08,776,2,Post discusses new Lovecraft comic anthology,qwen3.6-35b-a3b,5.65
+s08,1327,2,Post discusses new Lovecraft edition and features,qwen3.6-35b-a3b,6.25
+s08,840,2,Directly addresses Lovecraft editions and related debates,qwen3.6-35b-a3b,9.68
+s08,943,2,Post discusses new Lovecraft edition and its features,qwen3.6-35b-a3b,8.56
+s08,737,2,Post announces new Lovecraft comic edition,qwen3.6-35b-a3b,4.83
+s08,25782,0,"Post discusses other authors, not Lovecraft",qwen3.6-35b-a3b,5.73
+s08,395,1,"Old article, not new editions",qwen3.6-35b-a3b,5.74
+s08,321,2,Post details new Lovecraft publication and crowdfunding,qwen3.6-35b-a3b,5.00
+s08,1237,1,"Mentions Lovecraft but focuses on an event, not new editions or disputes.",qwen3.6-35b-a3b,5.74
+s08,24757,1,"Mentions Lovecraft but compares to Alexander Green, not new editions.",qwen3.6-35b-a3b,6.75
+s08,1532,1,Mentions Lovecraft but not new editions,qwen3.6-35b-a3b,6.92
+s08,25692,2,Post discusses new Lovecraft editions and translations,qwen3.6-35b-a3b,6.19
+s08,165,2,Post discusses new Lovecraft edition,qwen3.6-35b-a3b,5.45
+s08,163,2,Announces new Lovecraft edition,qwen3.6-35b-a3b,4.56
+s08,1221,2,New Lovecraft edition released,qwen3.6-35b-a3b,2.29
+s08,841,2,Shows new Lovecraft comic editions,qwen3.6-35b-a3b,4.48
+s08,1394,2,Post announces new Lovecraft edition,qwen3.6-35b-a3b,4.41
+s09,5458,2,Post is the requested trailer teaser.,qwen3.6-35b-a3b,4.81
+s09,21033,1,"Shows screenshots, not the trailer",qwen3.6-35b-a3b,3.78
+s09,20524,2,Post confirms trailer release date for season 3,qwen3.6-35b-a3b,3.49
+s09,21747,2,Shows new footage from season 3 trailer,qwen3.6-35b-a3b,5.07
+s09,5408,1,"Shows stills, not the trailer itself",qwen3.6-35b-a3b,3.36
+s09,20678,1,Related to season 3 but not a trailer,qwen3.6-35b-a3b,6.86
+s09,20780,1,"Shows a still, not the trailer",qwen3.6-35b-a3b,8.51
+s09,20638,2,Post explicitly mentions the trailer for season 3,qwen3.6-35b-a3b,4.21
+s09,21407,1,"Shows a frame, not the trailer itself",qwen3.6-35b-a3b,4.37
+s09,3879,0,"Post is about Euphoria, not Rings of Power",qwen3.6-35b-a3b,4.88
+s09,4265,0,"Post is about House of the Dragon, not Rings of Power",qwen3.6-35b-a3b,4.97
+s09,4761,0,"Post is about House of the Dragon, not Rings of Power",qwen3.6-35b-a3b,5.08
+s09,18555,2,Post contains trailer release info,qwen3.6-35b-a3b,4.68
+s09,3895,0,"Post is about Euphoria, not Rings of Power",qwen3.6-35b-a3b,4.63
+s09,4273,0,"Post is about House of the Dragon, not Rings of Power",qwen3.6-35b-a3b,5.24
+s09,4798,0,"Post is about Silo, not Rings of Power",qwen3.6-35b-a3b,5.19
+s09,5576,0,"Post is about House of the Dragon, not Rings of Power",qwen3.6-35b-a3b,5.16
+s09,19341,1,Mentions season 3 but focuses on season 4,qwen3.6-35b-a3b,5.28
+s09,5730,0,"Post discusses Marvel and Percy Jackson, not Rings of Power",qwen3.6-35b-a3b,5.37
+s09,18672,0,"Post is about House of the Dragon, not Rings of Power",qwen3.6-35b-a3b,5.76
+s09,5396,1,"Related to season 3, but not the trailer",qwen3.6-35b-a3b,4.10
+s09,18961,2,Post shows first look at season 3 trailer,qwen3.6-35b-a3b,3.35
+s09,20505,1,Mentions season 3 but is not a trailer,qwen3.6-35b-a3b,9.32
+s09,5241,0,"Post is about Dune, not Rings of Power",qwen3.6-35b-a3b,2.69
+s09,4424,0,"Post is about A Quiet Place, not Rings of Power",qwen3.6-35b-a3b,6.85
+s09,20439,1,"Shows character, not the trailer itself",qwen3.6-35b-a3b,4.71
+s09,19476,0,"Post is about 'Shelter', not 'Rings of Power'",qwen3.6-35b-a3b,4.95
+s09,19046,0,"Post is about Superboy, not Rings of Power",qwen3.6-35b-a3b,5.23
+s09,19403,0,"Post is about House of the Dragon, not Rings of Power",qwen3.6-35b-a3b,5.16
+s09,3759,2,Post explicitly mentions official trailer,qwen3.6-35b-a3b,4.74
+s09,18172,0,"Post discusses budget rumors, not the trailer",qwen3.6-35b-a3b,4.66
+s09,5500,0,"Post is about Severance, not Rings of Power",qwen3.6-35b-a3b,5.29
+s09,20136,0,"Post is about anime, not Rings of Power",qwen3.6-35b-a3b,5.25
+s10,21091,2,"News about a Warhammer 40,000 game release",qwen3.6-35b-a3b,5.34
+s10,20839,1,"News about animation, not games",qwen3.6-35b-a3b,5.12
+s10,20709,0,"Post is about film, not games",qwen3.6-35b-a3b,4.75
+s10,20877,1,"News about series, not games",qwen3.6-35b-a3b,4.86
+s10,19526,1,"News about artist, not games",qwen3.6-35b-a3b,4.73
+s10,21010,1,"Mentions Warhammer 40,000 but discusses a book, not games.",qwen3.6-35b-a3b,6.35
+s10,19028,2,"Lists Warhammer 40,000 games",qwen3.6-35b-a3b,8.44
+s10,19225,2,"Post lists new Warhammer 40,000 games",qwen3.6-35b-a3b,7.26
+s10,21487,2,"Post announces a new Warhammer 40,000 game",qwen3.6-35b-a3b,5.66
+s10,18035,1,"News about the game rules, not specific games",qwen3.6-35b-a3b,5.39
+s10,5501,1,"News about film adaptation, not games",qwen3.6-35b-a3b,5.54
+s10,20600,2,"Announces Warhammer 40,000 game collaboration",qwen3.6-35b-a3b,5.65
+s10,18531,2,"Post announces a new Warhammer 40,000 game",qwen3.6-35b-a3b,5.16
+s10,13254,1,Mentions Warhammer 40k but not games,qwen3.6-35b-a3b,5.29
+s10,20765,2,"Directly discusses a new Warhammer 40,000 game",qwen3.6-35b-a3b,2.72
+s10,19654,2,"Directly shows gameplay of Warhammer 40,000 game",qwen3.6-35b-a3b,5.94
+s10,20300,2,"Post shows gameplay of a Warhammer 40,000 game",qwen3.6-35b-a3b,3.99
+s10,20307,0,"Post is about Mortal Shell II, not Warhammer 40,000",qwen3.6-35b-a3b,3.86
+s10,20897,0,"Post is about Sekiro, not Warhammer 40k",qwen3.6-35b-a3b,7.01
+s10,19444,0,"Post is about TTRPGs, not Warhammer 40k games",qwen3.6-35b-a3b,9.41
+s10,20837,2,"Post mentions Warhammer 40,000 game Dark Heresy",qwen3.6-35b-a3b,8.58
+s10,20003,1,"Mentions Warhammer 40,000 but is event news",qwen3.6-35b-a3b,5.88
+s10,16823,0,"No mention of Warhammer 40,000 games",qwen3.6-35b-a3b,6.02
+s10,20515,2,"Directly discusses a new Warhammer 40,000 game",qwen3.6-35b-a3b,6.19
+s10,21652,0,"No mention of Warhammer 40,000 games",qwen3.6-35b-a3b,6.08
+s10,21372,1,Mentions Warhammer but not 40k games,qwen3.6-35b-a3b,5.85
+s10,19448,1,"News about the game edition, not the games themselves",qwen3.6-35b-a3b,5.43
+s10,20851,2,"Post mentions Warhammer 40,000 news",qwen3.6-35b-a3b,5.48
+s10,20778,2,"Post announces Warhammer 40,000 game content",qwen3.6-35b-a3b,5.76
+s10,21001,2,"News about a new Warhammer 40,000 game",qwen3.6-35b-a3b,5.34
+s10,20726,1,"Mentions Warhammer 40,000 movie, not games",qwen3.6-35b-a3b,5.88
+s11,23975,2,Directly reports on the Ebola outbreak in Congo,qwen3.6-35b-a3b,6.30
+s11,23478,2,Directly reports Ebola outbreak in Congo,qwen3.6-35b-a3b,5.83
+s11,23236,2,Directly addresses the Ebola outbreak in Congo,qwen3.6-35b-a3b,6.71
+s11,24359,2,Directly reports Ebola outbreak in Congo,qwen3.6-35b-a3b,7.62
+s11,23177,2,Directly addresses Ebola outbreak in Congo,qwen3.6-35b-a3b,6.50
+s11,23077,2,Directly addresses the Ebola outbreak in Congo,qwen3.6-35b-a3b,5.45
+s11,23301,2,Directly addresses the Ebola outbreak in Congo,qwen3.6-35b-a3b,5.52
+s11,23768,2,Directly addresses the Ebola outbreak in Congo,qwen3.6-35b-a3b,5.62
+s11,24206,2,Directly reports Ebola outbreak in Congo,qwen3.6-35b-a3b,5.41
+s11,22679,1,"Same country, different disease",qwen3.6-35b-a3b,4.92
+s11,22503,0,"Post discusses hantavirus, not Ebola",qwen3.6-35b-a3b,5.07
+s11,24086,2,Directly reports Ebola outbreak in Congo,qwen3.6-35b-a3b,6.08
+s11,23939,0,"Post is about uranium, not Ebola.",qwen3.6-35b-a3b,5.27
+s11,22759,0,"Post is about solar storms, not Ebola.",qwen3.6-35b-a3b,4.91
+s11,23584,2,Directly addresses Ebola outbreak in Congo,qwen3.6-35b-a3b,6.68
+s11,24393,0,"Post discusses cobalt mining, not Ebola.",qwen3.6-35b-a3b,7.72
+s11,23686,0,"Post is about monkeys, not Ebola.",qwen3.6-35b-a3b,6.66
+s11,4868,0,"Post is about a movie, not Ebola",qwen3.6-35b-a3b,5.74
+s11,11939,0,"Post is about vintage memes, not Ebola.",qwen3.6-35b-a3b,6.02
+s11,23870,2,Directly reports Ebola outbreak in Congo,qwen3.6-35b-a3b,5.64
+s11,11471,2,Directly mentions Ebola outbreak in Congo,qwen3.6-35b-a3b,5.88
+s11,23387,0,"Post discusses symptoms, not outbreak",qwen3.6-35b-a3b,5.61
+s11,22867,0,"Post is about bonobos, not Ebola",qwen3.6-35b-a3b,5.56
+s11,11676,0,No mention of Ebola or Congo,qwen3.6-35b-a3b,5.97
+s11,11463,0,"Post is about football, not Ebola",qwen3.6-35b-a3b,5.30
+s11,23819,0,Unrelated humorous post,qwen3.6-35b-a3b,3.94
+s11,22642,0,No post data provided,qwen3.6-35b-a3b,3.00
+s11,3087,0,No post data provided,qwen3.6-35b-a3b,2.68
+s11,25937,0,No post data provided,qwen3.6-35b-a3b,2.42
+s11,24508,0,No post data provided,qwen3.6-35b-a3b,2.45
+s11,3137,0,No post data provided,qwen3.6-35b-a3b,2.47
+s11,24422,0,No post data provided,qwen3.6-35b-a3b,2.47
+s12,367,0,"Post is a memorial, not a prank",qwen3.6-35b-a3b,5.19
+s12,25806,2,Post is a news item from Mir Fantastiki,qwen3.6-35b-a3b,2.60
+s12,20493,0,"Post is a birthday greeting, not a prank",qwen3.6-35b-a3b,5.62
+s12,1142,0,"Post describes magazine content, not pranks",qwen3.6-35b-a3b,6.40
+s12,21413,1,"Mentions editor, not pranks",qwen3.6-35b-a3b,5.65
+s12,19771,2,Directly matches query about Mir Fantastiki giveaways,qwen3.6-35b-a3b,4.94
+s12,20747,0,"Post announces sales, not giveaways",qwen3.6-35b-a3b,4.94
+s12,24867,2,Post is a prank by Mir Fantastiki,qwen3.6-35b-a3b,4.75
+s12,18178,0,No mention of Mir Fantastiki pranks,qwen3.6-35b-a3b,5.21
+s12,20257,0,"Post is about Tom Hanks, not pranks",qwen3.6-35b-a3b,5.37
+s12,19502,0,"Post is about an artist, not pranks",qwen3.6-35b-a3b,5.10
+s12,20142,1,Mentions Mir Fantastiki but not a prank,qwen3.6-35b-a3b,4.99
+s12,24815,2,Post discusses Mir Fantastiki special issue,qwen3.6-35b-a3b,4.97
+s12,20278,0,"News about magazine sales, not pranks",qwen3.6-35b-a3b,4.94
+s12,20125,0,"No pranks mentioned, only news and articles",qwen3.6-35b-a3b,5.32
+s12,21571,0,"Post is about an interview, not a prank",qwen3.6-35b-a3b,5.73
+s12,18992,0,"Post is about app cancellation, not pranks",qwen3.6-35b-a3b,5.64
+s12,18116,0,"Post is art, not a prank",qwen3.6-35b-a3b,4.87
+s12,19444,0,"Post is about RPG magazine, not pranks",qwen3.6-35b-a3b,5.04
+s12,19296,0,"Post is a birthday greeting, not a prank",qwen3.6-35b-a3b,5.71
+s12,20874,1,Mentions the source but no specific prank,qwen3.6-35b-a3b,4.94
+s12,999,0,No mention of Mir Fantastiki or pranks,qwen3.6-35b-a3b,4.82
+s12,529,0,No mention of Mir Fantastiki or pranks,qwen3.6-35b-a3b,7.06
+s12,457,0,No mention of Mir Fantastiki or pranks,qwen3.6-35b-a3b,6.67
+s12,21555,0,"Post is a pre-order announcement, not a prank.",qwen3.6-35b-a3b,5.10
+s12,20301,0,"Post is about a magazine special issue, not pranks",qwen3.6-35b-a3b,6.23
+s12,18832,0,"Not a prank, but a campaign update",qwen3.6-35b-a3b,6.24
+s12,18824,0,"Post is about pre-order, not pranks",qwen3.6-35b-a3b,5.48
+s12,21133,0,"News about magazine issue, not pranks",qwen3.6-35b-a3b,5.43
+s12,25430,0,"Post is about magazine sales, not pranks",qwen3.6-35b-a3b,5.51
+s12,765,0,"Source is FantLab, not Mir Fantastiki",qwen3.6-35b-a3b,6.07
+s12,25554,0,No mention of Mir Fantastiki or pranks,qwen3.6-35b-a3b,5.69
+s12,5510,0,No mention of Mir Fantastiki or pranks,qwen3.6-35b-a3b,4.71
+s12,19642,0,"Post is about art, not pranks",qwen3.6-35b-a3b,4.60
+s12,21729,0,"Post is about fantasy art, not pranks",qwen3.6-35b-a3b,4.59
+s12,18885,0,"Post is about art, not pranks",qwen3.6-35b-a3b,4.55
+s12,20789,2,Post announces winners of the requested giveaway,qwen3.6-35b-a3b,4.45
+s12,19513,2,Post announces winners of the requested giveaway,qwen3.6-35b-a3b,5.44
+s12,19957,2,Post announces contest results from Mir Fantastiki,qwen3.6-35b-a3b,5.60
+s12,20085,2,Announces winners of Mir Fantastiki giveaway,qwen3.6-35b-a3b,4.38
+s12,20235,2,Post is a giveaway by Mir Fantastiki,qwen3.6-35b-a3b,5.56
+s12,21030,2,Post announces contest results from Mir Fantastiki,qwen3.6-35b-a3b,5.91
+s12,19568,0,"Post is about magazine pre-order, not pranks",qwen3.6-35b-a3b,5.37
+s12,9318,2,Post announces giveaway results,qwen3.6-35b-a3b,5.05
+s12,21258,2,Post is a giveaway from Mir Fantastiki,qwen3.6-35b-a3b,5.52
+s12,20943,2,Post is a giveaway from the specified channel,qwen3.6-35b-a3b,6.92
+s12,18148,0,"Post is about pre-ordering, not pranks",qwen3.6-35b-a3b,6.39
+s12,5012,1,"Giveaway by MIF, not Mir Fantastiki",qwen3.6-35b-a3b,7.64
+s12,19850,0,"Post is a magazine announcement, not a prank",qwen3.6-35b-a3b,5.33
+s12,4033,1,"Giveaway by other channel, not Mir Fantastiki",qwen3.6-35b-a3b,4.04
+s12,7924,0,Not from Mir Fantastiki channel,qwen3.6-35b-a3b,9.19
+s13,18459,1,"News about developers, not the interview itself",qwen3.6-35b-a3b,3.66
+s13,19097,1,Mentions author but not an interview,qwen3.6-35b-a3b,7.96
+s13,25701,2,Post contains interviews with sci-fi writers,qwen3.6-35b-a3b,5.24
+s13,2717,1,"Contains interviews with directors, not sci-fi writers",qwen3.6-35b-a3b,6.04
+s13,24691,2,Post lists multiple interviews with sci-fi author Gene Wolfe,qwen3.6-35b-a3b,7.31
+s13,7771,0,"Parody sketch, not actual interviews",qwen3.6-35b-a3b,6.75
+s13,19203,0,"Article about Strugatsky scholarship, not interviews",qwen3.6-35b-a3b,5.49
+s13,2239,2,Contains interviews with sci-fi writers,qwen3.6-35b-a3b,5.47
+s13,25301,0,"History of a club, not an interview",qwen3.6-35b-a3b,5.65
+s13,4211,0,"Post is about a TV series, not authors",qwen3.6-35b-a3b,5.37
+s13,24844,2,Post contains interview with sci-fi writer,qwen3.6-35b-a3b,5.37
+s13,24942,2,Post describes conducting an interview with a sci-fi author,qwen3.6-35b-a3b,5.70
+s13,20832,2,Direct interview with a sci-fi author,qwen3.6-35b-a3b,5.22
+s13,18996,0,"Post is about a TV series, not authors",qwen3.6-35b-a3b,4.87
+s13,2928,1,"Mentions interviews, but not with sci-fi writers",qwen3.6-35b-a3b,5.74
+s13,2856,0,"Interview with a film director, not a sci-fi writer",qwen3.6-35b-a3b,6.49
+s13,25468,2,Directly provides an interview with a sci-fi author,qwen3.6-35b-a3b,5.50
+s13,8343,0,"Post is about developers, not sci-fi writers",qwen3.6-35b-a3b,5.34
+s13,6826,0,"Interview with film premiere, not sci-fi writers",qwen3.6-35b-a3b,4.74
+s13,2760,0,"Interview with philosopher, not sci-fi writer",qwen3.6-35b-a3b,4.39
+s13,19974,1,"Podcast about one author, not interviews with multiple",qwen3.6-35b-a3b,6.10
+s13,24871,2,Post is an interview with three sci-fi writers.,qwen3.6-35b-a3b,7.00
+s13,24665,1,"Podcast about sci-fi theory, not interviews",qwen3.6-35b-a3b,6.95
+s13,24886,2,Direct interview with sci-fi writer Vasily Vladimirsky,qwen3.6-35b-a3b,6.95
+s13,24607,2,Podcast featuring sci-fi authors and critics,qwen3.6-35b-a3b,6.97
+s13,25426,1,Mentions sci-fi writers but not an interview,qwen3.6-35b-a3b,5.95
+s13,24581,2,Podcast episode featuring sci-fi writer Dmitry Zakharov,qwen3.6-35b-a3b,6.09
+s13,383,1,"Interview with comic artist, not sci-fi writer",qwen3.6-35b-a3b,6.04
+s13,18610,2,Post contains interview with sci-fi authors,qwen3.6-35b-a3b,5.06
+s13,24633,2,Post announces an interview with sci-fi writers.,qwen3.6-35b-a3b,5.24
+s13,24879,2,Post contains interviews with sci-fi authors,qwen3.6-35b-a3b,5.76
+s13,463,1,"Mentions sci-fi writer, but not an interview",qwen3.6-35b-a3b,4.59
+s13,18144,2,Direct interview with sci-fi author Vadim Panov,qwen3.6-35b-a3b,3.67
+s13,19736,1,"Podcast about one author, not interviews with multiple writers",qwen3.6-35b-a3b,6.59
+s13,25761,1,"Mentions past interview, not current content",qwen3.6-35b-a3b,5.22
+s13,18795,2,Contains interview with sci-fi editor,qwen3.6-35b-a3b,3.24
+s13,24631,0,"Critique of sci-fi studies, not an interview",qwen3.6-35b-a3b,5.72
+s13,250,2,Post describes an interview with a sci-fi writer,qwen3.6-35b-a3b,5.86
+s13,25276,0,"Anniversary post, not an interview",qwen3.6-35b-a3b,5.02
+s13,25440,2,Post discusses a sci-fi writer interview,qwen3.6-35b-a3b,5.87
+s13,19177,0,"News about a writer, not an interview",qwen3.6-35b-a3b,6.21
+s13,24658,2,Post contains interview with sci-fi writer,qwen3.6-35b-a3b,5.97
+s13,24657,2,Direct interview with a sci-fi writer,qwen3.6-35b-a3b,5.66
+s13,24905,2,Post contains an interview with a sci-fi writer.,qwen3.6-35b-a3b,6.12
+s13,25180,0,"Anniversary post, not an interview",qwen3.6-35b-a3b,6.27
+s13,25666,2,Post contains interview with Lukyanenko,qwen3.6-35b-a3b,5.38
+s13,18520,2,Direct interview with a sci-fi writer,qwen3.6-35b-a3b,5.31
+s13,24612,2,Post announces interviews with sci-fi writers.,qwen3.6-35b-a3b,5.95
+s13,19786,2,Direct interview with a sci-fi writer,qwen3.6-35b-a3b,6.28
+s13,25092,2,Direct interview with sci-fi writer I. Vakhthanishvili,qwen3.6-35b-a3b,5.97
+s13,18263,2,Direct interview with a sci-fi writer,qwen3.6-35b-a3b,2.62
+s13,21571,2,Post is an interview with a sci-fi writer,qwen3.6-35b-a3b,7.53
+s13,25258,1,"Story about a writer, not an interview",qwen3.6-35b-a3b,4.90
+s13,24757,1,"Podcast about authors, not an interview",qwen3.6-35b-a3b,4.14
+s13,10521,0,"Meme, not an interview with authors",qwen3.6-35b-a3b,5.72
+h01,5033,0,"Post is about cosplay, not a deadline meme",qwen3.6-35b-a3b,4.46
+h01,18379,0,"Post asks for help, not a meme about deadline",qwen3.6-35b-a3b,4.48
+h01,19792,0,"Post is about Shrek 5, not work deadlines.",qwen3.6-35b-a3b,4.78
+h01,22643,0,"Post is about chemistry, not work deadlines",qwen3.6-35b-a3b,4.65
+h01,13070,0,Unrelated news about North Korea,qwen3.6-35b-a3b,4.25
+h01,11408,0,"No meme content shown, only a link",qwen3.6-35b-a3b,4.24
+h01,2894,1,Mentions deadline but not a meme,qwen3.6-35b-a3b,4.72
+h01,9234,0,"Post is about bass guitar, not work deadlines",qwen3.6-35b-a3b,4.92
+h01,9576,0,"Post is about memes, not work deadlines",qwen3.6-35b-a3b,5.17
+h01,23446,2,"Meme about falling asleep at work, related to deadlines",qwen3.6-35b-a3b,4.94
+h01,4463,0,"Post is about Marvel series, not work memes",qwen3.6-35b-a3b,4.48
+h01,20775,0,"News about Venom, not a deadline meme",qwen3.6-35b-a3b,4.87
+h01,10815,0,"Post is about Moscow weather, not work deadlines",qwen3.6-35b-a3b,8.28
+h01,13661,0,"Meme is about tsar-meme, not work deadlines.",qwen3.6-35b-a3b,8.33
+h01,17747,0,No deadline meme content present,qwen3.6-35b-a3b,4.58
+h01,4735,0,"Post is about Spielberg film, not a meme",qwen3.6-35b-a3b,4.59
+h01,19377,0,"Post is about game news, not work deadline meme",qwen3.6-35b-a3b,5.03
+h01,19372,0,"Post is about movie marketing, not work deadline meme",qwen3.6-35b-a3b,5.00
+h01,13042,0,"News about VPN, not a work deadline meme",qwen3.6-35b-a3b,4.83
+h01,17836,0,"Meme is about beer, not work deadlines",qwen3.6-35b-a3b,4.69
+h01,15302,2,Meme about deadline and leaving work early,qwen3.6-35b-a3b,4.85
+h01,1906,2,Meme about work deadlines matches query,qwen3.6-35b-a3b,4.66
+h01,8592,2,Meme about procrastination and deadlines,qwen3.6-35b-a3b,4.66
+h01,9416,2,Meme depicts exhaustion from work shifts,qwen3.6-35b-a3b,4.68
+h01,10238,2,Meme about work rhythm and deadlines,qwen3.6-35b-a3b,4.49
+h01,9907,1,"Related to work, but not about deadlines",qwen3.6-35b-a3b,4.54
+h01,17473,0,"Meme is about age, not work deadlines",qwen3.6-35b-a3b,4.85
+h01,8253,2,Meme about work deadline,qwen3.6-35b-a3b,4.65
+h01,16661,0,"Post is about food, not work deadlines",qwen3.6-35b-a3b,5.16
+h01,16133,0,"Meme is about lateness, not deadlines",qwen3.6-35b-a3b,4.90
+h01,13816,0,"Post is about fake job postings, not deadlines.",qwen3.6-35b-a3b,4.56
+h01,13831,0,"Meme is about job hunting, not work deadlines",qwen3.6-35b-a3b,5.90
+h01,9295,2,Meme about work deadline,qwen3.6-35b-a3b,6.40
+h01,16018,2,Meme about leaving work to avoid tasks,qwen3.6-35b-a3b,5.70
+h01,8178,2,Meme about procrastination and work deadlines,qwen3.6-35b-a3b,4.99
+h01,15568,2,Meme matches query about work deadline/lateness,qwen3.6-35b-a3b,5.28
+h01,8484,2,Meme about coding deadline exhaustion,qwen3.6-35b-a3b,5.06
+h01,15631,2,Direct meme about work deadline excuse,qwen3.6-35b-a3b,4.83
+h01,9464,2,Directly matches the deadline burnout meme theme,qwen3.6-35b-a3b,5.04
+h01,10221,1,"Shows schedule, implies deadline stress",qwen3.6-35b-a3b,4.75
+h01,7316,0,"Post is about Heinlein, not work memes",qwen3.6-35b-a3b,5.31
+h01,24492,0,"Post discusses AI risks, not work deadlines.",qwen3.6-35b-a3b,6.47
+h01,14008,1,"Meme about work shift, not deadline",qwen3.6-35b-a3b,5.85
+h01,590,0,"Post is about Star Wars event, not work deadline meme",qwen3.6-35b-a3b,5.44
+h01,6289,0,No meme about work deadlines,qwen3.6-35b-a3b,2.18
+h01,15241,0,"Serious article, not a meme about deadlines",qwen3.6-35b-a3b,5.01
+h01,20199,0,"Post is about Heinlein, not work deadlines",qwen3.6-35b-a3b,5.60
+h01,21931,0,"Post is about a festival, not a meme",qwen3.6-35b-a3b,4.92
+h01,12002,0,"Post lists top memes, not a deadline meme.",qwen3.6-35b-a3b,5.24
+h01,24593,0,No meme or deadline content found,qwen3.6-35b-a3b,7.34
+h01,15361,0,"Post is about resignation, not deadline",qwen3.6-35b-a3b,6.20
+h01,8288,2,Meme about work deadlines and unfinished tasks,qwen3.6-35b-a3b,4.21
+h01,8234,0,"Meme is about baseball, not work deadlines.",qwen3.6-35b-a3b,5.68
+h01,15609,0,"Post is about job duties, not deadlines.",qwen3.6-35b-a3b,8.19
+h01,15997,1,"Discusses memes at work, but not a meme itself",qwen3.6-35b-a3b,7.70
+h01,15202,0,Unrelated content about a video address,qwen3.6-35b-a3b,5.17
+h01,23510,1,Related theme but no specific meme,qwen3.6-35b-a3b,4.23
+h01,14302,1,Mentions meme but focuses on legal case,qwen3.6-35b-a3b,5.08
+h01,17765,0,"Post is about end of week, not deadline.",qwen3.6-35b-a3b,5.45
+h01,5283,0,No meme content or image provided,qwen3.6-35b-a3b,4.51
+h01,15526,0,"News article, not a meme",qwen3.6-35b-a3b,4.71
+h01,10972,0,No deadline meme content found,qwen3.6-35b-a3b,4.66
+h01,23862,0,No deadline or work context,qwen3.6-35b-a3b,4.01
+h02,8575,2,Matches query exactly with kitten and exercise,qwen3.6-35b-a3b,4.31
+h02,12032,0,"No cat, mirror, or derealization mentioned",qwen3.6-35b-a3b,4.71
+h02,19731,0,Не относится к запросу о коте и дереализации,qwen3.6-35b-a3b,4.86
+h02,23218,0,"Discusses quantum physics, not derealization memes",qwen3.6-35b-a3b,5.61
+h02,16742,0,"Meme is about a butterfly, not derealization",qwen3.6-35b-a3b,5.60
+h02,23482,0,"Post is about yawning, not derealization",qwen3.6-35b-a3b,5.49
+h02,8756,0,Post is unrelated to derealization or mirrors,qwen3.6-35b-a3b,5.49
+h02,13617,0,"Post is about work leave, not derealization",qwen3.6-35b-a3b,6.02
+h02,1380,0,"Post is about AI poetry, not the meme.",qwen3.6-35b-a3b,5.50
+h02,7992,0,"Cat in bathtub, not mirror exercise",qwen3.6-35b-a3b,4.21
+h02,22534,0,"Text about stuttering, not a cat meme",qwen3.6-35b-a3b,5.19
+h02,20429,0,"Post is about Wolverine game trailer, not cats",qwen3.6-35b-a3b,5.36
+h02,8394,0,"Post is about egg water, not derealization",qwen3.6-35b-a3b,5.21
+h02,9386,0,"Post is about social media, not derealization",qwen3.6-35b-a3b,4.80
+h02,17645,0,"Post is about a cat hunting a fly, not derealization exercises.",qwen3.6-35b-a3b,4.58
+h02,17816,0,Wrong meme theme and context,qwen3.6-35b-a3b,5.60
+h02,8563,0,No mirror or derealization exercise shown,qwen3.6-35b-a3b,9.61
+h02,8812,0,"Post is about cat art, not derealization exercises",qwen3.6-35b-a3b,9.21
+h02,3535,0,"Post is about a film, not a cat meme",qwen3.6-35b-a3b,5.15
+h02,9182,0,"Post is about men, not derealization exercises",qwen3.6-35b-a3b,5.16
+h02,9096,2,Image matches the described kitten and mirror scene,qwen3.6-35b-a3b,4.85
+h02,8086,0,No mirror or derealization exercise shown,qwen3.6-35b-a3b,4.43
+h02,1762,0,"Post is about Matt Damon, not a cat.",qwen3.6-35b-a3b,4.56
+h02,8621,0,"Image shows a dog, not a cat.",qwen3.6-35b-a3b,4.65
+h02,8696,0,"No mirror, derealization, or exercise",qwen3.6-35b-a3b,4.56
+h02,8792,0,No mirror or derealization exercise shown,qwen3.6-35b-a3b,4.58
+h02,9703,0,"No cat, mirror, or derealization exercise",qwen3.6-35b-a3b,4.76
+h02,9421,0,No mirror or derealization exercise shown,qwen3.6-35b-a3b,4.78
+h02,8921,1,"Cat meme about derealization, but wrong context",qwen3.6-35b-a3b,4.80
+h02,9252,0,No cat or mirror exercise shown,qwen3.6-35b-a3b,4.71
+h02,17424,0,No mirror or derealization exercise shown,qwen3.6-35b-a3b,4.39
+h02,8487,0,No mention of derealization or mirror,qwen3.6-35b-a3b,2.26
+h02,13963,1,Meme matches theme but not specific query,qwen3.6-35b-a3b,4.58
+h02,16454,0,"Post is insulting meme, not derealization exercise",qwen3.6-35b-a3b,5.59
+h02,16506,0,"Cat figurine, not derealization exercise",qwen3.6-35b-a3b,9.55
+h02,16248,0,No cat or mirror mentioned,qwen3.6-35b-a3b,8.40
+h02,8363,1,"Wolf in mirror, but no derealization exercise",qwen3.6-35b-a3b,4.63
+h02,8403,0,"Image shows Sphinx, not derealization exercise",qwen3.6-35b-a3b,4.70
+h02,10272,0,No mirror or derealization context,qwen3.6-35b-a3b,4.22
+h02,7064,0,"Post is about a film, not a cat meme",qwen3.6-35b-a3b,4.94
+h02,22657,0,"Post is about chemistry, not cats or derealization",qwen3.6-35b-a3b,5.99
+h02,21389,0,"Post is about Black Mirror, not the query",qwen3.6-35b-a3b,5.61
+h02,7271,0,"Post is about author Roger Zelazny, not cats.",qwen3.6-35b-a3b,6.13
+h02,22842,0,No cat or derealization exercise mentioned,qwen3.6-35b-a3b,6.29
+h02,25394,0,Post is about reading and Tim Powers,qwen3.6-35b-a3b,5.55
+h02,17049,0,"Post is about shaving, not derealization",qwen3.6-35b-a3b,5.32
+h02,25095,0,"Text is about a sci-fi author, not a cat",qwen3.6-35b-a3b,5.42
+h02,24485,0,No cat or derealization meme,qwen3.6-35b-a3b,6.10
+h02,17395,0,Wrong meme content and context,qwen3.6-35b-a3b,5.26
+h02,24442,0,"Post is about AI theology, not cats.",qwen3.6-35b-a3b,5.40
+h02,16612,0,"Irrelevant dark meme, not derealization exercise",qwen3.6-35b-a3b,5.80
+h02,10096,0,"Post is about narcissism, not derealization",qwen3.6-35b-a3b,5.47
+h02,1679,0,Irrelevant content about Billy Porter,qwen3.6-35b-a3b,4.41
+h02,12555,0,Unrelated fake news about Wasserman,qwen3.6-35b-a3b,3.91
+h02,20466,0,"No cat, mirror, or derealization mentioned",qwen3.6-35b-a3b,5.36
+h02,9765,0,No mirror or derealization exercise shown,qwen3.6-35b-a3b,7.81
+h02,9281,0,Unrelated meme about a kitten and dog,qwen3.6-35b-a3b,7.16
+h02,9661,0,"Post is about cat and godhood, not derealization",qwen3.6-35b-a3b,4.85
+h02,24417,0,"No cat, mirror, or derealization meme",qwen3.6-35b-a3b,5.98
+h02,24441,0,"Post is about AI, not cats",qwen3.6-35b-a3b,6.34
+h03,21750,0,"Post is about Zelda and DLSS, not Mondays",qwen3.6-35b-a3b,5.45
+h03,5356,0,"Post is about Tom Cruise, not Monday jokes",qwen3.6-35b-a3b,4.96
+h03,10990,2,Meme about Monday calls,qwen3.6-35b-a3b,5.06
+h03,5510,0,"Post is about Marvel, not Mondays",qwen3.6-35b-a3b,4.71
+h03,11210,0,No mention of Monday or related jokes,qwen3.6-35b-a3b,4.30
+h03,6327,0,No jokes about Monday present,qwen3.6-35b-a3b,3.79
+h03,11857,0,No jokes about Monday present,qwen3.6-35b-a3b,3.58
+h03,25730,0,Not a joke about Monday,qwen3.6-35b-a3b,4.04
+h03,9522,2,"Meme depicting days of the week, relevant to Monday jokes",qwen3.6-35b-a3b,4.64
+h03,9735,0,"Post is about life decisions, not Monday jokes",qwen3.6-35b-a3b,5.04
+h03,9142,2,Meme about disappointment on Monday,qwen3.6-35b-a3b,4.57
+h03,25555,0,"Post is about Asimov, not Monday jokes",qwen3.6-35b-a3b,4.73
+h03,18161,0,No jokes about Monday present,qwen3.6-35b-a3b,4.70
+h03,10288,2,Directly matches Monday work jokes,qwen3.6-35b-a3b,4.87
+h03,10547,0,"Post is about Instagram, not Mondays",qwen3.6-35b-a3b,3.42
+h03,25282,0,"News about a board game, not jokes",qwen3.6-35b-a3b,3.07
+h03,25947,0,"Post is about book translation, not Monday jokes",qwen3.6-35b-a3b,6.59
+h03,18935,1,Mentions Monday but not jokes,qwen3.6-35b-a3b,11.34
+h03,15639,2,Post directly addresses jokes about Monday,qwen3.6-35b-a3b,9.34
+h03,5237,1,Mentions jokes but not about Monday,qwen3.6-35b-a3b,5.05
+h03,5283,0,No joke content provided,qwen3.6-35b-a3b,4.32
+h03,8900,2,Directly addresses Monday jokes with relevant meme,qwen3.6-35b-a3b,4.51
+h03,457,0,No mention of Monday or related jokes,qwen3.6-35b-a3b,2.08
+h03,5239,1,Related to weekdays but not Monday,qwen3.6-35b-a3b,4.51
+h03,529,0,No mention of Monday jokes,qwen3.6-35b-a3b,3.97
+h03,20467,0,"Post is about Sunday, not Monday",qwen3.6-35b-a3b,3.97
+h03,23101,1,Mentions jokes but not specifically about Monday,qwen3.6-35b-a3b,4.31
+h03,4778,2,Post is a joke about Monday,qwen3.6-35b-a3b,4.25
+h03,5488,2,Post illustrates Monday mood with a quote,qwen3.6-35b-a3b,4.14
+h03,10485,0,No jokes about Monday present,qwen3.6-35b-a3b,4.05
+h03,16308,0,"Meme is about Sunday, not Monday",qwen3.6-35b-a3b,4.23
+h03,18037,0,"Post is about Sunday, not Monday",qwen3.6-35b-a3b,4.37
+h03,22937,0,No content related to Monday jokes,qwen3.6-35b-a3b,4.30
+h03,23709,0,No jokes about Monday present,qwen3.6-35b-a3b,4.18
+h03,24394,0,No content related to Monday jokes,qwen3.6-35b-a3b,4.46
+h03,8244,0,"Greeting, not a joke about Monday",qwen3.6-35b-a3b,3.21
+h03,9759,0,"Psychological analysis, not jokes",qwen3.6-35b-a3b,4.93
+h03,12620,0,"Post is about emoticon history, not Monday jokes",qwen3.6-35b-a3b,6.43
+h03,13420,0,"News about storage ban, not jokes",qwen3.6-35b-a3b,4.33
+h03,16029,1,"Humor about days off, not specifically Monday",qwen3.6-35b-a3b,5.65
+h03,9713,0,"Post is about ChatGPT, not Monday jokes",qwen3.6-35b-a3b,8.71
+h03,4264,1,"Mentions Monday mood, but not jokes",qwen3.6-35b-a3b,7.41
+h03,9228,2,Meme about five-day work week fits query,qwen3.6-35b-a3b,4.67
+h03,18204,0,No jokes about Monday mentioned,qwen3.6-35b-a3b,5.30
+h03,8879,0,"Post is about waking up, not Monday jokes",qwen3.6-35b-a3b,5.45
+h03,6157,2,Post explicitly mentions Monday jokes,qwen3.6-35b-a3b,4.63
+h03,15794,2,Meme directly addresses Monday work jokes,qwen3.6-35b-a3b,4.37
+h04,15441,2,Directly matches meme query about HR and interviews,qwen3.6-35b-a3b,5.08
+h04,15309,2,Meme about HR and job interviews,qwen3.6-35b-a3b,6.42
+h04,15877,2,Directly matches meme topic about HR and interviews,qwen3.6-35b-a3b,6.58
+h04,1817,0,"Post is about meme repetition, not HR/interviews",qwen3.6-35b-a3b,5.51
+h04,13683,0,"Post is about meme censorship, not HR/interviews",qwen3.6-35b-a3b,5.72
+h04,17744,0,No mention of HR or interviews,qwen3.6-35b-a3b,5.44
+h04,15470,0,"Post is about trades, not HR or interviews",qwen3.6-35b-a3b,5.33
+h04,10484,2,Post explicitly mentions showing memes,qwen3.6-35b-a3b,4.73
+h04,8117,0,"Post is about spelling errors, not HR or interviews.",qwen3.6-35b-a3b,4.48
+h04,7993,0,"Post is about an internet argument, not HR or interviews.",qwen3.6-35b-a3b,5.48
+h04,15997,1,"Memes in chats, not HR interviews",qwen3.6-35b-a3b,5.87
+h04,10810,0,No memes about HR or interviews,qwen3.6-35b-a3b,4.84
+h04,12290,0,"Post is about meme posting productivity, not HR interviews.",qwen3.6-35b-a3b,4.33
+h04,16309,0,"Post is about physical bodies, not HR or interviews",qwen3.6-35b-a3b,5.04
+h04,16329,0,"Post is about reposting memes, not HR interviews.",qwen3.6-35b-a3b,4.90
+h04,16081,2,Post shows a meme resume mocking HR and interviews,qwen3.6-35b-a3b,5.31
+h04,9775,0,"Meme about stealing memes, not HR",qwen3.6-35b-a3b,5.12
+h04,1963,1,Mentioned memes but not about HR or interviews,qwen3.6-35b-a3b,4.76
+h04,20954,0,"Post is about Kolobok memes, not HR.",qwen3.6-35b-a3b,4.96
+h04,10018,0,"Post is about memes, not HR or interviews",qwen3.6-35b-a3b,5.81
+h04,16103,2,Meme about HR and interview confusion,qwen3.6-35b-a3b,4.34
+h04,15500,2,Meme about HR and job interview mistake,qwen3.6-35b-a3b,3.80
+h04,15236,2,Directly matches query about HR interview memes,qwen3.6-35b-a3b,5.23
+h04,15635,2,Post is a meme about HR interview absurdity,qwen3.6-35b-a3b,9.65
+h04,16173,2,Meme about HR and resume rejection,qwen3.6-35b-a3b,2.35
+h04,15830,2,Meme about HRs and absurd interview requirements,qwen3.6-35b-a3b,5.00
+h04,16477,2,Meme about HR discovering hobbies,qwen3.6-35b-a3b,4.81
+h04,15408,2,Meme about HR and interviews,qwen3.6-35b-a3b,4.84
+h04,15561,2,Directly matches meme about HR interview,qwen3.6-35b-a3b,5.59
+h04,15951,2,Meme about HR and interview attentiveness test,qwen3.6-35b-a3b,5.81
+h04,15527,2,Meme about HR and interview trickery,qwen3.6-35b-a3b,5.82
+h04,15725,2,Direct meme about HR and job interviews,qwen3.6-35b-a3b,5.73
+h04,5510,0,"Post is about Marvel, not HR or interviews",qwen3.6-35b-a3b,5.24
+h04,15678,2,Meme about HR and interviews with profanity,qwen3.6-35b-a3b,5.32
+h04,16702,0,"Post is about students, not HR or interviews",qwen3.6-35b-a3b,5.36
+h04,15566,2,Meme about HR and job interviews,qwen3.6-35b-a3b,5.14
+h04,15266,2,Meme about HR interview rejection,qwen3.6-35b-a3b,5.06
+h04,15684,2,Meme about HR and job interview,qwen3.6-35b-a3b,5.02
+h04,15489,2,Meme about HRs and interview delays,qwen3.6-35b-a3b,5.50
+h04,15852,0,"News article, not a meme",qwen3.6-35b-a3b,6.51
+h04,15772,1,"Related HR interview content, not a meme",qwen3.6-35b-a3b,5.65
+h04,15541,1,Related topic but not a meme,qwen3.6-35b-a3b,5.98
+h04,15616,2,Meme about HR and job interview,qwen3.6-35b-a3b,11.04
+h04,15867,2,Meme about HRs and job interviews,qwen3.6-35b-a3b,9.74
+h05,11043,2,Post directly addresses quitting vaping,qwen3.6-35b-a3b,4.89
+h05,22229,2,Directly addresses quitting smoking,qwen3.6-35b-a3b,4.52
+h05,11686,0,"Post is about smoking tobacco, not e-cigarettes",qwen3.6-35b-a3b,4.60
+h05,7516,1,"Discusses quitting smoking, but not e-cigarettes",qwen3.6-35b-a3b,5.15
+h05,24563,0,"Post is about reading, not quitting vaping",qwen3.6-35b-a3b,5.09
+h05,8306,0,"Irrelevant meme about a strait, not quitting smoking",qwen3.6-35b-a3b,4.80
+h05,24675,0,"Post discusses magazine failure, not quitting smoking",qwen3.6-35b-a3b,5.10
+h05,17260,0,"Post is about quitting life, not smoking",qwen3.6-35b-a3b,4.96
+h05,16881,0,"Post is about drinking, not quitting smoking",qwen3.6-35b-a3b,4.86
+h05,20133,0,"Post is about anime, not quitting smoking",qwen3.6-35b-a3b,4.98
+h05,16597,0,"Post is about gym, not quitting vaping",qwen3.6-35b-a3b,5.18
+h05,15934,2,Meme about smoking breaks matches query,qwen3.6-35b-a3b,5.39
+h05,15373,1,Related topic but not a meme,qwen3.6-35b-a3b,5.32
+h05,25288,0,"Post is about cinema, not smoking.",qwen3.6-35b-a3b,6.34
+h05,23867,0,"Post is about a jaguar, not smoking.",qwen3.6-35b-a3b,6.04
+h05,25925,0,"Post is about books, not quitting smoking.",qwen3.6-35b-a3b,6.96
+h05,20503,0,"Post is about gaming podcasts, not quitting smoking",qwen3.6-35b-a3b,11.45
+h05,3112,0,"Post mentions no smoking, irrelevant to query",qwen3.6-35b-a3b,10.12
+h05,23143,0,"Post discusses smoking cessation and dementia, not e-cigarettes.",qwen3.6-35b-a3b,6.70
+h05,24634,0,"Post discusses book awards, not quitting smoking.",qwen3.6-35b-a3b,6.83
+h05,11080,2,Post describes quitting electronic cigarettes,qwen3.6-35b-a3b,5.63
+h05,11896,0,"Post is about oatmeal, not quitting vaping",qwen3.6-35b-a3b,4.42
+h05,11823,0,"Post is about food, not smoking",qwen3.6-35b-a3b,4.44
+h05,15137,0,"Post is about electric scooters, not vaping.",qwen3.6-35b-a3b,5.14
+h05,12442,0,"Unrelated romantic meme, not about quitting smoking",qwen3.6-35b-a3b,5.29
+h05,17112,0,"Post is about a meme, not quitting vaping",qwen3.6-35b-a3b,4.81
+h05,23060,0,"Post is about defecation, not smoking",qwen3.6-35b-a3b,4.93
+h05,12324,0,No post data provided,qwen3.6-35b-a3b,3.89
+h05,11236,0,No post data provided,qwen3.6-35b-a3b,2.74
+h05,11277,0,No post data provided,qwen3.6-35b-a3b,2.52
+h05,23828,0,No post data provided,qwen3.6-35b-a3b,1.30
+h05,11322,0,No post data provided,qwen3.6-35b-a3b,2.55
+h05,12182,0,No post data provided,qwen3.6-35b-a3b,2.52
+h05,12089,0,No post data provided,qwen3.6-35b-a3b,2.53
+h05,20873,0,No post data provided,qwen3.6-35b-a3b,2.90
+h05,11612,0,No post data provided,qwen3.6-35b-a3b,7.73
+h05,7039,0,No post data provided,qwen3.6-35b-a3b,7.36
+h05,22913,0,"Post is about CO2 reduction, not quitting vaping.",qwen3.6-35b-a3b,4.30
+h05,24268,0,"Post discusses passive smoking, not quitting e-cigarettes",qwen3.6-35b-a3b,5.94
+h05,22082,0,"Post is about physics electron, not vaping",qwen3.6-35b-a3b,5.82
+h05,4889,0,"Post is about a movie, not quitting smoking",qwen3.6-35b-a3b,6.35
+h05,24325,0,"Post is a science digest, not about quitting smoking",qwen3.6-35b-a3b,6.67
+h05,10926,0,No post data provided,qwen3.6-35b-a3b,4.51
+h05,10524,0,No post data provided,qwen3.6-35b-a3b,2.51
+h05,10869,0,No post data provided,qwen3.6-35b-a3b,2.46
+h05,24350,0,No post data provided,qwen3.6-35b-a3b,2.46
+h05,7396,0,No post data provided,qwen3.6-35b-a3b,2.46
+h05,23298,0,No post data provided,qwen3.6-35b-a3b,2.47
+h05,9081,0,No post data provided,qwen3.6-35b-a3b,2.48
+h05,4428,0,No post data provided,qwen3.6-35b-a3b,2.49
+h05,24374,0,No post data provided,qwen3.6-35b-a3b,2.48
+h05,24287,0,No post data provided,qwen3.6-35b-a3b,2.47
+h05,23385,0,No post data provided,qwen3.6-35b-a3b,2.47
+h05,10031,0,Irrelevant tea fonk edit post,qwen3.6-35b-a3b,3.45
+h05,12552,0,"Post is about weather, not quitting smoking.",qwen3.6-35b-a3b,5.22
+h05,9844,0,"Post is about smoking cigars, not quitting vaping.",qwen3.6-35b-a3b,9.56
+h05,17071,0,"Post is about mental exhaustion, not quitting vaping.",qwen3.6-35b-a3b,8.94
+h05,8005,0,"Post shows a man with POD, unrelated to quitting vaping.",qwen3.6-35b-a3b,4.90
+h06,11022,2,Post directly discusses the query topic,qwen3.6-35b-a3b,4.72
+h06,13505,0,"Post discusses domain blocking, not monetization",qwen3.6-35b-a3b,4.49
+h06,12050,0,"Post discusses terrorism, not monetization",qwen3.6-35b-a3b,4.51
+h06,13098,0,"Post is about science, not Telegram monetization",qwen3.6-35b-a3b,5.00
+h06,13366,0,Different topic: deputies vs channels,qwen3.6-35b-a3b,3.41
+h06,12860,0,"Post discusses internet speed, not monetization",qwen3.6-35b-a3b,2.89
+h06,17773,1,Mentions Durov but unrelated to monetization,qwen3.6-35b-a3b,5.19
+h06,16316,0,Post is unrelated to monetization news,qwen3.6-35b-a3b,11.82
+h06,11820,0,"Post is about a football match, not monetization.",qwen3.6-35b-a3b,11.46
+h06,10952,0,"Post is about Latvian police, not Durov.",qwen3.6-35b-a3b,5.21
+h06,1578,0,"Post discusses removing wall, not monetization",qwen3.6-35b-a3b,5.13
+h06,8529,0,"Meme, not news about monetization",qwen3.6-35b-a3b,5.08
+h06,14316,0,"Post discusses VPN, not monetization",qwen3.6-35b-a3b,5.13
+h06,14801,0,"Post is about military, not Telegram monetization",qwen3.6-35b-a3b,5.62
+h06,10509,0,"Post is a meme, not news about monetization",qwen3.6-35b-a3b,5.80
+h06,17842,0,Post is unrelated to Telegram monetization,qwen3.6-35b-a3b,5.28
+h06,11132,0,"Post is about gymnastics, not Telegram monetization.",qwen3.6-35b-a3b,5.19
+h06,21317,0,"Post is about a video game, not Telegram.",qwen3.6-35b-a3b,5.32
+h06,25510,0,"Post is about Lukyanenko, not Durov",qwen3.6-35b-a3b,5.66
+h06,11528,0,"Post is about Bondarchuk, not Durov.",qwen3.6-35b-a3b,5.83
+h06,11478,0,"Post discusses creator contest, not channel monetization.",qwen3.6-35b-a3b,6.03
+h06,14888,0,"Post is satire, not about monetization",qwen3.6-35b-a3b,6.32
+h06,10537,0,"Post discusses VPN, not monetization",qwen3.6-35b-a3b,5.03
+h06,11339,0,"Post discusses sovereignty, not monetization.",qwen3.6-35b-a3b,3.85
+h06,15863,0,"Post is about Durov being extremist, not monetization.",qwen3.6-35b-a3b,4.28
+h06,15230,0,"Post discusses blocking, not monetization.",qwen3.6-35b-a3b,6.09
+h06,12049,0,"Post is about freeing Durov, not monetization",qwen3.6-35b-a3b,9.20
+h06,12069,0,"Post discusses terrorism financing, not monetization.",qwen3.6-35b-a3b,9.01
+h06,11285,0,"Post discusses channel restoration, not monetization",qwen3.6-35b-a3b,5.16
+h06,11620,0,"Post discusses VK losses, not monetization",qwen3.6-35b-a3b,4.77
+h06,11109,0,"Post discusses Dugin, not Durov or monetization.",qwen3.6-35b-a3b,5.17
+h06,10489,0,"Post is about video quality pricing, not monetization",qwen3.6-35b-a3b,5.31
+h06,11926,0,"Post is about Boyarsky, not Durov",qwen3.6-35b-a3b,5.17
+h06,14803,0,"Post discusses TV porn, not Telegram monetization.",qwen3.6-35b-a3b,5.80
+h06,10647,0,"Post is about internet restrictions, not monetization.",qwen3.6-35b-a3b,5.90
+h06,10708,0,"Post discusses VPNs, not monetization",qwen3.6-35b-a3b,5.34
+h06,11397,0,"Post discusses State Duma, not Durov or monetization.",qwen3.6-35b-a3b,5.69
+h06,12073,1,Mentions Durov but not monetization,qwen3.6-35b-a3b,5.93
+h06,10634,0,"Post discusses privacy, not monetization.",qwen3.6-35b-a3b,5.52
+h06,12304,0,"Post discusses Ministry of Defense channel, not Durov.",qwen3.6-35b-a3b,6.33
+h06,25232,0,No post data provided,qwen3.6-35b-a3b,5.22
+h06,24565,0,No post data provided,qwen3.6-35b-a3b,2.81
+h06,12065,0,"Post is in Arabic, unrelated to Durov",qwen3.6-35b-a3b,3.95
+h06,12204,0,"Post is about AGDchan, not Durov or monetization.",qwen3.6-35b-a3b,6.81
+h06,12609,0,Post is unrelated to Telegram monetization,qwen3.6-35b-a3b,3.41
+h07,16370,2,Matches query meme description exactly,qwen3.6-35b-a3b,2.74
+h07,12002,0,"Post lists memes, does not show the specific one",qwen3.6-35b-a3b,5.94
+h07,9576,0,Wrong meme subject and context,qwen3.6-35b-a3b,11.99
+h07,8446,0,"Wrong meme, different joke and characters",qwen3.6-35b-a3b,10.88
+h07,25274,0,"Unrelated joke about alcohol, not the meme",qwen3.6-35b-a3b,5.24
+h07,16786,0,No pit or 'first' meme present,qwen3.6-35b-a3b,5.08
+h07,9101,0,"Wrong meme, no pit or phrase",qwen3.6-35b-a3b,5.18
+h07,16516,0,No pit or specified meme found,qwen3.6-35b-a3b,4.98
+h07,25159,0,No meme or pit mentioned,qwen3.6-35b-a3b,5.06
+h07,17082,0,Wrong meme content and text,qwen3.6-35b-a3b,4.81
+h07,11172,0,No pit or specified meme content,qwen3.6-35b-a3b,4.20
+h07,9735,0,"Wrong meme, different text and image",qwen3.6-35b-a3b,4.35
+h07,17110,0,"Wrong meme, different characters and context",qwen3.6-35b-a3b,4.85
+h07,22933,0,"Post is about a podcast, not the meme",qwen3.6-35b-a3b,5.21
+h07,25845,0,"Post discusses Beria meme, not the requested one",qwen3.6-35b-a3b,5.43
+h07,13774,0,No pit or meme context present,qwen3.6-35b-a3b,5.05
+h07,16480,0,"Wrong meme, not the requested one",qwen3.6-35b-a3b,4.66
+h07,10197,0,"Wrong meme, no pit or specified phrase",qwen3.6-35b-a3b,5.08
+h07,8689,0,Missing the required pit meme element,qwen3.6-35b-a3b,5.56
+h07,8267,0,No pit or relevant meme content,qwen3.6-35b-a3b,6.00
+h07,16408,2,Matches meme description of going first into pit,qwen3.6-35b-a3b,5.43
+h07,17429,0,"Wrong meme, different text and theme",qwen3.6-35b-a3b,4.51
+h07,16387,0,No pit or 'first' meme present,qwen3.6-35b-a3b,5.10
+h07,16607,0,"Wrong meme, different text and image",qwen3.6-35b-a3b,3.57
+h07,8920,0,Wrong meme theme and content,qwen3.6-35b-a3b,2.66
+h07,17366,0,"Wrong meme, different joke and image",qwen3.6-35b-a3b,4.24
+h07,17782,0,"Meme is about pillowcase, not pit",qwen3.6-35b-a3b,13.62
+h07,16426,0,Missing the required pit meme element,qwen3.6-35b-a3b,4.45
+h07,17023,2,Meme matches query description exactly,qwen3.6-35b-a3b,2.24
+h07,16816,0,Meme does not match the specified query,qwen3.6-35b-a3b,4.63
+h07,9758,0,Meme does not match the specified query,qwen3.6-35b-a3b,4.81
+h07,10004,0,No pit or specified meme present,qwen3.6-35b-a3b,4.62
+h07,9968,0,No pit or meme matching query,qwen3.6-35b-a3b,4.50
+h07,17519,0,Wrong meme content and text,qwen3.6-35b-a3b,4.47
+h07,16859,0,Text does not match the query meme,qwen3.6-35b-a3b,4.43
+h07,8109,0,Meme does not match the specified query,qwen3.6-35b-a3b,4.65
+h07,8281,0,Wrong meme subject and text,qwen3.6-35b-a3b,4.52
+h07,16247,0,No pit or hole depicted in meme,qwen3.6-35b-a3b,4.42
+h07,8548,0,No pit or meme matching query,qwen3.6-35b-a3b,4.87
+h07,16284,0,No meme about a pit or the phrase,qwen3.6-35b-a3b,4.93
+h07,7398,0,"Post is about Star Trek anniversary, not the meme",qwen3.6-35b-a3b,6.22
+h07,17018,0,Unrelated meme about bank card trust,qwen3.6-35b-a3b,6.35
+h07,16081,0,"Unrelated job resume meme, not the pit meme",qwen3.6-35b-a3b,10.65
+h07,17518,0,No pit or specified meme found,qwen3.6-35b-a3b,2.86
+h07,4147,0,"Post is about Mel Brooks, not the meme.",qwen3.6-35b-a3b,7.84
+h07,17703,0,No pit or meme matching query,qwen3.6-35b-a3b,4.77
+h07,10474,0,No relation to the specified meme,qwen3.6-35b-a3b,4.27
+h07,17994,0,"Post is about Labyrinth, not the meme",qwen3.6-35b-a3b,4.44
+h07,8397,0,Wrong meme content and text,qwen3.6-35b-a3b,4.43
+h07,16205,0,"Wrong meme, different text and joke",qwen3.6-35b-a3b,4.30
+h07,8521,0,"Wrong meme, different image and text",qwen3.6-35b-a3b,4.65
+h07,8707,0,"Meme is about intellectual property, not the query.",qwen3.6-35b-a3b,5.32
+h07,12321,0,"Irrelevant meme about testicles, not the pit",qwen3.6-35b-a3b,5.80
+h07,10972,0,No meme or pit shown,qwen3.6-35b-a3b,5.55
+h07,1975,0,"Wrong meme, no pit or Russian text",qwen3.6-35b-a3b,3.29
+h07,11939,0,No pit or specified meme found,qwen3.6-35b-a3b,3.28
+h07,11408,0,"No meme content shown, only a link",qwen3.6-35b-a3b,4.85
+h07,23332,0,No mention of the meme or the pit,qwen3.6-35b-a3b,4.52
+h07,10815,0,"Post is about snow, not the meme",qwen3.6-35b-a3b,2.35
+h07,16227,0,"Wrong meme, different text and subject",qwen3.6-35b-a3b,8.55
+h07,8242,0,"Wrong meme, different text and image",qwen3.6-35b-a3b,6.31
+h07,9234,0,Unrelated bass guitar meme,qwen3.6-35b-a3b,4.36
+h07,20467,0,No mention of the specific meme or quote,qwen3.6-35b-a3b,4.44
+h07,8879,0,Post does not match the requested meme,qwen3.6-35b-a3b,4.74
+h07,24349,0,No mention of the meme or the pit,qwen3.6-35b-a3b,4.59
+h07,25118,0,No meme or pit mentioned,qwen3.6-35b-a3b,4.18
+h07,1970,0,"Image shows actors, not the meme",qwen3.6-35b-a3b,4.28
+h08,999,1,"Shows sci-fi shirts, not giveaway",qwen3.6-35b-a3b,4.36
+h08,11340,0,No mention of giveaway or t-shirt,qwen3.6-35b-a3b,4.22
+h08,25044,0,"Giveaway is for books, not a jersey",qwen3.6-35b-a3b,5.91
+h08,5086,2,Post mentions exclusive cover for subscribers,qwen3.6-35b-a3b,5.92
+h08,16873,0,Post is unrelated to football jersey giveaway,qwen3.6-35b-a3b,4.44
+h08,10520,0,No mention of t-shirt giveaway,qwen3.6-35b-a3b,4.84
+h08,16828,1,"Meme about giveaway, not actual jersey",qwen3.6-35b-a3b,4.92
+h08,8239,0,"Post is about April Fools, not a jersey giveaway",qwen3.6-35b-a3b,5.03
+h08,11500,0,"Post is about MrBeast, not a t-shirt giveaway",qwen3.6-35b-a3b,6.04
+h08,19771,0,"Giveaway is for tickets, not a t-shirt",qwen3.6-35b-a3b,7.88
+h08,8565,0,"Post is about virginity, not a jersey giveaway",qwen3.6-35b-a3b,4.75
+h08,17358,0,"Post is a meme, not a giveaway",qwen3.6-35b-a3b,2.32
+h08,3519,0,"Giveaway is for tickets, not a t-shirt.",qwen3.6-35b-a3b,5.53
+h08,2065,0,"Sells course, not a t-shirt giveaway",qwen3.6-35b-a3b,5.97
+h08,21916,0,No mention of t-shirt giveaway,qwen3.6-35b-a3b,5.03
+h08,19661,0,"Giveaway is for tickets, not a t-shirt",qwen3.6-35b-a3b,5.29
+h08,825,2,Post describes the specific jersey giveaway,qwen3.6-35b-a3b,5.65
+h08,5258,0,"Posters, not t-shirts",qwen3.6-35b-a3b,5.12
+h08,10358,0,"Post is a meme, not a jersey giveaway",qwen3.6-35b-a3b,5.06
+h08,16258,0,"Post is a meme, not a giveaway",qwen3.6-35b-a3b,4.86
+h08,9258,2,Post announces a t-shirt giveaway for subscribers,qwen3.6-35b-a3b,4.60
+h08,765,0,"Prize is poster, not t-shirt",qwen3.6-35b-a3b,7.02
+h08,5012,0,No t-shirt giveaway mentioned,qwen3.6-35b-a3b,5.97
+h08,2657,0,"Giveaway for tickets and books, not a t-shirt",qwen3.6-35b-a3b,5.02
+h08,7000,0,"Post is about a leather jacket contest, not a t-shirt.",qwen3.6-35b-a3b,7.43
+h08,20777,0,"Post is about campaign logistics, not a giveaway.",qwen3.6-35b-a3b,9.09
+h08,20876,0,"Giveaway is for a speaker, not a t-shirt",qwen3.6-35b-a3b,8.32
+h08,13935,2,Post announces winners of the t-shirt giveaway.,qwen3.6-35b-a3b,6.08
+h08,5443,0,"Giveaway is for LEGO, not a t-shirt",qwen3.6-35b-a3b,6.30
+h08,18835,0,No mention of t-shirt giveaway,qwen3.6-35b-a3b,6.33
+h08,9318,2,Post announces giveaway results,qwen3.6-35b-a3b,5.32
+h08,20789,2,Post announces giveaway results for a t-shirt,qwen3.6-35b-a3b,4.26
+h08,22787,0,No mention of a football jersey giveaway,qwen3.6-35b-a3b,4.53
+h08,5052,0,"Prize is a book, not a t-shirt",qwen3.6-35b-a3b,5.15
+h08,21030,2,Post announces giveaway results for a t-shirt,qwen3.6-35b-a3b,5.13
+h08,4177,0,"Giveaway is for LEGO, not a t-shirt",qwen3.6-35b-a3b,5.52
+h08,7939,2,Post is a t-shirt giveaway for subscribers,qwen3.6-35b-a3b,6.32
+h08,7957,2,Post is a giveaway for a t-shirt.,qwen3.6-35b-a3b,6.29
+h08,20235,0,"Giveaway is for tickets, not a t-shirt.",qwen3.6-35b-a3b,6.97
+h08,2426,0,"Giveaway is for tickets, not a t-shirt.",qwen3.6-35b-a3b,7.21
+h08,5361,0,"Giveaway is for tickets and cap, not t-shirt.",qwen3.6-35b-a3b,6.72
+h08,7955,1,"Giveaway exists but prize is pillow, not jersey",qwen3.6-35b-a3b,7.03
+h08,25056,2,Post announces a t-shirt giveaway results,qwen3.6-35b-a3b,4.32
+h08,19513,1,"Announces winners, not the t-shirt itself",qwen3.6-35b-a3b,3.36
+h08,20085,2,Post announces giveaway results,qwen3.6-35b-a3b,5.02
+h08,19957,2,Announces winners of the t-shirt giveaway,qwen3.6-35b-a3b,7.26
+h08,21258,0,"Giveaway for tickets, not a t-shirt",qwen3.6-35b-a3b,8.52
+h08,1796,0,"Post is a greeting card, not a jersey giveaway",qwen3.6-35b-a3b,5.99
+h08,12522,0,"Post is about sobriety day, not a jersey giveaway",qwen3.6-35b-a3b,5.22
+h08,16974,0,No mention of a jersey giveaway,qwen3.6-35b-a3b,4.73
+h09,9089,2,Exact match of meme text and theme,qwen3.6-35b-a3b,4.33
+h09,16964,0,"Opposite meaning, not relevant",qwen3.6-35b-a3b,4.43
+h09,9213,2,Matches the meme's satirical theme of capitalism,qwen3.6-35b-a3b,4.63
+h09,8239,0,"Meme is about April Fools, not capitalism",qwen3.6-35b-a3b,5.04
+h09,16238,2,Meme matches the query's sacrifice theme,qwen3.6-35b-a3b,4.91
+h09,25813,0,"Post discusses a new term, not the query meme",qwen3.6-35b-a3b,4.67
+h09,22727,0,"Post is about archaeology, not capitalism meme",qwen3.6-35b-a3b,5.56
+h09,21633,2,Exact match for the meme text,qwen3.6-35b-a3b,5.27
+h09,10646,0,Post is unrelated to the query,qwen3.6-35b-a3b,4.19
+h09,12758,0,"Post is about Kubrick conspiracy, not capitalism meme",qwen3.6-35b-a3b,4.63
+h09,8563,1,"Meme about cat maturity, not capitalism",qwen3.6-35b-a3b,5.12
+h09,10731,0,"Post is about bullying, not capitalism",qwen3.6-35b-a3b,3.20
+h09,6046,0,"Post is about a theater play, not the query.",qwen3.6-35b-a3b,5.34
+h09,8875,1,"Related theme of work, but different context",qwen3.6-35b-a3b,4.85
+h09,14044,0,"Meme is about cleaning, not capitalism",qwen3.6-35b-a3b,3.71
+h09,17290,2,Meme matches the query's theme of waking up for work.,qwen3.6-35b-a3b,4.86
+h09,16394,0,Opposite meaning: sleep vs work,qwen3.6-35b-a3b,4.75
+h09,17574,2,Meme matches the motivational wake-up theme,qwen3.6-35b-a3b,4.51
+h09,15793,2,Matches the cynical humor about capitalism,qwen3.6-35b-a3b,4.75
+h09,16014,1,"Related to overtime pay, not the meme",qwen3.6-35b-a3b,5.26
+h09,12301,2,Post matches the cynical mood of the query,qwen3.6-35b-a3b,5.01
+h09,10586,2,Direct meme match for the query,qwen3.6-35b-a3b,4.21
+h09,12438,0,Post is unrelated to the query,qwen3.6-35b-a3b,4.05
+h09,9568,2,Post matches query theme and image caption,qwen3.6-35b-a3b,4.24
+h09,23495,0,No relation to the query theme,qwen3.6-35b-a3b,4.24
+h09,22554,2,Visual meme matching the cynical joke,qwen3.6-35b-a3b,4.11
+h09,20702,0,Post text does not match query theme,qwen3.6-35b-a3b,4.21
+h09,25224,0,No meme or matching content found,qwen3.6-35b-a3b,4.97
+h09,9053,0,Topic mismatch: capitalism vs ecology,qwen3.6-35b-a3b,5.13
+h09,3835,2,Matches the meme format and sentiment,qwen3.6-35b-a3b,4.59
+h09,11321,2,Direct match for the meme format,qwen3.6-35b-a3b,4.43
+h09,4485,0,No relation to the query,qwen3.6-35b-a3b,4.07
+h09,22719,2,Directly matches the meme's theme of labor exploitation.,qwen3.6-35b-a3b,4.32
+h09,17039,2,Matches the meme theme of work frustration,qwen3.6-35b-a3b,5.09
+h09,10631,0,Unrelated complaint about Telegram,qwen3.6-35b-a3b,3.13
+h09,15229,2,Matches the meme about escaping capitalism via sleep,qwen3.6-35b-a3b,3.19
+h09,23137,0,No relevant content or image,qwen3.6-35b-a3b,4.68
+h09,22401,0,Irrelevant educational content about primates,qwen3.6-35b-a3b,5.88
+h09,20943,1,Related film but not the meme,qwen3.6-35b-a3b,10.39
+h09,25330,1,"Mentions capitalism, but not the meme",qwen3.6-35b-a3b,9.66
+h09,7180,0,"Interview with Adam Wingard, irrelevant to query",qwen3.6-35b-a3b,6.88
+h09,23864,0,"Post is about astronomy, not capitalism.",qwen3.6-35b-a3b,6.64
+h09,23672,0,"Post is about archaeology, not capitalism.",qwen3.6-35b-a3b,5.80
+h09,25118,0,No relevant content or image description,qwen3.6-35b-a3b,4.90
+h09,25914,0,"Post discusses war and history, not the query.",qwen3.6-35b-a3b,5.65
+h09,24491,0,"Post discusses AI swarm altruism, not the query.",qwen3.6-35b-a3b,7.17
+h09,24524,0,Text is unrelated to the query meme.,qwen3.6-35b-a3b,7.17
+h09,24843,0,"Post discusses AI and class struggle, not the query.",qwen3.6-35b-a3b,7.15
+h09,22729,0,"Post discusses book reviews, not the meme.",qwen3.6-35b-a3b,6.76
+h09,12552,0,Weather news unrelated to the query,qwen3.6-35b-a3b,5.51
+h09,17584,0,"Post is about sleeping, not capitalism",qwen3.6-35b-a3b,4.59
+h09,13823,0,"Post advises sleeping, not working for capitalism",qwen3.6-35b-a3b,4.63
+h09,17545,0,"Post is about fighting, not capitalism",qwen3.6-35b-a3b,4.72
+h09,13840,2,Meme matches query theme exactly,qwen3.6-35b-a3b,4.45
+h09,11563,0,"Post is about padel, not capitalism.",qwen3.6-35b-a3b,5.16
+h09,10964,0,"Unrelated health meme, not about capitalism",qwen3.6-35b-a3b,4.73
+h10,14092,0,"Post discusses Bonya and Milonov, not Chanson event",qwen3.6-35b-a3b,5.42
+h10,7460,0,"Post is about a film, not Milonova",qwen3.6-35b-a3b,9.08
+h10,20117,0,"Post is about Daredevil, not Milonova",qwen3.6-35b-a3b,7.90
+h10,4175,0,Post is about Mario movie box office,qwen3.6-35b-a3b,4.93
+h10,5174,0,"Post is about Neuromancer, not Milonova",qwen3.6-35b-a3b,2.65
+h10,23080,0,"Post is about medical research, not the query",qwen3.6-35b-a3b,5.15
+h10,24835,0,"Post discusses Strugatsky books, not Milonova",qwen3.6-35b-a3b,5.18
+h10,18975,0,"Post is about Christopher Nolan, not Milonova",qwen3.6-35b-a3b,5.07
+h10,4106,0,"Post is about Lord of the Rings, not Milonova",qwen3.6-35b-a3b,4.90
+h10,4346,0,"Post is about Narnia film, not Milonova",qwen3.6-35b-a3b,4.92
+h10,19407,0,Post is about Fable game release delay,qwen3.6-35b-a3b,4.45
+h10,2636,0,"Post is about Sofia Loren, not Milonova",qwen3.6-35b-a3b,4.48
+h10,20364,0,"Post is about Monsters Inc, not Milonova",qwen3.6-35b-a3b,4.59
+h10,22872,0,"Post is about NASA and SpaceX, unrelated to query.",qwen3.6-35b-a3b,4.86
+h10,20331,0,"Post is about board games, not Milonova",qwen3.6-35b-a3b,4.95
+h10,4373,0,"Post is about Cannes, not Milonova",qwen3.6-35b-a3b,4.58
+h10,21308,0,"Post is about anime, not the query",qwen3.6-35b-a3b,4.61
+h10,24221,0,"Post is about space mission, not Milonova",qwen3.6-35b-a3b,5.99
+h10,25032,0,"Irrelevant topic: flying cars, not Milonova",qwen3.6-35b-a3b,4.85
+h10,5312,0,"Post is about Alien premiere, not Milonova",qwen3.6-35b-a3b,3.52
+h10,10724,0,Wrong person and event,qwen3.6-35b-a3b,5.48
+h10,14367,0,"Post discusses school music ban, not chanson incident.",qwen3.6-35b-a3b,3.83
+h10,25354,0,"Post is about William Golding, not Milonova",qwen3.6-35b-a3b,3.60
+h10,14262,0,"Post is about Zakharova, not Milonova",qwen3.6-35b-a3b,6.46
+h10,5166,0,No mention of Milonova or Chanson,qwen3.6-35b-a3b,5.91
+h10,3813,0,"Post is about Paul Verhoeven, not Milonova.",qwen3.6-35b-a3b,5.25
+h10,23709,0,No mention of Milonova or the event,qwen3.6-35b-a3b,5.23
+h10,12766,0,Irrelevant topic and person,qwen3.6-35b-a3b,4.40
+h10,3457,0,"Post discusses Zvyagintsev, not Milonova",qwen3.6-35b-a3b,5.26
+h10,12819,0,Wrong person and event,qwen3.6-35b-a3b,5.14
+h10,10814,0,"Post is about streamers, not chanson.",qwen3.6-35b-a3b,4.49
+h10,11909,0,"Post discusses Muzilina, not Milonova",qwen3.6-35b-a3b,5.00
+h10,11591,0,"Post discusses Zyuganov, not Milonova or Chanson.",qwen3.6-35b-a3b,5.38
+h10,24037,0,No mention of Milonova or Chanson,qwen3.6-35b-a3b,5.11
+h10,4605,0,"Post is about Cannes Film Festival, not Milonova",qwen3.6-35b-a3b,4.45
+h10,10552,0,"Post is about a football coach, not Milonova.",qwen3.6-35b-a3b,5.17
+h10,24629,0,"Post discusses literary awards, not chanson.",qwen3.6-35b-a3b,5.21
+h10,25174,0,"Post is about Mikhailov, not Milonova",qwen3.6-35b-a3b,5.61
+h10,3520,0,"Post is about Cannes, not Milonova",qwen3.6-35b-a3b,4.92
+h10,3070,0,"Post is about a book, not the query event.",qwen3.6-35b-a3b,5.12
+h10,2750,0,"Post is about a book, not the event.",qwen3.6-35b-a3b,7.07
+h10,6120,0,"Post is about a film almanach, not the event.",qwen3.6-35b-a3b,9.03
+h10,3262,0,Post is about Sergey Selyanov's birthday,qwen3.6-35b-a3b,4.87
+h10,2610,0,"Post is about Balabanov, not Milonova",qwen3.6-35b-a3b,4.11
+h10,24536,0,Milonov mentioned only as hypothetical meme,qwen3.6-35b-a3b,7.02
+h10,2691,0,"Post is about Balabanov film retrospective, not Milonova",qwen3.6-35b-a3b,9.39
+h10,2891,0,"Post is about cinema school, not Milonova",qwen3.6-35b-a3b,10.09
+h10,3201,0,"Post is about Lunkin and Husky, not Milonova",qwen3.6-35b-a3b,7.70
+h10,3821,0,No mention of Milonova or the event,qwen3.6-35b-a3b,5.71
+h10,14069,0,"Post discusses tourism, not the concert incident.",qwen3.6-35b-a3b,4.86
+h10,25866,0,"Post is about a TV show, not Milonova",qwen3.6-35b-a3b,5.93
+h10,24634,0,"Post discusses literary awards, not chanson",qwen3.6-35b-a3b,6.30
+h10,1974,0,"Post is about film awards, not Milonova",qwen3.6-35b-a3b,5.67
+h10,14649,0,"Post is about Budanov, not Milonova",qwen3.6-35b-a3b,5.75
+h10,11025,0,"Post is about Eurovision, not Milonova",qwen3.6-35b-a3b,5.05
+h10,25625,0,"Post is about a sci-fi film, not the query.",qwen3.6-35b-a3b,2.60
+h10,341,0,"Post is about book awards, not Milonova",qwen3.6-35b-a3b,5.68
+h10,10685,0,No mention of Milonova or Chanson,qwen3.6-35b-a3b,5.65
+h10,10796,0,"Post is about Solovyov, not Milonova",qwen3.6-35b-a3b,5.05
+h10,10652,0,"Post is about Malakhov, not Milonova",qwen3.6-35b-a3b,5.68
+h10,1597,0,Unrelated movie poster about North Korea,qwen3.6-35b-a3b,5.64
+h10,6018,0,"Post is about Danny Boyle, not Milonova",qwen3.6-35b-a3b,5.74
+h11,25626,0,No Adidas stripes or relevant meme,qwen3.6-35b-a3b,6.33
+h11,8129,2,Meme matches query exactly,qwen3.6-35b-a3b,4.55
+h11,2055,0,No Adidas stripes or castle imagery,qwen3.6-35b-a3b,4.05
+h11,18862,0,No Adidas stripes or castle mentioned,qwen3.6-35b-a3b,4.89
+h11,16846,0,No Adidas stripes or castle shown,qwen3.6-35b-a3b,4.54
+h11,17131,0,No Adidas stripes mentioned or shown,qwen3.6-35b-a3b,5.37
+h11,17890,1,"Mentions Howl's Castle, but not Adidas stripes",qwen3.6-35b-a3b,4.14
+h11,2063,0,"Post is about a film, not a meme.",qwen3.6-35b-a3b,3.97
+h11,25155,0,"Mentions book title, not the requested object",qwen3.6-35b-a3b,5.64
+h11,25003,0,"Post is about Roger Corman, not the query",qwen3.6-35b-a3b,7.31
+h11,24127,0,"Post discusses archaeology, not Adidas locks.",qwen3.6-35b-a3b,8.85
+h11,25109,0,"Post is about author Serge Brussolo, not Adidas castle",qwen3.6-35b-a3b,7.44
+h11,2610,1,"Mentions film, but no Adidas castle",qwen3.6-35b-a3b,6.79
+h11,2691,1,"Mentions film ""Castle"", not Adidas castle",qwen3.6-35b-a3b,7.52
+h11,2750,0,"Post is about a book, not the meme",qwen3.6-35b-a3b,7.28
+h11,25649,0,No Adidas stripes or castle mentioned,qwen3.6-35b-a3b,6.64
+h11,3070,1,"Mentions film ""Castle"" but not the meme",qwen3.6-35b-a3b,6.89
+h11,24159,0,No mention of Adidas stripes or castle,qwen3.6-35b-a3b,6.97
+h11,25556,0,No mention of Adidas stripes or castle,qwen3.6-35b-a3b,6.27
+h11,24416,0,"Text about AI and Nvidia, no lock or Adidas",qwen3.6-35b-a3b,6.14
+h11,21898,0,No post data provided,qwen3.6-35b-a3b,4.66
+h11,7352,0,No post data provided,qwen3.6-35b-a3b,2.72
+h11,2367,0,No post data provided,qwen3.6-35b-a3b,2.45
+h11,23828,0,No post data provided,qwen3.6-35b-a3b,2.44
+h11,23785,0,No post data provided,qwen3.6-35b-a3b,2.44
+h11,4429,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,4431,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,20873,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,24540,0,No post data provided,qwen3.6-35b-a3b,2.47
+h11,24742,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,25937,0,No post data provided,qwen3.6-35b-a3b,2.47
+h11,7039,0,No post data provided,qwen3.6-35b-a3b,2.48
+h11,3298,0,No post data provided,qwen3.6-35b-a3b,2.48
+h11,24291,0,No post data provided,qwen3.6-35b-a3b,2.79
+h11,7357,0,No post data provided,qwen3.6-35b-a3b,2.81
+h11,24144,0,No post data provided,qwen3.6-35b-a3b,2.48
+h11,3142,0,No post data provided,qwen3.6-35b-a3b,2.45
+h11,24505,0,No post data provided,qwen3.6-35b-a3b,2.68
+h11,475,0,No post data provided,qwen3.6-35b-a3b,4.33
+h11,24054,0,"Post is about a lunar crater, not a zipper.",qwen3.6-35b-a3b,7.59
+h11,24544,0,"Post is about Ukraine, not Adidas stripes",qwen3.6-35b-a3b,6.87
+h11,16196,0,No Adidas stripes or castle shown,qwen3.6-35b-a3b,4.34
+h11,13595,0,"Post is about traffic, not Adidas castle",qwen3.6-35b-a3b,2.27
+h11,3807,0,"Text about Oscars, not Adidas castle",qwen3.6-35b-a3b,5.34
+h11,4201,0,No post data provided,qwen3.6-35b-a3b,4.38
+h11,3137,0,No post data provided,qwen3.6-35b-a3b,2.54
+h11,4856,0,No post data provided,qwen3.6-35b-a3b,2.45
+h11,7395,0,No post data provided,qwen3.6-35b-a3b,2.45
+h11,25506,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,20864,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,25232,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,3335,0,No post data provided,qwen3.6-35b-a3b,2.46
+h11,24912,0,No post data provided,qwen3.6-35b-a3b,2.44
+h11,4930,0,No post data provided,qwen3.6-35b-a3b,2.44
+h11,3139,0,No post data provided,qwen3.6-35b-a3b,2.45
+h11,23735,0,No post data provided,qwen3.6-35b-a3b,2.44
+h11,23069,0,No post data provided,qwen3.6-35b-a3b,2.45
+h11,12529,0,No Adidas stripes or castle mentioned,qwen3.6-35b-a3b,3.41
+h11,17865,0,No castle or Adidas stripes present,qwen3.6-35b-a3b,4.61
+h11,17859,0,"Post is about a cat, not a castle.",qwen3.6-35b-a3b,4.81
+h11,23736,0,No post data provided,qwen3.6-35b-a3b,3.84
+h11,24906,0,No post data provided,qwen3.6-35b-a3b,2.70
+h11,23068,0,No post data provided,qwen3.6-35b-a3b,3.10
+h12,13683,0,No mention of Kazakhs or related content,qwen3.6-35b-a3b,3.95
+h12,17744,0,"Memes are about viewer, not Kazakhs",qwen3.6-35b-a3b,5.17
+h12,1817,1,"Meme about memes, but not about Kazakhs",qwen3.6-35b-a3b,9.59
+h12,8117,0,"Post is about cats, not Kazakhs",qwen3.6-35b-a3b,9.05
+h12,15470,0,"Post is about Nvidia and trades, not Kazakh memes",qwen3.6-35b-a3b,5.47
+h12,15997,0,"Post is about Russians, not Kazakhs",qwen3.6-35b-a3b,5.63
+h12,10810,0,No mention of Kazakhs or related memes,qwen3.6-35b-a3b,4.96
+h12,12290,0,"Post is about Russians, not Kazakhs.",qwen3.6-35b-a3b,4.78
+h12,10484,2,Post explicitly mentions showing memes,qwen3.6-35b-a3b,4.18
+h12,7993,0,Post is unrelated to Kazakh memes,qwen3.6-35b-a3b,4.01
+h12,9775,0,"Memes are generic, not about Kazakhs",qwen3.6-35b-a3b,4.75
+h12,10018,0,No mention of Kazakhs or related content,qwen3.6-35b-a3b,4.72
+h12,17128,0,No mention of Kazakhs or related memes,qwen3.6-35b-a3b,4.68
+h12,17801,0,Post states memes are unavailable,qwen3.6-35b-a3b,4.38
+h12,17851,0,"Post is about biology memes, not Kazakh memes",qwen3.6-35b-a3b,4.50
+h12,13700,0,"Generic meme, no Kazakh content",qwen3.6-35b-a3b,4.75
+h12,16614,0,"Meme is about monkeys, not Kazakhs",qwen3.6-35b-a3b,4.75
+h12,16309,0,"Post is about memes, not Kazakh memes",qwen3.6-35b-a3b,4.85
+h12,8053,0,"Post is about industrial revolution, not Kazakh memes",qwen3.6-35b-a3b,4.85
+h12,16329,0,"Post is about Slavs, not Kazakhs",qwen3.6-35b-a3b,5.42
+h12,12043,2,Meme about Kazakhs as requested,qwen3.6-35b-a3b,4.20
+h12,17733,0,"Post is about Caucasians, not Kazakhs",qwen3.6-35b-a3b,4.21
+h12,17265,2,Meme about Kazakh pride matches query,qwen3.6-35b-a3b,4.41
+h12,17091,0,"Post is about Kyrgyzstan, not Kazakhstan.",qwen3.6-35b-a3b,3.73
+h12,17544,0,"Meme is about Tajiks, not Kazakhs",qwen3.6-35b-a3b,5.14
+h12,20467,0,"Post is about Middle-earth memes, not Kazakh memes",qwen3.6-35b-a3b,8.84
+h12,16802,0,"Generic name meme, not specific to Kazakhs",qwen3.6-35b-a3b,8.69
+h12,11408,1,Mentions memes but lacks specific content,qwen3.6-35b-a3b,4.81
+h12,16720,2,Meme about Kazakhstan with humorous effects,qwen3.6-35b-a3b,4.58
+h12,17109,0,"Meme is about Uzbeks, not Kazakhs",qwen3.6-35b-a3b,2.61
+h12,14673,0,"Post is about Ukraine, not Kazakhstan.",qwen3.6-35b-a3b,5.01
+h12,11684,0,No content or description provided,qwen3.6-35b-a3b,4.37
+h12,17617,0,"Meme targets Muscovites, not Kazakhs",qwen3.6-35b-a3b,4.48
+h12,12004,0,No content related to Kazakh memes,qwen3.6-35b-a3b,4.60
+h12,9434,1,Discusses memes but not Kazakh-specific,qwen3.6-35b-a3b,4.47
+h12,17809,0,No mention of Kazakhs or related context,qwen3.6-35b-a3b,4.77
+h12,14998,0,"Post is about Ukraine, not Kazakhs",qwen3.6-35b-a3b,4.97
+h12,8858,0,No mention of Kazakhs or related context,qwen3.6-35b-a3b,4.95
+h12,8794,0,"Meme is about Hatsune Miku, not Kazakhs",qwen3.6-35b-a3b,5.14
+h12,14955,0,"Post is about Ukraine, not Kazakhstan.",qwen3.6-35b-a3b,5.21
+h12,11939,0,"Post is about general memes, not Kazakh ones.",qwen3.6-35b-a3b,6.18
+h12,12363,0,"Post is about a Russian soldier, not Kazakh memes.",qwen3.6-35b-a3b,5.56
+h12,6572,0,"Post is about Christopher Nolan, not Kazakh memes.",qwen3.6-35b-a3b,6.15
+h12,20954,0,"Post is about Kolobok, not Kazakhs.",qwen3.6-35b-a3b,10.62
+h12,15747,0,"Post is about memes, not Kazakh people",qwen3.6-35b-a3b,8.90
+h12,16081,0,"Post is about job hunting memes, not Kazakh memes.",qwen3.6-35b-a3b,5.60
+h12,10655,2,Direct meme about Kazakh SIM cards,qwen3.6-35b-a3b,5.26
+h12,405,2,Post is a meme about Kazakhs,qwen3.6-35b-a3b,4.60
+h12,9230,0,"Post is about Bashkirs, not Kazakhs",qwen3.6-35b-a3b,4.90
+h12,20989,1,"Meme about Spider-Man, not Kazakhs",qwen3.6-35b-a3b,5.02
+h12,10972,0,No mention of Kazakhs or related memes,qwen3.6-35b-a3b,4.78
+h12,10815,0,"Post is about Moscow, not Kazakhs",qwen3.6-35b-a3b,4.66
+h12,1963,0,Memes not specific to Kazakhs,qwen3.6-35b-a3b,4.65
+h12,1970,0,No mention of Kazakhs or related memes,qwen3.6-35b-a3b,4.77
+h12,13942,0,"Meme is generic, not about Kazakhs",qwen3.6-35b-a3b,4.94
+h12,10606,0,"Post is about Telegram outages, not Kazakh memes.",qwen3.6-35b-a3b,5.29
+h12,9234,0,Irrelevant meme about bass guitar,qwen3.6-35b-a3b,4.97
+h12,12964,0,"Post is about Russian stereotypes, not Kazakhs",qwen3.6-35b-a3b,5.79
+h12,12268,0,"Post is about Russian men, not Kazakhs",qwen3.6-35b-a3b,6.84
+h13,16154,2,Post directly matches query text and intent,qwen3.6-35b-a3b,4.17
+h13,21075,1,"Book review, not a meme or verification",qwen3.6-35b-a3b,3.48
+h13,14028,2,Post directly addresses low activity query,qwen3.6-35b-a3b,5.31
+h13,21532,0,"Post is about space, not night shift",qwen3.6-35b-a3b,7.77
+h13,20736,0,"Post is about musician Kavinsky, not night shift.",qwen3.6-35b-a3b,7.67
+h13,2518,0,No mention of Night Watch or active,qwen3.6-35b-a3b,4.94
+h13,23304,0,"Post discusses loneliness, not night shift.",qwen3.6-35b-a3b,5.13
+h13,19693,0,"NASA mission, not night shift check",qwen3.6-35b-a3b,5.41
+h13,22596,0,"Post discusses medical drug, not night shift",qwen3.6-35b-a3b,5.76
+h13,23418,0,"Post discusses daytime sleep, not night shift.",qwen3.6-35b-a3b,5.78
+h13,14446,0,"Post is about nuclear drills, not night assets.",qwen3.6-35b-a3b,5.23
+h13,22146,0,"Post discusses sleep, not night shift",qwen3.6-35b-a3b,5.22
+h13,22946,0,"Post is about octopuses, not night shift",qwen3.6-35b-a3b,5.38
+h13,14558,0,"Post is about corruption, not night shift.",qwen3.6-35b-a3b,5.74
+h13,3616,0,"Post is about Renata Litvinova, not night shift",qwen3.6-35b-a3b,5.96
+h13,10049,0,"Post is about school dress code, not night shift.",qwen3.6-35b-a3b,5.79
+h13,2476,1,"Mentions film, not the requested night asset",qwen3.6-35b-a3b,6.07
+h13,22551,0,"Post is about medical research, not night shift.",qwen3.6-35b-a3b,6.72
+h13,7789,0,"Post is about Yuri Dubrovin, not the query",qwen3.6-35b-a3b,8.13
+h13,25611,1,"Mentions Lukyanenko, not Night Active",qwen3.6-35b-a3b,8.83
+h13,13009,0,"Post is about fines for snoring, not night shift",qwen3.6-35b-a3b,2.47
+h13,21728,0,"Post suggests Lego horror, not night shift check",qwen3.6-35b-a3b,5.01
+h13,23809,0,No mention of night shift or activity,qwen3.6-35b-a3b,4.08
+h13,16925,2,Directly matches the stalker meme query,qwen3.6-35b-a3b,3.87
+h13,11321,0,No mention of night activity or verification,qwen3.6-35b-a3b,4.77
+h13,9262,0,No mention of night shift or activity,qwen3.6-35b-a3b,7.43
+h13,7039,0,No post data provided,qwen3.6-35b-a3b,6.52
+h13,7352,0,No post data provided,qwen3.6-35b-a3b,2.75
+h13,7177,0,No post data provided,qwen3.6-35b-a3b,2.47
+h13,24742,0,No post data provided,qwen3.6-35b-a3b,2.48
+h13,25937,0,No post data provided,qwen3.6-35b-a3b,2.48
+h13,2367,0,No post data provided,qwen3.6-35b-a3b,2.49
+h13,7379,0,No post data provided,qwen3.6-35b-a3b,2.49
+h13,7357,0,No post data provided,qwen3.6-35b-a3b,2.48
+h13,24505,0,No post data provided,qwen3.6-35b-a3b,2.50
+h13,24540,0,No post data provided,qwen3.6-35b-a3b,2.51
+h13,3142,0,No post data provided,qwen3.6-35b-a3b,2.53
+h13,3298,0,No post data provided,qwen3.6-35b-a3b,2.50
+h13,20873,0,No post data provided,qwen3.6-35b-a3b,2.49
+h13,23427,0,"Post is about psychology, not night shift",qwen3.6-35b-a3b,4.07
+h13,14561,0,"Post is about Putin, not night shift.",qwen3.6-35b-a3b,5.44
+h13,25740,0,"Post discusses book censorship, not night activity",qwen3.6-35b-a3b,5.88
+h13,16283,0,Unrelated meme about market silence,qwen3.6-35b-a3b,5.44
+h13,10603,0,Unrelated legal news about corruption,qwen3.6-35b-a3b,4.84
+h13,21560,0,"Post is about Godzilla, not night shift",qwen3.6-35b-a3b,5.38
+h13,22768,0,"Post discusses childhood activity, not night shift",qwen3.6-35b-a3b,5.38
+h13,7548,0,"Quiz about a quote, not night activity",qwen3.6-35b-a3b,6.34
+h13,24315,0,"Post discusses heart health, not night shift.",qwen3.6-35b-a3b,6.10
+h13,22897,0,"Post discusses ancient parasites, not night shift.",qwen3.6-35b-a3b,5.24
+h13,22674,2,Shows night Earth as requested,qwen3.6-35b-a3b,5.32
+h13,24700,0,No post data provided,qwen3.6-35b-a3b,3.89
+h13,7396,0,No post data provided,qwen3.6-35b-a3b,2.61
+h13,24690,0,No post data provided,qwen3.6-35b-a3b,2.43
+h13,24565,0,No post data provided,qwen3.6-35b-a3b,2.42
+h13,24912,0,No post data provided,qwen3.6-35b-a3b,2.43
+h13,21650,0,No post data provided,qwen3.6-35b-a3b,2.43
+h13,24622,0,No post data provided,qwen3.6-35b-a3b,2.43
+h13,22698,0,No post data provided,qwen3.6-35b-a3b,2.44
+h13,20891,0,No post data provided,qwen3.6-35b-a3b,2.43
+h13,1962,0,"Post is about sleeping, not night shift",qwen3.6-35b-a3b,3.47
+h13,12396,0,No mention of night shift or activity,qwen3.6-35b-a3b,4.40
+h13,1826,0,"Post is about video games, not night shift.",qwen3.6-35b-a3b,4.46
+h13,11942,0,Post discusses a different topic entirely,qwen3.6-35b-a3b,4.40
+h13,8200,0,"Post is about sleep safety, not night shift",qwen3.6-35b-a3b,4.94
+h13,17067,0,Post is unrelated to the query,qwen3.6-35b-a3b,4.37
+h13,17009,0,"Post is about a kitten, not night shift",qwen3.6-35b-a3b,3.83
+h13,8330,0,"Post is about a bride, not night shift",qwen3.6-35b-a3b,4.59
+h13,11894,0,Irrelevant image of a woman in a dress,qwen3.6-35b-a3b,5.99
+h13,6226,0,Unrelated to night shift verification,qwen3.6-35b-a3b,2.50
+h14,25019,2,Directly matches the query for funny cat content,qwen3.6-35b-a3b,5.52
+h14,23461,0,No mention of cats or humor,qwen3.6-35b-a3b,2.09
+h14,23770,1,"Mentions cats, but not a funny post about them",qwen3.6-35b-a3b,4.99
+h14,12872,2,Funny post about cats,qwen3.6-35b-a3b,4.84
+h14,15497,2,Funny post about cats and remote feeding,qwen3.6-35b-a3b,4.42
+h14,8117,2,Meme about cats and mice spelling,qwen3.6-35b-a3b,4.92
+h14,10713,0,No mention of cats or humor about them,qwen3.6-35b-a3b,4.65
+h14,17000,0,No cats mentioned or shown,qwen3.6-35b-a3b,4.36
+h14,8841,2,Meme about cats and web design humor,qwen3.6-35b-a3b,4.39
+h14,13127,2,Funny post about cats and a law,qwen3.6-35b-a3b,4.43
+h14,10506,0,No mention of cats or cat humor,qwen3.6-35b-a3b,4.56
+h14,19156,0,No mention of cats or humor,qwen3.6-35b-a3b,4.34
+h14,17269,0,No cats mentioned or depicted,qwen3.6-35b-a3b,4.11
+h14,18542,0,No cats mentioned or shown,qwen3.6-35b-a3b,4.11
+h14,11455,0,No mention of cats or humor,qwen3.6-35b-a3b,4.02
+h14,11571,0,No mention of cats or humor,qwen3.6-35b-a3b,4.12
+h14,24763,0,"Post is about a book review, not cats.",qwen3.6-35b-a3b,4.72
+h14,19668,0,No mention of cats or humor,qwen3.6-35b-a3b,5.08
+h14,8619,2,Funny meme about cats in factories,qwen3.6-35b-a3b,4.05
+h14,21029,0,No mention of cats or humor,qwen3.6-35b-a3b,3.68
+h14,9182,2,Meme about cats and toilet humor,qwen3.6-35b-a3b,4.33
+h14,5283,0,No joke content provided,qwen3.6-35b-a3b,4.06
+h14,17809,2,Funny cat meme matching query,qwen3.6-35b-a3b,4.22
+h14,17488,2,Surreal cat meme matches query,qwen3.6-35b-a3b,3.34
+h14,16792,0,"Meme is about puppies, not cats",qwen3.6-35b-a3b,3.32
+h14,8756,2,Funny meme about a cat with absurd lineage,qwen3.6-35b-a3b,4.86
+h14,9926,2,Funny post about cats as requested,qwen3.6-35b-a3b,5.14
+h14,9386,2,Funny meme about cats using owners' accounts,qwen3.6-35b-a3b,7.75
+h14,16417,2,Funny meme about cats as requested,qwen3.6-35b-a3b,7.25
+h14,17700,2,Funny cat meme matching query,qwen3.6-35b-a3b,4.32
+h14,17516,2,Meme features a cat and is funny,qwen3.6-35b-a3b,4.42
+h14,23389,2,Funny cat meme matching query,qwen3.6-35b-a3b,4.23
+h14,17645,2,Funny cat meme about hunting flies,qwen3.6-35b-a3b,4.08
+h14,13799,2,Funny post about cats with a twist,qwen3.6-35b-a3b,4.67
+h14,9860,2,Meme matches query about funny cats,qwen3.6-35b-a3b,4.75
+h14,17058,2,Funny cat meme matching query,qwen3.6-35b-a3b,4.34
+h14,9661,2,Funny post about cats,qwen3.6-35b-a3b,4.19
+h14,16731,2,Meme about fat cats matches query,qwen3.6-35b-a3b,4.25
+h14,10316,2,"Meme about cat-bread, matches query",qwen3.6-35b-a3b,4.63
+h14,758,1,"Mentions cats in origin story, not funny cat meme",qwen3.6-35b-a3b,6.11
+h14,13617,2,Funny post about cats and work,qwen3.6-35b-a3b,5.79
+h14,11310,0,No mention of cats or humor about them,qwen3.6-35b-a3b,4.23
+h14,3098,1,"Mentions cat, but not funny",qwen3.6-35b-a3b,4.48
+h14,8891,2,Funny meme about cats as requested,qwen3.6-35b-a3b,4.75
+h14,10176,2,Funny post about cats as requested,qwen3.6-35b-a3b,6.36
+h14,9634,0,"Serious appeal, not funny",qwen3.6-35b-a3b,4.97
+h14,8312,2,Funny post about a cat teaching lessons,qwen3.6-35b-a3b,3.46
+h14,16742,2,Funny cat meme matching query,qwen3.6-35b-a3b,5.10
+h14,17859,2,Meme about a cat eating potatoes,qwen3.6-35b-a3b,7.76
+h14,10476,0,"Post is about politics, not cats",qwen3.6-35b-a3b,7.14
+h14,12555,0,"Post is about fake news, not cats",qwen3.6-35b-a3b,4.48
+h14,8394,2,Funny meme about a cat drinking egg water,qwen3.6-35b-a3b,2.28
+h14,23218,1,Mentions cat but focuses on physics theory,qwen3.6-35b-a3b,5.24
+h14,25564,1,"Mentions a cat character, but context is book review",qwen3.6-35b-a3b,5.79
+h14,1077,1,"Mention of cat physics comic, not a joke",qwen3.6-35b-a3b,5.51
+h14,25796,1,"Mention of a cat book, but not funny",qwen3.6-35b-a3b,5.83
+h14,2655,1,Mentions cats but focuses on Brodsky,qwen3.6-35b-a3b,6.74

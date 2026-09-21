@@ -53,8 +53,13 @@ class Settings(BaseSettings):
     web_delay_s: float = Field(default=0.8, ge=0)
     """Pause between web-preview requests — one channel at a time, politely."""
     web_proxy: str | None = None
-    """Proxy for t.me / CDN traffic, e.g. ``socks5h://127.0.0.1:1080`` when the box itself
-    cannot reach Telegram and a reverse SSH tunnel (`make collect`) provides the egress."""
+    """Proxy for t.me / CDN traffic (the collector), e.g. ``socks5h://127.0.0.1:1080`` when the
+    box itself cannot reach Telegram and a reverse SSH tunnel (`make collect`) provides the
+    egress. The agent's web tools and the link pass do *not* use it — see ``agent_proxy``."""
+    agent_proxy: str | None = None
+    """Proxy for the agent's web tools (Wikipedia, page fetches, Wikidata) and the link pass.
+    Unset = direct: those hosts are reachable from the box, and the collector tunnel is only up
+    while a collection runs."""
     telegram_api_id: int | None = None
     telegram_api_hash: SecretStr | None = None
     telegram_session: str = "data/collector.session"

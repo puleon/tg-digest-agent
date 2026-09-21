@@ -43,7 +43,7 @@ async def build_deps(
 
     engine = make_engine(settings.database_url)
     factory = make_session_factory(engine)
-    http = make_http(proxy=settings.web_proxy)
+    http = make_http(proxy=settings.agent_proxy)
     tracer = make_tracer(settings)
     llm = LLMClient(settings)
     try:

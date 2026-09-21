@@ -207,7 +207,7 @@ async def open_services(
 
     engine = make_engine(settings.database_url)
     factory = make_session_factory(engine)
-    http = make_http(proxy=settings.web_proxy)
+    http = make_http(proxy=settings.agent_proxy)
     tracer = make_tracer(settings)
     llm = LLMClient(settings)
     index = PostIndex(QdrantClient(url=settings.qdrant_url), BGEM3Embedder(threads=threads))

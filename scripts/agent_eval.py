@@ -321,7 +321,7 @@ async def cmd_research(out: Path, langfuse: bool = False) -> None:
                     "research": state.get("mode") == "research",
                     "verified": bool(state.get("verification")),
                     "citations": len(state.get("citations") or []),
-                    "iterations": state.get("iterations"),
+                    "iterations": state.get("iteration"),
                     "steps": len(steps),
                     "step_names": [s.get("step") for s in steps],
                     "prompt_tokens": usage.get("prompt_tokens", 0),

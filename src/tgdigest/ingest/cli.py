@@ -107,7 +107,7 @@ def links(
     since: Annotated[datetime | None, typer.Option(help="only posts from this date on")] = None,
     limit: Annotated[int | None, typer.Option()] = None,
     direct: Annotated[
-        bool, typer.Option(help="fetch without WEB_PROXY (links are not on Telegram's IPs)")
+        bool, typer.Option(help="fetch without AGENT_PROXY even when one is configured")
     ] = False,
     force: bool = False,
     concurrency: int = 2,
@@ -131,7 +131,7 @@ def links(
                 limit=limit,
                 force=force,
                 concurrency=concurrency,
-                proxy=None if direct else settings.web_proxy,
+                proxy=None if direct else settings.agent_proxy,
             )
         finally:
             await engine.dispose()
