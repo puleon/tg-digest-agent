@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 import typer
 
@@ -37,27 +37,31 @@ def list_prompts() -> None:
         typer.echo(f"{name:<24} v{version}  {path.stat().st_size:6d} B")
 
 
-@app.command()
-def push(
-    dry_run: Annotated[bool, typer.Option(help="print what would be registered")] = False,
-) -> None:
-    """Register every prompt file in Langfuse (idempotent: an identical text is not re-created)."""
+def langfuse_client() -> Any:  # heavy import, used by two commands
     settings = get_settings()
-    files = prompt_files()
-    if dry_run:
-        for name, version, _ in files:
-            typer.echo(f"would push {name} (label v{version})")
-        return
     if not settings.langfuse_public_key:
         typer.echo("LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY are not set")
         raise typer.Exit(1)
     from langfuse import Langfuse
 
-    client = Langfuse(
+    return Langfuse(
         public_key=settings.langfuse_public_key,
         secret_key=settings.langfuse_secret_key.get_secret_value(),
         base_url=settings.langfuse_host,
     )
+
+
+@app.command()
+def push(
+    dry_run: Annotated[bool, typer.Option(help="print what would be registered")] = False,
+) -> None:
+    """Register every prompt file in Langfuse (idempotent: an identical text is not re-created)."""
+    files = prompt_files()
+    if dry_run:
+        for name, version, _ in files:
+            typer.echo(f"would push {name} (label v{version})")
+        return
+    client = langfuse_client()
     pushed = skipped = 0
     for name, version, path in files:
         text = path.read_text(encoding="utf-8").strip()
@@ -80,3 +84,16 @@ def push(
         typer.echo(f"pushed {name} {label}")
     client.flush()
     typer.echo(f"pushed={pushed} unchanged={skipped}")
+
+
+@app.command("push-datasets")
+def push_datasets_cmd(
+    name: Annotated[str | None, typer.Option(help="one dataset; default all")] = None,
+) -> None:
+    """Register the §8 test sets (retrieval queries, router requests, injection attacks) as
+    Langfuse datasets; evaluation scripts attach their runs to them (SPEC §7.3)."""
+    from tgdigest.eval.langfuse_sync import push_datasets
+
+    counts = push_datasets(langfuse_client(), [name] if name else None)
+    for ds, n in counts.items():
+        typer.echo(f"{ds}: {n} items")
