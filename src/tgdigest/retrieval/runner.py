@@ -86,6 +86,7 @@ async def load_facts(
                 text=text,
                 media_type=next((m.media_type for m in members if m.media_type), None),
                 media_path=next((m.media_path for m in members if m.media_path), None),
+                tg_message_id=first.tg_message_id,
                 members=tuple(
                     MemberEnrichment(e.ocr_text, e.vlm_caption, e.link_summary)
                     for e in rows_e

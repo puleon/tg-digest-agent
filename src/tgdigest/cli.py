@@ -37,6 +37,37 @@ def version() -> None:
 
 
 @app.command()
+def api(
+    host: str | None = None,
+    port: int | None = None,
+    rerank: bool = True,
+    threads: int | None = None,
+) -> None:
+    """Serve the HTTP API (search, digest, feedback, profile, /health, /metrics)."""
+    import uvicorn
+
+    from tgdigest.api.app import create_app
+    from tgdigest.logging import configure_logging
+
+    settings = get_settings()
+    configure_logging(settings.log_level)
+    uvicorn.run(
+        create_app(settings=settings),
+        host=host or settings.api_host,
+        port=port or settings.api_port,
+        log_level="info",
+    )
+
+
+@app.command()
+def bot() -> None:
+    """Run the Telegram bot against the API (BOT_TOKEN, API_URL, optional BOT_PROXY)."""
+    from tgdigest.bot.main import main
+
+    main()
+
+
+@app.command()
 def health() -> None:
     """Check that Postgres, Qdrant, the LLM server and Langfuse are reachable."""
     from tgdigest.health import check_all

@@ -53,6 +53,8 @@ class PostFacts:
     media_type: str | None
     media_path: str | None = None
     """Relative path of the first member's media file (for display and the agent's get_post)."""
+    tg_message_id: int | None = None
+    """Telegram message id of the first member: with the channel it makes the t.me link."""
     members: tuple[MemberEnrichment, ...] = ()
     label: str | None = None
     is_ad: bool | None = None
@@ -127,6 +129,9 @@ def build_document(facts: PostFacts) -> IndexDocument:
         "has_media": facts.media_type is not None,
         "media_type": facts.media_type,
         "media_path": facts.media_path,
+        "url": (
+            f"https://t.me/{facts.channel}/{facts.tg_message_id}" if facts.tg_message_id else None
+        ),
         "text": text[:SNIPPET_CHARS],
         "has_ocr": bool(ocr),
         "has_caption": bool(caption),
@@ -155,6 +160,7 @@ def build_document(facts: PostFacts) -> IndexDocument:
                 "is_representative",
                 "model_version",
                 "media_path",
+                "url",
             )
         ]
     )

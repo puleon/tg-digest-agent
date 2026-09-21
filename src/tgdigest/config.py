@@ -58,7 +58,22 @@ class Settings(BaseSettings):
     telegram_api_id: int | None = None
     telegram_api_hash: SecretStr | None = None
     telegram_session: str = "data/collector.session"
+
+    # --- service (SPEC §6.8) ----------------------------------------------------------------
+    api_host: str = "127.0.0.1"
+    api_port: int = 8000
+    api_url: str = "http://127.0.0.1:8000"
+    """Where the bot finds the API — the bot may run on another machine (the box cannot reach
+    Telegram; the Mac can, and reaches the API through ``make tunnel``)."""
     bot_token: SecretStr | None = None
+    bot_proxy: str | None = None
+    """Proxy for api.telegram.org when the bot runs on the box (same tunnel as WEB_PROXY)."""
+    bot_allowed_users: str = ""
+    """Comma-separated Telegram user ids the bot answers; empty = anyone (a demo bot)."""
+
+    @property
+    def allowed_user_ids(self) -> set[int]:
+        return {int(x) for x in self.bot_allowed_users.replace(";", ",").split(",") if x.strip()}
 
     # --- external tools ---------------------------------------------------------------------
     tmdb_api_key: SecretStr | None = None

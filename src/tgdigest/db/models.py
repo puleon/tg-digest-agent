@@ -203,4 +203,6 @@ class Digest(Base):
     plan_json: Mapped[dict[str, Any]] = mapped_column(JSONType, default=dict)
     items_json: Mapped[list[Any]] = mapped_column(JSONType, default=list)
     critic_iterations: Mapped[int] = mapped_column(Integer, default=0)
+    trace_id: Mapped[str | None] = mapped_column(String(64))
+    """Langfuse trace of the run that produced the issue — feedback scores attach to it."""
     """Maturity metric of the digest crew (SPEC §6.7)."""

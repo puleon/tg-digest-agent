@@ -18,6 +18,7 @@ interface; the report says what it really is.
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -118,6 +119,7 @@ def _hit_row(h: Any) -> dict[str, Any]:
         "ocr": ((p.get("sources") or {}).get("ocr") or "")[:200],
         "caption": ((p.get("sources") or {}).get("caption") or "")[:200],
         "cluster_id": p.get("cluster_id"),
+        "url": p.get("url"),
     }
 
 
@@ -160,8 +162,8 @@ def build_registry(deps: ToolDeps, *, confirmer: Confirmer | None = None) -> Too
             limit=a.limit,
             rerank_depth=30 if deps.reranker else 0,
         )
-        hits = run_search(
-            deps.index, [a.query], config=cfg, filters=filters, reranker=deps.reranker
+        hits = await asyncio.to_thread(  # embedder + reranker are CPU-bound: keep the loop free
+            run_search, deps.index, [a.query], config=cfg, filters=filters, reranker=deps.reranker
         )
         return {"query": a.query, "hits": [_hit_row(h) for h in hits], "total": len(hits)}
 

@@ -9,8 +9,18 @@ import structlog
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from tgdigest.agent.tracing import Tracer, current_run
 from tgdigest.db.models import Channel, Digest, Enrichment, Post, PostCluster
-from tgdigest.digest.crew import FRESH_DAYS, DigestResult, Pick, Plan, compose, curate, make_plan
+from tgdigest.digest.crew import (
+    FRESH_DAYS,
+    DigestResult,
+    Pick,
+    Plan,
+    compose,
+    coverage_gaps,
+    curate,
+    make_plan,
+)
 from tgdigest.llm.client import LLMClient
 from tgdigest.profile.model import TOPICS
 from tgdigest.profile.runner import load_profile, rank_candidates
@@ -59,14 +69,15 @@ async def picks_for(
             )
         ).all()
         exclude = await shown_before(session, user_id)
-    score = {r["post_id"]: float(r["score"]["total"]) for r in ranked}
+    score = {r["post_id"]: dict(r["score"]) for r in ranked}
     picks = [
         Pick(
             post_id=post.id,
             topic=topic,
             channel=username,
             channel_id=post.channel_id,
-            score=score[post.id],
+            score=float(score[post.id]["total"]),
+            score_parts={k: v for k, v in score[post.id].items() if k != "total"},
             fresh=post.posted_at.replace(tzinfo=post.posted_at.tzinfo or UTC) >= fresh_since,
             cluster_id=cluster_id,
             text=post.text or "",
@@ -90,13 +101,43 @@ async def make_digest(
     window_days: int = 7,
     tier: str = "fast",
     store: bool = True,
+    tracer: Tracer | None = None,
 ) -> tuple[DigestResult, int | None]:
     async with factory() as session:
         profile = await load_profile(session, user_id)
     weights = profile.topic_weights if profile else {t: 1 / 3 for t in TOPICS}
     plan = make_plan(weights, minutes=minutes, window_days=window_days)
-    picks = await picks_for(factory, index, user_id, plan)
-    result = await compose(llm, picks, plan, tier=tier)
+    run = (
+        tracer.start_run(
+            "digest", input={"user_id": user_id, "plan": plan.to_json()}, user_id=str(user_id)
+        )
+        if tracer
+        else None
+    )
+    token = current_run.set(run)
+    try:
+        step = run.step("curate", kind="retriever", input=plan.to_json()) if run else None
+        picks = await picks_for(factory, index, user_id, plan)
+        if step is not None:
+            step.end(
+                output={"picks": [p.post_id for p in picks], "gaps": coverage_gaps(picks, plan)}
+            )
+        result = await compose(llm, picks, plan, tier=tier)
+    finally:
+        current_run.reset(token)
+    trace_id = run.trace_id if run else None
+    if run is not None:
+        run.end(
+            output={"items": [it["post_id"] for it in result.items], "intro": result.intro},
+            metadata={
+                "critic_iterations": result.critic_iterations,
+                "problems": result.critic_problems,
+                "gaps": result.gaps,
+                "tokens": result.usage.total,
+                "degraded": result.degraded,
+            },
+        )
+    result.trace_id = trace_id
     digest_id: int | None = None
     if store and result.items:
         async with factory() as session:
@@ -105,6 +146,7 @@ async def make_digest(
                 plan_json=plan.to_json(),
                 items_json=result.items,
                 critic_iterations=result.critic_iterations,
+                trace_id=trace_id,
             )
             session.add(row)
             await session.commit()
@@ -151,4 +193,5 @@ def as_json(result: DigestResult, digest_id: int | None) -> dict[str, Any]:
         },
         "seconds": result.seconds,
         "degraded": result.degraded,
+        "trace_id": result.trace_id,
     }

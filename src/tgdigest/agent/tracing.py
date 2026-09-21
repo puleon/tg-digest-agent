@@ -50,6 +50,9 @@ class Tracer(Protocol):
         user_id: str | None = None,
         metadata: dict[str, Any] | None = None,
     ) -> RunHandle: ...
+    def score(
+        self, trace_id: str, name: str, value: float, *, comment: str | None = None
+    ) -> bool: ...
     def flush(self) -> None: ...
 
 
@@ -74,6 +77,9 @@ class _NoopRun:
 class NoopTracer:
     def start_run(self, name: str, **kw: Any) -> RunHandle:
         return _NoopRun()
+
+    def score(self, trace_id: str, name: str, value: float, *, comment: str | None = None) -> bool:
+        return False
 
     def flush(self) -> None:
         return None
@@ -185,6 +191,17 @@ class LangfuseTracer:
         except Exception as exc:
             log.warning("trace_start_failed", error=repr(exc)[:120])
             return _NoopRun()
+
+    def score(self, trace_id: str, name: str, value: float, *, comment: str | None = None) -> bool:
+        """Attach a score to a trace (SPEC §7.4: user feedback and judge verdicts → traces)."""
+        try:
+            self.client.create_score(
+                trace_id=trace_id, name=name, value=value, data_type="NUMERIC", comment=comment
+            )
+            return True
+        except Exception as exc:
+            log.warning("trace_score_failed", trace_id=trace_id, error=repr(exc)[:120])
+            return False
 
     def flush(self) -> None:
         try:

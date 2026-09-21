@@ -18,9 +18,10 @@ from typing import Any, Literal
 import structlog
 from pydantic import BaseModel, Field
 
+from tgdigest.agent.tracing import current_run
 from tgdigest.llm.client import LLMClient, LLMOutputError, Usage
 from tgdigest.profile.model import TOPICS
-from tgdigest.prompts import load_prompt
+from tgdigest.prompts import load_prompt, prompt_id
 
 log = structlog.get_logger(__name__)
 
@@ -82,6 +83,8 @@ class Pick:
     caption: str = ""
     url: str = ""
     date: str = ""
+    score_parts: dict[str, float] = field(default_factory=dict)
+    """Components of the interest score (for ``/why``)."""
 
 
 def curate(
@@ -166,6 +169,7 @@ class DigestResult:
     usage: Usage
     seconds: float
     degraded: list[str] = field(default_factory=list)
+    trace_id: str | None = None
 
 
 def _post_block(p: Pick) -> str:
@@ -186,6 +190,8 @@ async def edit(
         feedback=f"\n\nThe reviewer rejected the previous draft: {feedback}" if feedback else ""
     )
     blocks = "\n\n".join(_post_block(p) for p in picks)
+    run = current_run.get()
+    obs = run.step("edit", kind="generation", input={"posts": len(picks)}) if run else None
     draft, comp = await llm.structured(
         [
             {"role": "system", "content": system},
@@ -195,6 +201,15 @@ async def edit(
         tier=tier,  # type: ignore[arg-type]
         max_tokens=200 + 120 * len(picks),
     )
+    if obs is not None:
+        obs.end(
+            output={"items": len(draft.items), "prompt": prompt_id(*EDITOR_PROMPT)},
+            usage={
+                "prompt_tokens": comp.usage.prompt_tokens,
+                "completion_tokens": comp.usage.completion_tokens,
+            },
+            model=comp.model,
+        )
     return draft, comp.usage
 
 
@@ -208,6 +223,8 @@ async def critique(
         for it in draft.items
         if it.post_id in by_id
     )
+    run = current_run.get()
+    obs = run.step("critique", kind="evaluator", input={"items": len(draft.items)}) if run else None
     verdict, comp = await llm.structured(
         [
             {"role": "system", "content": load_prompt(*CRITIC_PROMPT)},
@@ -217,6 +234,19 @@ async def critique(
         tier=tier,  # type: ignore[arg-type]
         max_tokens=400,
     )
+    if obs is not None:
+        obs.end(
+            output={
+                "ok": verdict.ok,
+                "problems": [p.model_dump() for p in verdict.problems],
+                "prompt": prompt_id(*CRITIC_PROMPT),
+            },
+            usage={
+                "prompt_tokens": comp.usage.prompt_tokens,
+                "completion_tokens": comp.usage.completion_tokens,
+            },
+            model=comp.model,
+        )
     return verdict, comp.usage
 
 
@@ -298,6 +328,8 @@ async def compose(
             "url": by_id[it.post_id].url,
             "date": by_id[it.post_id].date,
             "fresh": by_id[it.post_id].fresh,
+            "score": by_id[it.post_id].score,
+            "score_parts": by_id[it.post_id].score_parts,
         }
         for it in draft.items
         if it.post_id in by_id

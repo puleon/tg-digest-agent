@@ -73,8 +73,11 @@ def test_passage_for_recomposes_variants_from_payload_sources() -> None:
 
 
 def test_payload_carries_filter_fields() -> None:
-    doc = build_document(_facts(is_ad=True, is_spoiler=False, quality=0.4, cluster_id=3))
+    doc = build_document(
+        _facts(is_ad=True, is_spoiler=False, quality=0.4, cluster_id=3, tg_message_id=77)
+    )
     p = doc.payload
+    assert p["url"] == "https://t.me/memes/77"
     assert p["posted_at"] == int(T0.timestamp()) and p["date"] == "2026-06-01"
     assert p["is_ad"] is True and p["is_spoiler"] is False and p["quality"] == 0.4
     assert p["cluster_id"] == 3 and p["is_representative"] is True

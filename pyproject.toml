@@ -26,6 +26,9 @@ dependencies = [
     "langgraph>=1.0",
     "selectolax>=0.3",
     "langfuse>=4",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "aiogram>=3.20",
 ]
 
 [project.scripts]
@@ -103,6 +106,7 @@ markers = [
 addopts = "-m 'not integration' -q"
 filterwarnings = [
     "ignore:Payload indexes have no effect in the local Qdrant:UserWarning",  # in-memory client in tests
+    "ignore:The anyio.abc.BlockingPortal alias is deprecated:DeprecationWarning",  # starlette testclient
 ]
 
 [tool.coverage.run]
