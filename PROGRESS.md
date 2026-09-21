@@ -270,8 +270,16 @@ filled in later without touching anything else.
   `judge` grades the pool with a local model; `agree` reports Cohen's κ against the human
   labels; `score` prints recall@20 / nDCG@10 / MRR per configuration and per query kind.
 
-**Pending** — pooling on the rebuilt index, relevance labels (prefill + owner's review), the
-judge calibration, the ablation table.
+**2026-09-21, evening — results** (report in
+[`docs/experiments/d8-retrieval/`](docs/experiments/d8-retrieval/README.md)): pool of
+1 856 pairs judged by Qwen3.6 (6.9 s per pair, 3.5 h); 100 calibration pairs prefilled by the
+assistant with reasons (owner's review pending): κ 0.52 three-class, **0.635 weighted**, the
+judge is lenient by one grade and almost never demotes. Ablation on the judge's grades:
+**hybrid + rerank nDCG@10 0.816 / recall@20 0.691 / MRR 0.974** vs BM25 0.533 / 0.522 /
+0.850; reranking is the largest single gain (nDCG 0.693 → 0.816). SPEC §6.4 answered on
+humor, where enrichment is complete: text-only recall@20 0.307 → +OCR 0.532 → +captions
+0.599; visual queries nDCG@10 0.280 → 0.727 with everything on. `full` equals
+`text_ocr_caption` until the link pass covers the corpus.
 
 ## D9 — 2026-09-21 — Search agent
 
@@ -353,3 +361,33 @@ runs on a machine that can (API through `make tunnel`) or on the box through `BO
 - Chaos: search timeout / down / empty, web tools down, step budget — 20 runs each, graded.
 - Langfuse: 15 prompt files registered (`tgdigest prompts push`), the three test sets are
   datasets (`push-datasets`), scripts record scored runs with `--langfuse`.
+
+**2026-09-21, evening — results.**
+- D17 ([report](docs/experiments/d17-injection/README.md)): 45 attacks × guard off / on
+  through the full agent — **ASR 0.18 → 0.09** (8/45 → 4/45). Compliance (prompt leaked, tool
+  called, canary as the answer) is 0 in both conditions; 5 of the 8 guard-off successes are
+  the model *narrating* the injected text (the exfil URL still reaches the user — the guard
+  strips it); the 3 planted false facts are repeated in both conditions — no defence in v1;
+  the one guard-on "success" cites the off-topic post to dismiss it. Runs recorded in
+  Langfuse as `guard off` / `guard on` on the `injection-attacks` dataset.
+- D10 chaos ([report](docs/experiments/d9-agent/README.md)): 5 scenarios × 20 runs —
+  **100/100 correct degradation, 0 crashes**; the code paths hold under real timeouts with
+  the real model. The VLM-invalid-JSON scenario is measured on the real pass (28/6 740
+  degraded, 0 failed).
+- D9 research tasks (new, SPEC §8.6): 20 tasks with corpus-checked fact groups
+  (`docs/experiments/d9-agent/research.yaml`, `agent_eval.py research`). Run A: **19/20**,
+  7.9 steps / 4 246 tokens / 236 s per task — with every Wikipedia call failing, because the
+  agent's HTTP client shared the collector's tunnel proxy (down outside collections). Fixed
+  (`AGENT_PROXY`, direct by default); run B with the web reachable in progress.
+- D15 faithfulness: 12 answers in progress — 7 done, unsupported share 0.00–0.11, 3 of 86
+  claims contradicted so far.
+
+## D18 — 2026-09-21/22 — Final measurements, README
+
+- README restructured: results at a glance, demo transcripts, cost table, decisions and
+  deviations, negative results, roadmap.
+- D5 distillation on 2 916 labels (topic κ 0.80; ad and quality negative), per-class output.
+- Owner's pending items: 36 onboarding votes (profile, pairwise digest), the 100 retrieval
+  calibration labels (prefilled, review), `BOT_TOKEN` for the bot demo.
+- Queued on the box: research run B, digest demo + digest faithfulness, pairwise (fast and
+  heavy judge), cinema entity and link passes, scifi three-month ingest.

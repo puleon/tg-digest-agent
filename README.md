@@ -25,19 +25,62 @@ measurements landing** (rows marked ⏳ are runs still in progress on the box).
 | D5 · Distillation | Logistic regression on BGE-M3 embeddings vs the LLM teacher, 2 916 posts: topic **κ 0.80** (accuracy 0.864, majority 0.338); is_ad κ 0.40 and quality κ 0.33 with accuracy *below* the majority baseline; spoilers too rare to learn. Two of three targets are negative results — the LLM stays the classifier. | [d5-distillation](docs/experiments/d5-distillation/README.md) |
 | D6 · Deduplication | 107 hand-labelled pairs: cheap cascade (exact text, file hash, pHash ≤ 6, forwards) precision 0.765 / recall 0.981 → with a contrast gate, illustration and rubric cannot-link vetoes and an OCR template veto **0.953 / 1.000** on the tuning pairs, **0.947 / 0.947** on a 52-pair hold-out. | [d6-dedup](docs/experiments/d6-dedup/README.md) |
 | D7 · Index | BGE-M3 dense + sparse for four indexing variants (text / +OCR / +caption / full) in Qdrant, hybrid RRF, payload filters, duplicates collapsed at query time; 18 987 posts → 29 150 texts embedded in 90 min on the CPU next to the ingest pass; rebuilds re-embed only changed texts. | [PROGRESS D7](PROGRESS.md) |
-| D8 · Retrieval ablation | ⏳ ten configurations over 40 queries, 1 856 pooled pairs judged by the local model, 100-pair human calibration (κ), OCR/caption contribution on visual queries. | [d8-retrieval](docs/experiments/d8-retrieval/README.md) |
+| D8 · Retrieval ablation | 40 queries, 1 856 pooled pairs graded by the local judge (κ 0.52 vs 100 human-labelled pairs, 0.635 weighted — the judge is lenient by one grade): hybrid + rerank **nDCG@10 0.816 / recall@20 0.691 / MRR 0.974** vs BM25 0.533 / 0.522 / 0.850; reranking is the biggest single gain (0.693 → 0.816). On humor the text-only index finds a third of what OCR + captions find (recall@20 0.307 → 0.599; visual queries nDCG@10 0.280 → 0.727). | [d8-retrieval](docs/experiments/d8-retrieval/README.md) |
 | D9 · Router | 30 requests: mode accuracy **0.933**, topic 0.867, period 0.967, spoiler flag 1.000; 363 tokens and 12.7 s per request under contention. | [d9-agent](docs/experiments/d9-agent/README.md) |
-| D9 · Research tasks | ⏳ 20 multi-step tasks with corpus-checked facts: success rate, steps and tokens per task. | [d9-agent](docs/experiments/d9-agent/README.md) |
-| D10 · Chaos | ⏳ five injected failures × 20 runs, graded for correct degradation; the sixth SPEC scenario (invalid VLM JSON) measured on the real pass: 24 of 6 740 posts degraded, 0 failed. | [d9-agent](docs/experiments/d9-agent/README.md) |
+| D9 · Research tasks | 20 multi-step tasks with corpus-checked facts: **19/20** answered correctly with citations, 7.9 steps / 4 246 tokens / 236 s per task under contention — in a run where every Wikipedia call failed (a proxy misconfiguration, fixed); ⏳ the run with the web reachable is in progress. | [d9-agent](docs/experiments/d9-agent/README.md) |
+| D10 · Chaos | Five injected failures × 20 runs through the real agent: **100/100 correct degradation, 0 crashes** (caveat and no citations when search fails; posts-only answers when the web is down; explicit caveat on budget). The sixth SPEC scenario (invalid VLM JSON) on the real pass: 28 of 6 740 posts degraded to metadata, 0 failed. | [d9-agent](docs/experiments/d9-agent/README.md) |
 | D11–12 · Profile | Score v1 (linear over centroid similarity, topic, channel affinity, engagement, novelty; ad and low-quality penalties) vs a views baseline; the learned v2 ranker was **not built** — 36 onboarding votes are nothing to learn from. ⏳ leave-one-out AUC once the owner's votes are in. | [PROGRESS D11–12](PROGRESS.md) |
 | D15 · Faithfulness | ⏳ atomic claims of 12 answers and one digest issue verified against their sources: unsupported share. | [d15-faithfulness](docs/experiments/d15-faithfulness/README.md) |
 | D16 · Digest pairwise | ⏳ v1 score vs views baseline judged in both orders by Qwen3.6 and by gpt-oss-120b: wins, position-flip rate, longer-wins rate, cross-family κ. | [d16-digest](docs/experiments/d16-digest/README.md) |
-| D17 · Prompt injection | 45 planted posts in 8 classes; heuristic coverage 15/45 → 31/45 at a 0.04 % flag rate on the real corpus. ⏳ attack success rate guard off / on. | [d17-injection](docs/experiments/d17-injection/README.md) |
+| D17 · Prompt injection | 45 planted posts in 8 classes through the full agent: ASR **0.18 → 0.09** with the guard (8/45 → 4/45). Compliance — a leaked prompt, a tool call, the canary as the answer — **0 in both conditions**; 5 of the 8 guard-off successes are the model narrating the injected text (the URL still reaches the user — the guard strips it), 3 of the 4 that remain are planted false facts, which nothing in v1 defends against. | [d17-injection](docs/experiments/d17-injection/README.md) |
 
 ## What it does
 
-<!-- PENDING: demo transcript — one search answer, one research answer, a digest issue with
-/why and feedback, from real runs on the box -->
+Three things, all from the terminal (`tgdigest agent ask`, `tgdigest digest make`) or the
+bot. The transcripts below are real runs on the box (Qwen3.6-35B-A3B, CPU; timings include
+contention with the ingest pass and the evaluations).
+
+**Search** — «что-нибудь смешное про котов» → route `search / humor` → rewrite into three
+post-like phrasings → hybrid retrieval → grade (2 of 10 relevant) → `rewrite_query` →
+retrieve again → grade (9 of 10) → synthesize. 5 203 tokens, 8 steps, 8 cited posts:
+
+> Вот подборка смешных постов про котов из канала @am_devs:
+> - **Заговор кошек:** мем предупреждает, что кошки контролируют Землю миллионы лет, и прямо сейчас одна из них находится у вас дома [post 8653].
+> - **Список на двери:** табличка с перечислением «РЫБА, ПИВО, КОШКА» — кошка тоже в списке товаров [post 8648].
+> - **Манул Тимофей:** манул с человеческим лицом и причёской, который занялся «мьюингом» и сделал пересадку волос [post 8472].
+> - **Трансформация:** два котёнка обнимаются, а текст описывает панику человека, который чувствует, как у него растёт шерсть [post 8891]. …
+
+Every step is in the run's state and in its Langfuse trace: `grade 251 s · graded 10 ·
+relevant 2 · 1 031 + 423 tokens`, and so on — the 15-minute wall-clock of this particular run
+is the ingest pass holding the model, not the graph.
+
+**Research** — «кто в итоге сыграет Кратоса в сериале по God of War и почему заменили
+актёра» → route `research / cinema` → retrieve → grade → verify against Wikipedia + a fetched
+page → synthesize. 6 steps, 3 353 tokens, 196 s. (In this run the web was unreachable — a
+proxy misconfiguration since fixed — so the verification step recorded
+`web_search:unavailable` and the answer rests on the posts alone; the citations are real.)
+
+> Кратоса в сериале по God of War сыграет Дэйв Батиста [post 5808].
+>
+> Причиной замены стало то, что первоначально назначенный на роль Райан Херст получил
+> тяжёлую травму — разрыв бицепса — во время съёмок [post 5578] [post 5365]. На восстановление
+> актёру требовалось от четырёх до шести месяцев [post 5365]. Студия Amazon решила не ждать
+> выздоровления Херста … и посчитала более целесообразным переснять уже отснятые серии с
+> новым актёром [post 5808].
+
+When a tool fails the run says so instead of guessing: the same task with Wikipedia
+unreachable answers from the posts and records `web_search:unavailable`; with nothing
+retrieved it answers «⚠️ Ответ неполный …» and cites nothing (D10).
+
+**Digest** — `tgdigest digest make --user <id>`: Planner and Curator pick 5–12 posts for the
+reading budget (a slot per topic, ≤ 2 per channel, 60 % fresh, one per duplicate cluster,
+nothing shown in the last ten issues), the Editor writes a title and a one-line reason per
+item, the Critic rejects hallucinated, spoiling or clickbait lines (≤ 2 rounds). In the bot
+every item has 👍 👎 💾 and ❓ — the last one answers «why this post?» from the score's
+components (topic weight, channel affinity, similarity to what you liked, engagement,
+novelty), without a model call.
+
+<!-- PENDING: a real issue from the demo run -->
 
 ## Why these topics are technically interesting
 
