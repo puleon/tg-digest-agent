@@ -31,8 +31,13 @@ def test_upsert_is_idempotent_and_embeds_unique_texts_once(
     assert (first.indexed, first.unchanged, first.embedded_texts) == (2, 0, 2)  # variants identical
     again = index.upsert(docs)
     assert (again.indexed, again.unchanged) == (0, 2) and len(embedder.calls) == 1
-    changed = [build_document(_doc(1, "кот и дедлайн", label="humor"))]
-    assert index.upsert(changed).indexed == 1 and index.count() == 2
+    relabelled = [build_document(_doc(1, "кот и дедлайн", label="humor"))]
+    meta = index.upsert(relabelled)  # labels changed: payload rewritten, nothing re-embedded
+    assert (meta.indexed, meta.payload_updated) == (0, 1) and len(embedder.calls) == 1
+    assert index.search("кот", mode="dense", limit=1)[0].payload["label"] == "humor"
+    retexted = [build_document(_doc(1, "кот и новый дедлайн", label="humor"))]
+    assert index.upsert(retexted).indexed == 1 and embedder.calls[-1] == ["кот и новый дедлайн"]
+    assert index.count() == 2
 
 
 def test_variants_search_what_they_contain(index: PostIndex) -> None:

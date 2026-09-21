@@ -2,7 +2,12 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from tgdigest.retrieval.documents import MemberEnrichment, PostFacts, build_document
+from tgdigest.retrieval.documents import (
+    MemberEnrichment,
+    PostFacts,
+    build_document,
+    passage_for,
+)
 
 T0 = datetime(2026, 6, 1, 12, 0, tzinfo=UTC)
 
@@ -46,17 +51,25 @@ def test_post_without_images_has_identical_variants() -> None:
     assert doc.payload["has_media"] is False
 
 
-def test_hash_tracks_content_and_labels_only() -> None:
+def test_content_hash_follows_texts_and_meta_hash_follows_labels() -> None:
     a = build_document(_facts())
     same = build_document(_facts())
     relabelled = build_document(_facts(label="cinema"))
     clustered = build_document(_facts(cluster_id=7, is_representative=False))
     new_ocr = build_document(_facts(members=(MemberEnrichment(ocr_text="text on the image"),)))
-    assert a.content_hash == same.content_hash
-    assert (
-        len({a.content_hash, relabelled.content_hash, clustered.content_hash, new_ocr.content_hash})
-        == 4
+    assert (a.content_hash, a.meta_hash) == (same.content_hash, same.meta_hash)
+    assert relabelled.content_hash == a.content_hash and relabelled.meta_hash != a.meta_hash
+    assert clustered.content_hash == a.content_hash and clustered.meta_hash != a.meta_hash
+    assert new_ocr.content_hash != a.content_hash and new_ocr.meta_hash == a.meta_hash
+
+
+def test_passage_for_recomposes_variants_from_payload_sources() -> None:
+    doc = build_document(
+        _facts(members=(MemberEnrichment(ocr_text="ВСЁ ГОРИТ", vlm_caption="a cat"),))
     )
+    assert passage_for(doc.payload, "text") == doc.variants["text"]
+    assert passage_for(doc.payload, "text_ocr_caption") == doc.variants["text_ocr_caption"]
+    assert passage_for({"text": "snippet only"}, "full") == "snippet only"
 
 
 def test_payload_carries_filter_fields() -> None:

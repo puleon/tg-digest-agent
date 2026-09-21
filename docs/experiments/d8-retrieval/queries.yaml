@@ -1,0 +1,43 @@
+# Retrieval evaluation set (SPEC §8.1): 40 queries, 12–14 per topic, mixed difficulty.
+# kind: factual (a named thing), thematic (a subject), vague (a mood / "something like"),
+#       visual (what a meme shows or says — only OCR/captions can find it).
+- {id: c01, topic: cinema, kind: factual, query: "трейлер «Одиссеи» Кристофера Нолана"}
+- {id: c02, topic: cinema, kind: visual, query: "постеры «Закулисья реальности» от A24"}
+- {id: c03, topic: cinema, kind: factual, query: "кто сыграет нового Джеймса Бонда"}
+- {id: c04, topic: cinema, kind: factual, query: "сборы «Человека-паука: Новый день»"}
+- {id: c05, topic: cinema, kind: factual, query: "«Минотавр» Звягинцева в Каннах"}
+- {id: c06, topic: cinema, kind: visual, query: "обложки журнала «Советский экран» 1987 года"}
+- {id: c07, topic: cinema, kind: thematic, query: "рецензии критиков на «Мумию» Ли Кронина"}
+- {id: c08, topic: cinema, kind: thematic, query: "новые хорроры Blumhouse"}
+- {id: c09, topic: cinema, kind: vague, query: "что посмотреть из советского кино"}
+- {id: c10, topic: cinema, kind: thematic, query: "фильмы с Мэттом Дэймоном"}
+- {id: c11, topic: cinema, kind: factual, query: "Пол Дано в роли Тарантино"}
+- {id: c12, topic: cinema, kind: factual, query: "сериал по God of War — кто играет Кратоса"}
+- {id: c13, topic: cinema, kind: thematic, query: "что нового у Ридли Скотта"}
+- {id: s01, topic: scifi, kind: factual, query: "снимки Луны с миссии Artemis II"}
+- {id: s02, topic: scifi, kind: factual, query: "книга года по версии Фантлаба 2025"}
+- {id: s03, topic: scifi, kind: factual, query: "сериал «Трудно быть богом» по Стругацким"}
+- {id: s04, topic: scifi, kind: thematic, query: "выпуски Фантастического подкаста про Star Trek"}
+- {id: s05, topic: scifi, kind: factual, query: "ремейк Zelda: Ocarina of Time на Switch 2"}
+- {id: s06, topic: scifi, kind: thematic, query: "органоиды мозга"}
+- {id: s07, topic: scifi, kind: vague, query: "что-то в духе Лема"}
+- {id: s08, topic: scifi, kind: thematic, query: "новые издания Лавкрафта и споры вокруг них"}
+- {id: s09, topic: scifi, kind: factual, query: "трейлер третьего сезона «Колец власти»"}
+- {id: s10, topic: scifi, kind: thematic, query: "игры по Warhammer 40,000"}
+- {id: s11, topic: scifi, kind: factual, query: "вспышка Эболы в Конго"}
+- {id: s12, topic: scifi, kind: thematic, query: "розыгрыши от «Мира фантастики»"}
+- {id: s13, topic: scifi, kind: vague, query: "интервью с писателями-фантастами"}
+- {id: h01, topic: humor, kind: visual, query: "мем про дедлайн на работе"}
+- {id: h02, topic: humor, kind: visual, query: "кот перед зеркалом повторяет упражнение от дереализации"}
+- {id: h03, topic: humor, kind: visual, query: "шутки про понедельник"}
+- {id: h04, topic: humor, kind: visual, query: "мемы про эйчаров и собеседования"}
+- {id: h05, topic: humor, kind: thematic, query: "бросить курить электронку"}
+- {id: h06, topic: humor, kind: thematic, query: "Дуров включил монетизацию российским каналам"}
+- {id: h07, topic: humor, kind: visual, query: "«ты у меня первый» — мем с ямой"}
+- {id: h08, topic: humor, kind: factual, query: "розыгрыш футболки для подписчиков"}
+- {id: h09, topic: humor, kind: visual, query: "просыпайся, пора приносить себя в жертву капитализму"}
+- {id: h10, topic: humor, kind: factual, query: "Милонова обматерили на «Шансоне года»"}
+- {id: h11, topic: humor, kind: visual, query: "замок с полосками адидас"}
+- {id: h12, topic: humor, kind: visual, query: "мемы про казахов"}
+- {id: h13, topic: humor, kind: visual, query: "проверка ночного актива"}
+- {id: h14, topic: humor, kind: vague, query: "что-нибудь смешное про котов"}

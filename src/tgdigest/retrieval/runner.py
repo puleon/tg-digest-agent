@@ -21,6 +21,7 @@ log = structlog.get_logger(__name__)
 class BuildStats:
     posts: int = 0
     indexed: int = 0
+    payload_updated: int = 0
     unchanged: int = 0
     embedded_texts: int = 0
     with_enrichment: int = 0
@@ -84,6 +85,7 @@ async def load_facts(
                 posted_at=first.posted_at,
                 text=text,
                 media_type=next((m.media_type for m in members if m.media_type), None),
+                media_path=next((m.media_path for m in members if m.media_path), None),
                 members=tuple(
                     MemberEnrichment(e.ocr_text, e.vlm_caption, e.link_summary)
                     for e in rows_e
@@ -123,6 +125,7 @@ async def build_index(
         chunk = docs[start : start + batch]
         s = index.upsert(chunk, batch_size=embed_batch)
         stats.indexed += s.indexed
+        stats.payload_updated += s.payload_updated
         stats.unchanged += s.unchanged
         stats.embedded_texts += s.embedded_texts
         for k, v in s.by_source.items():

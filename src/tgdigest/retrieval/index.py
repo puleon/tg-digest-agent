@@ -97,6 +97,7 @@ class Hit:
 class IndexStats:
     seen: int = 0
     indexed: int = 0
+    payload_updated: int = 0
     unchanged: int = 0
     embedded_texts: int = 0
     by_source: dict[str, int] = field(default_factory=dict)
@@ -143,22 +144,40 @@ class PostIndex:
         return True
 
     # --- indexing ----------------------------------------------------------------------------
-    def existing_hashes(self, post_ids: Iterable[int]) -> dict[int, str]:
+    def existing_hashes(self, post_ids: Iterable[int]) -> dict[int, tuple[str, str]]:
+        """post id -> (content_hash, meta_hash) of the points already in the collection."""
         ids = list(post_ids)
         if not ids:
             return {}
         points = self.client.retrieve(
-            self.collection, ids=ids, with_payload=["content_hash"], with_vectors=False
+            self.collection, ids=ids, with_payload=["content_hash", "meta_hash"], with_vectors=False
         )
-        return {int(p.id): str((p.payload or {}).get("content_hash")) for p in points}
+        return {
+            int(p.id): (
+                str((p.payload or {}).get("content_hash")),
+                str((p.payload or {}).get("meta_hash")),
+            )
+            for p in points
+        }
 
     def upsert(self, docs: Sequence[IndexDocument], *, batch_size: int = 16) -> IndexStats:
-        """Embed and upsert documents whose content changed; identical variant texts of one
-        post are embedded once."""
+        """Embed and upsert documents whose texts changed; rewrite only the payload of those
+        whose labels/clusters changed; identical variant texts of one post are embedded once."""
         stats = IndexStats(seen=len(docs))
         current = self.existing_hashes(d.post_id for d in docs)
-        todo = [d for d in docs if current.get(d.post_id) != d.content_hash]
-        stats.unchanged = len(docs) - len(todo)
+        todo, meta_only = [], []
+        for d in docs:
+            have = current.get(d.post_id)
+            if have is None or have[0] != d.content_hash:
+                todo.append(d)
+            elif have[1] != d.meta_hash:
+                meta_only.append(d)
+        stats.unchanged = len(docs) - len(todo) - len(meta_only)
+        for d in meta_only:
+            self.client.set_payload(
+                self.collection, payload=d.payload, points=[d.post_id], wait=True
+            )
+        stats.payload_updated = len(meta_only)
         if not todo:
             return stats
         # unique texts across posts and variants -> one embedding each

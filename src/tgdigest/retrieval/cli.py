@@ -58,7 +58,8 @@ def build(
         finally:
             await engine.dispose()
         typer.echo(
-            f"posts={stats.posts} indexed={stats.indexed} unchanged={stats.unchanged} "
+            f"posts={stats.posts} indexed={stats.indexed} payload_updated={stats.payload_updated} "
+            f"unchanged={stats.unchanged} "
             f"embedded_texts={stats.embedded_texts} with_enrichment={stats.with_enrichment} "
             f"sources={stats.by_source} total_in_index={index.count()}"
         )
