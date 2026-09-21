@@ -50,14 +50,23 @@ async def picks_for(
     plan: Plan,
     *,
     pool: int = 120,
+    baseline: bool = False,
+    until: datetime | None = None,
 ) -> list[Pick]:
     ranked = await rank_candidates(
-        factory, index, user_id, days=plan.window_days, limit=pool, per_centroid=pool
+        factory,
+        index,
+        user_id,
+        days=plan.window_days,
+        limit=pool,
+        per_centroid=pool,
+        baseline=baseline,
+        until=until,
     )
     ids = [r["post_id"] for r in ranked]
     if not ids:
         return []
-    fresh_since = datetime.now(UTC) - timedelta(days=FRESH_DAYS)
+    fresh_since = (until or datetime.now(UTC)) - timedelta(days=FRESH_DAYS)
     async with factory() as session:
         rows = (
             await session.execute(
@@ -102,7 +111,11 @@ async def make_digest(
     tier: str = "fast",
     store: bool = True,
     tracer: Tracer | None = None,
+    baseline: bool = False,
+    until: datetime | None = None,
 ) -> tuple[DigestResult, int | None]:
+    """``baseline`` ranks candidates by views (SPEC §6.6 comparison); ``until`` ends the
+    window in the past — both for evaluation, never stored as the user's issue."""
     async with factory() as session:
         profile = await load_profile(session, user_id)
     weights = profile.topic_weights if profile else {t: 1 / 3 for t in TOPICS}
@@ -117,7 +130,7 @@ async def make_digest(
     token = current_run.set(run)
     try:
         step = run.step("curate", kind="retriever", input=plan.to_json()) if run else None
-        picks = await picks_for(factory, index, user_id, plan)
+        picks = await picks_for(factory, index, user_id, plan, baseline=baseline, until=until)
         if step is not None:
             step.end(
                 output={"picks": [p.post_id for p in picks], "gaps": coverage_gaps(picks, plan)}
@@ -139,7 +152,7 @@ async def make_digest(
         )
     result.trace_id = trace_id
     digest_id: int | None = None
-    if store and result.items:
+    if store and result.items and not baseline and until is None:
         async with factory() as session:
             row = Digest(
                 user_id=user_id,

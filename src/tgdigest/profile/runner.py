@@ -205,11 +205,13 @@ async def rank_candidates(
     limit: int = 20,
     weights: Weights | None = None,
     baseline: bool = False,
+    until: datetime | None = None,
 ) -> list[dict[str, Any]]:
     """Candidates = recent posts near any interest centroid ∪ recent top-viewed posts, minus
     anything the user already voted on; ranked by the v1 score (or by views when
-    ``baseline``)."""
-    since = datetime.now(UTC) - timedelta(days=days)
+    ``baseline``). ``until`` moves the window's end back in time (evaluation over past weeks)."""
+    until = until or datetime.now(UTC)
+    since = until - timedelta(days=days)
     async with factory() as session:
         profile = await load_profile(session, user_id) or Profile(
             {t: 1 / 3 for t in TOPICS}, {}, [], [], 0.5
@@ -218,7 +220,10 @@ async def rank_candidates(
         medians = await channel_median_views(session, since)
     window = models.Filter(
         must=[
-            models.FieldCondition(key="posted_at", range=models.Range(gte=int(since.timestamp())))
+            models.FieldCondition(
+                key="posted_at",
+                range=models.Range(gte=int(since.timestamp()), lte=int(until.timestamp())),
+            )
         ],
         must_not=[models.FieldCondition(key="is_ad", match=models.MatchValue(value=True))],
     )
@@ -237,7 +242,7 @@ async def rank_candidates(
         stmt = (  # the popularity branch, with the same ad filter the vector branch has
             select(Post.id)
             .outerjoin(Enrichment, Enrichment.post_id == Post.id)
-            .where(Post.posted_at >= since, Enrichment.is_ad.is_not(True))
+            .where(Post.posted_at >= since, Post.posted_at <= until, Enrichment.is_ad.is_not(True))
             .order_by(Post.views.desc().nulls_last())
             .limit(per_centroid)
         )

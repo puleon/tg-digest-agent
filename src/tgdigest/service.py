@@ -69,6 +69,30 @@ class Services:
         self.tracer.flush()
         return result, digest_id
 
+    async def digest_at(
+        self,
+        user_id: int,
+        *,
+        minutes: int = 10,
+        days: int = 7,
+        until: datetime | None = None,
+        baseline: bool = False,
+    ) -> tuple[DigestResult, int | None]:
+        """An issue for evaluation: a past window and/or the views baseline; never stored."""
+        return await make_digest(
+            self.factory,
+            self.index,
+            self.llm,
+            user_id,
+            minutes=minutes,
+            window_days=days,
+            tier=self.digest_tier,
+            store=False,
+            tracer=self.tracer,
+            baseline=baseline,
+            until=until,
+        )
+
     async def get_digest(self, digest_id: int) -> Digest | None:
         async with self.factory() as session:
             return await session.get(Digest, digest_id)
