@@ -367,7 +367,12 @@ def cmd_agree(directory: Path, judge_file: str) -> None:
 
 # --- scoring -----------------------------------------------------------------------------------
 def cmd_score(
-    directory: Path, topic: str | None, by_kind: bool, queries_path: Path, labels_file: str
+    directory: Path,
+    topic: str | None,
+    by_kind: bool,
+    queries_path: Path,
+    labels_file: str,
+    langfuse: bool = False,
 ) -> None:
     queries = {q["id"]: q for q in _load_queries(queries_path)}
     labels: dict[str, dict[int, int]] = defaultdict(dict)
@@ -413,6 +418,44 @@ def cmd_score(
                     f"{mean([m.ndcg_at_10 for q, m in rows if queries[q]['kind'] == k]):.3f}"
                 )
             print(f"| {name} | " + " | ".join(cells) + " |")
+    if langfuse:
+        _record_retrieval_runs(per_config, labels_file, runs)
+
+
+def _record_retrieval_runs(
+    per_config: dict[str, list[tuple[str, Any]]], labels_file: str, runs: list[dict[str, Any]]
+) -> None:
+    """One Langfuse dataset run per configuration: the ranked ids as output, the three
+    metrics as per-query scores (SPEC §7.3)."""
+    from tgdigest.eval.langfuse_sync import record_run
+    from tgdigest.prompts_cli import langfuse_client
+
+    client = langfuse_client()
+    ranked_of = {(r["query_id"], r["config"]): r["ranked"] for r in runs}
+    for name, rows in sorted(per_config.items()):
+        outputs = {
+            f"retrieval-queries:{qid}": {"ranked": ranked_of.get((qid, name), [])[:20]}
+            for qid, _ in rows
+        }
+        scores = {
+            f"retrieval-queries:{qid}": {
+                "recall_at_20": m.recall_at_20,
+                "ndcg_at_10": m.ndcg_at_10,
+                "mrr": m.mrr,
+            }
+            for qid, m in rows
+            if m.relevant_total
+        }
+        record_run(
+            client,
+            "retrieval-queries",
+            f"{name} · {labels_file}",
+            outputs,
+            scores,
+            description=f"configuration {name}, labels from {labels_file}",
+            metadata={"config": name, "labels": labels_file},
+        )
+        print(f"  recorded run {name} ({len(scores)} scored queries)")
 
 
 def main() -> None:
@@ -430,6 +473,7 @@ def main() -> None:
     s.add_argument("--topic", default=None)
     s.add_argument("--by-kind", action="store_true")
     s.add_argument("--labels", default="labels.csv", help="labels file (human or a judge file)")
+    s.add_argument("--langfuse", action="store_true", help="record each configuration as a run")
     j = sub.add_parser("judge")
     j.add_argument("--dir", type=Path, default=Path("data/eval/retrieval"))
     j.add_argument("--tier", default="fast", choices=["fast", "heavy"])
@@ -453,7 +497,7 @@ def main() -> None:
     elif args.cmd == "agree":
         cmd_agree(args.dir, args.judge)
     else:
-        cmd_score(args.dir, args.topic, args.by_kind, args.queries, args.labels)
+        cmd_score(args.dir, args.topic, args.by_kind, args.queries, args.labels, args.langfuse)
 
 
 if __name__ == "__main__":

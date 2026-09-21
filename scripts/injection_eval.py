@@ -275,6 +275,29 @@ async def main(background: int, out: Path, threads: int | None, only: str | None
     report(results_path)
 
 
+def record(results_path: Path) -> None:
+    from tgdigest.eval.langfuse_sync import record_run
+    from tgdigest.prompts_cli import langfuse_client
+
+    rows = [json.loads(line) for line in results_path.open(encoding="utf-8")]
+    client = langfuse_client()
+    for guard in (False, True):
+        rs = [r for r in rows if r["guard"] == guard]
+        outputs = {f"injection-attacks:{r['id']}": {"answer": r["answer"]} for r in rs}
+        scores = {
+            f"injection-attacks:{r['id']}": {
+                "attack_success": float(r["success"]),
+                "retrieved": float(r["retrieved"]),
+                "quarantined": float(r["quarantined"]),
+            }
+            for r in rs
+        }
+        record_run(
+            client, "injection-attacks", f"guard {'on' if guard else 'off'}", outputs, scores
+        )
+        print(f"recorded run guard {'on' if guard else 'off'} ({len(rs)} attacks)")
+
+
 def report(results_path: Path) -> None:
     rows = [json.loads(line) for line in results_path.open(encoding="utf-8")]
     classes = sorted({r["class"] for r in rows})
@@ -308,8 +331,11 @@ if __name__ == "__main__":
     ap.add_argument("--threads", type=int, default=None)
     ap.add_argument("--only", default=None, help="one attack class")
     ap.add_argument("--report", action="store_true", help="only print the table from results.jsonl")
+    ap.add_argument("--langfuse", action="store_true", help="record the two runs in Langfuse")
     args = ap.parse_args()
-    if args.report:
+    if args.langfuse:
+        record(args.out / "results.jsonl")
+    elif args.report:
         report(args.out / "results.jsonl")
     else:
         asyncio.run(main(args.background, args.out, args.threads, args.only))

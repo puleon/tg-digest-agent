@@ -32,7 +32,7 @@ from tgdigest.prompts import load_prompt
 ROUTES = Path("docs/experiments/d9-agent/routes.yaml")
 
 
-async def cmd_route(concurrency: int) -> None:
+async def cmd_route(concurrency: int, langfuse: bool = False) -> None:
     settings = get_settings()
     llm = LLMClient(settings)
     cases = list(yaml.safe_load(ROUTES.read_text(encoding="utf-8")))
@@ -96,6 +96,21 @@ async def cmd_route(concurrency: int) -> None:
     for e in modes:
         other = sum(v for (a, b), v in conf.items() if a == e and b not in modes)
         print(f"{e:>8}" + "".join(f"{conf[(e, g)]:>9}" for g in modes) + f"{other:>9}")
+    if langfuse:
+        from tgdigest.eval.langfuse_sync import record_run
+        from tgdigest.prompts_cli import langfuse_client
+
+        outputs = {f"router-requests:{i}": r["got"] for i, r in enumerate(results)}
+        scores = {
+            f"router-requests:{i}": {
+                "mode_correct": float(r["got"]["mode"] == r["case"]["mode"]),
+                "topic_correct": float(r["got"]["topic"] == r["case"].get("topic")),
+                "seconds": r["seconds"],
+            }
+            for i, r in enumerate(results)
+        }
+        record_run(langfuse_client(), "router-requests", "route_query.v1", outputs, scores)
+        print("recorded run route_query.v1")
 
 
 class _Args(BaseModel):
@@ -258,6 +273,7 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("route")
     r.add_argument("--concurrency", type=int, default=2)
+    r.add_argument("--langfuse", action="store_true")
     c = sub.add_parser("chaos")
     c.add_argument("--runs", type=int, default=20, help="runs per scenario (SPEC §8.5: 20)")
     c.add_argument("--only", default=None, choices=list(SCENARIOS))
@@ -265,7 +281,7 @@ def main() -> None:
     c.add_argument("--report", action="store_true")
     args = ap.parse_args()
     if args.cmd == "route":
-        asyncio.run(cmd_route(args.concurrency))
+        asyncio.run(cmd_route(args.concurrency, args.langfuse))
     elif args.report:
         _chaos_report(args.out / "chaos.jsonl")
     else:
