@@ -187,8 +187,19 @@ queued as a measured follow-up for the D8 retrieval ablation.
   is_ad κ 0.27, quality κ 0.19 — too few labels to conclude; re-run at ≥ 500–800 teacher labels
   once the full pass has covered more posts.
 
+**2026-09-21 — distillation on 2 916 teacher labels** (report in
+[`docs/experiments/d5-distillation/`](docs/experiments/d5-distillation/README.md)): topic
+**κ 0.80** (accuracy 0.864 vs a 0.338 majority baseline) — usable; is_ad κ 0.40 and quality
+κ 0.33 with accuracy *below* the majority baseline — not a replacement; is_spoiler has one
+positive in the window. Ads are lexical (erid, promo codes, «подписывайся») and an embedding
+smooths them away; quality is the teacher's own least consistent label. Decision: the LLM
+stays the classifier for all four labels in v1, the topic student is kept as the candidate for
+the degraded path. Two of three SPEC targets end as negative results — reported as such.
+
 **Running** — full ingest pass (humor → cinema → scifi), ≈ 450 messages/h at concurrency 6;
-humor 56 % done by the evening of 2026-09-20.
+humor 56 % done by the evening of 2026-09-20; humor complete on 2026-09-21 (10 265 posts,
+6 740 of them in one 18.5-hour run: 8.49 M prompt + 1.02 M completion tokens, 28 vision
+degradations, 0 failures).
 
 ## D6 — 2026-09-20/21 — Deduplication
 

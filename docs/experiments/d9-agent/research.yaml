@@ -1,0 +1,86 @@
+# SPEC §8.6: success rate of multi-step (research-mode) scenarios, 20 tasks.
+# Each task names facts the corpus contains (checked in Postgres before the run, not after the
+# agent answered): `must_mention` is a list of groups, every group must be satisfied by at least
+# one of its case-insensitive substrings. Success = the run answered without a caveat, cited at
+# least one post, and every group is present; `research` records whether the router took the
+# research route (verify step) — the multi-step scenario the metric is about.
+- id: r01
+  query: "кто в итоге сыграет Кратоса в сериале по God of War и почему заменили актёра"
+  topic: cinema
+  must_mention: [["батист"], ["хёрст", "херст", "травм", "бицепс"]]
+- id: r02
+  query: "сколько собрал «Человек-паук: Новый день» и обогнал ли он «Титаник»?"
+  topic: cinema
+  must_mention: [["титаник"], ["2,3", "2.3", "900", "936", "млрд", "billion"]]
+- id: r03
+  query: "правда ли, что «Мумию» Ли Кронина разгромили критики?"
+  topic: cinema
+  must_mention: [["56", "rotten", "metacritic", "48"]]
+- id: r04
+  query: "почему книгу «Мифология Лавкрафта» обвинили в использовании ИИ и что ответило издательство"
+  topic: scifi
+  must_mention: [["миф", "манн"], ["ии", "нейросет", "искусственн"]]
+- id: r05
+  query: "когда стартовала Artemis II и что сфотографировал экипаж"
+  topic: scifi
+  must_mention: [["апрел", "april"], ["лун", "земл"]]
+- id: r06
+  query: "сравни, как каналы отреагировали на трейлер «Одиссеи» Нолана"
+  topic: cinema
+  must_mention: [["одиссе"], ["трейлер"]]
+- id: r07
+  query: "в чём разница между ремейком и оригиналом Ocarina of Time и когда выходит ремейк"
+  topic: scifi
+  must_mention: [["5 ноября", "ноябр", "switch"]]
+- id: r08
+  query: "кто получил Золотого льва на Венецианском фестивале 2026 и кому достался приз за режиссуру"
+  topic: cinema
+  must_mention: [["неизвестная женщина", "kvinde", "туки"], ["хржановск", "хожановск", "дау"]]
+- id: r09
+  query: "что известно о третьем сезоне «Колец власти» и когда премьера"
+  topic: scifi
+  must_mention: [["11 ноября", "ноябр"]]
+- id: r10
+  query: "выдвинут ли «Минотавр» Звягинцева на «Оскар» и от какой страны"
+  topic: cinema
+  must_mention: [["франц"]]
+- id: r11
+  query: "что критики пишут о Marvel's Wolverine от Insomniac и когда релиз"
+  topic: scifi
+  must_mention: [["15 сентября", "сентябр"], ["прохладн", "не хватает", "крепк", "критик"]]
+- id: r12
+  query: "почему закрыли сериал «Паук-Нуар»"
+  topic: cinema
+  must_mention: [["дорог", "просмотр"]]
+- id: r13
+  query: "кого объявили в актёрском составе новых «Людей Икс» Marvel"
+  topic: cinema
+  must_mention: [["уивинг", "эббот", "коннор", "наваретт", "фрост"]]
+- id: r14
+  query: "когда выйдет «Дюна: Часть третья» и в каком формате её показывают"
+  topic: cinema
+  must_mention: [["декабр"], ["imax", "70"]]
+- id: r15
+  query: "что известно о сериале «Полдень» по Стругацким и как его встретили"
+  topic: scifi
+  must_mention: [["жук в муравейнике", "2278", "сикорски", "трейлер"]]
+- id: r16
+  query: "сколько собрала «Одиссея» Нолана и какие рекорды поставила"
+  topic: cinema
+  must_mention: [["1,68", "1.68", "500", "imax", "universal", "рекорд"]]
+- id: r17
+  query: "когда выйдет новеллизация «Приключений Клиффа Бута» Тарантино и кто снял фильм"
+  topic: cinema
+  must_mention: [["8 декабря", "декабр"], ["финчер"]]
+- id: r18
+  query: "что известно о «Хрониках Нарнии» Греты Гервиг: бюджет, каст, дата выхода"
+  topic: cinema
+  must_mention: [["12 февраля", "2027", "февр"], ["крэйг", "макки", "280"]]
+- id: r19
+  query: "получила ли The Blood of Dawnwalker хорошие оценки и сколько копий продали"
+  topic: scifi
+  must_mention: [["миллион"], ["высок", "оцен"]]
+- id: r20
+  query: "когда выходит новый «Хоттабыч» с Бондарчуком и о чём он"
+  topic: cinema
+  must_mention: [["1 января", "январ"], ["волька", "джинн", "развод"]]

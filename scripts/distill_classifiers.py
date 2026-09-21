@@ -101,6 +101,8 @@ def main() -> None:
             },
         },
         "metrics": report.metrics,
+        "details": report.details,
+        "skipped": report.skipped,
     }
     (args.out / "distill.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
     for target, clf in report.models.items():
@@ -117,6 +119,14 @@ def main() -> None:
                 f"| {target} | {m['accuracy']:.3f} | {m['macro_f1']:.3f} | {m['kappa']:.3f} "
                 f"| {m['majority_baseline']:.3f} |"
             )
+        elif target in report.skipped:
+            print(f"| {target} | skipped — {report.skipped[target]} | | | |")
+    for target, d in report.details.items():
+        print(f"\n{target}: rows = teacher, columns = student, order {d['classes']}")
+        for name, row in zip(d["classes"], d["confusion"], strict=True):
+            pc = d["per_class"][name]
+            prf = f"P={pc['precision']:.2f} R={pc['recall']:.2f} n={pc['support']}"
+            print(f"  {name:>8} {row}  {prf}")
 
 
 if __name__ == "__main__":

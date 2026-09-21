@@ -5,9 +5,12 @@ route   run the LLM router over docs/experiments/d9-agent/routes.yaml; accuracy 
 chaos   inject failures (search timeout / unavailable / empty, web tools down, step budget),
         20 runs per scenario, and grade each run: correct degradation = a meaningful answer or
         an honest limitation, no invented evidence, no crash (SPEC §8.5)
+research  the 20 multi-step tasks of docs/experiments/d9-agent/research.yaml through the real
+        agent: success rate, share routed to research, steps / tokens / seconds per task (§8.6)
 
 uv run python scripts/agent_eval.py route
 uv run python scripts/agent_eval.py chaos --runs 20 --out data/eval/chaos
+uv run python scripts/agent_eval.py research --out data/eval/research
 """
 
 from __future__ import annotations
@@ -30,6 +33,7 @@ from tgdigest.llm.client import LLMClient, LLMOutputError
 from tgdigest.prompts import load_prompt
 
 ROUTES = Path("docs/experiments/d9-agent/routes.yaml")
+RESEARCH = Path("docs/experiments/d9-agent/research.yaml")
 
 
 async def cmd_route(concurrency: int, langfuse: bool = False) -> None:
@@ -266,6 +270,121 @@ def _chaos_report(results_path: Path) -> None:
         )
 
 
+def research_success(task: dict[str, Any], state: dict[str, Any]) -> tuple[bool, str]:
+    """A task succeeds when the run answered without a caveat, cited at least one post and the
+    answer carries every fact group of ``must_mention`` (any substring of a group)."""
+    answer = (state.get("answer") or "").lower()
+    if not answer:
+        return False, "no answer"
+    if state.get("caveat"):
+        return False, "caveat"
+    if not state.get("citations"):
+        return False, "no citations"
+    missing = [g for g in task["must_mention"] if not any(k.lower() in answer for k in g)]
+    if missing:
+        return False, "missing: " + " | ".join("/".join(g) for g in missing)
+    return True, "ok"
+
+
+async def cmd_research(out: Path, langfuse: bool = False) -> None:
+    from tgdigest.agent.cli import build_deps
+
+    settings = get_settings()
+    tasks = list(yaml.safe_load(RESEARCH.read_text(encoding="utf-8")))
+    out.mkdir(parents=True, exist_ok=True)
+    results_path = out / "research.jsonl"
+    done: set[str] = set()
+    if results_path.exists():
+        done = {json.loads(line)["id"] for line in results_path.open(encoding="utf-8")}
+    async with build_deps(settings) as (tools, make_agent):
+        ask = make_agent(tools)
+        with results_path.open("a", encoding="utf-8") as fh:
+            for task in tasks:
+                if task["id"] in done:
+                    continue
+                t0 = time.perf_counter()
+                try:
+                    state = await ask(task["query"])
+                    ok, why = research_success(task, state)
+                    crashed = False
+                except Exception as exc:  # a crash is a failed task, not a failed run
+                    state, ok, why, crashed = {}, False, f"crash: {exc!r}"[:120], True
+                steps = state.get("steps") or []
+                usage = state.get("usage") or {}
+                row = {
+                    "id": task["id"],
+                    "query": task["query"],
+                    "ok": ok,
+                    "why": why,
+                    "crashed": crashed,
+                    "mode": state.get("mode"),
+                    "research": state.get("mode") == "research",
+                    "verified": bool(state.get("verification")),
+                    "citations": len(state.get("citations") or []),
+                    "iterations": state.get("iterations"),
+                    "steps": len(steps),
+                    "step_names": [s.get("step") for s in steps],
+                    "prompt_tokens": usage.get("prompt_tokens", 0),
+                    "completion_tokens": usage.get("completion_tokens", 0),
+                    "degraded": state.get("degraded"),
+                    "answer": (state.get("answer") or "")[:1500],
+                    "seconds": round(time.perf_counter() - t0, 1),
+                }
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+                fh.flush()
+                print(
+                    f"{task['id']} ok={ok!s:<5} mode={row['mode']!s:<8} steps={row['steps']:2d} "
+                    f"tokens={row['prompt_tokens'] + row['completion_tokens']:6d} "
+                    f"{row['seconds']:4.0f}s {why[:70]}"
+                )
+    _research_report(results_path, langfuse)
+
+
+def _research_report(results_path: Path, langfuse: bool = False) -> None:
+    rows = [json.loads(line) for line in results_path.open(encoding="utf-8")]
+    n = len(rows)
+    if not n:
+        return
+    ok = [r for r in rows if r["ok"]]
+
+    def mean(key: str, rs: list[dict[str, Any]]) -> float:
+        return sum(float(r[key] or 0) for r in rs) / len(rs) if rs else float("nan")
+
+    print(
+        f"\n{n} tasks · success {len(ok) / n:.2f} ({len(ok)}/{n}) · routed to research "
+        f"{sum(r['research'] for r in rows) / n:.2f} · external source used "
+        f"{sum(r['verified'] for r in rows) / n:.2f} · crashes {sum(r['crashed'] for r in rows)}"
+    )
+    print("| runs | steps | iterations | prompt tokens | completion tokens | seconds |")
+    print("|---|---|---|---|---|---|")
+    for label, rs in (("successful", ok), ("all", rows)):
+        print(
+            f"| {label} ({len(rs)}) | {mean('steps', rs):.1f} | {mean('iterations', rs):.1f} | "
+            f"{mean('prompt_tokens', rs):.0f} | {mean('completion_tokens', rs):.0f} | "
+            f"{mean('seconds', rs):.0f} |"
+        )
+    for r in rows:
+        if not r["ok"]:
+            print(f"  {r['id']} {r['mode']!s:<8} {r['why']}")
+    if langfuse:
+        from tgdigest.eval.langfuse_sync import record_run
+        from tgdigest.prompts_cli import langfuse_client
+
+        outputs = {f"research-tasks:{r['id']}": {"answer": r["answer"]} for r in rows}
+        scores = {
+            f"research-tasks:{r['id']}": {
+                "success": float(r["ok"]),
+                "routed_research": float(r["research"]),
+                "steps": float(r["steps"]),
+                "tokens": float(r["prompt_tokens"] + r["completion_tokens"]),
+                "seconds": float(r["seconds"]),
+            }
+            for r in rows
+        }
+        record_run(langfuse_client(), "research-tasks", "agent-v1", outputs, scores)
+        print("recorded run agent-v1")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -279,9 +398,18 @@ def main() -> None:
     c.add_argument("--only", default=None, choices=list(SCENARIOS))
     c.add_argument("--out", type=Path, default=Path("data/eval/chaos"))
     c.add_argument("--report", action="store_true")
+    s = sub.add_parser("research")
+    s.add_argument("--out", type=Path, default=Path("data/eval/research"))
+    s.add_argument("--report", action="store_true")
+    s.add_argument("--langfuse", action="store_true")
     args = ap.parse_args()
     if args.cmd == "route":
         asyncio.run(cmd_route(args.concurrency, args.langfuse))
+    elif args.cmd == "research":
+        if args.report:
+            _research_report(args.out / "research.jsonl", args.langfuse)
+        else:
+            asyncio.run(cmd_research(args.out, args.langfuse))
     elif args.report:
         _chaos_report(args.out / "chaos.jsonl")
     else:

@@ -21,11 +21,13 @@ log = structlog.get_logger(__name__)
 RETRIEVAL_QUERIES = Path("docs/experiments/d8-retrieval/queries.yaml")
 ROUTER_REQUESTS = Path("docs/experiments/d9-agent/routes.yaml")
 INJECTION_ATTACKS = Path("docs/experiments/d17-injection/attacks.yaml")
+RESEARCH_TASKS = Path("docs/experiments/d9-agent/research.yaml")
 
 DATASETS: dict[str, tuple[Path, str]] = {
     "retrieval-queries": (RETRIEVAL_QUERIES, "40 search requests, 12–14 per topic (SPEC §8.1)"),
     "router-requests": (ROUTER_REQUESTS, "30 requests with the expected mode/topic/period"),
     "injection-attacks": (INJECTION_ATTACKS, "45 planted posts with success predicates (§8.4)"),
+    "research-tasks": (RESEARCH_TASKS, "20 multi-step research tasks with fact groups (§8.6)"),
 }
 
 
@@ -39,6 +41,9 @@ def _items(name: str, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         elif name == "injection-attacks":
             inp = {"query": r["query"], "post_text": r["post_text"], "ocr": r.get("ocr")}
             expected = {"success": r["success"], "canary": r.get("canary")}
+        elif name == "research-tasks":
+            inp = {"query": r["query"]}
+            expected = {"must_mention": r["must_mention"]}
         else:
             inp = {"query": r["query"]}
             expected = None

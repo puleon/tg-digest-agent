@@ -1,0 +1,59 @@
+{
+  "n_posts": 2916,
+  "n_train": 2041,
+  "n_test": 875,
+  "embed_seconds": 324.8,
+  "topics": [
+    "cinema",
+    "humor",
+    "other",
+    "scifi"
+  ],
+  "label_distribution": {
+    "topic": {
+      "cinema": 961,
+      "humor": 941,
+      "other": 987,
+      "scifi": 27
+    },
+    "is_ad": 277,
+    "is_spoiler": 1,
+    "quality": {
+      "1": 167,
+      "2": 367,
+      "3": 1717,
+      "4": 664,
+      "5": 1
+    }
+  },
+  "metrics": {
+    "topic": {
+      "accuracy": 0.864,
+      "macro_f1": 0.7683521258684598,
+      "kappa": 0.7988738869251125,
+      "majority_baseline": 0.3382857142857143,
+      "positives_test": NaN
+    },
+    "is_ad": {
+      "accuracy": 0.8502857142857143,
+      "macro_f1": 0.6933102162146254,
+      "kappa": 0.39825289914797346,
+      "majority_baseline": 0.9062857142857143,
+      "positives_test": 0.09371428571428571
+    },
+    "is_spoiler": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "kappa": NaN,
+      "majority_baseline": 1.0,
+      "positives_test": 0.0
+    },
+    "quality": {
+      "accuracy": 0.544,
+      "macro_f1": 0.3845818247266976,
+      "kappa": 0.3326496556443551,
+      "majority_baseline": 0.576,
+      "positives_test": NaN
+    }
+  }
+}
