@@ -103,7 +103,7 @@ def record_run(
         metadata=metadata,
     )
     for item_result in result.item_results:  # per-item scores go to the item's trace
-        item_id = getattr(item_result.item, "id", None)
+        item_id = str(getattr(item_result.item, "id", "") or "")
         trace_id = getattr(item_result, "trace_id", None)
         if item_id in scores and trace_id:
             for score_name, value in scores[item_id].items():
