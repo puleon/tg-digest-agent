@@ -283,3 +283,62 @@ judge calibration, the ablation table.
 - `tgdigest agent ask "…" [--tier heavy] [--no-rewrite] [--no-rerank] [--json]`.
 - Tests: 18 (tool contract, toolset over SQLite + in-memory Qdrant + mocked HTTP, graph paths
   with a scripted LLM, tracing with a recording tracer).
+
+## D10 — 2026-09-21 — Self-correction, failures, budgets, research mode
+
+Folded into D9's graph: rewrite_query (≤ 2) when few hits are relevant, broaden once when
+none are, research mode verifies against Wikipedia + a fetched page before synthesis,
+budgets of 6 iterations / 40k tokens end in an explicit caveat, every tool failure is a
+recorded degradation. Injection quarantine and output checks were added on D17 (below).
+`scripts/agent_eval.py`: router accuracy over 30 requests, chaos runs (5 failure
+scenarios × 20) graded for correct degradation — both run when the LLM is free of the ingest
+pass.
+
+## D11–D12 — 2026-09-21 — Profile and interest score
+
+- Onboarding sheet (`tgdigest profile onboard`): 36 posts, 12 per topic, ≤ 2 per channel,
+  ads excluded — waiting for the owner's like/dislike/skip.
+- Profile from votes: Laplace-smoothed topic weights, Bayesian channel affinity (prior = the
+  user's like rate, 4 pseudo-votes), k-means interest centroids over the liked posts'
+  BGE-M3 vectors (k grows with likes: 1 → 2 at six, up to 5), explicit exclusions.
+- Score v1 (linear): 0.45 nearest-centroid cosine + 0.15 topic + 0.15 channel + 0.15
+  channel-relative engagement + 0.10 novelty, −0.5 ads, −0.3 low quality. Baseline: top by
+  views. `scripts/profile_eval.py` does leave-one-out AUC / precision@k on the owner's votes.
+- **v2 (learned ranker) not built**: with ~36 onboarding votes there is nothing to learn
+  from; the SPEC's buffer rule applies. The features are there for the day feedback exists.
+
+## D13 — 2026-09-21 — Digest crew
+
+Planner and Curator are code (5–12 items by reading budget, a slot per topic then profile
+weights, ≤ 2 per channel, 60 % fresh / 40 % timeless, one post per duplicate cluster,
+nothing from the last ten issues); Editor and Critic are prompts (`digest_editor.v1`,
+`digest_critic.v1`: hallucination / spoiler / clickbait) with at most two rounds and
+`critic_iterations` stored per issue. Scheduling lives in the bot (`/schedule <hour>`).
+
+## D14 — 2026-09-21 — Service
+
+FastAPI (`tgdigest api`): /search, /digest, /why/{digest}/{post} (explanation from the
+score components — no LLM), /feedback (row + Langfuse score on the originating trace),
+/profile, /users/scheduled, /post, /health, /metrics (Prometheus text). aiogram 3 bot
+(`tgdigest bot`): text → search with numbered links and 👍/👎/💾 per cited post, /digest with
+a keyboard per item and ❓ → /why, /profile, /schedule; a scheduler loop sends the daily
+issue. The bot is a thin HTTP client of the API because the box cannot reach Telegram: it
+runs on a machine that can (API through `make tunnel`) or on the box through `BOT_PROXY`.
+
+## D15–D17 — 2026-09-21 (harnesses built, runs pending the LLM) — Evaluation
+
+- LLM-as-judge for retrieval (`judge_relevance.v1`) running over the 1 856 pooled pairs; a
+  100-pair calibration subset (stratified by the judge's grade, grades hidden) goes to the
+  owner; Cohen's κ decides whether the judge's grades may fill the ablation table.
+- Faithfulness by atomic claims (`extract_claims.v1` → `verify_claim.v1`) for answers and
+  digest items; a human-check column in `claims.csv`.
+- Pairwise digest judge (`pairwise_digest.v1`) in both orders → position-flip rate,
+  longer-side win rate; the same pairs through gpt-oss-120b (another family) for the
+  self-preference probe; v1 interest score vs the views baseline is the comparison.
+- Injection: 45 planted posts in 8 classes with deterministic success predicates; the
+  ingest heuristic gained generic "instructions about the answer" patterns (coverage 31/45
+  on the set — in-sample — at a 0.04 % flag rate on the real corpus, 9 posts); quarantine of
+  flagged posts and pages, output leak/URL checks. ASR guard off/on to be measured.
+- Chaos: search timeout / down / empty, web tools down, step budget — 20 runs each, graded.
+- Langfuse: 15 prompt files registered (`tgdigest prompts push`), the three test sets are
+  datasets (`push-datasets`), scripts record scored runs with `--langfuse`.
