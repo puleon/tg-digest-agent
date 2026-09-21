@@ -56,7 +56,8 @@ class Route(BaseModel):
 class Grade(BaseModel):
     post_id: int
     relevant: bool
-    reason: str = ""
+    reason: str = Field(default="", max_length=80)
+    """Kept short on purpose: ten reasons at decode speed cost more than the retrieval."""
 
 
 class Grades(BaseModel):

@@ -219,3 +219,67 @@ in place by the new `collector refresh` (dates, texts, counters; stale enrichmen
 miss is exactly its case: a trailer as a bare link vs a still); OCR-text veto for pHash
 matches of meme templates once the VLM pass is complete; forwards are too rare in this corpus
 (1 cluster) to measure that stage.
+
+## D7 — 2026-09-21 — Retrieval layer
+
+**Done**
+- Qdrant collection `posts`: one point per post (album = one post) with four indexing
+  variants — `text`, `text_ocr`, `text_ocr_caption`, `full` (+ link summaries) — each as a
+  BGE-M3 dense vector (1 024-d, cosine) and a BGE-M3 sparse vector, so the §6.4 ablation
+  searches exactly the configuration it measures. Payload: topic/channel/label, `posted_at`
+  for ranges, `is_ad` / `is_spoiler` / `quality`, `cluster_id` + `is_representative` (dedup
+  collapsed at query time), source texts (for reranking and judging), `media_path`.
+- Idempotent builds: `content_hash` over the texts (change → re-embed) and `meta_hash` over
+  labels/clusters (change → payload rewrite only), so a dedup rebuild or a relabel does not
+  cost embeddings.
+- Hybrid search = dense + sparse fused by RRF inside Qdrant; filters; multi-query RRF;
+  BM25 baseline (no stemming — recorded as a handicap of the baseline, not of the system).
+- `tgdigest index build | search | stats`; 21 retrieval tests on an in-memory Qdrant with a
+  deterministic fake embedder.
+- Cost on the box (CPU, 8 threads at `nice 19` while the ingest pass runs): 18 987 posts →
+  28 876 unique texts embedded in 90 min (≈ 5.3 texts/s); 9 586 posts carried enrichment at
+  build time (OCR on 6 716, captions on 7 810).
+
+**Decision** — history depth for v1 is three months: humor is enriched for the full six,
+cinema/scifi run `ingest run --since 2026-06-21` (newest first), the older months can be
+filled in later without touching anything else.
+
+## D8 — 2026-09-21 (in progress) — Reranker, query rewriting, retrieval evaluation
+
+**Done**
+- `bge-reranker-v2-m3` over the head of the candidate list (passage = the variant's text
+  recomposed from the payload sources, so the ablation reranks what it retrieved); 50 pairs in
+  ≈ 10 s on 8 CPU threads under load.
+- Query rewriting (`prompts/rewrite_query.v1.md`): conversational request → 1–3 post-like
+  phrasings, fused by RRF; degrades to the original query when the model fails.
+- Evaluation harness `scripts/retrieval_eval.py`: 40 queries (13 cinema, 13 scifi, 14 humor;
+  factual / thematic / vague / visual) in `docs/experiments/d8-retrieval/queries.yaml`;
+  `pool` runs 10 configurations (BM25 / dense / sparse / hybrid / +rerank on `full`, and the
+  `text` / `+OCR` / `+OCR+caption` hybrid variants) and writes a blind labelling sheet;
+  `judge` grades the pool with a local model; `agree` reports Cohen's κ against the human
+  labels; `score` prints recall@20 / nDCG@10 / MRR per configuration and per query kind.
+
+**Pending** — pooling on the rebuilt index, relevance labels (prefill + owner's review), the
+judge calibration, the ablation table.
+
+## D9 — 2026-09-21 — Search agent
+
+**Done**
+- Tool layer (`agent/tools.py`): every tool has a pydantic argument schema, a timeout and an
+  explicit error kind (`invalid_args` / `not_found` / `unavailable` / `timeout` /
+  `needs_confirmation` / `failed`); a failing tool returns a result, never an exception; the
+  only writing tool (`update_profile`) runs after a confirmation callback.
+- Tools (`agent/toolset.py`): `search_index` (hybrid + rerank, product filters: no ads,
+  duplicates collapsed), `get_post` (text, media, OCR, captions, labels, entities, cluster
+  neighbours, t.me link), `list_channels`, `web_search` (Wikipedia ru/en — named for the SPEC
+  interface, documented as what it is), `fetch_url`, `lookup_film` (Wikidata),
+  `get_profile` / `update_profile`.
+- LangGraph agent (`agent/graph.py`): route (search / news / research, topic, period,
+  spoiler filter) → rewrite → retrieve → grade → synthesize | rewrite_query (≤ 2) | broaden
+  (drop filters once) | verify_external (research) | answer_with_caveat (6 iterations or
+  40k tokens). Every step is recorded with latency and usage; every failure degrades the run.
+- Langfuse: one trace per run with a child observation per step (usage, model, in/out);
+  `tgdigest prompts push` registers the prompt files (label `v<N>`).
+- `tgdigest agent ask "…" [--tier heavy] [--no-rewrite] [--no-rerank] [--json]`.
+- Tests: 18 (tool contract, toolset over SQLite + in-memory Qdrant + mocked HTTP, graph paths
+  with a scripted LLM, tracing with a recording tracer).

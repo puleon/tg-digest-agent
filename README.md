@@ -88,14 +88,15 @@ LLM-as-judge validated against human labels (Cohen's κ, position and verbosity 
 faithfulness via atomic claims · indirect prompt-injection attack success rate before/after
 defenses · chaos tests for graceful degradation · agent tool-selection accuracy and step budgets.
 
-Results land in this README as they are produced. **Status: day 6 of 18 — dedup measured,
-full ingest pass running.**
+Results land in this README as they are produced. **Status: day 7 of 18 — index built, retrieval
+evaluation in progress.**
 
 | Experiment | Result |
 |---|---|
 | [D1 · CPU serving benchmark](docs/experiments/d1-llm-benchmark/README.md) | Qwen3.6-35B-A3B Q4_K_M: 260 tok/s prefill, 19 tok/s generation, 9–28 s per image; Gemma 4 26B-A4B: 204 / 17 / 10.6 s with verbatim Cyrillic OCR at 262 image tokens; gpt-oss-120b MXFP4 (heavy tier): 142 / 17 tok/s at 63 GiB resident. Docker image ≈ native build. SMT and MTP speculative decoding both slower — off. |
 | D2 · Corpus | 29 public channels via the `t.me/s` preview (no account needed): 18 987 posts / 25 939 messages, 22 888 media files (1.7 GB), six months, 2.5 h through a reverse SOCKS tunnel, zero flood waits. Two parser bugs found later by the dedup features (video dates, reply texts) — fixed and repaired in place with `collector refresh`. |
 | [D4 · VLM branch](docs/experiments/d4-vlm/README.md) | OCR on 50 hand-checked images: Qwen3.6 CER 0.000, Gemma 4 CER 0.111 (normalized). Throughput cache-free: Qwen 2.6 images/min flat under concurrency, Gemma 4.1 → 8.5 images/min with 4 slots. Vision tier = Gemma 4, text tier = Qwen3.6. |
+| D7 · Index | BGE-M3 dense + sparse per indexing variant (text / +OCR / +caption / full) in Qdrant, hybrid RRF, payload filters, dedup collapsed at query time; 18 987 posts → 28 876 unique texts embedded in 90 min on the CPU alongside the ingest pass; rebuilds re-embed only changed texts. |
 | [D6 · Deduplication](docs/experiments/d6-dedup/README.md) | 107 hand-labelled pairs: the cheap cascade (exact text, file hash, pHash ≤ 6, forwards) scored precision 0.765 / recall 0.981; a contrast gate for dark frames, an "illustration" cannot-link veto (same photo under different stories) and a rubric-caption veto gave **0.932 / 1.000** on the tuning pairs and **0.947 / 0.947** on a 52-pair hold-out; 29 of 30 pairs the vetoes split are real non-duplicates. The labels also exposed two parser bugs (video dates, reply texts) that had inflated "verbatim reposts". |
 
 ## License

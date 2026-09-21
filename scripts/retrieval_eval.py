@@ -8,10 +8,15 @@ score   recall@20 / nDCG@10 / MRR per configuration from runs.jsonl + labels.csv
         --topic restricts to one topic, --by-kind breaks down by query kind
 judge   grade every pooled (query, post) pair with a local LLM (SPEC §8.2) into
         judge_<tier>.csv — the mass labeller, to be calibrated against the human labels
+calibrate
+        draw the human calibration subset (default 100 pairs, stratified by the judge's
+        grade so every grade is represented) into labels.csv + sheet.html — the pool itself
+        is too large to hand-label; the judge's grades are hidden from the sheet
 agree   Cohen's kappa between labels.csv (human) and a judge file, 3-class and binary
 
 uv run python scripts/retrieval_eval.py pool --out data/eval/retrieval
 uv run python scripts/retrieval_eval.py judge --dir data/eval/retrieval --tier fast
+uv run python scripts/retrieval_eval.py calibrate --dir data/eval/retrieval --n 100
 uv run python scripts/retrieval_eval.py agree --dir data/eval/retrieval --judge judge_fast.csv
 uv run python scripts/retrieval_eval.py score --dir data/eval/retrieval --topic humor
 """
@@ -139,49 +144,97 @@ def cmd_pool(out: Path, queries_path: Path, threads: int | None) -> None:
         print(f"{q['id']} {q['query'][:50]:<50} pooled={len(pool[q['id']])}")
 
     out.mkdir(parents=True, exist_ok=True)
-    (out / "img").mkdir(exist_ok=True)
     with (out / "runs.jsonl").open("w", encoding="utf-8") as fh:
         for run in runs:
             fh.write(json.dumps(asdict(run), ensure_ascii=False) + "\n")
-    rng = random.Random(8)
-    label_rows: list[list[Any]] = []
-    parts = [
-        f"<title>Retrieval labels</title><style>{STYLE}</style>",
-        "<h1>Is this post relevant to the query?</h1>",
-        "<p>Grade each pooled post in <code>labels.csv</code>: <b>2</b> = answers the query / is "
-        "exactly what was asked; <b>1</b> = partially or loosely related (same topic, a passing "
-        "mention); <b>0</b> = not relevant. Posts are in random order; which retriever found "
-        "them is hidden. Judge by what you see (picture + text), not by how the system "
-        "described it.</p>",
-    ]
-    for q in queries:
-        pids = list(pool[q["id"]])
-        rng.shuffle(pids)
-        head = f"{q['id']} · {q['topic']} · {q['kind']} · "
-        parts.append(f'<h2>{head}<span class="k">{html.escape(q["query"])}</span></h2>')
-        for pid in pids:
-            p = payloads[pid]
-            label_rows.append([q["id"], pid, ""])
-            parts.append(
-                f'<div class="post"><div>{_img_tag(out, pid, p, settings.media_dir)}'
-                f"<small>post {pid} · @{p.get('channel')} · {p.get('date')}</small></div>"
-                f"<pre>{html.escape(_display_text(p))}</pre></div>"
-            )
     with (out / "pool.csv").open("w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["query_id", "post_id", "found_by"])
         for qid, posts in pool.items():
             for pid, by in posts.items():
                 w.writerow([qid, pid, " ".join(f"{k}@{r}" for k, r in sorted(by.items()))])
-    with (out / "labels.csv").open("w", newline="", encoding="utf-8") as fh:
-        w = csv.writer(fh)
-        w.writerow(["query_id", "post_id", "label"])
-        w.writerows(label_rows)
-    (out / "sheet.html").write_text("\n".join(parts), encoding="utf-8")
     sizes = [len(v) for v in pool.values()]
     print(
-        f"{len(queries)} queries, {sum(sizes)} judgments to make (min {min(sizes)}, "
-        f"max {max(sizes)}) -> {out}/labels.csv, sheet.html; runs in runs.jsonl"
+        f"{len(queries)} queries, {sum(sizes)} pooled pairs (min {min(sizes)}, max {max(sizes)}) "
+        f"-> {out}/pool.csv; runs in runs.jsonl. Next: judge, then calibrate."
+    )
+
+
+def _write_sheet(
+    out: Path,
+    queries: dict[str, dict[str, Any]],
+    pairs: list[tuple[str, int]],
+    payloads: dict[int, dict[str, Any]],
+    media_dir: Path,
+    seed: int = 8,
+) -> None:
+    (out / "img").mkdir(exist_ok=True)
+    rng = random.Random(seed)
+    by_query: dict[str, list[int]] = defaultdict(list)
+    for qid, pid in pairs:
+        by_query[qid].append(pid)
+    parts = [
+        f"<title>Retrieval labels</title><style>{STYLE}</style>",
+        "<h1>Is this post relevant to the query?</h1>",
+        "<p>Grade each post in <code>labels.csv</code>: <b>2</b> = answers the query / is "
+        "exactly what was asked; <b>1</b> = partially or loosely related (same topic, a passing "
+        "mention); <b>0</b> = not relevant. Posts are in random order; which retriever found "
+        "them and how the model graded them is hidden. Judge by what you see (picture + text), "
+        "not by how the system described it.</p>",
+    ]
+    for qid in [q for q in queries if q in by_query]:
+        q = queries[qid]
+        pids = by_query[qid]
+        rng.shuffle(pids)
+        head = f"{q['id']} · {q['topic']} · {q['kind']} · "
+        parts.append(f'<h2>{head}<span class="k">{html.escape(q["query"])}</span></h2>')
+        for pid in pids:
+            p = payloads.get(pid, {})
+            parts.append(
+                f'<div class="post"><div>{_img_tag(out, pid, p, media_dir)}'
+                f"<small>post {pid} · @{p.get('channel')} · {p.get('date')}</small></div>"
+                f"<pre>{html.escape(_display_text(p))}</pre></div>"
+            )
+    (out / "sheet.html").write_text("\n".join(parts), encoding="utf-8")
+
+
+def cmd_calibrate(directory: Path, judge_file: str, n: int, seed: int) -> None:
+    """Stratified by the judge's grade (so 2s are not drowned by 0s) and spread over queries."""
+    settings = get_settings()
+    queries = {q["id"]: q for q in _load_queries(QUERIES)}
+    judged = [
+        r
+        for r in csv.DictReader((directory / judge_file).open(encoding="utf-8"))
+        if r["grade"].strip() in ("0", "1", "2")
+    ]
+    rng = random.Random(seed)
+    by_grade: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for r in judged:
+        by_grade[r["grade"]].append(r)
+    for rows in by_grade.values():
+        rng.shuffle(rows)
+    share = {"2": 0.4, "1": 0.3, "0": 0.3}
+    picked: list[dict[str, str]] = []
+    for g, frac in share.items():
+        picked += by_grade[g][: round(n * frac)]
+    # top up from whatever is left, one grade at a time
+    for g in ("2", "1", "0"):
+        for r in by_grade[g][round(n * share[g]) :]:
+            if len(picked) >= n:
+                break
+            picked.append(r)
+    picked = picked[:n]
+    payloads = _scroll_payloads(QdrantClient(url=settings.qdrant_url))
+    pairs = [(r["query_id"], int(r["post_id"])) for r in picked]
+    with (directory / "labels.csv").open("w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["query_id", "post_id", "label"])
+        w.writerows([qid, pid, ""] for qid, pid in sorted(pairs))
+    _write_sheet(directory, queries, pairs, payloads, settings.media_dir, seed)
+    counts = {g: sum(1 for r in picked if r["grade"] == g) for g in ("0", "1", "2")}
+    print(
+        f"{len(pairs)} calibration pairs over {len({q for q, _ in pairs})} queries "
+        f"(judge grades hidden; drawn as {counts}) -> {directory}/labels.csv, sheet.html"
     )
 
 
@@ -228,7 +281,7 @@ async def cmd_judge(directory: Path, tier: str, concurrency: int, limit: int | N
     payloads = _scroll_payloads(QdrantClient(url=settings.qdrant_url))
     pairs = [
         (r["query_id"], int(r["post_id"]))
-        for r in csv.DictReader((directory / "labels.csv").open(encoding="utf-8"))
+        for r in csv.DictReader((directory / "pool.csv").open(encoding="utf-8"))
     ][:limit]
     out_path = directory / f"judge_{tier}.csv"
     done: dict[tuple[str, int], dict[str, str]] = {}
@@ -385,11 +438,18 @@ def main() -> None:
     a = sub.add_parser("agree")
     a.add_argument("--dir", type=Path, default=Path("data/eval/retrieval"))
     a.add_argument("--judge", default="judge_fast.csv")
+    c = sub.add_parser("calibrate")
+    c.add_argument("--dir", type=Path, default=Path("data/eval/retrieval"))
+    c.add_argument("--judge", default="judge_fast.csv")
+    c.add_argument("--n", type=int, default=100)
+    c.add_argument("--seed", type=int, default=8)
     args = ap.parse_args()
     if args.cmd == "pool":
         cmd_pool(args.out, args.queries, args.threads)
     elif args.cmd == "judge":
         asyncio.run(cmd_judge(args.dir, args.tier, args.concurrency, args.limit))
+    elif args.cmd == "calibrate":
+        cmd_calibrate(args.dir, args.judge, args.n, args.seed)
     elif args.cmd == "agree":
         cmd_agree(args.dir, args.judge)
     else:
