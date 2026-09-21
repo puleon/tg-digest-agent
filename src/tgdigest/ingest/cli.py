@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from datetime import UTC, datetime
 from typing import Annotated
 
 import typer
@@ -16,13 +17,16 @@ app = typer.Typer(no_args_is_help=True, add_completion=False, help="Ingest agent
 @app.command()
 def run(
     topic: Annotated[str | None, typer.Option()] = None,
+    since: Annotated[
+        datetime | None, typer.Option(help="only posts from this date on (history depth)")
+    ] = None,
     limit: Annotated[int | None, typer.Option()] = None,
     force: Annotated[
         bool, typer.Option(help="re-enrich even if this model_version exists")
     ] = False,
     concurrency: int = 2,
 ) -> None:
-    """Enrich posts that have no enrichment for the current model_version."""
+    """Enrich posts that have no enrichment for the current model_version, newest first."""
     from tgdigest.db.base import make_engine, make_session_factory
     from tgdigest.ingest.graph import IngestDeps
     from tgdigest.ingest.runner import run_ingest
@@ -30,6 +34,7 @@ def run(
 
     settings = get_settings()
     configure_logging(settings.log_level)
+    since_utc = since.replace(tzinfo=UTC) if since and since.tzinfo is None else since
 
     async def go() -> None:
         engine = make_engine(settings.database_url)
@@ -39,6 +44,7 @@ def run(
                 make_session_factory(engine),
                 deps,
                 topic=topic,
+                since=since_utc,
                 limit=limit,
                 force=force,
                 concurrency=concurrency,

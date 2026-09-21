@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
+from datetime import timedelta
 
 import pytest
 from sqlalchemy import select
@@ -98,3 +99,24 @@ async def test_limit_and_topic_filters(
 ) -> None:
     stats = await run_ingest(factory, deps, topic="humor", limit=1)
     assert stats.selected == 1 and stats.processed == 1
+
+
+async def test_since_bounds_the_history_depth(
+    factory: async_sessionmaker[AsyncSession], deps: IngestDeps
+) -> None:
+    async with factory() as s:
+        s.add(
+            Post(
+                id=13,
+                channel_id=2,
+                tg_message_id=4,
+                posted_at=T0 + timedelta(days=90),
+                text="новое",
+            )
+        )
+        await s.commit()
+    stats = await run_ingest(factory, deps, topic="scifi", since=T0 + timedelta(days=30))
+    assert stats.selected == 1 and stats.processed == 1
+    async with factory() as s:
+        done = {r.post_id for r in (await s.execute(select(Enrichment))).scalars()}
+    assert done == {13}

@@ -100,6 +100,9 @@ markers = [
     "integration: needs running services (postgres, qdrant, llm); skipped in CI",
 ]
 addopts = "-m 'not integration' -q"
+filterwarnings = [
+    "ignore:Payload indexes have no effect in the local Qdrant:UserWarning",  # in-memory client in tests
+]
 
 [tool.coverage.run]
 source = ["tgdigest"]

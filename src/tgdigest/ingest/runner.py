@@ -54,9 +54,12 @@ async def select_pending(
     version: str,
     *,
     topic: str | None = None,
+    since: datetime | None = None,
     limit: int | None = None,
     force: bool = False,
 ) -> list[Post]:
+    """Newest first, so a bounded run always covers the freshest posts; ``since`` limits the
+    history depth (the first version of the system needs three months, not six)."""
     stmt = (
         select(Post)
         .join(Channel, Channel.id == Post.channel_id)
@@ -69,6 +72,8 @@ async def select_pending(
         ).where(Enrichment.post_id.is_(None))
     if topic:
         stmt = stmt.where(Channel.topic == topic)
+    if since is not None:
+        stmt = stmt.where(Post.posted_at >= since)
     if limit:
         stmt = stmt.limit(limit)
     return list((await session.execute(stmt)).scalars().unique())
@@ -142,6 +147,7 @@ async def run_ingest(
     deps: IngestDeps,
     *,
     topic: str | None = None,
+    since: datetime | None = None,
     limit: int | None = None,
     force: bool = False,
     concurrency: int = 2,
@@ -150,7 +156,9 @@ async def run_ingest(
     graph = build_ingest_graph(deps)
     stats = IngestStats(model_version=version)
     async with factory() as session:
-        posts = await select_pending(session, version, topic=topic, limit=limit, force=force)
+        posts = await select_pending(
+            session, version, topic=topic, since=since, limit=limit, force=force
+        )
         inputs = await group_posts(session, posts)
     stats.selected = len(inputs)
     sem = asyncio.Semaphore(concurrency)
