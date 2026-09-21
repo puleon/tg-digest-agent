@@ -268,7 +268,7 @@ JUDGE_PROMPT = ("judge_relevance", 1)
 
 class Judgment(BaseModel):
     grade: int = Field(ge=0, le=2)
-    reason: str = ""
+    reason: str = Field(default="", max_length=80)
 
 
 async def cmd_judge(directory: Path, tier: str, concurrency: int, limit: int | None) -> None:
@@ -303,7 +303,7 @@ async def cmd_judge(directory: Path, tier: str, concurrency: int, limit: int | N
                     [{"role": "system", "content": system}, {"role": "user", "content": user}],
                     Judgment,
                     tier=tier,  # type: ignore[arg-type]
-                    max_tokens=120,
+                    max_tokens=60,
                 )
                 grade, reason, model = str(j.grade), j.reason, comp.model
             except LLMOutputError as exc:
