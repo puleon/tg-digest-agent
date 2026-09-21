@@ -120,6 +120,7 @@ def _hit_row(h: Any) -> dict[str, Any]:
         "caption": ((p.get("sources") or {}).get("caption") or "")[:200],
         "cluster_id": p.get("cluster_id"),
         "url": p.get("url"),
+        "injection_flag": p.get("injection_flag"),
     }
 
 

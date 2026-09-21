@@ -24,8 +24,10 @@ import structlog
 from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
+from tgdigest.agent.guardrails import check_output, quarantine
 from tgdigest.agent.tools import ToolRegistry, ToolResult
 from tgdigest.agent.tracing import StepHandle, Tracer, current_run
+from tgdigest.ingest.injection import injection_score
 from tgdigest.llm.client import LLMClient, LLMOutputError, Usage
 from tgdigest.prompts import load_prompt, prompt_id
 from tgdigest.retrieval.rewrite import rewrite_query
@@ -83,6 +85,7 @@ class AgentState(TypedDict, total=False):
     graded: list[dict[str, Any]]
     relevant: list[dict[str, Any]]
     verification: list[dict[str, Any]]
+    quarantined: list[dict[str, Any]]
     # output
     answer: str
     citations: list[int]
@@ -103,6 +106,8 @@ class AgentDeps:
     max_items: int = 8
     rewrite: bool = True
     tracer: Tracer | None = None
+    guard: bool = True
+    """Injection defenses (quarantine + output checks); off only to measure their effect."""
 
 
 def _begin(name: str, kind: str, input: Any = None) -> tuple[float, StepHandle | None]:
@@ -180,6 +185,7 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             "iteration": 0,
             "broadened": False,
             "verification": [],
+            "quarantined": [],
             "citations": [],
             "caveat": None,
         }
@@ -255,6 +261,13 @@ def build_agent_graph(deps: AgentDeps) -> Any:
                 failures.append(f"search_index:{res.error_kind}")
         hits = _fuse(lists) if lists else []
         degraded = state["degraded"] + failures
+        quarantined = list(state.get("quarantined") or [])
+        if deps.guard and hits:
+            held = quarantine(hits)
+            if held.dropped:
+                hits = held.kept
+                quarantined += held.dropped
+                degraded.append(f"injection:quarantined:{len(held.dropped)}")
         _step(
             state,
             "retrieve",
@@ -265,7 +278,13 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             failures=len(failures),
             filters=args_base,
         )
-        return {**state, "hits": hits, "degraded": degraded, "iteration": state["iteration"] + 1}
+        return {
+            **state,
+            "hits": hits,
+            "degraded": degraded,
+            "quarantined": quarantined,
+            "iteration": state["iteration"] + 1,
+        }
 
     async def grade(state: AgentState) -> AgentState:
         t0, obs = _begin(
@@ -375,7 +394,13 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             )
             page = await deps.tools.call("fetch_url", {"url": top["url"]})
             if page.ok:
-                notes[-1]["text"] = page.data["text"][:2000]
+                text = page.data["text"][:2000]
+                flagged, _ = injection_score(text) if deps.guard else (False, [])
+                if flagged:
+                    state["degraded"].append("injection:page_quarantined")
+                    notes[-1]["text"] = "(страница скрыта: содержит инструкции для модели)"
+                else:
+                    notes[-1]["text"] = text
             else:
                 state["degraded"].append(f"fetch_url:{page.error_kind}")
         else:
@@ -425,6 +450,13 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             answer = "Не удалось сформулировать ответ. Найденные посты: " + ", ".join(
                 f"[post {h['post_id']}]" for h in posts[: deps.max_items]
             )
+        if deps.guard and answer:
+            sources = [_post_block(h) for h in posts] + [
+                str(n.get("text") or "") + " " + str(n.get("url") or "")
+                for n in state.get("verification") or []
+            ]
+            answer, notes = check_output(answer, sources)
+            state["degraded"].extend(notes)
         if caveat:
             answer = f"{caveat}\n\n{answer}"
         cited = sorted({int(h["post_id"]) for h in posts if f"[post {h['post_id']}]" in answer})

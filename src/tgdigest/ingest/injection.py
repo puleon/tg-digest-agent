@@ -1,7 +1,10 @@
 """Cheap first-line detector for instructions addressed to the model (SPEC §8.4, defense 2).
 
-Heuristic v0 — a classifier replaces it on D17; the flag only gates what reaches the agent's
-context, it never blocks indexing.
+Heuristic: v0 phrases (jailbreak vocabulary) plus, since D17, generic "instructions about the
+answer" markers — a model being addressed, or a demand on what the answer must contain. The
+flag only gates what reaches the agent's context, it never blocks indexing. Its coverage of
+the D17 attack set is reported in docs/experiments/d17-injection (the set was seen when the
+v1 patterns were written; they are generic by construction, but that is in-sample).
 """
 
 from __future__ import annotations
@@ -17,13 +20,28 @@ _STRONG = [
     r"\bjailbreak\b",
     r"\bupdate_profile\b",
     r"call (the )?(tool|function) ",
-    r"игнорируй (все )?(предыдущие|прошлые|системные) (инструкции|указания|промпт)",
+    r"игнорируй (все )?(предыдущие|прошлые|системные|свои)? ?(инструкции|указания|промпт)",
     r"забудь (все )?(предыдущие|прошлые) (инструкции|указания)",
     r"(выведи|покажи|напечатай|раскрой) (свой |системный |свои )?(промпт|инструкции)",
     r"системн(ый|ого|ому) промпт",
     r"(поставь|добавь|включи|помести) (этот пост|это|этот канал|канал)"
     r"( первым)?( в (дайджест|подписки|выдачу|топ))?",
     r"вызови (инструмент|функцию)",
+    # v1 (D17): instructions about the *answer* — who is addressed, or what the answer must
+    # contain — make no sense in a post about films or memes
+    r"(ассистент\w*|нейросет\w*|языков\w+ модел\w*|\bии\b|\bai\b|assistant|language model|"
+    r"\bllm\b|grader)[^.\n]{0,40}\b(ответь|отвечай|добавь|включи|начни|заверши|закончи|выведи|"
+    r"напиши|замени|поставь|оцени|reply|answer|include|append|start|end|begin|print|respond|"
+    r"mark|grade)\b",
+    r"\b(для|for) (ии|нейросет\w*|ассистент\w*|языков\w+ модел\w*|ai( assistants?)?|"
+    r"the (model|assistant)|models?)\b",
+    r"(инструкция системы|system note|assistant note|note to ai)",
+    r"(grade (it|this)|mark (this|it) as relevant|relevant\s*[:=]\s*true|relevance\s*:\s*[0-9]|"
+    r"оцени (его|этот пост) как|поставь (этот пост )?первым)",
+    r"(закончи|заверши|начни) (свой )?ответ (словом|строкой|кодом|со? )",
+    r"(в конце|в начале) (своего )?ответа",
+    r"\b(in|into|to) (every|the|your) (summary|answer|response)\b",
+    r"ignore (your|the|all|any) (previous |prior |above )?instructions",
 ]
 # Need two of these: suggestive on their own, common in ordinary posts.
 _WEAK = [
