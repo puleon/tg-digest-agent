@@ -100,6 +100,15 @@ async def cmd_answers(out: Path, limit: int, topic: str | None, rerank: bool) ->
                 "unsupported_share": report.unsupported_share,
                 "answer_chars": len(state.get("answer", "")),
                 "seconds": round(time.perf_counter() - t0, 1),
+                "agent_usage": dict(state.get("usage") or {}),
+                "agent_steps": [
+                    {k: s.get(k) for k in ("step", "seconds", "prompt_tokens", "completion_tokens")}
+                    for s in state.get("steps") or []
+                ],
+                "check_usage": {
+                    "prompt_tokens": report.usage.prompt_tokens,
+                    "completion_tokens": report.usage.completion_tokens,
+                },
                 "degraded": report.degraded + list(state.get("degraded") or []),
             }
             summary.append(row)
