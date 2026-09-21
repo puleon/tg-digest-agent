@@ -2,7 +2,7 @@
   "n_posts": 2916,
   "n_train": 2041,
   "n_test": 875,
-  "embed_seconds": 324.8,
+  "embed_seconds": 302.5,
   "topics": [
     "cinema",
     "humor",
@@ -41,13 +41,6 @@
       "majority_baseline": 0.9062857142857143,
       "positives_test": 0.09371428571428571
     },
-    "is_spoiler": {
-      "accuracy": 1.0,
-      "macro_f1": 1.0,
-      "kappa": NaN,
-      "majority_baseline": 1.0,
-      "positives_test": 0.0
-    },
     "quality": {
       "accuracy": 0.544,
       "macro_f1": 0.3845818247266976,
@@ -55,5 +48,178 @@
       "majority_baseline": 0.576,
       "positives_test": NaN
     }
+  },
+  "details": {
+    "topic": {
+      "classes": [
+        "cinema",
+        "humor",
+        "other",
+        "scifi"
+      ],
+      "per_class": {
+        "cinema": {
+          "precision": 0.863481228668942,
+          "recall": 0.8754325259515571,
+          "f1": 0.8694158075601375,
+          "support": 289
+        },
+        "humor": {
+          "precision": 0.9163636363636364,
+          "recall": 0.8936170212765957,
+          "f1": 0.9048473967684022,
+          "support": 282
+        },
+        "other": {
+          "precision": 0.8477508650519031,
+          "recall": 0.8277027027027027,
+          "f1": 0.8376068376068376,
+          "support": 296
+        },
+        "scifi": {
+          "precision": 0.3333333333333333,
+          "recall": 0.75,
+          "f1": 0.46153846153846156,
+          "support": 8
+        }
+      },
+      "confusion": [
+        [
+          253,
+          6,
+          22,
+          8
+        ],
+        [
+          8,
+          252,
+          21,
+          1
+        ],
+        [
+          31,
+          17,
+          245,
+          3
+        ],
+        [
+          1,
+          0,
+          1,
+          6
+        ]
+      ]
+    },
+    "is_ad": {
+      "classes": [
+        "False",
+        "True"
+      ],
+      "per_class": {
+        "False": {
+          "precision": 0.9675141242937854,
+          "recall": 0.8638083228247163,
+          "f1": 0.9127248500999334,
+          "support": 793
+        },
+        "True": {
+          "precision": 0.3532934131736527,
+          "recall": 0.7195121951219512,
+          "f1": 0.4738955823293173,
+          "support": 82
+        }
+      },
+      "confusion": [
+        [
+          685,
+          108
+        ],
+        [
+          23,
+          59
+        ]
+      ]
+    },
+    "quality": {
+      "classes": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "per_class": {
+        "1": {
+          "precision": 0.27,
+          "recall": 0.4909090909090909,
+          "f1": 0.34838709677419355,
+          "support": 55
+        },
+        "2": {
+          "precision": 0.3170731707317073,
+          "recall": 0.4727272727272727,
+          "f1": 0.3795620437956204,
+          "support": 110
+        },
+        "3": {
+          "precision": 0.8019169329073482,
+          "recall": 0.498015873015873,
+          "f1": 0.6144430844553244,
+          "support": 504
+        },
+        "4": {
+          "precision": 0.49158249158249157,
+          "recall": 0.7087378640776699,
+          "f1": 0.5805168986083499,
+          "support": 206
+        },
+        "5": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      },
+      "confusion": [
+        [
+          27,
+          21,
+          5,
+          2,
+          0
+        ],
+        [
+          22,
+          52,
+          17,
+          19,
+          0
+        ],
+        [
+          44,
+          79,
+          251,
+          130,
+          0
+        ],
+        [
+          7,
+          12,
+          40,
+          146,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  "skipped": {
+    "is_spoiler": "single class: 0 positives in the test split"
   }
 }

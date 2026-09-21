@@ -36,17 +36,35 @@ Progression with data: on the first 320 teacher labels (D5, before the full pass
 student scored κ 0.53 / 0.27 / 0.19 for topic / ad / quality; at 2 916 labels topic
 crossed the "substantial agreement" line, the other two did not move much.
 
-_Per-class confusion: pending the re-run with per-class output (the harness now records it)._
+Per class on the test split (rows = teacher, columns = student):
+
+| topic | cinema | humor | other | scifi | precision / recall |
+|---|---|---|---|---|---|
+| cinema (289) | **253** | 6 | 22 | 8 | 0.86 / 0.88 |
+| humor (282) | 8 | **252** | 21 | 1 | 0.92 / 0.89 |
+| other (296) | 31 | 17 | **245** | 3 | 0.85 / 0.83 |
+| scifi (8) | 1 | 0 | 1 | **6** | 0.33 / 0.75 |
+
+| is_ad | not ad | ad | precision / recall |
+|---|---|---|---|
+| not ad (793) | **685** | 108 | 0.97 / 0.86 |
+| ad (82) | 23 | **59** | 0.35 / 0.72 |
+
+Quality: the student recovers half of the teacher's 3s (251/504) and scatters the rest into
+2 and 4 (79 and 130); the 1s and 2s are confused with each other (precision 0.27 / 0.32).
 
 **Reading.**
 
 - **Topic** is a semantic property of the text, exactly what a sentence embedding carries,
   and the student reproduces the teacher at κ 0.80. Where it disagrees is where the teacher
   itself is soft: the teacher calls 47 % of the posts in humor channels `other` (4 836 of
-  10 265 — a cute animal picture is not a joke by its own definition); which pairs of classes
-  the student confuses is in the per-class table below once it is measured.
+  10 265 — a cute animal picture is not a joke by its own definition), and `other` is where
+  the student's errors go in both directions: 22 + 31 confusions with cinema, 21 + 17 with
+  humor, against 14 between cinema and humor themselves. The eight scifi posts in the split
+  are too few to say anything.
 - **is_ad** looks acceptable by accuracy (0.85) and is not: the test split has 9.4 % ads, so
-  saying "not an ad" scores 0.906. The balanced student trades precision for recall and κ
+  saying "not an ad" scores 0.906. The balanced student trades precision for recall —
+  it flags 167 posts, 59 of them the teacher's ads (precision 0.35, recall 0.72) — and κ
   stays at 0.40. Ads are recognized by *lexical* cues — «реклама», `erid`, a promo code, a
   price, «подписывайся» — which an embedding of a 2 000-character post smooths away.
   A useful student would need those cues as explicit features; not done in v1.

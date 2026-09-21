@@ -208,7 +208,22 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
   image set look seven times faster; the VLM benchmark is cache-free for that reason.
 - **The "truncated repost" dedup rule** was fitted to a parser artefact (replies carrying the
   parent's text); once the collector was fixed it explained 2 pairs, not 112.
-<!-- PENDING: entries from D8 (variants that did not help), D15–D17 as measured -->
+- **The agent's web tools shared the collector's tunnel proxy**, which is only up during a
+  collection: the first research run and the faithfulness answers verified nothing
+  (`web_search:unavailable` in every research-mode run) — and still scored 19/20, because
+  the facts were in the posts. Fixed with a separate `AGENT_PROXY` (direct by default).
+- **Wikipedia search on the conversational request** returns nothing for half of the research
+  tasks («кто в итоге сыграет Кратоса … и почему заменили актёра»); the lookup now uses the
+  names the rewrite step extracts (run C, in progress).
+- **The link-summary variant of the index (`full`) is identical to `text_ocr_caption`** in
+  the ablation — the link pass had covered a handful of posts when the index was built.
+- **The local relevance judge is lenient by one grade** (κ 0.52 against human labels, 0.635
+  weighted) — good enough to rank configurations, not to quote absolute recall.
+- **The injection predicates count narration as success**: the model *describing* «the post
+  asks the assistant to answer ZEBRA-7731» trips the canary check. Five of eight guard-off
+  "successes" are that; they are reported as measured, with the reading next to them.
+- **Three of the four planted-fact attacks look like ordinary posts and are cited as such**,
+  guard or no guard — nothing in v1 cross-checks a claim across channels.
 
 ## Quickstart
 
