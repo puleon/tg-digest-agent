@@ -14,6 +14,7 @@ app = typer.Typer(no_args_is_help=True, add_completion=False, help="Tematic Tele
 from tgdigest.agent.cli import app as agent_app  # noqa: E402
 from tgdigest.collector.cli import app as collector_app  # noqa: E402
 from tgdigest.dedup.cli import app as dedup_app  # noqa: E402
+from tgdigest.digest.cli import app as digest_app  # noqa: E402
 from tgdigest.ingest.cli import app as ingest_app  # noqa: E402
 from tgdigest.profile.cli import app as profile_app  # noqa: E402
 from tgdigest.prompts_cli import app as prompts_app  # noqa: E402
@@ -26,6 +27,7 @@ app.add_typer(index_app, name="index")
 app.add_typer(agent_app, name="agent")
 app.add_typer(prompts_app, name="prompts")
 app.add_typer(profile_app, name="profile")
+app.add_typer(digest_app, name="digest")
 
 
 @app.command()
