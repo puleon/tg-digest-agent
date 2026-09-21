@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from datetime import timedelta
+from pathlib import Path
 
 import pytest
 from sqlalchemy import select
@@ -16,8 +17,11 @@ from tgdigest.ingest.runner import run_ingest
 
 
 @pytest.fixture
-async def engine() -> AsyncIterator[AsyncEngine]:
-    eng = make_engine("sqlite+aiosqlite://")
+async def engine(tmp_path: Path) -> AsyncIterator[AsyncEngine]:
+    # a file, not ":memory:": the runner writes from concurrent sessions, and an in-memory
+    # SQLite shares one connection between them, so one session's close() (a rollback) can
+    # discard another's uncommitted rows — a flake seen in CI, impossible on Postgres
+    eng = make_engine(f"sqlite+aiosqlite:///{tmp_path / 'ingest.db'}")
     async with eng.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield eng

@@ -11,6 +11,7 @@ from collections.abc import Sequence
 
 import sqlalchemy as sa
 from alembic import op
+from sqlalchemy.dialects import postgresql
 
 revision: str = "0004"
 down_revision: str | None = "0003"
@@ -21,7 +22,12 @@ depends_on: str | Sequence[str] | None = None
 def upgrade() -> None:
     op.add_column(
         "user_profile",
-        sa.Column("stats_json", sa.JSON(), nullable=False, server_default="{}"),
+        sa.Column(
+            "stats_json",
+            sa.JSON().with_variant(postgresql.JSONB(astext_type=sa.Text()), "postgresql"),
+            nullable=False,
+            server_default="{}",
+        ),
     )
 
 
