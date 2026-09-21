@@ -25,6 +25,7 @@ dependencies = [
     "telethon>=1.38",
     "langgraph>=1.0",
     "selectolax>=0.3",
+    "langfuse>=4",
 ]
 
 [project.scripts]

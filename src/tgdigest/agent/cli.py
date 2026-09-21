@@ -21,6 +21,7 @@ async def _run(
 
     from tgdigest.agent.graph import AgentDeps, run_agent
     from tgdigest.agent.toolset import ToolDeps, build_registry, make_http
+    from tgdigest.agent.tracing import make_tracer
     from tgdigest.db.base import make_engine, make_session_factory
     from tgdigest.ingest.entities import DbCache, Grounder
     from tgdigest.llm.client import LLMClient
@@ -44,13 +45,16 @@ async def _run(
             grounder=Grounder(client=http, cache=DbCache(factory)),
             reranker=BGEReranker(threads=threads) if rerank else None,
         )
+        tracer = make_tracer(settings)
         agent = AgentDeps(
             llm=LLMClient(settings),
             tools=build_registry(deps, confirmer=confirm),
             synthesis_tier=tier,  # type: ignore[arg-type]
             rewrite=rewrite,
+            tracer=tracer,
         )
         state = await run_agent(agent, query, user_id=user_id)
+        tracer.flush()
     finally:
         await http.aclose()
         await engine.dispose()
@@ -84,7 +88,8 @@ def ask(
     typer.echo(
         f"— mode={state.get('mode')} topic={state.get('topic')} days={state.get('days')} "
         f"iterations={state.get('iteration')} tokens={usage.get('prompt_tokens', 0)}+"
-        f"{usage.get('completion_tokens', 0)} degraded={state.get('degraded')}"
+        f"{usage.get('completion_tokens', 0)} degraded={state.get('degraded')} "
+        f"trace={state.get('trace_id')}"
     )
     for s in state.get("steps", []):
         extra = {k: v for k, v in s.items() if k not in ("step", "seconds")}

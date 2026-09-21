@@ -25,6 +25,7 @@ from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
 from tgdigest.agent.tools import ToolRegistry, ToolResult
+from tgdigest.agent.tracing import StepHandle, Tracer, current_run
 from tgdigest.llm.client import LLMClient, LLMOutputError, Usage
 from tgdigest.prompts import load_prompt, prompt_id
 from tgdigest.retrieval.rewrite import rewrite_query
@@ -88,7 +89,7 @@ class AgentState(TypedDict, total=False):
     degraded: list[str]
     steps: list[dict[str, Any]]
     usage: dict[str, int]
-    next: str
+    trace_id: str | None
 
 
 @dataclass
@@ -100,9 +101,25 @@ class AgentDeps:
     max_tokens: int = 40_000
     max_items: int = 8
     rewrite: bool = True
+    tracer: Tracer | None = None
 
 
-def _step(state: AgentState, name: str, t0: float, usage: Usage | None = None, **info: Any) -> None:
+def _begin(name: str, kind: str, input: Any = None) -> tuple[float, StepHandle | None]:
+    """Start timing a step and open its observation on the current trace (if any)."""
+    run = current_run.get()
+    return time.perf_counter(), (run.step(name, kind=kind, input=input) if run else None)
+
+
+def _step(
+    state: AgentState,
+    name: str,
+    t0: float,
+    usage: Usage | None = None,
+    *,
+    obs: StepHandle | None = None,
+    model: str | None = None,
+    **info: Any,
+) -> None:
     entry: dict[str, Any] = {"step": name, "seconds": round(time.perf_counter() - t0, 3), **info}
     if usage is not None:
         entry["prompt_tokens"] = usage.prompt_tokens
@@ -110,6 +127,13 @@ def _step(state: AgentState, name: str, t0: float, usage: Usage | None = None, *
         state["usage"]["prompt_tokens"] += usage.prompt_tokens
         state["usage"]["completion_tokens"] += usage.completion_tokens
     state.setdefault("steps", []).append(entry)
+    if obs is not None:
+        tokens = (
+            {"prompt_tokens": usage.prompt_tokens, "completion_tokens": usage.completion_tokens}
+            if usage
+            else None
+        )
+        obs.end(output=info, usage=tokens, model=model)
 
 
 def _tokens(state: AgentState) -> int:
@@ -146,7 +170,7 @@ def build_agent_graph(deps: AgentDeps) -> Any:
     llm = deps.llm
 
     async def route(state: AgentState) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin("route", "generation", state["query"])
         base: AgentState = {
             "usage": {"prompt_tokens": 0, "completion_tokens": 0},
             "steps": [],
@@ -184,6 +208,8 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             "route",
             t0,
             usage,
+            obs=obs,
+            model=llm.model_for("fast"),
             mode=r.mode,
             topic=r.topic,
             days=days,
@@ -192,19 +218,23 @@ def build_agent_graph(deps: AgentDeps) -> Any:
         return out
 
     async def rewrite(state: AgentState) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin("rewrite", "generation", state["query"])
         if not deps.rewrite:
-            _step(state, "rewrite", t0, skipped=True)
+            _step(state, "rewrite", t0, obs=obs, skipped=True)
             return state
         rw = await rewrite_query(llm, state["query"])
         queries = list(dict.fromkeys([*rw.queries, state["query"]]))[:3]
         if rw.degraded:
             state["degraded"].append("rewrite:failed")
-        _step(state, "rewrite", t0, queries=queries, prompt=rw.prompt)
+        _step(state, "rewrite", t0, obs=obs, queries=queries, prompt=rw.prompt)
         return {**state, "queries": queries}
 
     async def retrieve(state: AgentState) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin(
+            "retrieve",
+            "retriever",
+            {"queries": state["queries"], "topic": state.get("topic"), "days": state.get("days")},
+        )
         args_base: dict[str, Any] = {
             "limit": 20,
             "exclude_spoilers": state.get("exclude_spoilers", False),
@@ -228,6 +258,7 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             state,
             "retrieve",
             t0,
+            obs=obs,
             queries=len(state["queries"]),
             hits=len(hits),
             failures=len(failures),
@@ -236,10 +267,12 @@ def build_agent_graph(deps: AgentDeps) -> Any:
         return {**state, "hits": hits, "degraded": degraded, "iteration": state["iteration"] + 1}
 
     async def grade(state: AgentState) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin(
+            "grade", "generation", {"query": state["query"], "hits": len(state["hits"])}
+        )
         head = state["hits"][:GRADE_DEPTH]
         if not head:
-            _step(state, "grade", t0, graded=0, relevant=0)
+            _step(state, "grade", t0, obs=obs, graded=0, relevant=0)
             return {**state, "graded": [], "relevant": []}
         blocks = "\n\n".join(_post_block(h) for h in head)
         messages = [
@@ -269,6 +302,8 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             "grade",
             t0,
             usage,
+            obs=obs,
+            model=llm.model_for("fast"),
             graded=len(graded),
             relevant=len(relevant),
             prompt=prompt_id(*GRADE_PROMPT),
@@ -301,24 +336,30 @@ def build_agent_graph(deps: AgentDeps) -> Any:
 
     async def requery(state: AgentState) -> AgentState:
         """Ask for different phrasings, telling the model what did not work."""
-        t0 = time.perf_counter()
+        t0, obs = _begin("rewrite_query", "generation", state["queries"])
         seen = ", ".join(state["queries"])
         rw = await rewrite_query(
             llm, f"{state['query']}\n(эти формулировки не нашли нужного: {seen}; предложи другие)"
         )
         fresh = [q for q in rw.queries if q not in state["queries"]][:2] or [state["query"]]
-        _step(state, "rewrite_query", t0, queries=fresh)
+        _step(state, "rewrite_query", t0, obs=obs, queries=fresh)
         return {**state, "queries": fresh, "rewrites": state["rewrites"] + 1}
 
     async def broaden(state: AgentState) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin(
+            "broaden", "span", {"topic": state.get("topic"), "days": state.get("days")}
+        )
         _step(
-            state, "broaden", t0, dropped={"topic": state.get("topic"), "days": state.get("days")}
+            state,
+            "broaden",
+            t0,
+            obs=obs,
+            dropped={"topic": state.get("topic"), "days": state.get("days")},
         )
         return {**state, "topic": None, "days": None, "broadened": True}
 
     async def verify(state: AgentState) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin("verify_external", "tool", state["query"])
         notes: list[dict[str, Any]] = []
         res = await deps.tools.call("web_search", {"query": state["query"][:200], "lang": "ru"})
         if res.ok and res.data["results"]:
@@ -338,11 +379,15 @@ def build_agent_graph(deps: AgentDeps) -> Any:
                 state["degraded"].append(f"fetch_url:{page.error_kind}")
         else:
             state["degraded"].append(f"web_search:{res.error_kind or 'empty'}")
-        _step(state, "verify_external", t0, sources=len(notes))
+        _step(state, "verify_external", t0, obs=obs, sources=len(notes))
         return {**state, "verification": notes}
 
     async def synthesize(state: AgentState, caveat: str | None = None) -> AgentState:
-        t0 = time.perf_counter()
+        t0, obs = _begin(
+            "synthesize",
+            "generation",
+            {"mode": state["mode"], "posts": len(state.get("relevant") or [])},
+        )
         posts = state.get("relevant") or state.get("graded") or state.get("hits") or []
         posts = posts[: deps.max_items * 2]
         blocks = "\n\n".join(_post_block(h) for h in posts) or "(ничего не найдено)"
@@ -387,6 +432,8 @@ def build_agent_graph(deps: AgentDeps) -> Any:
             "synthesize",
             t0,
             usage,
+            obs=obs,
+            model=llm.model_for(deps.synthesis_tier),
             tier=deps.synthesis_tier,
             posts=len(posts),
             citations=len(cited),
@@ -430,7 +477,24 @@ def build_agent_graph(deps: AgentDeps) -> Any:
 async def run_agent(deps: AgentDeps, query: str, *, user_id: int = 0) -> AgentState:
     graph = build_agent_graph(deps)
     t0 = time.perf_counter()
-    state: AgentState = await graph.ainvoke({"query": query, "user_id": user_id})
+    run = deps.tracer.start_run("agent", input=query, user_id=str(user_id)) if deps.tracer else None
+    token = current_run.set(run)
+    try:
+        state: AgentState = await graph.ainvoke({"query": query, "user_id": user_id})
+    finally:
+        current_run.reset(token)
+    if run is not None:
+        run.end(
+            output=state.get("answer"),
+            metadata={
+                "mode": state.get("mode"),
+                "iterations": state.get("iteration"),
+                "tokens": _tokens(state),
+                "degraded": state.get("degraded"),
+                "citations": state.get("citations"),
+            },
+        )
+        state["trace_id"] = run.trace_id
     log.info(
         "agent_done",
         mode=state.get("mode"),
