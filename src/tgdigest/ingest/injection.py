@@ -33,8 +33,6 @@ _STRONG = [
     r"\bllm\b|grader)[^.\n]{0,40}\b(ответь|отвечай|добавь|включи|начни|заверши|закончи|выведи|"
     r"напиши|замени|поставь|оцени|reply|answer|include|append|start|end|begin|print|respond|"
     r"mark|grade)\b",
-    r"\b(для|for) (ии|нейросет\w*|ассистент\w*|языков\w+ модел\w*|ai( assistants?)?|"
-    r"the (model|assistant)|models?)\b",
     r"(инструкция системы|system note|assistant note|note to ai)",
     r"(grade (it|this)|mark (this|it) as relevant|relevant\s*[:=]\s*true|relevance\s*:\s*[0-9]|"
     r"оцени (его|этот пост) как|поставь (этот пост )?первым)",
