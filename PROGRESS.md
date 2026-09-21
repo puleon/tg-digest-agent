@@ -316,7 +316,12 @@ pass.
 ## D11–D12 — 2026-09-21 — Profile and interest score
 
 - Onboarding sheet (`tgdigest profile onboard`): 36 posts, 12 per topic, ≤ 2 per channel,
-  ads excluded — waiting for the owner's like/dislike/skip.
+  ads excluded. **2026-09-21, 23:30** — the owner rated them: 12 likes / 24 dislikes (humor
+  1/12, cinema 5/12, scifi 6/12). Profile: scifi 0.47 / cinema 0.40 / humor 0.13, 2 centroids.
+  Leave-one-out (`scripts/profile_eval.py`): **v1 AUC 0.701, precision@10 0.40** vs views
+  0.427 / 0.20 (views are worse than random for this reader) — report in
+  [`docs/experiments/d11-profile/`](docs/experiments/d11-profile/README.md). The digest
+  chains were restarted on the real profile (the first pairs had run on the empty one).
 - Profile from votes: Laplace-smoothed topic weights, Bayesian channel affinity (prior = the
   user's like rate, 4 pseudo-votes), k-means interest centroids over the liked posts'
   BGE-M3 vectors (k grows with likes: 1 → 2 at six, up to 5), explicit exclusions.
