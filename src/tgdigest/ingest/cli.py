@@ -104,6 +104,7 @@ def stats() -> None:
 @app.command()
 def links(
     topic: Annotated[str | None, typer.Option()] = None,
+    since: Annotated[datetime | None, typer.Option(help="only posts from this date on")] = None,
     limit: Annotated[int | None, typer.Option()] = None,
     force: bool = False,
     concurrency: int = 2,
@@ -123,6 +124,7 @@ def links(
                 make_session_factory(engine),
                 LLMClient(settings),
                 topic=topic,
+                since=since.replace(tzinfo=UTC) if since and since.tzinfo is None else since,
                 limit=limit,
                 force=force,
                 concurrency=concurrency,
@@ -142,6 +144,7 @@ def links(
 @app.command()
 def entities(
     topic: Annotated[str | None, typer.Option()] = None,
+    since: Annotated[datetime | None, typer.Option(help="only posts from this date on")] = None,
     limit: Annotated[int | None, typer.Option()] = None,
     force: bool = False,
     concurrency: int = 2,
@@ -161,6 +164,7 @@ def entities(
                 make_session_factory(engine),
                 LLMClient(settings),
                 topic=topic,
+                since=since.replace(tzinfo=UTC) if since and since.tzinfo is None else since,
                 limit=limit,
                 force=force,
                 concurrency=concurrency,

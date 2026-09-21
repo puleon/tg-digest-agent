@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any
 
 import structlog
@@ -40,7 +41,13 @@ class PassStats:
 
 
 async def _pending(
-    session: AsyncSession, column: Any, *, topic: str | None, limit: int | None, force: bool
+    session: AsyncSession,
+    column: Any,
+    *,
+    topic: str | None,
+    limit: int | None,
+    force: bool,
+    since: datetime | None = None,
 ) -> list[Post]:
     """Album captions live on the first member; passes run on posts that have text."""
     stmt = (
@@ -55,6 +62,8 @@ async def _pending(
         stmt = stmt.where(column.is_(None))
     if topic:
         stmt = stmt.where(Channel.topic == topic)
+    if since is not None:
+        stmt = stmt.where(Post.posted_at >= since)
     if limit:
         stmt = stmt.limit(limit)
     return list((await session.execute(stmt)).scalars().unique())
@@ -80,11 +89,12 @@ async def run_links(
     force: bool = False,
     concurrency: int = 2,
     proxy: str | None = None,
+    since: datetime | None = None,
 ) -> PassStats:
     stats = PassStats("links")
     async with factory() as session:
         posts = await _pending(
-            session, Enrichment.external_links, topic=topic, limit=limit, force=force
+            session, Enrichment.external_links, topic=topic, limit=limit, force=force, since=since
         )
         todo = [(p.id, extract_urls(p.text)) for p in posts]
     stats.selected = len(todo)
@@ -135,12 +145,13 @@ async def run_entities(
     limit: int | None = None,
     force: bool = False,
     concurrency: int = 2,
+    since: datetime | None = None,
 ) -> PassStats:
     """Films/books/people for posts labelled (or from channels of) cinema and scifi."""
     stats = PassStats("entities")
     async with factory() as session:
         posts = await _pending(
-            session, Enrichment.entities_json, topic=topic, limit=limit, force=force
+            session, Enrichment.entities_json, topic=topic, limit=limit, force=force, since=since
         )
         todo: list[tuple[int, str, int | None]] = []
         for p in posts:
