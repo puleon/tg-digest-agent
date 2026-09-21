@@ -10,7 +10,7 @@ COMPOSE    ?= docker compose
 UV         ?= uv
 
 .PHONY: help install up down restart ps logs health test test-int lint fmt typecheck check \
-        migrate api bot bench-serving bench-llm sync pull-results remote collect collect-channels refresh tunnel clean
+        migrate api bot bench-serving bench-llm sync pull-results remote collect collect-channels refresh tunnel egress clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -98,6 +98,9 @@ refresh: sync ## Re-read dates and view counters of stored posts via the reverse
 
 tunnel: ## Forward Langfuse (3000), MinIO (9090), Qdrant (6333), LLM (8080), API (8000) to localhost
 	ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 6333:127.0.0.1:6333 -L 8080:127.0.0.1:8080 -L 8000:127.0.0.1:8000 $(SERVER)
+
+egress: ## Reverse SOCKS on the box (:1080) so the bot there can reach Telegram through this machine (BOT_PROXY)
+	ssh -N -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER)
 
 clean: ## Remove caches
 	rm -rf .pytest_cache .mypy_cache .ruff_cache

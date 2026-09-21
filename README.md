@@ -238,7 +238,7 @@ uv run tgdigest dedup signatures && uv run tgdigest dedup run    # duplicate clu
 uv run tgdigest index build     # embeddings → Qdrant (idempotent)
 uv run tgdigest agent ask "что-нибудь смешное про котов"        # the agent from the terminal
 make api                        # HTTP API on :8000 …
-make bot                        # … and the Telegram bot against it (BOT_TOKEN)
+make bot                        # … and the Telegram bot against it (BOT_TOKEN, BOT_ALLOWED_USERS)
 make test                       # unit tests (no services needed)
 ```
 
@@ -247,6 +247,9 @@ Services bind to `127.0.0.1` only. When they run on a remote box, `make tunnel` 
 runs a make target there. The box itself cannot reach Telegram, so collection runs there with
 its egress routed back through the laptop over an OpenSSH reverse SOCKS tunnel
 (`make collect-channels`, `make collect ARGS="--topic humor"`; `WEB_PROXY` in the box `.env`).
+The bot needs Telegram too: run it on the laptop against the forwarded API (`make tunnel`,
+then `make bot` with the token in the laptop's `.env`), or on the box with `BOT_PROXY`
+pointing at `make egress`.
 
 ## Repository layout
 
