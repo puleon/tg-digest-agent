@@ -30,7 +30,7 @@ measurements landing** (rows marked ⏳ are runs still in progress on the box).
 | D9 · Research tasks | 20 multi-step tasks with corpus-checked facts: **19/20** answered correctly with citations, 7.9 steps / 4 246 tokens / 236 s per task under contention — in a run where every Wikipedia call failed (a proxy misconfiguration, fixed); ⏳ the run with the web reachable is in progress. | [d9-agent](docs/experiments/d9-agent/README.md) |
 | D10 · Chaos | Five injected failures × 20 runs through the real agent: **100/100 correct degradation, 0 crashes** (caveat and no citations when search fails; posts-only answers when the web is down; explicit caveat on budget). The sixth SPEC scenario (invalid VLM JSON) on the real pass: 28 of 6 740 posts degraded to metadata, 0 failed. | [d9-agent](docs/experiments/d9-agent/README.md) |
 | D11–12 · Profile | Score v1 (linear over centroid similarity, topic, channel affinity, engagement, novelty; ad and low-quality penalties) vs a views baseline; the learned v2 ranker was **not built** — 36 onboarding votes are nothing to learn from. ⏳ leave-one-out AUC once the owner's votes are in. | [PROGRESS D11–12](PROGRESS.md) |
-| D15 · Faithfulness | ⏳ atomic claims of 12 answers and one digest issue verified against their sources: unsupported share. | [d15-faithfulness](docs/experiments/d15-faithfulness/README.md) |
+| D15 · Faithfulness | 12 answers split into 132 atomic claims and checked against the cited posts: **5.3 % not supported** (5 contradicted, 2 unsupported); an audit of the verifier finds 5 real slips (a day count, a misattributed figure, two untraceable dates) and 2 verdicts that penalize a source conflict the answer had pointed out itself — 3.8 % on a strict reading. ⏳ one digest issue. | [d15-faithfulness](docs/experiments/d15-faithfulness/README.md) |
 | D16 · Digest pairwise | ⏳ v1 score vs views baseline judged in both orders by Qwen3.6 and by gpt-oss-120b: wins, position-flip rate, longer-wins rate, cross-family κ. | [d16-digest](docs/experiments/d16-digest/README.md) |
 | D17 · Prompt injection | 45 planted posts in 8 classes through the full agent: ASR **0.18 → 0.09** with the guard (8/45 → 4/45). Compliance — a leaked prompt, a tool call, the canary as the answer — **0 in both conditions**; 5 of the 8 guard-off successes are the model narrating the injected text (the URL still reaches the user — the guard strips it), 3 of the 4 that remain are planted false facts, which nothing in v1 defends against. | [d17-injection](docs/experiments/d17-injection/README.md) |
 
@@ -45,10 +45,12 @@ post-like phrasings → hybrid retrieval → grade (2 of 10 relevant) → `rewri
 retrieve again → grade (9 of 10) → synthesize. 5 203 tokens, 8 steps, 8 cited posts:
 
 > Вот подборка смешных постов про котов из канала @am_devs:
-> - **Заговор кошек:** мем предупреждает, что кошки контролируют Землю миллионы лет, и прямо сейчас одна из них находится у вас дома [post 8653].
-> - **Список на двери:** табличка с перечислением «РЫБА, ПИВО, КОШКА» — кошка тоже в списке товаров [post 8648].
-> - **Манул Тимофей:** манул с человеческим лицом и причёской, который занялся «мьюингом» и сделал пересадку волос [post 8472].
-> - **Трансформация:** два котёнка обнимаются, а текст описывает панику человека, который чувствует, как у него растёт шерсть [post 8891]. …
+> - **Заговор кошек:** Мем предупреждает, что кошки контролируют Землю миллионы лет, и прямо сейчас одна из них находится у вас дома [post 8653].
+> - **Список на двери:** На двери висит табличка с перечислением: «РЫБА, ПИВО, КОШКА», что намекает на то, что кошка тоже в списке товаров [post 8648].
+> - **Манул Тимофей:** Манул с человеческим лицом и прической, который занялся «мьюингом» и сделал пересадку волос, спрашивая, дадут ли ему теперь «дадим» [post 8472].
+> - **Трансформация:** Два котенка обнимаются, а текст описывает панику человека, который чувствует, как у него ломаются кости, растет шерсть и он превращается в котенка [post 8891].
+>
+> (four of the eight items)
 
 Every step is in the run's state and in its Langfuse trace: `grade 251 s · graded 10 ·
 relevant 2 · 1 031 + 423 tokens`, and so on — the 15-minute wall-clock of this particular run
@@ -142,11 +144,19 @@ so the vision rows are approximate; everything else is a straight multiplication
 |---|---|---|---|---|
 | Enrich one post (classify + vision when needed, `ingest run`) | 1 260 / 151 (mean over 6 740 humor posts) | 9.9 wall-clock at concurrency 6 (≈ 364 posts/h) | $0.0020 | $0.0040 |
 | Enrichment done so far (12 333 posts: humor for six months, cinema for three) | 15.5 M / 1.9 M | ≈ 34 h | $25 | $50 |
-| Embed the corpus for search (BGE-M3, 4 variants) | — (29 150 texts) | 90 min at 8 threads | — | — |
-| Judge one pooled (query, post) pair (`judge_relevance.v1`) | <!-- PENDING --> | 6.9 at concurrency 2 | | |
-| Search-mode question (`agent ask`) | <!-- PENDING --> | | | |
-| Research-mode question (search + Wikipedia + page + synthesis) | <!-- PENDING --> | | | |
+| Embed the corpus for search (BGE-M3, 4 variants, 29 150 texts) | — | 90 min at 8 threads | — | — |
+| Route one request (`route_query.v1`) | 296 / 59 | 12.7 at concurrency 2 (D9) | $0.0006 | $0.0012 |
+| Search-mode question, end to end (`agent ask`; 9 runs of D15) | 3 162 / 1 113 | 202 for the agent's own steps, 80–450 | $0.0087 | $0.0175 |
+| Research-mode question (20 tasks of D9, run A) | 3 313 / 933 | 236 (90–465) | $0.0080 | $0.0160 |
+| Faithfulness check of one answer (claims → one verification call per claim) | 8 541 / 672 (5–20 claims) | included above | $0.012 | $0.024 |
+| Judge one pooled (query, post) pair (`judge_relevance.v1`, D8) | not recorded | 6.9 at concurrency 2 | | |
 | One digest issue (planner + curator in code, editor + critic) | <!-- PENDING --> | | | |
+
+All agent timings were taken while the ingest pass, the pool judge or another evaluation
+held the model — the D1 benchmark's 19 tok/s generation and 260 tok/s prefill on an idle box
+put a 4 000-token search answer at ≈ 60–70 s of pure inference. The point of the column is the
+order of magnitude: a question costs a cent at hosted rates and a few CPU-minutes locally;
+enriching the corpus is the expensive part and it happens once.
 
 ## Decisions and deviations from the SPEC
 

@@ -25,6 +25,55 @@ are represented; the agent's own citations define the sources it is checked agai
 digest issue (each item's title + reason against its single source post).
 `scripts/faithfulness_eval.py answers|digest|score`.
 
-## Results
+## Results — 12 answers, 132 claims ([`results/answers.jsonl`](results/answers.jsonl), [`results/claims.csv`](results/claims.csv))
 
-_Pending: the runs are queued behind the injection and chaos evaluations._
+| answer | topic · mode | claims | supported | contradicted | unsupported | share | agent tokens | s |
+|---|---|---|---|---|---|---|---|---|
+| c01 трейлер «Одиссеи» | cinema · search | 8 | 8 | 0 | 0 | 0.00 | 1 813 + 691 | 136 |
+| c04 сборы «Человека-паука» | cinema · search | 20 | 19 | 1 | 0 | 0.05 | 3 170 + 947 | 222 |
+| c07 рецензии на «Мумию» | cinema · research | 8 | 8 | 0 | 0 | 0.00 | 4 198 + 1 048 | 228 |
+| c10 фильмы с Мэттом Дэймоном | cinema · search | 5 | 5 | 0 | 0 | 0.00 | 3 799 + 1 348 | 170 |
+| c13 что нового у Ридли Скотта | cinema · news | 18 | 16 | 2 | 0 | 0.11 | 5 039 + 1 290 | 349 |
+| s03 сериал «Трудно быть богом» | scifi · search | 20 | 20 | 0 | 0 | 0.00 | 2 429 + 792 | 195 |
+| s06 органоиды мозга | scifi · research | 7 | 7 | 0 | 0 | 0.00 | 2 098 + 651 | 200 |
+| s09 трейлер «Колец власти» | scifi · search | 5 | 5 | 0 | 0 | 0.00 | 3 456 + 1 439 | 343 |
+| s12 розыгрыши «Мира фантастики» | scifi · search | 19 | 19 | 0 | 0 | 0.00 | 2 502 + 810 | 330 |
+| h02 кот перед зеркалом | humor · search | 6 | 6 | 0 | 0 | 0.00 | 4 953 + 1 783 | 481 |
+| h05 бросить курить электронку | humor · search | 9 | 7 | 2 | 0 | 0.22 | 4 225 + 1 533 | 361 |
+| h08 розыгрыш футболки | humor · search | 7 | 5 | 0 | 2 | 0.29 | 2 115 + 672 | 159 |
+| **all** | | **132** | **125** | **5** | **2** | **0.053** | 3 316 + 1 084 | 265 |
+
+Seconds are wall-clock for the agent run plus the check, on the box while the ingest pass
+and the injection evaluation shared the model; the agent's own steps took 80–450 s of that.
+The check itself cost 1 400–25 000 prompt tokens per answer (one verification call per
+claim, each carrying the source posts) — the long answers with 18–20 claims are the expensive
+ones.
+
+### Audit of the verifier (by the assistant, not the owner)
+
+All 7 non-supported claims and a random 25 of the 125 supported ones were read against their
+deciding posts:
+
+- **25 / 25 supported verdicts hold.** Several are dates («пост 5458 был опубликован 24 июля
+  2026 года») or picture descriptions from the caption — the source block carries both.
+- **Of the 7 flagged claims, 5 are real errors in the answers**: two day-numbering slips in
+  the vape diary («на вторые сутки … сильное ломание» — the post says the first day), two
+  dates of posts the answer named without citing them (untraceable → unsupported, correctly),
+  and one figure attached to the wrong citation (the "seven days" fact is in post 5595, the
+  answer cites 5585 which says "six days for $1 billion" — the verifier calls it contradicted;
+  unsupported would be the finer label).
+- **The other 2 are a source conflict the answer handled explicitly**: post 2958 says
+  «Covenant with Death» is about the First World War, post 5201 says the Second; the answer
+  says so («в одном из постов ошибочно указана Вторая мировая») and picks the first. The
+  verifier checks each claim against its deciding post and marks the WWI claims contradicted
+  by 5201. That is the verifier being literal, not the answer being wrong.
+
+So the honest range is **3.8 % (5/132) to 5.3 % (7/132) of claims not supported by the cited
+posts**, and the three real contradictions are slips a reader would notice (a day count,
+a figure under the wrong citation) rather than invented facts. Humor answers are the weakest
+(4 of 22 claims): they describe memes, and the description leans on the caption's reading of
+the picture.
+
+### Digest issue
+
+_Pending: the digest run is queued behind the entity and link passes on the box._
