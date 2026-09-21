@@ -22,19 +22,24 @@ reported as such. See [`SPEC.md`](SPEC.md) (Russian) for the full specification 
 
 ```mermaid
 flowchart TB
-    TG[Telegram MTProto] --> C[Collector · Telethon]
-    C --> I[Ingest Agent<br/>classify → VLM/OCR → enrich → dedup]
-    C --> PG[(Postgres 16<br/>raw + meta)]
+    TG[t.me/s/&lt;channel&gt; · public web preview] --> C[Collector<br/>incremental, idempotent, FloodWait-aware]
+    C --> PG[(Postgres 16<br/>posts · enrichment · clusters · feedback · digests)]
+    PG --> I[Ingest Agent · LangGraph<br/>triage → VLM/OCR → classify → injection flag<br/>links · entities · dedup cascade]
     I --> PG
-    I --> Q[(Qdrant<br/>dense + sparse)]
-    PG <--> R[Retrieval Layer<br/>hybrid → rerank → query rewrite]
-    Q <--> R
-    R --> O[LangGraph Orchestrator<br/>router · self-correcting retrieval · tools<br/>digest crew: Planner → Curator → Editor → Critic]
-    O --> API[FastAPI]
-    O --> BOT[Telegram Bot · 👍/👎 feedback]
-    O -.traces, datasets, scores.-> LF[Langfuse]
-    LLM[llama-server · GGUF · router mode<br/>fast MoE · heavy MoE on demand] -.OpenAI-compatible API.-> I
-    LLM -.-> O
+    PG --> IX[Index builder<br/>BGE-M3 dense + sparse · 4 text variants]
+    IX --> Q[(Qdrant)]
+    Q --> R[Retrieval<br/>hybrid RRF → rerank → query rewrite]
+    R --> A[Search Agent · LangGraph<br/>route → retrieve → grade → synthesize<br/>rewrite · broaden · verify · caveat · guardrails]
+    PG --> P[Profile & interest score]
+    P --> D[Digest crew<br/>Planner → Curator → Editor ⇄ Critic]
+    A --> API[FastAPI]
+    D --> API
+    API --> BOT[Telegram bot · aiogram 3<br/>👍 👎 💾 · /why · /schedule]
+    A -.traces, datasets, scores.-> LF[Langfuse]
+    D -.-> LF
+    LLM[llama-server · GGUF · CPU<br/>Qwen3.6-35B-A3B text · Gemma 4 26B-A4B vision · gpt-oss-120b on demand] -.OpenAI-compatible API.-> I
+    LLM -.-> A
+    LLM -.-> D
 ```
 
 ## Stack
@@ -59,7 +64,15 @@ flowchart TB
 cp .env.example .env            # fill in secrets and MODELS_DIR
 make install                    # uv venv + pre-commit hooks
 make up                         # postgres, qdrant, llama-server, langfuse — waits until healthy
-make test                       # unit tests
+make migrate                    # schema
+make collect-channels && make collect   # corpus (through the reverse tunnel, see below)
+uv run tgdigest ingest run --since 2026-06-21 --concurrency 6   # enrichment (hours, CPU)
+uv run tgdigest dedup signatures && uv run tgdigest dedup run    # duplicate clusters
+uv run tgdigest index build     # embeddings → Qdrant (idempotent)
+uv run tgdigest agent ask "что-нибудь смешное про котов"        # the agent from the terminal
+make api                        # HTTP API on :8000 …
+make bot                        # … and the Telegram bot against it (BOT_TOKEN)
+make test                       # unit tests (no services needed)
 ```
 
 Services bind to `127.0.0.1` only. When they run on a remote box, `make tunnel` forwards the UIs
