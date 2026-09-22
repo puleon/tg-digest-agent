@@ -35,30 +35,39 @@ report also records whether the router actually took the research route, whether
 source reached the synthesis, and steps / tokens / seconds per task — the harness-efficiency
 metric of §8.6. `scripts/agent_eval.py research`.
 
-**Run A — 20 tasks, web tools unreachable** ([`results/research_no_web.jsonl`](results/research_no_web.jsonl)).
-The first run went out through the collector's SOCKS tunnel, which is only up during a
-collection: every `web_search` failed with `ConnectError` and every run degraded to posts
-only. Nobody planned this chaos test, so it is reported as one:
+Four runs, one task set, the same agent except for the external step
+([`results/research_*.jsonl`](results/)):
 
-| metric | value |
-|---|---|
-| success (facts present, cited, no caveat) | **0.95** (19/20) |
-| routed to research | 0.95 (19/20; `r13` went to search, broadened once, still succeeded) |
-| external source in the synthesis | 0.00 — `web_search:unavailable` recorded in 19/19 |
-| crashes | 0 |
-| steps / prompt tokens / completion tokens / seconds per task (all 20) | 7.9 / 3 313 / 933 / 236 |
-| … per successful task | 7.7 / 3 276 / 910 / 237 |
+| run | what changed | success | routed research | external source used | Wikipedia empty | page failed | steps | tokens / task | s / task |
+|---|---|---|---|---|---|---|---|---|---|
+| A | web tools unreachable (the collector's tunnel proxy, down) | **19/20** | 19/20 | 0/20 | — | — | 7.9 | 4 246 | 236 |
+| B | direct web; Wikipedia searched by the whole request | **19/20** | 19/20 | 9/20 | 10 | 4 | 8.3 | 4 605 | 438 |
+| C | lookup by the rewrite step's `keywords` — which prompt v1 never asked for | **19/20** | 19/20 | 9/20 | 10 | 4 | 7.9 | 4 474 | 321 |
+| D | `rewrite_query.v2` asks for the names; Wikipedia articles fetched as text via the API | ⏳ | | | | | | | |
 
-The one miss (`r11`, Marvel's Wolverine) answered what critics wrote and left out the release
-date. Six tasks needed the full `rewrite_query` loop (12 steps, ≈ 6 000 tokens), one
-broadened its filters once, thirteen finished in the minimal six steps. Runs took 90–465 s because the injection evaluation and the
-pool judge shared the model; `r01` also logged one `search_index:timeout` (the reranker under
-that load) and recovered on the next query.
+The same task fails in every run (`r11`, Marvel's Wolverine: the answer has the reviews and
+drops the release date); every other task is answered from the posts with citations. Seconds
+are wall-clock on the shared box and not comparable between runs (A ran next to the injection
+evaluation and the pool judge, B and C next to the ingest and entity passes).
 
-The configuration bug is fixed (`AGENT_PROXY`, separate from the collector's `WEB_PROXY`,
-direct by default); **run B** with Wikipedia reachable is in progress — it will show what
-the external step adds on a task set whose facts are all in the corpus, and what it costs.
+What the external step actually did, run by run:
 
+- **A** never reached the web: every research run recorded `web_search:unavailable` and
+  synthesized from the posts. Nobody planned this chaos test; it is reported as one, and it
+  says the corpus carried the facts on its own.
+- **B** reached Wikipedia, and Wikipedia search on a conversational Russian request («кто в
+  итоге сыграет Кратоса в сериале по God of War и почему заменили актёра») returned nothing
+  for 10 of 20; of the 9 hits, 4 pages failed to fetch — long articles exceed the 1 MB page
+  limit of `fetch_url`, so the tool returned `too_large`. Five tasks saw an external source.
+- **C** was meant to search by the names the rewrite step extracts, and was identical to B to
+  the task, because `rewrite_query.v1` never asked for keywords and the model left the list
+  empty — the lookup fell back to the request. A fix that was not a fix, kept as measured.
+- **D** (in progress) asks for the names explicitly (`rewrite_query.v2`) and reads Wikipedia
+  articles through the extracts API instead of their HTML.
+
+Whatever D shows, the success column already says something: on questions whose answers are
+in the corpus, the external step is verification, not retrieval — it changes what the answer
+can *confirm*, not whether it is found. The faithfulness harness (D15) is where that shows up.
 ## Chaos — five injected failures × 20 runs (SPEC §8.5)
 
 SPEC names six scenarios. Five are injected into the real agent by wrapping one tool
