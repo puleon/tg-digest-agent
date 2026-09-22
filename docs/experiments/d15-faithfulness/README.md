@@ -74,6 +74,33 @@ a figure under the wrong citation) rather than invented facts. Humor answers are
 (4 of 22 claims): they describe memes, and the description leans on the caption's reading of
 the picture.
 
-### Digest issue
+### Digest issue — 10 items, 32 claims
 
-_Pending: the digest run is queued behind the entity and link passes on the box._
+The owner's issue of 2026-09-21 (`faithfulness_eval.py digest --user 0`): each item's title +
+one-line reason against its single source post.
+
+| | claims | supported | contradicted | unsupported | share |
+|---|---|---|---|---|---|
+| 10 items | 32 | 24 | 1 | 7 | **0.250** |
+
+Five times the answers' share — and the audit says most of it is the verifier being literal
+with *editorial* phrasing rather than the digest being wrong:
+
+- «Ценители жанра узнают о проблемах „Я — легенда 2“» → unsupported, although post 3458 says
+  «„Я — легенда 2“ явно испытывает трудности»; the same for the «До последнего грамма»
+  premiere in the same post. The claim is about what readers will learn; the verifier looks
+  for a post that says readers learn it.
+- «Существует игра или задание „Угадайка по кадру с пирогом“», «зрители могут проверить свою
+  эрудицию», «кадр описывается как атмосферный осенний» — three claims extracted from one
+  reason for a guess-the-film post whose caption shows the pie and whose text says «для такого
+  времени года подходит идеально»: paraphrase, not invention.
+- «Читатели узнают себя в ситуации, описанной в меме» — the Editor's flourish, unverifiable
+  by construction.
+- Real: «Читатели сравнивают новый тизер … с фильмом „Посредник“» — the *author* compares,
+  not readers (contradicted, correctly); «„Посредник“ является культовым» rests on the Editor's
+  adjective.
+
+On a strict reading **2 of 32 (6 %)** digest claims are not grounded; the measured 25 % is the
+price of an Editor who writes "what the reader gets" instead of "what the post says" and an
+extractor that turns that framing into claims. Both are prompt changes (`digest_editor.v2`,
+`extract_claims.v2`), not built in v1 — recorded here so the next number is comparable.
