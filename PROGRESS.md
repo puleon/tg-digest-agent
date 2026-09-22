@@ -389,10 +389,32 @@ runs on a machine that can (API through `make tunnel`) or on the box through `BO
 
 ## D18 — 2026-09-21/22 — Final measurements, README
 
-- README restructured: results at a glance, demo transcripts, cost table, decisions and
-  deviations, negative results, roadmap.
-- D5 distillation on 2 916 labels (topic κ 0.80; ad and quality negative), per-class output.
-- Owner's pending items: 36 onboarding votes (profile, pairwise digest), the 100 retrieval
-  calibration labels (prefilled, review), `BOT_TOKEN` for the bot demo.
-- Queued on the box: research run B, digest demo + digest faithfulness, pairwise (fast and
-  heavy judge), cinema entity and link passes, scifi three-month ingest.
+**Done**
+- README in its final shape: results at a glance (one row per experiment, negative results
+  in the row), demo transcripts from real runs (search, research, a digest issue with
+  `/why`), cost table (tokens / seconds / $-equivalent at Haiku 4.5 and Sonnet 5 rates),
+  Definition of Done against SPEC §10, decisions and deviations, "what did not work",
+  roadmap.
+- D5: distillation on 2 916 labels (topic κ 0.80; ad and quality negative), per-class tables;
+  entity grounding over the cinema window (78 % of 2 069 film mentions, 72 % of books; bare
+  franchise names ground to the wrong film), link summaries (82 of 1 410 posts, every failure
+  class counted).
+- D9: research tasks A → D: 19/20 → 20/20; the external step reached a source in 0 → 9 → 9 →
+  18 of 20 as three bugs were found and fixed (the collector's tunnel proxy shared by the
+  agent's HTTP client; Wikipedia searched by the whole request; long articles over the 1 MB
+  page limit); `rewrite_query.v2`; runs recorded in Langfuse.
+- D11: the owner's 36 votes → profile; leave-one-out AUC 0.70 vs views 0.43.
+- D15: 12 answers, 132 claims, 5.3 % not supported (3.8 % on audit); one digest issue, 25 %
+  flagged, 6 % real.
+- D16: two pairwise rounds under both judges — round 1 confounded by a baseline that starved
+  the cinema slots (fixed: views per topic), round 2 inconclusive at n = 8 with the biases
+  quantified (position 0.38–0.50, verbosity 9/9). A blind side-by-side sheet for the owner's
+  own verdicts is prepared.
+- Fixes on the way: `AGENT_PROXY`; the Wikipedia extracts API in `fetch_url`; heavy-tier
+  reasoning allowance (the first heavy-judge run returned eight empty verdicts); migration
+  0005 had not been applied on the box; the bot logs rejected Telegram ids; `make egress`.
+
+**Not done / honest gaps** — the scifi three-month enrichment pass is still running (no
+table depends on it); the learned interest model (v2) is not built; `lookup_film` is never
+called by the graph; the owner's pairwise verdicts and a second-machine `make up` check are
+open.

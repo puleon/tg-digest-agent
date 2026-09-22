@@ -14,8 +14,9 @@ reported as such. See [`SPEC.md`](SPEC.md) (Russian) for the full specification 
 ## Results at a glance
 
 Every number below comes from a script in `scripts/` over data the reports describe; the
-reports list what was *not* achieved next to what was. Status: **day 18 of 18 — final
-measurements landing** (rows marked ⏳ are runs still in progress on the box).
+reports list what was *not* achieved next to what was. Status: **day 18 of 18 — done**; the
+only thing still running is the scifi enrichment pass (three-month window), which changes no
+table below except the DoD line about corpus coverage.
 
 | Experiment | Headline | Report |
 |---|---|---|
@@ -241,6 +242,18 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
   "successes" are that; they are reported as measured, with the reading next to them.
 - **Three of the four planted-fact attacks look like ordinary posts and are cited as such**,
   guard or no guard — nothing in v1 cross-checks a claim across channels.
+- **The pairwise digest judgment did not separate the interest score from "most viewed"**:
+  a global views baseline starved the cinema slots and the judges rewarded the longer issue
+  (5 : 1 that meant nothing); with a per-topic baseline and equal sizes it is 3 : 2 / 3 : 1
+  with half the pairs flipping on order and the longer text winning 9 of 9 consistent
+  verdicts, under two model families. The reader's own votes (D11) are the evidence; the
+  judges' biases are the result.
+- **The heavy judge returned eight empty verdicts on the first attempt**: gpt-oss reasons in
+  a separate channel and a 120-token budget went entirely to the reasoning. Fixed in the
+  client (`reasoning_effort=low` + an allowance), reported because it is exactly the kind of
+  silent failure a "judge with another model family" invites.
+- **The Editor writes «читатели узнают…»** and the claim extractor turns that into claims no
+  post can support: 25 % of digest claims flagged, 6 % real.
 
 ## Definition of Done (SPEC §10) — where it stands
 
