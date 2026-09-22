@@ -22,7 +22,7 @@ measurements landing** (rows marked ⏳ are runs still in progress on the box).
 | D1 · CPU serving | Qwen3.6-35B-A3B Q4_K_M: 260 tok/s prefill, 19 tok/s generation; Gemma 4 26B-A4B: 204 / 17 tok/s, verbatim Cyrillic OCR at 262 image tokens; gpt-oss-120b (heavy tier): 142 / 17 tok/s at 63 GiB. Docker ≈ native; SMT and MTP speculative decoding both slower. | [d1-llm-benchmark](docs/experiments/d1-llm-benchmark/README.md) |
 | D2 · Corpus | 29 public channels through the `t.me/s` preview (no account): 18 987 posts / 25 939 messages, 22 888 media files (1.7 GB), six months, 2.5 h through a reverse SOCKS tunnel, 0 flood waits. Two parser bugs found later by the dedup features (video dates, reply texts), repaired in place with `collector refresh`. | [PROGRESS D2](PROGRESS.md) |
 | D4 · VLM / OCR | 50 hand-checked images: Qwen3.6 CER 0.000, Gemma 4 CER 0.111 (normalized). Cache-free throughput: Qwen 2.6 images/min flat under concurrency, Gemma 4.1 → 8.5 images/min with 4 slots. Vision tier = Gemma 4 (3.3× the throughput, the accuracy gap recorded). | [d4-vlm](docs/experiments/d4-vlm/README.md) |
-| D5 · Distillation | Logistic regression on BGE-M3 embeddings vs the LLM teacher, 2 916 posts: topic **κ 0.80** (accuracy 0.864, majority 0.338); is_ad κ 0.40 and quality κ 0.33 with accuracy *below* the majority baseline; spoilers too rare to learn. Two of three targets are negative results — the LLM stays the classifier. | [d5-distillation](docs/experiments/d5-distillation/README.md) |
+| D5 · Enrichment | Distillation — logistic regression on BGE-M3 embeddings vs the LLM teacher, 2 916 posts: topic **κ 0.80** (accuracy 0.864, majority 0.338); is_ad κ 0.40 and quality κ 0.33 with accuracy *below* the majority baseline; two of three targets are negative results, the LLM stays the classifier. Entity grounding over the cinema window: **78 %** of 2 069 film mentions resolved in Wikidata (bare franchise names ground to the wrong film), 72 % of book mentions in FantLab. Link summaries: 82 of 1 410 posts — most links are trailers, each failure class counted. | [d5-distillation](docs/experiments/d5-distillation/README.md) |
 | D6 · Deduplication | 107 hand-labelled pairs: cheap cascade (exact text, file hash, pHash ≤ 6, forwards) precision 0.765 / recall 0.981 → with a contrast gate, illustration and rubric cannot-link vetoes and an OCR template veto **0.953 / 1.000** on the tuning pairs, **0.947 / 0.947** on a 52-pair hold-out. | [d6-dedup](docs/experiments/d6-dedup/README.md) |
 | D7 · Index | BGE-M3 dense + sparse for four indexing variants (text / +OCR / +caption / full) in Qdrant, hybrid RRF, payload filters, duplicates collapsed at query time; 18 987 posts → 29 150 texts embedded in 90 min on the CPU next to the ingest pass; rebuilds re-embed only changed texts. | [PROGRESS D7](PROGRESS.md) |
 | D8 · Retrieval ablation | 40 queries, 1 856 pooled pairs graded by the local judge (κ 0.51 vs 100 human-labelled pairs, 0.62 weighted — the judge is lenient by one grade): hybrid + rerank **nDCG@10 0.816 / recall@20 0.691 / MRR 0.974** vs BM25 0.533 / 0.522 / 0.850; reranking is the biggest single gain (0.693 → 0.816). On humor the text-only index finds a third of what OCR + captions find (recall@20 0.307 → 0.599; visual queries nDCG@10 0.280 → 0.727). | [d8-retrieval](docs/experiments/d8-retrieval/README.md) |
@@ -241,6 +241,24 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
   "successes" are that; they are reported as measured, with the reading next to them.
 - **Three of the four planted-fact attacks look like ordinary posts and are cited as such**,
   guard or no guard — nothing in v1 cross-checks a claim across channels.
+
+## Definition of Done (SPEC §10) — where it stands
+
+| item | status |
+|---|---|
+| `make up` + ingest + bot from scratch on a clean machine | ✅ `make install / up / migrate`, collector, ingest, index, api, bot — the Quickstart below; the box was rebuilt from it |
+| corpus ≥ 25 channels, ≥ 15 000 posts, fully enriched | ✅ 29 channels, 18 987 posts; enrichment: humor six months, cinema three, **scifi in progress** (the owner's three-month decision; the pass runs unattended) |
+| retrieval ablation ≥ 5 configurations, nDCG@10 + recall@20 | ✅ 10 configurations ([D8](docs/experiments/d8-retrieval/README.md)) |
+| OCR and VLM-caption contribution measured separately on visual topics | ✅ humor recall@20 0.307 → 0.532 (OCR) → 0.599 (+captions) |
+| dedup precision/recall on hand labels | ✅ 0.953 / 1.000 tuning, 0.947 / 0.947 hold-out ([D6](docs/experiments/d6-dedup/README.md)) |
+| judge κ published; position and verbosity bias measured | ✅ κ 0.51 / 0.62 weighted (retrieval judge); position flips 0.25, longer side wins 1.00 on the digest judge — a confound the harness had to fix ([D16](docs/experiments/d16-digest/README.md)) |
+| digest: pairwise vs baseline; share of unsupported claims | ✅ pairwise round 1 recorded, round 2 on the fixed baseline ⏳; unsupported 25 % measured / 6 % audited ([D15](docs/experiments/d15-faithfulness/README.md)) |
+| prompt injection: ASR before and after defences | ✅ 0.18 → 0.09, compliance 0 ([D17](docs/experiments/d17-injection/README.md)) |
+| chaos: correct degradation across 6 scenarios | ✅ 5 injected × 20 = 100/100, the 6th (VLM JSON) on the real pass |
+| agent: tool-selection accuracy, research success rate, mean steps | ✅ router 0.933; research 20/20 at 7.6 steps; tools are chosen by code — see Decisions |
+| cost of a digest and a research question in tokens, seconds, money | ✅ table above |
+| all datasets and experiments in Langfuse | ✅ 4 datasets, 17 runs, 16 prompts; chaos has no dataset (fixed requests × scenarios — the table is in the report) |
+| README with a negative-results section | ✅ below |
 
 ## Quickstart
 
