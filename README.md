@@ -246,7 +246,7 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
 
 | item | status |
 |---|---|
-| `make up` + ingest + bot from scratch on a clean machine | ✅ `make install / up / migrate`, collector, ingest, index, api, bot — the Quickstart below; the box was rebuilt from it |
+| `make up` + ingest + bot from scratch on a clean machine | ✅ `make install / up / migrate`, collector, ingest, index, api, bot — the Quickstart below is the sequence the box was set up with; not re-verified on a second machine |
 | corpus ≥ 25 channels, ≥ 15 000 posts, fully enriched | ✅ 29 channels, 18 987 posts; enrichment: humor six months, cinema three, **scifi in progress** (the owner's three-month decision; the pass runs unattended) |
 | retrieval ablation ≥ 5 configurations, nDCG@10 + recall@20 | ✅ 10 configurations ([D8](docs/experiments/d8-retrieval/README.md)) |
 | OCR and VLM-caption contribution measured separately on visual topics | ✅ humor recall@20 0.307 → 0.532 (OCR) → 0.599 (+captions) |
@@ -257,7 +257,7 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
 | chaos: correct degradation across 6 scenarios | ✅ 5 injected × 20 = 100/100, the 6th (VLM JSON) on the real pass |
 | agent: tool-selection accuracy, research success rate, mean steps | ✅ router 0.933; research 20/20 at 7.6 steps; tools are chosen by code — see Decisions |
 | cost of a digest and a research question in tokens, seconds, money | ✅ table above |
-| all datasets and experiments in Langfuse | ✅ 4 datasets, 17 runs, 16 prompts; chaos has no dataset (fixed requests × scenarios — the table is in the report) |
+| all datasets and experiments in Langfuse | ✅ 4 datasets, 17 runs, 16 prompts, every agent and digest run traced; chaos and pairwise have no dataset (their inputs are generated — the tables are in the reports) |
 | README with a negative-results section | ✅ below |
 
 ## Quickstart
