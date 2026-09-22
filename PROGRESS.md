@@ -407,9 +407,13 @@ runs on a machine that can (API through `make tunnel`) or on the box through `BO
 - D15: 12 answers, 132 claims, 5.3 % not supported (3.8 % on audit); one digest issue, 25 %
   flagged, 6 % real.
 - D16: two pairwise rounds under both judges — round 1 confounded by a baseline that starved
-  the cinema slots (fixed: views per topic), round 2 inconclusive at n = 8 with the biases
-  quantified (position 0.38–0.50, verbosity 9/9). A blind side-by-side sheet for the owner's
-  own verdicts is prepared.
+  the cinema slots (fixed: views per topic), round 2 with the biases quantified (position
+  0.38–0.50, verbosity 9/9). **The owner judged the same 8 pairs blind: 2 : 6 for the views
+  baseline**, agreeing with the fast judge on 1 pair in 5 (κ −0.43) and with the heavy judge
+  on 1 in 4 (κ 0.00). Two negative results, both recorded: score v1 loses to "most viewed
+  within each topic" at issue level (channel affinity reads a post dislike as a channel
+  dislike; similarity-driven slots repeat one story), and the LLM judge does not stand in for
+  the reader at issue level.
 - Fixes on the way: `AGENT_PROXY`; the Wikipedia extracts API in `fetch_url`; heavy-tier
   reasoning allowance (the first heavy-judge run returned eight empty verdicts); migration
   0005 had not been applied on the box; the bot logs rejected Telegram ids; `make egress`.
@@ -419,5 +423,7 @@ posts need no vision), so the window is fully enriched for all three topics; the
 being rebuilt idempotently (changed texts only).
 
 **Not done / honest gaps** — the learned interest model (v2) is not built; `lookup_film` is
-never called by the graph; the retrieval ablation predates scifi's enrichment; the owner's
-pairwise verdicts and a second-machine `make up` check are open.
+never called by the graph; the retrieval ablation predates scifi's enrichment; a
+second-machine `make up` check is open. The D16 result names the next two changes to the
+score (separate post-level from channel-level feedback; a diversity penalty inside a topic
+slot) — neither is built, both are in the roadmap.

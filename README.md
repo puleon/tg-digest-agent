@@ -322,6 +322,9 @@ tests/            pytest; `integration` marker for tests that need services
   the visual queries the ablation isolates are the ones it would move.
 - Wire `lookup_film` into research mode; entity-aware routing for cinema questions.
 - Channel discovery through forwards and mentions; the collector already keeps them.
+- The two changes D16 points at: separate post-level from channel-level feedback (a disliked
+  post should not be evidence against its channel), and a diversity penalty inside a topic
+  slot so similarity does not fill an issue with one story.
 - A learned interest ranker once feedback exists (the v2 features are in `profile/model.py`);
   distil it on-device with the same harness as D5.
 - Multi-turn memory and clarifying questions in the bot.
