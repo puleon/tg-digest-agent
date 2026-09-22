@@ -82,8 +82,47 @@ lexical features before distillation is worth repeating. A negative result on tw
 three labels is the honest outcome of the SPEC's plan: the plan assumed the teacher's labels
 are learnable, and for `quality` they are barely more consistent than the student.
 
-## External links and entity grounding
+## External links and entity grounding — cinema, three months
 
-_Pending: the passes over the three-month cinema window run after the evaluation queue
-(`ingest entities --topic cinema --since 2026-06-21`, `ingest links --since 2026-06-21
---direct`); this section gets the coverage and failure-class counts when they finish._
+Both passes run on the posts that have text (album members and bare pictures are skipped):
+**1 410 of the 2 374 enriched cinema posts** in the window (`ingest entities --topic cinema
+--since 2026-06-21`, `ingest links … --direct`; 2026-09-22, ≈ 3.5 h and 20 min on the shared
+box).
+
+**Entities** (`extract_entities.v1` → Wikidata for films, FantLab + Open Library for books;
+lookups memoized in `entity_cache`: 1 690 film queries, 200 book queries):
+
+| | posts | mentions | grounded | unresolved |
+|---|---|---|---|---|
+| films | 1 172 | 2 069 | **1 605 (78 %)** | 464 |
+| books | 169 | 231 | 166 via FantLab (72 %) | 65 |
+| people | 1 143 | — | not grounded in v1 | |
+
+Extraction failed on 4 posts (invalid JSON twice — the post is kept without entities). The
+most-mentioned grounded films are what the summer's news was about: «Одиссея» (2026, 79
+mentions), «Человек-паук: Новый день» (2026, 16), «Её личный ад» (2026, 17), «Обсессия»
+(2025, 12). What does not resolve, by kind: films with no Wikidata item yet or a different
+Russian label («Диггер» 14, «Дюна: Часть третья» 6), generic one-word titles («Надежда»,
+«Искусственный», «Тони»), and things that are not films — «God of War» (a series), «Звёздные
+войны» (a franchise). And one systematic error the numbers hide: a bare franchise name
+grounds to its best-known film — «Человек-паук» resolved to the 2002 film 31 times in posts
+that were about the 2026 one. The post-year prior only helps when the mention carries a year;
+a "prefer the newest release when the post is news" rule is the obvious next step.
+
+**Links** (`summarize_link.v1`; explicit failure classes from SPEC §6.2 step 4):
+
+| outcome | link items |
+|---|---|
+| no external link in the post | 1 215 posts |
+| fetched and summarized (HTTP 200) | **83** (82 posts got a `link_summary`) |
+| video platform (YouTube etc.) — not fetched by design | 97 |
+| irrelevant page (summary discarded) | 7 |
+| timeout | 5 |
+| empty page | 4 |
+| paywall or stub | 3 |
+| HTTP 403 · too large · unreachable | 1 · 1 · 1 |
+
+So a link summary exists for 82 of the 1 410 posts (6 %): most links in this corpus point to
+trailers, and the pass says so per link instead of failing silently. The summaries are what
+the `full` indexing variant adds to `text_ocr_caption`; at that coverage the two variants are
+nearly identical, which is what the D8 ablation measured before the pass ran.
