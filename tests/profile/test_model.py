@@ -98,3 +98,14 @@ def test_rank_and_baseline_disagree_on_purpose() -> None:
     loud_ad = Candidate(2, "cinema", 2, "b", "купи", 100000, 100, True, 2, _vec(1))
     assert [c.post_id for c, _ in rank([quiet_match, loud_ad], profile)] == [1, 2]
     assert [c.post_id for c in baseline_rank([quiet_match, loud_ad])] == [2, 1]
+
+
+def test_baseline_interleaves_topics_by_views() -> None:
+    def cand(pid: int, topic: str, views: int) -> Candidate:
+        return Candidate(pid, topic, 1, "c", "t", views, 100, False, 3, _vec(pid))
+
+    ranked = baseline_rank(
+        [cand(1, "humor", 900), cand(2, "humor", 800), cand(3, "cinema", 50), cand(4, "cinema", 40)]
+    )
+    # views within a topic, topics interleaved (the loudest topic first): cinema is not starved
+    assert [c.post_id for c in ranked] == [1, 3, 2, 4]
