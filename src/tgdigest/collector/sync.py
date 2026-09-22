@@ -15,7 +15,15 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from tgdigest.collector.config import ChannelsConfig
 from tgdigest.collector.media import MediaStore
 from tgdigest.collector.types import ChannelRef, FloodWait, RawMessage, TelegramSource
-from tgdigest.db.models import Channel, Enrichment, Post
+from tgdigest.db.models import (
+    Channel,
+    Cluster,
+    Enrichment,
+    Feedback,
+    Post,
+    PostCluster,
+    PostSignature,
+)
 from tgdigest.db.upsert import insert_ignore
 
 log = structlog.get_logger(__name__)
@@ -280,6 +288,135 @@ async def upsert_channels(
             out.append(channel)
         await session.commit()
     return out
+
+
+@dataclass
+class RemovalStats:
+    """What leaving the corpus costs: rows gone, plus the media files nothing else references."""
+
+    channel_id: int
+    username: str
+    posts: int = 0
+    enrichment: int = 0
+    feedback: int = 0
+    clusters_touched: int = 0
+    clusters_removed: int = 0
+    post_ids: list[int] = field(default_factory=list)
+    media_files: list[str] = field(default_factory=list)
+
+
+async def remove_channel(
+    session_factory: async_sessionmaker[AsyncSession], username: str
+) -> RemovalStats | None:
+    """Delete a channel and everything hanging off it (SPEC §2.1: the YAML is the corpus).
+
+    Rows are deleted explicitly in dependency order rather than left to ``ON DELETE CASCADE``,
+    so the result does not depend on the backend's foreign-key enforcement; the caller removes
+    the returned media files and index points. Media is shared across channels by
+    ``media_tg_id``, so only files no remaining post references are listed.
+    """
+    async with session_factory() as session:
+        channel = (
+            await session.execute(select(Channel).where(Channel.username == username))
+        ).scalar_one_or_none()
+        if channel is None:
+            return None
+        stats = RemovalStats(channel_id=channel.id, username=channel.username or username)
+        stats.post_ids = [
+            int(i)
+            for (i,) in (
+                await session.execute(select(Post.id).where(Post.channel_id == channel.id))
+            ).all()
+        ]
+        stats.posts = len(stats.post_ids)
+        if stats.post_ids:
+            stats.enrichment = int(
+                (
+                    await session.execute(
+                        select(func.count())
+                        .select_from(Enrichment)
+                        .where(Enrichment.post_id.in_(stats.post_ids))
+                    )
+                ).scalar_one()
+            )
+            stats.feedback = int(
+                (
+                    await session.execute(
+                        select(func.count())
+                        .select_from(Feedback)
+                        .where(Feedback.post_id.in_(stats.post_ids))
+                    )
+                ).scalar_one()
+            )
+            stats.clusters_touched = int(
+                (
+                    await session.execute(
+                        select(func.count(func.distinct(PostCluster.cluster_id))).where(
+                            PostCluster.post_id.in_(stats.post_ids)
+                        )
+                    )
+                ).scalar_one()
+            )
+            mine = (
+                await session.execute(
+                    select(Post.media_path)
+                    .where(Post.channel_id == channel.id, Post.media_path.is_not(None))
+                    .distinct()
+                )
+            ).all()
+            shared = {
+                path
+                for (path,) in (
+                    await session.execute(
+                        select(Post.media_path)
+                        .where(
+                            Post.channel_id != channel.id,
+                            Post.media_path.in_([p for (p,) in mine]),
+                        )
+                        .distinct()
+                    )
+                ).all()
+            }
+            stats.media_files = [str(p) for (p,) in mine if p not in shared]
+            for table, column in (
+                (Feedback, Feedback.post_id),
+                (PostCluster, PostCluster.post_id),
+                (PostSignature, PostSignature.post_id),
+                (Enrichment, Enrichment.post_id),
+            ):
+                await session.execute(delete(table).where(column.in_(stats.post_ids)))
+            await session.execute(
+                update(Cluster)
+                .where(Cluster.representative_post_id.in_(stats.post_ids))
+                .values(representative_post_id=None)
+            )
+            await session.execute(delete(Post).where(Post.channel_id == channel.id))
+        await session.execute(delete(Channel).where(Channel.id == channel.id))
+        empty = [  # clusters the delete emptied
+            int(i)
+            for (i,) in (
+                await session.execute(
+                    select(Cluster.id).where(
+                        ~Cluster.id.in_(select(PostCluster.cluster_id).distinct())
+                    )
+                )
+            ).all()
+        ]
+        if empty:
+            await session.execute(delete(Cluster).where(Cluster.id.in_(empty)))
+        stats.clusters_removed = len(empty)
+        await session.commit()
+    log.info(
+        "channel_removed",
+        channel=stats.username,
+        posts=stats.posts,
+        enrichment=stats.enrichment,
+        feedback=stats.feedback,
+        clusters_touched=stats.clusters_touched,
+        clusters_removed=stats.clusters_removed,
+        media_files=len(stats.media_files),
+    )
+    return stats
 
 
 async def link_forwards(session: AsyncSession) -> int:

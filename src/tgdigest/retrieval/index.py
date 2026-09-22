@@ -207,6 +207,15 @@ class PostIndex:
     def count(self) -> int:
         return int(self.client.count(self.collection, exact=True).count)
 
+    def delete_posts(self, post_ids: Sequence[int]) -> int:
+        """Drop points by post id (a channel left the corpus). Returns how many were there."""
+        ids = [int(i) for i in post_ids]
+        if not ids:
+            return 0
+        present = len(self.client.retrieve(self.collection, ids=ids, with_payload=False))
+        self.client.delete(self.collection, points_selector=models.PointIdsList(points=ids))
+        return present
+
     # --- search ------------------------------------------------------------------------------
     def search(
         self,

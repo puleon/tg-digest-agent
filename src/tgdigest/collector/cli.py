@@ -205,3 +205,57 @@ def stats() -> None:
         typer.echo(f"total posts: {total}")
 
     asyncio.run(run())
+
+
+@app.command()
+def remove(
+    username: Annotated[str, typer.Argument(help="channel to drop from the corpus, without @")],
+    yes: Annotated[bool, typer.Option("--yes", help="skip the confirmation prompt")] = False,
+    keep_media: Annotated[bool, typer.Option(help="leave the image files on disk")] = False,
+    keep_index: Annotated[bool, typer.Option(help="leave the points in Qdrant")] = False,
+) -> None:
+    """Remove a channel and its posts everywhere: database, media files, search index.
+
+    Irreversible in place; the posts can be collected again (`collector channels && sync`)
+    if the channel returns to `config/channels.yaml`. Remember to remove it from the YAML.
+    """
+    from tgdigest.collector.sync import remove_channel
+    from tgdigest.db.base import make_engine, make_session_factory
+
+    settings = get_settings()
+    configure_logging(settings.log_level)
+
+    async def run() -> None:
+        engine = make_engine(settings.database_url)
+        try:
+            stats = await remove_channel(make_session_factory(engine), username)
+        finally:
+            await engine.dispose()
+        if stats is None:
+            typer.echo(f"no channel @{username} in the database")
+            raise typer.Exit(1)
+        typer.echo(
+            f"@{stats.username}: {stats.posts} posts, {stats.enrichment} enrichment rows, "
+            f"{stats.feedback} feedback rows, {stats.clusters_touched} clusters touched, "
+            f"{len(stats.media_files)} media files no other post uses"
+        )
+        if not keep_media:
+            gone = 0
+            for rel in stats.media_files:
+                path = settings.media_dir / rel
+                if path.exists():
+                    path.unlink()
+                    gone += 1
+            typer.echo(f"media files deleted: {gone}")
+        if not keep_index and stats.post_ids:
+            from qdrant_client import QdrantClient
+
+            from tgdigest.retrieval.index import PostIndex
+
+            index = PostIndex(QdrantClient(url=settings.qdrant_url), embedder=None)  # type: ignore[arg-type]
+            typer.echo(f"index points deleted: {index.delete_posts(stats.post_ids)}")
+        typer.echo("remove it from config/channels.yaml too, or the next sync brings it back")
+
+    if not yes:
+        typer.confirm(f"Delete @{username} and all of its posts?", abort=True)
+    asyncio.run(run())

@@ -13,10 +13,11 @@ from tgdigest.collector.sync import (
     FloodWaitPolicy,
     link_forwards,
     refresh_channel,
+    remove_channel,
     sync_channel,
 )
 from tgdigest.collector.web import stable_id
-from tgdigest.db.models import Channel, Enrichment, Post
+from tgdigest.db.models import Channel, Enrichment, Feedback, Post
 
 
 async def _count(factory: async_sessionmaker[AsyncSession]) -> int:
@@ -219,3 +220,66 @@ async def test_refresh_repairs_dates_and_counters_without_inserting(
 
     again = await refresh_channel(factory, src, 1001, since=T0)
     assert (again.dates_fixed, again.texts_fixed, again.counters_updated) == (0, 0, 0)
+
+
+async def test_remove_channel_takes_its_posts_and_only_its_media(
+    factory: async_sessionmaker[AsyncSession], channel: Channel
+) -> None:
+    async with factory() as session:
+        other = Channel(id=1002, username="other", title="Other", topic="cinema")
+        session.add(other)
+        # one image is shared with the other channel (same media_tg_id), one is not
+        session.add_all(
+            [
+                Post(
+                    id=1,
+                    channel_id=channel.id,
+                    tg_message_id=1,
+                    posted_at=T0,
+                    text="a",
+                    media_path="001/1.jpg",
+                    media_tg_id=1,
+                ),
+                Post(
+                    id=2,
+                    channel_id=channel.id,
+                    tg_message_id=2,
+                    posted_at=T0,
+                    text="b",
+                    media_path="002/2.jpg",
+                    media_tg_id=2,
+                ),
+                Post(
+                    id=3,
+                    channel_id=other.id,
+                    tg_message_id=1,
+                    posted_at=T0,
+                    text="c",
+                    media_path="001/1.jpg",
+                    media_tg_id=1,
+                ),
+            ]
+        )
+        await session.commit()
+        session.add_all(
+            [
+                Enrichment(post_id=1, model_version="v1"),
+                Feedback(user_id=0, post_id=2, signal="dislike", context="onboarding"),
+            ]
+        )
+        await session.commit()
+
+    stats = await remove_channel(factory, "memes")
+    assert stats is not None
+    assert stats.posts == 2 and stats.enrichment == 1 and stats.feedback == 1
+    assert sorted(stats.post_ids) == [1, 2]
+    assert stats.media_files == ["002/2.jpg"]  # the shared file stays for the other channel
+
+    assert stats.clusters_touched == 0 and stats.clusters_removed == 0
+    async with factory() as session:
+        assert (await session.execute(select(func.count(Post.id)))).scalar_one() == 1
+        assert (await session.execute(select(func.count(Enrichment.post_id)))).scalar_one() == 0
+        assert (await session.execute(select(func.count(Feedback.id)))).scalar_one() == 0
+        assert await session.get(Channel, channel.id) is None
+
+    assert await remove_channel(factory, "memes") is None  # already gone

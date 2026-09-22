@@ -33,8 +33,6 @@ topics:
     channels:
       - username: ia_panorama
         source: forward
-      - username: luka_ebkov
-        source: mention
       - username: dfhumor
         source: mention
       - username: ebanutie_otkritki
