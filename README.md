@@ -14,9 +14,9 @@ reported as such. See [`SPEC.md`](SPEC.md) (Russian) for the full specification 
 ## Results at a glance
 
 Every number below comes from a script in `scripts/` over data the reports describe; the
-reports list what was *not* achieved next to what was. Status: **day 18 of 18 — done**; the
-only thing still running is the scifi enrichment pass (three-month window), which changes no
-table below except the DoD line about corpus coverage.
+reports list what was *not* achieved next to what was. Status: **day 18 of 18 — done.** The
+three-month enrichment window is complete for all three topics (2026-09-22 07:19 UTC); the
+retrieval ablation was measured before scifi's enrichment landed, which its report says.
 
 | Experiment | Headline | Report |
 |---|---|---|
@@ -161,7 +161,7 @@ so the vision rows are approximate; everything else is a straight multiplication
 | Operation | Tokens in / out | Seconds on the box | $-equivalent Haiku 4.5 | Sonnet 5 |
 |---|---|---|---|---|
 | Enrich one post (classify + vision when needed, `ingest run`) | 1 260 / 151 (mean over 6 740 humor posts) | 9.9 wall-clock at concurrency 6 (≈ 364 posts/h) | $0.0020 | $0.0040 |
-| Enrichment done so far (12 333 posts: humor for six months, cinema for three) | 15.5 M / 1.9 M | ≈ 34 h | $25 | $50 |
+| Enrichment as shipped (18 000 message rows: humor six months, cinema and scifi three; scifi posts are mostly text — 1 005 / 45 tokens each) | ≈ 21 M / 2.1 M | ≈ 40 h of shared CPU over two days | $32 | $63 |
 | Embed the corpus for search (BGE-M3, 4 variants, 29 150 texts) | — | 90 min at 8 threads | — | — |
 | Route one request (`route_query.v1`) | 296 / 59 | 12.7 at concurrency 2 (D9) | $0.0006 | $0.0012 |
 | Search-mode question, end to end (`agent ask`; 9 runs of D15) | 3 162 / 1 113 | 202 for the agent's own steps, 80–450 | $0.0087 | $0.0175 |
@@ -260,7 +260,7 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
 | item | status |
 |---|---|
 | `make up` + ingest + bot from scratch on a clean machine | ✅ `make install / up / migrate`, collector, ingest, index, api, bot — the Quickstart below is the sequence the box was set up with; not re-verified on a second machine |
-| corpus ≥ 25 channels, ≥ 15 000 posts, fully enriched | ✅ 29 channels, 18 987 posts; enrichment: humor six months, cinema three, **scifi in progress** (the owner's three-month decision; the pass runs unattended) |
+| corpus ≥ 25 channels, ≥ 15 000 posts, fully enriched | ✅ 29 channels, 18 987 posts; the three-month window fully enriched for all topics (cinema 2 752 / 2 752, humor 4 911 / 4 929, scifi 4 966 / 4 966 message rows), humor for all six months — the older cinema/scifi months are the owner's deliberate cut (D7) |
 | retrieval ablation ≥ 5 configurations, nDCG@10 + recall@20 | ✅ 10 configurations ([D8](docs/experiments/d8-retrieval/README.md)) |
 | OCR and VLM-caption contribution measured separately on visual topics | ✅ humor recall@20 0.307 → 0.532 (OCR) → 0.599 (+captions) |
 | dedup precision/recall on hand labels | ✅ 0.953 / 1.000 tuning, 0.947 / 0.947 hold-out ([D6](docs/experiments/d6-dedup/README.md)) |

@@ -10,7 +10,8 @@ duplicate clusters collapsed to their representative), four indexing variants pe
 vector and a BGE-M3 sparse vector; `bge-reranker-v2-m3` over the top 50; BM25 (no stemming)
 as the lexical baseline. Enrichment covered 9 782 posts at the index build the pool ran on
 (OCR on 6 825, captions on 7 975) — humor fully, cinema for the last three months, scifi not
-yet.
+yet (its three-month pass finished on 2026-09-22, after this experiment; scifi posts are
+mostly text, so the ablation's scifi rows would move little — not re-measured).
 
 ## Queries
 

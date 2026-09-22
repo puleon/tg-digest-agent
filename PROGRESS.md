@@ -414,7 +414,10 @@ runs on a machine that can (API through `make tunnel`) or on the box through `BO
   reasoning allowance (the first heavy-judge run returned eight empty verdicts); migration
   0005 had not been applied on the box; the bot logs rejected Telegram ids; `make egress`.
 
-**Not done / honest gaps** — the scifi three-month enrichment pass is still running (no
-table depends on it); the learned interest model (v2) is not built; `lookup_film` is never
-called by the graph; the owner's pairwise verdicts and a second-machine `make up` check are
-open.
+**2026-09-22 07:19 UTC** — the scifi three-month pass finished (3 348 rows in 2.7 h: text
+posts need no vision), so the window is fully enriched for all three topics; the index is
+being rebuilt idempotently (changed texts only).
+
+**Not done / honest gaps** — the learned interest model (v2) is not built; `lookup_film` is
+never called by the graph; the retrieval ablation predates scifi's enrichment; the owner's
+pairwise verdicts and a second-machine `make up` check are open.
