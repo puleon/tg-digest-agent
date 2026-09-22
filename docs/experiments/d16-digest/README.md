@@ -85,7 +85,48 @@ actually enjoys. The evidence that the score ranks *this reader's* posts better 
 the leave-one-out on the owner's own votes ([D11](../d11-profile/README.md): AUC 0.70 vs
 0.43) — a different question, answered by the reader, not by a judge.
 
-The right judge for the digest is the owner: the 8 pairs are laid out side by side with the
-order randomized and the mapping hidden (`data/eval/pairwise/sheet.html`, verdicts into
-`human.csv`); that row gets added here when it is filled in. Until then the honest headline
-is: **inconclusive at n = 8 with LLM judges — and the judges' biases are the finding.**
+### The owner's own verdicts — the same 8 pairs, blind
+
+The pairs were laid out side by side with the order randomized per pair and the mapping kept
+in a separate file ([`results/round2/human.csv`](results/round2/human.csv),
+[`human_key.csv`](results/round2/human_key.csv)); the owner picked a winner for each.
+
+| | v1 (interest score) | views (per topic) |
+|---|---|---|
+| **owner** | **2** | **6** |
+| fast judge (consistent verdicts) | 3 | 2 |
+| heavy judge (consistent verdicts) | 3 | 1 |
+
+| | pairs both decided | agreement | Cohen's κ |
+|---|---|---|---|
+| owner vs fast judge | 5 | 0.20 (1/5) | −0.43 |
+| owner vs heavy judge | 4 | 0.25 (1/4) | 0.00 |
+
+**The owner prefers the baseline, 6 : 2** — and the judges disagree with him more often than
+chance would. Two findings, not one:
+
+1. **The LLM judges do not stand in for this reader.** They agreed with him on 1 pair in 5
+   and 1 in 4 (κ −0.43 and 0.00) while agreeing with each other's *bias* perfectly: the
+   longer issue won 9 of 9 consistent verdicts. The owner picked the longer issue in 2 of 8.
+   Whatever the judges were measuring, it was not this reader's preference. SPEC §8.2's
+   κ > 0.6 gate applies here too, and the digest judge fails it — the retrieval judge passed
+   on the weighted κ (0.62), so this is a property of the *task*, not of the model: grading
+   one post against one query is checkable; ranking a whole issue for a stranger is not.
+2. **The score v1 loses to "most viewed within each topic" on whole issues**, even though it
+   beats "most viewed" on the reader's own post-level votes (D11: AUC 0.70 vs 0.43). The
+   channel mix explains most of it: the baseline issues are built from @luka_ebkov,
+   @Cronenberg1664, @nplusone and @theworldisnoteasy (11, 12, 7, 7 items across the picked
+   issues), the score's from @mirf_ru, @leninstreet, @starlighthousekeeping and @shishkino
+   (5, 2, 2, 8 in picked vs 10, 8, 7, 11 in the rejected ones). Two of the baseline's
+   favourites are channels the owner *disliked* in onboarding — «дислайк посту» is not
+   «дислайк каналу», and the Bayesian channel affinity took the vote as evidence about the
+   channel. The score also spends its slots on what is *similar to liked posts*, which on
+   one week's candidates means near-duplicates of the same story; the baseline's popular
+   posts are more varied.
+
+Both are actionable and neither is built in v1: separate post-level from channel-level
+feedback (the bot's 👍/👎 already carries the post id), add a diversity penalty inside a
+topic slot, and treat "most viewed within the topic" as the baseline to beat rather than a
+straw man. The measurement is the deliverable here: **the interest score as specified does
+not beat a well-formed popularity baseline for this reader at the issue level, and the
+automatic judges would not have told us.**
