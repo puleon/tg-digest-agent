@@ -85,6 +85,27 @@ actually enjoys. The evidence that the score ranks *this reader's* posts better 
 the leave-one-out on the owner's own votes ([D11](../d11-profile/README.md): AUC 0.70 vs
 0.43) — a different question, answered by the reader, not by a judge.
 
+### Round 3 — same protocol, corpus without @luka_ebkov ([`results/round3/`](results/round3/))
+
+The owner removed that channel from the corpus on 2026-09-22 (it was 11 items in the issues
+he picked and 5 in the ones he rejected, so it could have coloured round 2). The 8 pairs were
+composed again on the 28-channel corpus and the rebuilt profile; sizes are 8 : 8 in seven
+pairs and 8 : 7 in one.
+
+| judge | pairs | consistent | v1 wins | views wins | position flips | longer side wins |
+|---|---|---|---|---|---|---|
+| fast | 8 | 8 | 5 | 3 | **0.00** | 5/8 = 0.62 |
+| heavy | 8 | 5 | 3 | 2 | 0.38 | 3/5 = 0.60 |
+| both consistent | 5 | | | | agreement 1.00 | |
+
+Two things changed with the channel gone: the fast judge stopped flipping altogether (0.00
+against 0.38 in round 2) and the verbosity effect fell from 9/9 to 8/13 — close to chance.
+Whatever made the issues hard to tell apart in round 2 was partly that channel's posts. The
+preference itself is still inside the noise at n = 8 (5 : 3 and 3 : 2 for the score).
+
+_The owner's blind verdicts on this round: pending (`data/eval/pairwise/sheet.html` →
+`human.csv`); the round-2 comparison below is what the owner has judged so far._
+
 ### The owner's own verdicts — the same 8 pairs, blind
 
 The pairs were laid out side by side with the order randomized per pair and the mapping kept
