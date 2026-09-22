@@ -44,7 +44,7 @@ cinema channels', so the Curator's cinema slots found nothing in the top of the 
 the eight baseline issues came out with 3–6 items against v1's 8 (782 vs 1 596 characters in
 week 1, 669 vs 1 797 in week 3). The prompt tells the judge that length is not a merit; the
 verdicts say otherwise. In the three pairs of comparable length (8 vs 8, 8 vs 8, 8 vs 6) the
-score is 1 : 1 with one flip — no signal.
+fast judge scores 1 : 1 with a flip and the heavy judge 0 : 1 with two flips — no signal.
 
 That is a bug in the baseline, not a finding about the score: `baseline_rank` now ranks views
 *within each topic* and interleaves topics, so both issues fill the same plan. Round 2 on that
