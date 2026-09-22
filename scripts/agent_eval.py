@@ -340,7 +340,9 @@ async def cmd_research(out: Path, langfuse: bool = False) -> None:
     _research_report(results_path, langfuse)
 
 
-def _research_report(results_path: Path, langfuse: bool = False) -> None:
+def _research_report(
+    results_path: Path, langfuse: bool = False, run_name: str = "agent-v1"
+) -> None:
     rows = [json.loads(line) for line in results_path.open(encoding="utf-8")]
     n = len(rows)
     if not n:
@@ -381,8 +383,8 @@ def _research_report(results_path: Path, langfuse: bool = False) -> None:
             }
             for r in rows
         }
-        record_run(langfuse_client(), "research-tasks", "agent-v1", outputs, scores)
-        print("recorded run agent-v1")
+        record_run(langfuse_client(), "research-tasks", run_name, outputs, scores)
+        print(f"recorded run {run_name}")
 
 
 def main() -> None:
@@ -402,12 +404,13 @@ def main() -> None:
     s.add_argument("--out", type=Path, default=Path("data/eval/research"))
     s.add_argument("--report", action="store_true")
     s.add_argument("--langfuse", action="store_true")
+    s.add_argument("--run-name", default="agent-v1", help="Langfuse run name (A/B/C/D…)")
     args = ap.parse_args()
     if args.cmd == "route":
         asyncio.run(cmd_route(args.concurrency, args.langfuse))
     elif args.cmd == "research":
         if args.report:
-            _research_report(args.out / "research.jsonl", args.langfuse)
+            _research_report(args.out / "research.jsonl", args.langfuse, args.run_name)
         else:
             asyncio.run(cmd_research(args.out, args.langfuse))
     elif args.report:
