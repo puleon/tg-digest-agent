@@ -43,7 +43,7 @@ Four runs, one task set, the same agent except for the external step
 | A | web tools unreachable (the collector's tunnel proxy, down) | **19/20** | 19/20 | 0/20 | — | — | 7.9 | 4 246 | 236 |
 | B | direct web; Wikipedia searched by the whole request | **19/20** | 19/20 | 9/20 | 10 | 4 | 8.3 | 4 605 | 438 |
 | C | lookup by the rewrite step's `keywords` — which prompt v1 never asked for | **19/20** | 19/20 | 9/20 | 10 | 4 | 7.9 | 4 474 | 321 |
-| D | `rewrite_query.v2` asks for the names; Wikipedia articles fetched as text via the API | ⏳ | | | | | | | |
+| D | `rewrite_query.v2` asks for the names; Wikipedia articles fetched as text via the API | **20/20** | 19/20 | **18/20** | 1 | 0 | 7.6 | 4 612 | 247 |
 
 The same task fails in every run (`r11`, Marvel's Wolverine: the answer has the reviews and
 drops the release date); every other task is answered from the posts with citations. Seconds
@@ -62,12 +62,23 @@ What the external step actually did, run by run:
 - **C** was meant to search by the names the rewrite step extracts, and was identical to B to
   the task, because `rewrite_query.v1` never asked for keywords and the model left the list
   empty — the lookup fell back to the request. A fix that was not a fix, kept as measured.
-- **D** (in progress) asks for the names explicitly (`rewrite_query.v2`) and reads Wikipedia
-  articles through the extracts API instead of their HTML.
+- **D** asks for the names explicitly (`rewrite_query.v2`) and reads Wikipedia articles
+  through the extracts API: an external source reached the synthesis in **18 of 20** tasks
+  (one empty search — «Человек-паук: Новый день» has no article yet — and `r13`, which the
+  router sends to search every time), zero page failures, and the one task that had failed
+  in A–C passed (`r11` now names the release date, which the Wikipedia article carries).
+  Steps and tokens are unchanged (7.6 steps, 4 612 tokens); the cost of the external step is
+  the fetch, not model calls.
 
-Whatever D shows, the success column already says something: on questions whose answers are
-in the corpus, the external step is verification, not retrieval — it changes what the answer
-can *confirm*, not whether it is found. The faithfulness harness (D15) is where that shows up.
+The success column says something on its own: on questions whose answers are in the corpus
+the external step is verification, not retrieval — it changes what the answer can *confirm*
+(one extra fact in 20 tasks), not whether the answer is found. The faithfulness harness (D15)
+is where verification shows up; the three configuration bugs D fixed were invisible to the
+success rate and visible only because the run records what each tool returned.
+
+Runs are recorded on the `research-tasks` dataset in Langfuse (`A · web unreachable`,
+`B · lookup by request`, `C · keywords (v1 prompt, empty)`, `D · keywords v2 + extracts`) with
+success, routed_research, steps, tokens and seconds per task.
 ## Chaos — five injected failures × 20 runs (SPEC §8.5)
 
 SPEC names six scenarios. Five are injected into the real agent by wrapping one tool
