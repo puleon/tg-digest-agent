@@ -56,6 +56,36 @@ answers and a 120-token budget was spent on the reasoning (`finish=length`, empt
 The client now gives heavy-tier calls `reasoning_effort=low` and room for the reasoning; the
 second attempt judged 8/8 at 24 s per verdict.
 
-### Round 2 — per-topic views baseline
+### Round 2 — per-topic views baseline ([`results/round2/`](results/round2/))
 
-_In progress (queued behind research run D)._
+The same 8 weeks with `baseline_rank` ranking views within each topic: the issues are now
+the same size (8 : 8 in five pairs, 7 : 8, 8 : 6, 8 : 7) and differ by a few hundred
+characters of Editor text at most; the two issues share 0–2 posts.
+
+| judge | pairs | consistent | v1 wins | views wins | position flips | longer side wins | s / verdict |
+|---|---|---|---|---|---|---|---|
+| Qwen3.6-35B-A3B (fast) | 8 | 5 | 3 | 2 | **0.38** | 5/5 = 1.00 | 16 |
+| gpt-oss-120b (heavy) | 8 | 4 | 3 | 1 | **0.50** | 4/4 = 1.00 | 27 |
+| both consistent | 2 | | 1 | 1 | | | |
+
+With the length gap gone, the preference goes with it: 3 : 2 and 3 : 1, half the pairs
+flipping with the order of presentation, and — still — every consistent verdict for the
+longer text, now when "longer" means 1 717 vs 1 260 characters or 1 552 vs 1 532. Nine
+consistent verdicts, nine for the longer side, under two model families: that is not chance
+(2⁻⁹), it is what these judges do with two issues of similar quality.
+
+**What this measures and what it does not.** The protocol works — the biases it was built to
+detect are visible and quantified: position bias 0.25–0.50, verbosity bias 1.00, and the
+cross-family agreement is undefined because the two judges rarely agree with themselves.
+What it cannot do on 8 pairs is separate the interest score from "top by views within each
+topic": the Curator's constraints (a slot per topic, ≤ 2 per channel, 60 % fresh, one per
+cluster) make both issues look alike to a judge reading titles and one-line reasons, and a
+text profile («scifi 0.47, cinema 0.40, humor 0.13») does not tell a model what this reader
+actually enjoys. The evidence that the score ranks *this reader's* posts better than views is
+the leave-one-out on the owner's own votes ([D11](../d11-profile/README.md): AUC 0.70 vs
+0.43) — a different question, answered by the reader, not by a judge.
+
+The right judge for the digest is the owner: the 8 pairs are laid out side by side with the
+order randomized and the mapping hidden (`data/eval/pairwise/sheet.html`, verdicts into
+`human.csv`); that row gets added here when it is filled in. Until then the honest headline
+is: **inconclusive at n = 8 with LLM judges — and the judges' biases are the finding.**

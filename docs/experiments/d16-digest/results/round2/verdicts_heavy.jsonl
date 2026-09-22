@@ -1,0 +1,8 @@
+{"pair_id": "w0_m8", "winner": "left", "ab": "left", "ba": "left", "consistent": true, "longer": "left", "usage": 2792, "error": null}
+{"pair_id": "w1_m8", "winner": null, "ab": "left", "ba": "right", "consistent": false, "longer": "left", "usage": 2872, "error": null}
+{"pair_id": "w2_m8", "winner": null, "ab": "left", "ba": "right", "consistent": false, "longer": "right", "usage": 3023, "error": null}
+{"pair_id": "w3_m8", "winner": null, "ab": "left", "ba": "right", "consistent": false, "longer": "left", "usage": 3078, "error": null}
+{"pair_id": "w4_m8", "winner": "left", "ab": "left", "ba": "left", "consistent": true, "longer": "left", "usage": 2660, "error": null}
+{"pair_id": "w5_m8", "winner": "left", "ab": "left", "ba": "left", "consistent": true, "longer": "left", "usage": 2595, "error": null}
+{"pair_id": "w6_m8", "winner": null, "ab": "left", "ba": "right", "consistent": false, "longer": "right", "usage": 3018, "error": null}
+{"pair_id": "w7_m8", "winner": "right", "ab": "right", "ba": "right", "consistent": true, "longer": "right", "usage": 2764, "error": null}
