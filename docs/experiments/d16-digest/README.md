@@ -24,6 +24,38 @@ model family with the editor? (SPEC §6.6, §8.2.)
 
 ## Results
 
-_Pending: the profile is the owner's onboarding votes (36 posts, being labelled); the runs are
-queued behind the agent evaluations. If the votes are not in by then, the first run uses the
-empty profile (equal topic weights) and is re-run once they are._
+### Round 1 — global views baseline ([`results/round1/`](results/round1/))
+
+8 pairs (the weeks ending 2026-08-03 … 2026-09-21, budget 8 minutes), the owner's profile
+(scifi 0.47 / cinema 0.40 / humor 0.13). Both issues of a pair went through the same Curator
+and the same Editor ⇄ Critic; composing a pair took 10–30 min on the loaded box.
+
+| judge | pairs | consistent | v1 wins | views wins | position flips | longer side wins | s / verdict |
+|---|---|---|---|---|---|---|---|
+| Qwen3.6-35B-A3B (fast) | 8 | 6 | **5** | 1 | 0.25 | 6/6 = 1.00 | — |
+| gpt-oss-120b (heavy, another family) | 8 | 6 | **5** | 1 | 0.25 | 6/6 = 1.00 | 24 |
+| agreement on the 5 pairs both judged consistently | | | | | | raw 1.00, κ 1.00 | |
+
+Read literally: the interest score wins 5 : 1 under both judges, the judges agree perfectly,
+position bias is one pair in four. Read carefully, the round does not show that yet: **the
+longer issue won every consistent verdict, and the longer issue was almost always v1.** The
+baseline ranked the whole week by views, and the humor channels' view counts are ten times the
+cinema channels', so the Curator's cinema slots found nothing in the top of the list: five of
+the eight baseline issues came out with 3–6 items against v1's 8 (782 vs 1 596 characters in
+week 1, 669 vs 1 797 in week 3). The prompt tells the judge that length is not a merit; the
+verdicts say otherwise. In the three pairs of comparable length (8 vs 8, 8 vs 8, 8 vs 6) the
+score is 1 : 1 with one flip — no signal.
+
+That is a bug in the baseline, not a finding about the score: `baseline_rank` now ranks views
+*within each topic* and interleaves topics, so both issues fill the same plan. Round 2 on that
+baseline is the comparison that counts; round 1 stays here as the measured verbosity bias —
+the judge's, and the harness's for letting the lengths differ.
+
+The first heavy-judge attempt returned eight empty verdicts: gpt-oss reasons before it
+answers and a 120-token budget was spent on the reasoning (`finish=length`, empty content).
+The client now gives heavy-tier calls `reasoning_effort=low` and room for the reasoning; the
+second attempt judged 8/8 at 24 s per verdict.
+
+### Round 2 — per-topic views baseline
+
+_In progress (queued behind research run D)._
