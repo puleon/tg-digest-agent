@@ -104,8 +104,14 @@ async def registry(factory: async_sessionmaker[AsyncSession]) -> Any:
         + "Текст статьи о Леме. " * 20
         + "</article></body></html>"
     )
+    extract = {
+        "query": {
+            "pages": {"1": {"title": "Станислав Лем", "extract": "Стани́слав Лем — писатель.\n" * 5}}
+        }
+    }
     http = _http(
         {
+            "https://ru.wikipedia.org/w/api.php?action=query&prop=extracts": extract,
             "https://ru.wikipedia.org": wiki,
             "https://example.com/article": article,
             "https://example.com/down": httpx.ConnectError("boom"),
@@ -162,6 +168,9 @@ async def test_external_tools_report_their_source_and_failures(registry: Any) ->
     assert r.ok and r.data["title"] == "Статья" and "Леме" in r.data["text"]
     r = await registry.call("fetch_url", {"url": "https://example.com/down"})
     assert r.error_kind == "unavailable" and "unreachable" in (r.error or "")
+    # a Wikipedia article comes as plain text through the API, not as its (1 MB+) HTML
+    r = await registry.call("fetch_url", {"url": "https://ru.wikipedia.org/wiki/Лем,_Станислав"})
+    assert r.ok and r.data["title"] == "Станислав Лем" and r.data["text"].startswith("Стани́слав")
     r = await registry.call("lookup_film", {"title": "Несуществующий фильм", "year": 2026})
     assert r.error_kind == "not_found"  # Wikidata route is not mocked: 404 → unresolved
 

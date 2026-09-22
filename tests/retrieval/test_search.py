@@ -23,7 +23,7 @@ async def test_rewrite_uses_the_versioned_prompt_and_degrades_to_the_original() 
     llm.labels = RewrittenQuery(queries=["мем про дедлайн", "дедлайн горит"], keywords=["дедлайн"])  # type: ignore[assignment]
     rw = await rewrite_query(llm, "что-нибудь смешное про дедлайны")  # type: ignore[arg-type]
     assert rw.queries == ["мем про дедлайн", "дедлайн горит"] and rw.keywords == ["дедлайн"]
-    assert rw.prompt == "rewrite_query.v1" and not rw.degraded
+    assert rw.prompt == "rewrite_query.v2" and not rw.degraded
     assert "search queries" in llm.calls[-1]["messages"][0]["content"]
 
     from tgdigest.llm.client import LLMOutputError

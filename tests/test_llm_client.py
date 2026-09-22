@@ -63,11 +63,24 @@ def settings() -> Settings:
 async def test_complete_returns_text_usage_and_timings(settings: Settings) -> None:
     oai, seen = _server(["hello"])
     c = LLMClient(settings, client=oai)
-    out = await c.complete([{"role": "user", "content": "hi"}], tier="heavy", max_tokens=7)
+    out = await c.complete([{"role": "user", "content": "hi"}], tier="fast", max_tokens=7)
     assert out.text == "hello" and out.usage == Usage(10, 5) and out.latency_ms == 150.0
-    assert seen[0]["model"] == "heavy-m" and seen[0]["max_tokens"] == 7
+    assert seen[0]["model"] == "fast-m" and seen[0]["max_tokens"] == 7
     assert seen[0]["chat_template_kwargs"] == {"enable_thinking": False}
     assert seen[0]["reasoning_effort"] == "none"
+
+
+async def test_heavy_tier_gets_a_reasoning_allowance_and_a_valid_effort(
+    settings: Settings,
+) -> None:
+    oai, seen = _server(["hello", "hello"])
+    c = LLMClient(settings, client=oai)
+    await c.complete([{"role": "user", "content": "hi"}], tier="heavy", max_tokens=120)
+    assert seen[0]["model"] == "heavy-m"
+    assert seen[0]["max_tokens"] == 120 + settings.llm_heavy_reasoning_tokens
+    assert seen[0]["reasoning_effort"] == "low"  # gpt-oss knows low/medium/high, not none
+    await c.complete([{"role": "user", "content": "hi"}], tier="heavy", thinking=True)
+    assert seen[1]["reasoning_effort"] == "high"
 
 
 async def test_structured_parses_and_strips_code_fences(settings: Settings) -> None:

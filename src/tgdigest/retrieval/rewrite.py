@@ -12,7 +12,9 @@ from tgdigest.prompts import load_prompt, prompt_id
 
 log = structlog.get_logger(__name__)
 
-REWRITE_PROMPT = ("rewrite_query", 1)
+REWRITE_PROMPT = ("rewrite_query", 2)
+"""v2 asks for ``keywords`` explicitly: v1 left them empty on most requests, so the research
+mode's Wikipedia lookup fell back to the whole conversational request and came up empty."""
 
 
 class RewrittenQuery(BaseModel):

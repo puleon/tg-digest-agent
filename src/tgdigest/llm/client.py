@@ -110,7 +110,13 @@ class LLMClient:
     ) -> Completion:
         model = self.model_for(tier)
         extra: dict[str, Any] = {"chat_template_kwargs": {"enable_thinking": thinking}}
-        if not thinking:
+        budget = max_tokens
+        if tier == "heavy":
+            # gpt-oss has no "none" level and reasons before every answer; the reasoning
+            # tokens are billed against max_tokens, so give it a low effort and room for it
+            extra["reasoning_effort"] = "high" if thinking else "low"
+            budget = max_tokens + self._settings.llm_heavy_reasoning_tokens
+        elif not thinking:
             extra["reasoning_effort"] = "none"
         kwargs: dict[str, Any] = {}
         if response_format is not None:
@@ -119,7 +125,7 @@ class LLMClient:
             resp = await self._client.chat.completions.create(
                 model=model,
                 messages=list(messages),
-                max_tokens=max_tokens,
+                max_tokens=budget,
                 temperature=temperature,
                 extra_body=extra,
                 **kwargs,

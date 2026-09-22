@@ -316,6 +316,9 @@ def build_registry(deps: ToolDeps, *, confirmer: Confirmer | None = None) -> Too
 
     async def fetch_url(args: BaseModel) -> Any:
         a = FetchArgs.model_validate(args.model_dump())
+        wiki = _wikipedia_article(a.url)
+        if wiki is not None:
+            return await _fetch_wikipedia_extract(deps.http, a.url, *wiki)
         page = await fetch_page(deps.http, a.url)
         if page.error:
             kind = "timeout" if page.error == "timeout" else "unavailable"
@@ -431,6 +434,51 @@ def build_registry(deps: ToolDeps, *, confirmer: Confirmer | None = None) -> Too
         ),
     ]
     return ToolRegistry(tools, confirmer=confirmer)
+
+
+def _wikipedia_article(url: str) -> tuple[str, str] | None:
+    """``(lang, title)`` for a Wikipedia article URL, else None."""
+    from urllib.parse import unquote, urlsplit
+
+    parts = urlsplit(url)
+    host = parts.netloc.lower()
+    if not host.endswith(".wikipedia.org") or not parts.path.startswith("/wiki/"):
+        return None
+    lang = host.split(".")[0]
+    title = unquote(parts.path[len("/wiki/") :]).replace("_", " ")
+    return (lang, title) if lang and title else None
+
+
+async def _fetch_wikipedia_extract(
+    http: httpx.AsyncClient, url: str, lang: str, title: str
+) -> dict[str, Any]:
+    """The article as plain text through the API: the rendered HTML of a long article is over
+    the 1 MB page limit (`fetch_page` → too_large), and the text is what the agent reads."""
+    try:
+        resp = await http.get(
+            WIKIPEDIA_API.format(lang=lang),
+            params={
+                "action": "query",
+                "prop": "extracts",
+                "explaintext": 1,
+                "redirects": 1,
+                "titles": title,
+                "format": "json",
+                "utf8": 1,
+            },
+        )
+    except httpx.TimeoutException as exc:
+        raise ToolError("timeout", "wikipedia did not answer in time") from exc
+    except httpx.HTTPError as exc:
+        raise ToolError("unavailable", f"wikipedia: {type(exc).__name__}") from exc
+    if resp.status_code != 200:
+        raise ToolError("unavailable", f"wikipedia answered {resp.status_code}")
+    pages = list(resp.json().get("query", {}).get("pages", {}).values())
+    page = pages[0] if pages else {}
+    text = (page.get("extract") or "").strip()
+    if not text:
+        raise ToolError("not_found", f"{url}: no such article")
+    return {"url": url, "title": page.get("title") or title, "text": text[:6000]}
 
 
 def _strip_tags(s: str) -> str:

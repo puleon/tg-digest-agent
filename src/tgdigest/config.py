@@ -37,6 +37,10 @@ class Settings(BaseSettings):
     llm_model_fast: str = "qwen3.6-35b-a3b"
     """Mass operations: classification, scoring, query rewriting (SPEC §4)."""
     llm_model_heavy: str = "gpt-oss-120b"
+    llm_heavy_reasoning_tokens: int = 1024
+    """gpt-oss always reasons before answering (harmony channels) and the reasoning counts
+    toward ``max_tokens``: a 120-token judge call came back empty with ``finish=length``.
+    Heavy-tier requests get this much extra room and ``reasoning_effort=low``."""
     """Synthesis and judge; loaded on demand (SPEC §4, memory layout)."""
     vlm_model: str = "gemma-4-26b-a4b"
     """Caption + OCR for images (SPEC §6.2)."""
