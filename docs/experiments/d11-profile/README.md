@@ -9,7 +9,9 @@ With a cold start of 36 onboarding votes, is v1 better than views, and by how mu
 `tgdigest profile onboard` drew 36 posts — 12 per topic, ≤ 2 per channel, no ads — into a
 sheet; the owner rated them like / dislike / skip
 ([`results/onboarding_labels.csv`](results/onboarding_labels.csv)): **12 likes, 24 dislikes,
-no skips**. By topic: scifi 6/12 liked, cinema 5/12, humor 1/12.
+no skips**. By topic: scifi 6/12 liked, cinema 5/12, humor 1/12. (Two of the humor dislikes
+were @luka_ebkov posts; that channel was removed from the corpus on 2026-09-22 — see the
+re-run below.)
 
 ## Profile (`profile/model.py`, `tgdigest profile build`)
 
@@ -31,6 +33,13 @@ probability that a liked post outranks a disliked one.
 | **interest score v1** | **0.701** | **0.400** |
 | baseline: views | 0.427 | 0.200 |
 | random | 0.500 | 0.333 |
+
+**Re-run after @luka_ebkov left the corpus** (2026-09-22, at the owner's request): 34 votes,
+12 likes, the two dislikes on that channel gone — **AUC 0.606 / precision@10 0.400** against
+views 0.466 / 0.200. The direction holds and the margin shrinks: those two posts were easy
+negatives the score ranked low, and dropping them takes the easy part of the problem away.
+Both numbers are on samples far too small for a confidence interval worth printing; what
+survives both is "better than views, which is worse than random for this reader".
 
 Views are *worse than random* for this reader: the most viewed posts in the corpus are the
 humor channels', and the owner disliked 11 of 12 humor posts. The score's 0.70 comes mostly

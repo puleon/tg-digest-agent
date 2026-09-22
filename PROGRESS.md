@@ -427,3 +427,24 @@ never called by the graph; the retrieval ablation predates scifi's enrichment; a
 second-machine `make up` check is open. The D16 result names the next two changes to the
 score (separate post-level from channel-level feedback; a diversity penalty inside a topic
 slot) — neither is built, both are in the roadmap.
+
+## After D18 — 2026-09-22 — @luka_ebkov removed from the corpus
+
+The owner disliked the channel and asked for it to be gone everywhere. New CLI
+`tgdigest collector remove <username>` (explicit deletes in dependency order, not backend
+cascades): 2 245 posts, 2 231 enrichment rows, 2 feedback rows, 41 clusters touched (11 of
+them emptied), 1 675 media files that no remaining post references, 1 715 index points.
+Media is shared across channels by `media_tg_id`, so the shared files stay. A CSV of the
+deleted rows is kept on the box (`data/removed_luka_ebkov.csv`, not in git); the channel can
+be collected again by putting it back into `config/channels.yaml`.
+
+Corpus now: **28 channels, 16 783 posts / 23 694 message rows**, enrichment 15 769 rows.
+Rebuilt afterwards: dedup clusters (728, largest 8), the profile (34 votes, 12 likes — the
+two removed votes were @luka_ebkov dislikes), the index payloads (1 641 points, no
+re-embedding). Leave-one-out on the smaller vote set: AUC 0.606 vs views 0.466 (was 0.701 vs
+0.427 on 36 votes) — the direction holds, the margin shrinks because the removed votes were
+easy negatives.
+
+Re-running on the smaller corpus: the digest pairwise (round 3), because the owner's verdicts
+in round 2 may have been coloured by that channel's posts appearing in the issues. Everything
+else stands as measured on the 29-channel corpus and is labelled as such.
