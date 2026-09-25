@@ -70,14 +70,19 @@ if [[ -z $ONLY || $ONLY == native ]]; then
   [[ -f $H ]] && want gptoss && native native-gpt-oss-120b "$H" -c 32768 -np 1
 fi
 
-# --- docker llama-server (compose `llm` service, router mode, runtime CPU dispatch) ---------
+# --- docker llama-server (llm-stack, router mode, runtime CPU dispatch) --------------------
+# The server moved out of this compose file into its own project on 2026-09-25: it is shared
+# with other consumers now, so this script borrows it and puts it back as it found it rather
+# than stopping infrastructure it does not own.
+LLM_STACK_DIR=${LLM_STACK_DIR:-$HOME/llm-stack}
 if [[ -z $ONLY || $ONLY == docker ]]; then
-  echo "### docker llama-server (compose llm)"
-  docker compose up -d --wait llm
+  echo "### docker llama-server (llm-stack)"
+  llm_was_up=$(docker inspect -f '{{.State.Running}}' llm-server 2>/dev/null || echo false)
+  (cd "$LLM_STACK_DIR" && docker compose up -d --wait)
   [[ -f $Q ]] && want qwen && bench docker-qwen3.6-35b-a3b http://127.0.0.1:8080/v1 qwen3.6-35b-a3b ""
   [[ -f $G ]] && want gemma && bench docker-gemma-4-26b-a4b http://127.0.0.1:8080/v1 gemma-4-26b-a4b ""
   [[ -f $H ]] && want gptoss && bench docker-gpt-oss-120b http://127.0.0.1:8080/v1 gpt-oss-120b ""
-  docker compose stop llm
+  [[ $llm_was_up == true ]] || (cd "$LLM_STACK_DIR" && docker compose stop)
 fi
 
 # --- ollama (host service on 11434) ---------------------------------------------------------

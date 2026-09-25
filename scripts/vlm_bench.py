@@ -1,7 +1,7 @@
 """D4 — VLM throughput on real posts: seconds per image and images/minute at a given concurrency.
 
 Runs the ingest vision prompt (same schema, same max_tokens) over N sampled image posts.
-The server must expose at least `--concurrency` slots (docker/llm/models.ini: np).
+The server must expose at least `--concurrency` slots (llm-stack/models.ini: np).
 
   VLM_MODEL=gemma-4-26b-a4b uv run python scripts/vlm_bench.py --n 40 --concurrency 4
 """

@@ -448,3 +448,21 @@ easy negatives.
 Re-running on the smaller corpus: the digest pairwise (round 3), because the owner's verdicts
 in round 2 may have been coloured by that channel's posts appearing in the issues. Everything
 else stands as measured on the 29-channel corpus and is labelled as such.
+
+## 2026-09-25 — llama-server moved out of this compose
+
+The inference server was a service in this project's `docker-compose.yml`, which
+meant anything else wanting a local model had to either join this project's
+docker network — gaining a route to Postgres, ClickHouse, Qdrant, MinIO and
+Langfuse along the way — or lose inference whenever this stack came down.
+
+It now lives in its own compose project (`~/llm-stack`, container `llm-server`)
+and both consumers are peers. **Nothing in this project changed operationally:**
+the published binding is still `127.0.0.1:8080`, which is what `config.py`,
+`.env.example` and every eval script already used. Verified after the move:
+`/v1/chat/completions` answers from the host and `tgdigest api` returns 200.
+
+Changed here: the `llm` service removed from `docker-compose.yml`,
+`docker/llm/models.ini` moved to the new project, and `scripts/bench_serving.sh`
+now borrows the shared server and restores whatever state it found it in rather
+than stopping infrastructure it no longer owns.
