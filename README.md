@@ -9,7 +9,12 @@ Agentic search and a personalized daily digest over public Telegram channels in 
 The bot is the by-product. The deliverable is the measurement: every component ships with a
 numeric quality metric, every experiment is a Langfuse dataset run, and negative results are
 reported as such. See [`SPEC.md`](SPEC.md) (Russian) for the full specification and
-[`PROGRESS.md`](PROGRESS.md) for the day-by-day engineering log.
+[`PROGRESS.md`](PROGRESS.md) for the day-by-day engineering log. For a guided tour of how it is
+built — models, collector, ingest, dedup, vector search, the agent, personalization, evaluation,
+service, Langfuse, containers and the internal network — read the architecture guide
+[`docs/guide/tg-digest-architecture-guide.pdf`](docs/guide/tg-digest-architecture-guide.pdf)
+(Russian, ~100 pages, written for readers new to agent development; sources and build script
+in [`docs/guide/`](docs/guide/)).
 
 ## Results at a glance
 

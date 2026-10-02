@@ -1,0 +1,98 @@
+"""Chapter 13: the API and the Telegram bot."""
+from figs import Fig
+
+
+def async_loop() -> str:
+    f = Fig(780, 230)
+    f.text(20, 22, 'Асинхронность: пока один запрос ждёт модель, сервер обслуживает другие', 12.5, 'bold',
+           anchor='start')
+    rows = [('/search «коты»', [(0, 4, 'svc', ''), (4, 120, 'llm', 'ждёт модель (await)'), (124, 8, 'svc', '')]),
+            ('/health', [(20, 3, 'svc', '')]),
+            ('/why/1/17867', [(40, 2, 'svc', '')]),
+            ('/search «Кратос»', [(60, 4, 'svc', ''), (64, 100, 'llm', 'ждёт модель')])]
+    sc = 3.0
+    for i, (lab, segs) in enumerate(rows):
+        y = 45 + i * 34
+        f.text(150, y + 17, lab, 10.5, anchor='end', mono=True)
+        for x0, w, k, t in segs:
+            f.rect(160 + x0 * sc, y, max(w * sc, 4), 24, k, r=3,
+                   fill='#ffffff' if k == 'llm' else None, dash=(k == 'llm'))
+            if t:
+                f.text(160 + (x0 + w / 2) * sc, y + 16, t, 10, kind=k)
+    f.text(160, 196, 'оранжевое — работа процесса API (миллисекунды); пунктир — ожидание ответа от llama-server '
+           '(десятки секунд),', 10.5, anchor='start', kind='ext')
+    f.text(160, 213, 'в это время цикл событий свободен. Поиск по Qdrant и реранкер считаются в отдельном потоке '
+           '(asyncio.to_thread).', 10.5, anchor='start', kind='ext')
+    return f.render()
+
+
+def bot_sequence() -> str:
+    f = Fig(780, 400)
+    f.text(20, 22, 'Один вопрос боту: кто кому что отправляет', 12.5, 'bold', anchor='start')
+    lanes = [('Вы', 'you', 70), ('Серверы Telegram', 'ext', 210), ('Бот (ноутбук)', 'svc', 360),
+             ('API (сервер)', 'svc', 510), ('Агент + модель', 'srch', 670)]
+    for name, k, x in lanes:
+        f.box(x - 65, 40, 130, 34, name, [], k, tsize=11)
+        f.line(x, 74, x, 385, k, head=False, sw=1, dash=True)
+    msgs = [(70, 210, 100, 'you', '«что-нибудь смешное про котов»'),
+            (210, 360, 130, 'ext', 'getUpdates (long polling) → новое сообщение'),
+            (360, 210, 160, 'svc', 'sendMessage «Ищу… пару минут»'),
+            (360, 510, 190, 'svc', 'POST /search {query, user_id} через SSH-туннель'),
+            (510, 670, 220, 'srch', 'run_agent(query): 6–12 шагов'),
+            (670, 510, 260, 'srch', 'ответ, цитаты, трейс, деградации'),
+            (510, 360, 290, 'svc', 'JSON-ответ'),
+            (360, 210, 320, 'svc', 'editMessageText: ответ + кнопки 👍 👎 💾'),
+            (210, 70, 350, 'ext', 'вы видите ответ'),
+            ]
+    for x1, x2, y, k, t in msgs:
+        f.line(x1, y, x2, y, k, sw=1.4)
+        f.label((x1 + x2) / 2, y - 5, t, kind=k, size=9.5)
+    f.text(20, 395, 'Telegram не ходит к боту сам: бот открывает запрос «есть новое?», Telegram держит его, пока не придёт '
+           'сообщение, и бот сразу открывает следующий.', 10, anchor='start', kind='ext', italic=True)
+    return f.render()
+
+
+def keyboard() -> str:
+    f = Fig(780, 210)
+    f.text(20, 22, 'Кнопки под ответом и что в них зашито (callback_data, не больше 64 байт)', 12.5, 'bold',
+           anchor='start')
+    f.rect(20, 45, 360, 140, 'file', r=12, fill='#f8fafc')
+    f.text(36, 68, '1. Заговор кошек: мем предупреждает…', 10.5, anchor='start')
+    f.text(36, 86, '2. Список на двери: РЫБА, ПИВО, КОШКА…', 10.5, anchor='start')
+    btns = ['👍 8648', '👎 8648', '💾 8648']
+    for i, b in enumerate(btns):
+        f.rect(36 + i * 110, 110, 100, 30, 'svc', r=6)
+        f.text(86 + i * 110, 130, b, 11, kind='svc')
+    f.rect(36, 148, 320, 28, 'svc', r=6)
+    f.text(196, 167, '❓ почему этот пост (в выпуске)', 10.5, kind='svc')
+    codes = [('fb:l:8648:s:3f9c…', 'лайк · пост 8648 · из поиска · id трейса'),
+             ('fb:d:8648:s:3f9c…', 'дизлайк — так же'),
+             ('fb:s:8648:d:1', 'сохранить · из выпуска №1'),
+             ('why:1:17867', '/why для выпуска 1, поста 17867')]
+    for i, (c, t) in enumerate(codes):
+        y = 60 + i * 32
+        f.text(410, y, c, 11, 'bold', anchor='start', mono=True, kind='svc')
+        f.text(410, y + 14, t, 9.5, anchor='start', kind='ext')
+    return f.render()
+
+
+def bot_placement() -> str:
+    f = Fig(780, 270)
+    f.text(20, 22, 'Где запустить бота, если сервер не видит Telegram', 12.5, 'bold', anchor='start')
+    f.rect(20, 45, 360, 205, 'svc', r=12, fill='#fff7ed', dash=True)
+    f.text(200, 66, 'Вариант 1: бот на ноутбуке', 12, 'bold', kind='svc')
+    f.box(40, 85, 140, 56, 'бот', ['make bot'], 'svc', tsize=12, lsize=10)
+    f.box(220, 85, 140, 56, 'api.telegram.org', ['напрямую'], 'ext', tsize=11, lsize=10)
+    f.line(180, 113, 218, 113, 'svc', both=True)
+    f.box(40, 170, 320, 56, 'make tunnel: ssh -L 8000 …', ['127.0.0.1:8000 ноутбука → API на сервере'], 'col',
+          tsize=11.5, lsize=10)
+    f.line(110, 141, 110, 168, 'col', both=True)
+    f.rect(400, 45, 360, 205, 'svc', r=12, fill='#fff7ed', dash=True)
+    f.text(580, 66, 'Вариант 2: бот на сервере', 12, 'bold', kind='svc')
+    f.box(420, 85, 140, 56, 'бот', ['BOT_PROXY=socks5://…'], 'svc', tsize=12, lsize=9.5)
+    f.box(600, 85, 140, 56, 'API', ['127.0.0.1:8000'], 'svc', tsize=12, lsize=10)
+    f.line(560, 113, 598, 113, 'svc', both=True)
+    f.box(420, 170, 320, 56, 'make egress: ssh -R 1080 …', ['Telegram через ноутбук (как сбор)'], 'col',
+          tsize=11.5, lsize=10)
+    f.line(490, 141, 490, 168, 'col', both=True)
+    return f.render()

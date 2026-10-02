@@ -10,6 +10,7 @@ repos:
       - id: check-toml
       - id: check-added-large-files
         args: ["--maxkb=1024"]
+        exclude: ^docs/guide/.*\.pdf$  # the rendered architecture guide is a deliverable
       - id: detect-private-key
       - id: check-merge-conflict
   - repo: https://github.com/astral-sh/ruff-pre-commit

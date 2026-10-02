@@ -72,6 +72,9 @@ packages = ["src/tgdigest"]
 line-length = 100
 target-version = "py312"
 src = ["src", "tests", "scripts"]
+# the architecture guide's build scripts (stdlib-only SVG drawing) are documentation tooling
+extend-exclude = ["docs/guide"]
+force-exclude = true
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "ASYNC", "S"]
