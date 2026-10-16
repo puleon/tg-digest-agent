@@ -599,3 +599,11 @@ and director; and only 2 of the 20 D9 research tasks are about films, so the pla
 D9/D15 could not have shown a benefit either way. The entity cap in the extraction schema
 stays. Open: either wire `lookup_film` into research mode (grounded from the user's question,
 not from a post) or stop computing entities nightly.
+
+First full refresh on the two-pass scheme finished 2026-10-16 20:38 UTC, 7 h 22 min, state ok:
+collect +14 (the backlog was collected by the stopped run), views 646; vision pass 1 646
+images in 4 h 28 min (≈ 6.1/min overall; 8.8/min once warm — the box was shared), 5 unread;
+classification 2 367 posts in 1 h 28 min (≈ 27/min); links 36 summaries of 509 (7 min);
+entities 424 of 509 with entities, films 588 grounded / 177 not, 7 extraction failures (the
+run predates the schema cap) — 65 min; dedup 832 clusters (30 s); index +2 691 points,
+1 670 payload updates, 19 962 total (12.5 min); profiles 2.
