@@ -494,3 +494,12 @@ a CDN image 200 in 0.15 s.
 Left to the owner: installing and enabling the units on the box, `BOT_TOKEN` and
 `BOT_ALLOWED_USERS` in the box `.env`, importing the onboarding votes for the owner's
 Telegram id.
+
+Two things found on the way:
+
+- `profile import` from `labels.csv` would have failed: 2 of its 36 votes are on @luka_ebkov
+  posts deleted with the channel, and `feedback.post_id` is a foreign key. `record_feedback`
+  now skips votes on posts no longer in the corpus (logged); the import records 34.
+- The round-3 pairwise sheet had the same ranking on the left in 7 of 8 pairs (round 2: 6 of
+  8). Rebalanced to 4 : 4 before the owner labels it (seeded, every column checked against
+  `pairs.jsonl`). In round 2 the owner chose left and right 4 times each, so its 6 : 2 stands.

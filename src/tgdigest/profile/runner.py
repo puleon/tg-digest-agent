@@ -89,13 +89,19 @@ async def record_feedback(
     context: str = "onboarding",
     query: str | None = None,
 ) -> int:
-    """Append feedback rows; a later vote on the same post supersedes earlier ones at read time."""
-    rows = [
-        Feedback(user_id=user_id, post_id=pid, signal=sig, context=context, query=query)
-        for pid, sig in votes
-        if sig in SIGNALS
-    ]
+    """Append feedback rows; a later vote on the same post supersedes earlier ones at read time.
+    Votes on posts that are no longer in the corpus (a removed channel) are skipped."""
+    wanted = [(pid, sig) for pid, sig in votes if sig in SIGNALS]
     async with factory() as session:
+        ids = {pid for pid, _ in wanted}
+        known = set((await session.scalars(select(Post.id).where(Post.id.in_(ids)))).all())
+        rows = [
+            Feedback(user_id=user_id, post_id=pid, signal=sig, context=context, query=query)
+            for pid, sig in wanted
+            if pid in known
+        ]
+        if len(rows) < len(wanted):
+            log.warning("feedback_unknown_posts", skipped=sorted(ids - known), user_id=user_id)
         session.add_all(rows)
         await session.commit()
     return len(rows)

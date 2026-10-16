@@ -106,8 +106,10 @@ async def test_onboarding_sample_is_stratified_and_skips_ads(
 async def test_feedback_profile_and_ranking_end_to_end(
     factory: async_sessionmaker[AsyncSession], index: PostIndex
 ) -> None:
-    n = await record_feedback(factory, 7, [(1, "like"), (2, "like"), (5, "dislike"), (3, "bogus")])
-    assert n == 3
+    n = await record_feedback(
+        factory, 7, [(1, "like"), (2, "like"), (5, "dislike"), (3, "bogus"), (999, "dislike")]
+    )
+    assert n == 3  # a bogus signal and a post no longer in the corpus are skipped
     await record_feedback(factory, 7, [(5, "like")], context="search", query="Лем")  # changed mind
     async with factory() as s:
         votes = {v.post_id: v.signal for v in await load_votes(s, 7)}

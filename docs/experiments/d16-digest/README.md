@@ -110,7 +110,10 @@ _The owner's blind verdicts on this round: pending (`data/eval/pairwise/sheet.ht
 
 The pairs were laid out side by side with the order randomized per pair and the mapping kept
 in a separate file ([`results/round2/human.csv`](results/round2/human.csv),
-[`human_key.csv`](results/round2/human_key.csv)); the owner picked a winner for each.
+[`human_key.csv`](results/round2/human_key.csv)); the owner picked a winner for each. The draw
+put the baseline on the left in 6 of 8 pairs; the owner chose the left issue 4 times and the
+right one 4 times, so a side preference does not explain the result below. Round 3's sheet was
+rebalanced to 4 : 4 before labelling.
 
 | | v1 (interest score) | views (per topic) |
 |---|---|---|

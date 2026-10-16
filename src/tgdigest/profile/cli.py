@@ -118,7 +118,13 @@ def import_labels(
         finally:
             await engine.dispose()
 
-    typer.echo(f"recorded {asyncio.run(go())} votes for user {user}")
+    recorded = asyncio.run(go())
+    skipped = (
+        f" ({len(votes) - recorded} skipped: posts no longer in the corpus)"
+        if recorded < len(votes)
+        else ""
+    )
+    typer.echo(f"recorded {recorded} votes for user {user}{skipped}")
 
 
 @app.command()
