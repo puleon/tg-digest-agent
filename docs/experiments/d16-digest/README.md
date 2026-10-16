@@ -88,7 +88,7 @@ the leave-one-out on the owner's own votes ([D11](../d11-profile/README.md): AUC
 ### Round 3 — same protocol, corpus without @luka_ebkov ([`results/round3/`](results/round3/))
 
 The owner removed that channel from the corpus on 2026-09-22 (it was 11 items in the issues
-he picked and 5 in the ones he rejected, so it could have coloured round 2). The 8 pairs were
+the owner picked and 5 in the rejected ones, so it could have coloured round 2). The 8 pairs were
 composed again on the 28-channel corpus and the rebuilt profile; sizes are 8 : 8 in seven
 pairs and 8 : 7 in one.
 
@@ -103,10 +103,10 @@ against 0.38 in round 2) and the verbosity effect fell from 9/9 to 8/13 — clos
 Whatever made the issues hard to tell apart in round 2 was partly that channel's posts. The
 preference itself is still inside the noise at n = 8 (5 : 3 and 3 : 2 for the score).
 
-_The owner's blind verdicts on this round: pending (`data/eval/pairwise/sheet.html` →
-`human.csv`); the round-2 comparison below is what the owner has judged so far._
+The owner's blind verdicts on this round are [below](#the-owners-verdicts-on-round-3), after
+round 2's.
 
-### The owner's own verdicts — the same 8 pairs, blind
+### The owner's own verdicts — round 2, blind
 
 The pairs were laid out side by side with the order randomized per pair and the mapping kept
 in a separate file ([`results/round2/human.csv`](results/round2/human.csv),
@@ -126,17 +126,17 @@ rebalanced to 4 : 4 before labelling.
 | owner vs fast judge | 5 | 0.20 (1/5) | −0.43 |
 | owner vs heavy judge | 4 | 0.25 (1/4) | 0.00 |
 
-**The owner prefers the baseline, 6 : 2** — and the judges disagree with him more often than
-chance would. Two findings, not one:
+**The owner prefers the baseline, 6 : 2** — and the judges disagree with the owner more often
+than chance would. Two findings, not one:
 
-1. **The LLM judges do not stand in for this reader.** They agreed with him on 1 pair in 5
+1. **The LLM judges do not stand in for this reader.** They agreed with the owner on 1 pair in 5
    and 1 in 4 (κ −0.43 and 0.00) while agreeing with each other's *bias* perfectly: the
-   longer issue won 9 of 9 consistent verdicts. The owner picked the longer issue in 2 of 8.
+   longer issue won 9 of 9 consistent verdicts. The owner picked the longer issue in 3 of 8.
    Whatever the judges were measuring, it was not this reader's preference. SPEC §8.2's
    κ > 0.6 gate applies here too, and the digest judge fails it — the retrieval judge passed
    on the weighted κ (0.62), so this is a property of the *task*, not of the model: grading
    one post against one query is checkable; ranking a whole issue for a stranger is not.
-2. **The score v1 loses to "most viewed within each topic" on whole issues**, even though it
+2. **In round 2 the score v1 loses to "most viewed within each topic" on whole issues**, even though it
    beats "most viewed" on the reader's own post-level votes (D11: AUC 0.70 vs 0.43). The
    channel mix explains most of it: the baseline issues are built from @luka_ebkov,
    @Cronenberg1664, @nplusone and @theworldisnoteasy (11, 12, 7, 7 items across the picked
@@ -151,6 +151,48 @@ chance would. Two findings, not one:
 Both are actionable and neither is built in v1: separate post-level from channel-level
 feedback (the bot's 👍/👎 already carries the post id), add a diversity penalty inside a
 topic slot, and treat "most viewed within the topic" as the baseline to beat rather than a
-straw man. The measurement is the deliverable here: **the interest score as specified does
-not beat a well-formed popularity baseline for this reader at the issue level, and the
-automatic judges would not have told us.**
+straw man.
+
+### The owner's verdicts on round 3
+
+The same blind sheet, with the sides rebalanced to 4 : 4 before labelling
+([`results/round3/human.csv`](results/round3/human.csv),
+[`human_key.csv`](results/round3/human_key.csv)); the owner chose A 3 times and B 5 times.
+
+| | v1 (interest score) | views (per topic) |
+|---|---|---|
+| **owner** | **7** | **1** |
+| fast judge (consistent verdicts) | 5 | 3 |
+| heavy judge (consistent verdicts) | 3 | 2 |
+
+| | pairs both decided | agreement | Cohen's κ |
+|---|---|---|---|
+| owner vs fast judge | 8 | 0.75 (6/8) | 0.38 |
+| owner vs heavy judge | 5 | 0.80 (4/5) | 0.55 |
+
+The owner picked the longer issue in 5 of 8.
+
+**The preference flipped: 7 : 1 for the score**, on the same weeks where round 2 gave 6 : 2 for
+the baseline. What changed is mostly the baseline. The v1 issues are built from the same
+channels in both rounds (@mirf_ru, @leninstreet, @shishkino and @starlighthousekeeping lead
+both times: 13, 8, 8, 7 items now against 10, 10, 10, 9). The baseline's humor slots, where
+@luka_ebkov had 15 items, now go to @ia_panorama (13); its other leaders, @Cronenberg1664 and
+@theworldisnoteasy, stayed and are now on the rejected side (13 and 11 items there).
+
+What the two rounds say together:
+
+1. **At issue level the verdict is decided by which popular channels the baseline can draw
+   on, not only by the score.** Removing one channel turned 2 : 6 into 7 : 1 (two-sided sign
+   test: p ≈ 0.29 for 6 : 2, p ≈ 0.07 for 7 : 1; n = 8 each). There is no stable winner yet.
+   The weaknesses of v1 found in round 2 — channel affinity reading a disliked post as a
+   disliked channel, similarity-driven slots repeating one story — are real and unfixed; they
+   did not stop the score from winning round 3.
+2. **The judges agree with the owner more when the preference is clear, and still not
+   enough**: κ −0.43 / 0.00 in round 2, 0.38 / 0.55 in round 3, below SPEC §8.2's 0.6 gate
+   both times. In round 3 the fast judge was order-consistent on 8 of 8 and showed no length
+   bias (5 of 8), and it still disagreed with the owner on 2 pairs. An issue-level judge is a
+   smoke test, not a stand-in for the reader.
+
+The measurement is the deliverable here: **one channel moved a blind 8-pair verdict from
+2 : 6 to 7 : 1**, so an issue-level A/B on one reader needs more weeks on a fixed corpus
+before it can rank two scorers, and the automatic judges cannot replace that reader.

@@ -41,7 +41,7 @@ between configurations over the same data.
 | D10 · Chaos | Five injected failures × 20 runs through the real agent: **100/100 correct degradation, 0 crashes** (caveat and no citations when search fails; posts-only answers when the web is down; explicit caveat on budget). The sixth SPEC scenario (invalid VLM JSON) on the real pass: 28 of 6 740 posts degraded to metadata, 0 failed. | [d9-agent](docs/experiments/d9-agent/README.md) |
 | D11–12 · Profile | 36 onboarding votes (12 likes), leave-one-out: interest score v1 **AUC 0.701 / precision@10 0.40** vs the views baseline 0.427 / 0.20 (worse than random — the most viewed posts are humor, which this reader dislikes); after a channel left the corpus, 34 votes give 0.606 vs 0.466. The learned v2 ranker was **not built** on this much data. | [d11-profile](docs/experiments/d11-profile/README.md) |
 | D15 · Faithfulness | 12 answers split into 132 atomic claims and checked against the cited posts: **5.3 % not supported** (5 contradicted, 2 unsupported); an audit of the verifier finds 5 real slips (a day count, a misattributed figure, two untraceable dates) and 2 verdicts that penalize a source conflict the answer had pointed out itself — 3.8 % on a strict reading. One digest issue: 25 % of 32 claims flagged, 2 real (6 %) — the rest is the Editor's «читатели узнают…» framing, which the extractor turns into claims no post can support. | [d15-faithfulness](docs/experiments/d15-faithfulness/README.md) |
-| D16 · Digest pairwise | 8 weekly pairs on the owner's profile, judged blind by the owner and in both orders by two model families. **Owner: 2 : 6 for the views baseline.** The judges said 3 : 2 and 3 : 1 for the score and agreed with the owner on 1 pair in 5 (κ −0.43 / 0.00) while picking the longer issue in 9 of 9 consistent verdicts. Two negative results: the LLM judge does not stand in for the reader at issue level, and score v1 loses to "most viewed within each topic" — the channel affinity read post dislikes as channel dislikes, and similarity-driven slots repeat one story. | [d16-digest](docs/experiments/d16-digest/README.md) |
+| D16 · Digest pairwise | 8 weekly pairs on the owner's profile, judged blind by the owner and in both orders by two model families. **Owner: 2 : 6 for the views baseline with @luka_ebkov in the corpus, 7 : 1 for the score without it** — the score's issues barely changed, the baseline's humor slots did, so at n = 8 there is no stable winner. Judges vs the owner: κ −0.43 / 0.00 in round 2, 0.38 / 0.55 in round 3 — below the 0.6 gate both times; in round 2 they picked the longer issue in 9 of 9 consistent verdicts. | [d16-digest](docs/experiments/d16-digest/README.md) |
 | D17 · Prompt injection | 45 planted posts in 8 classes through the full agent: ASR **0.18 → 0.09** with the guard (8/45 → 4/45). Compliance — a leaked prompt, a tool call, the canary as the answer — **0 in both conditions**; 5 of the 8 guard-off successes are the model narrating the injected text (the URL still reaches the user — the guard strips it), 3 of the 4 that remain are planted false facts, which nothing in v1 defends against. | [d17-injection](docs/experiments/d17-injection/README.md) |
 
 ## What it does
@@ -253,15 +253,17 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
   "successes" are that; they are reported as measured, with the reading next to them.
 - **Three of the four planted-fact attacks look like ordinary posts and are cited as such**,
   guard or no guard — nothing in v1 cross-checks a claim across channels.
-- **The interest score v1 loses to the popularity baseline at issue level**: judged blind by
-  the reader, "most viewed within each topic" wins 6 : 2. The channel affinity treats a
-  disliked *post* as evidence against the *channel*, and similarity-driven slots fill an
-  issue with variations on one story. Post-level ranking on the same reader's votes goes the
-  other way (D11, AUC 0.70 vs 0.43) — the two are different questions.
-- **The LLM digest judges do not stand in for the reader**: they agreed with the owner on 1
-  pair in 5 (κ −0.43 fast, 0.00 heavy), flipped on presentation order in 38–50 % of pairs,
-  and picked the longer issue in 9 of 9 consistent verdicts — at equal item counts, under
-  two model families. The retrieval judge passed its κ gate; this one does not, and the
+- **The issue-level comparison with the popularity baseline is unstable**: judged blind by
+  the reader, "most viewed within each topic" won 6 : 2 with @luka_ebkov in the corpus and
+  the score won 7 : 1 without it, on the same weeks. The score's issues barely changed; the
+  baseline's humor slots did. Weaknesses of v1 found on the way are real and unfixed: the
+  channel affinity treats a disliked *post* as evidence against the *channel*, and
+  similarity-driven slots fill an issue with variations on one story. Post-level ranking on
+  the same reader's votes favours the score (D11, AUC 0.70 vs 0.43).
+- **The LLM digest judges do not stand in for the reader**: κ against the owner −0.43 / 0.00
+  in round 2 and 0.38 / 0.55 in round 3, below the gate both times; in round 2 they flipped
+  on presentation order in 38–50 % of pairs and picked the longer issue in 9 of 9 consistent
+  verdicts — at equal item counts, under two model families. The retrieval judge passed its κ gate; this one does not, and the
   difference is the task: grading one post against one query is checkable, ranking a whole
   issue for a stranger is not.
 - **The heavy judge returned eight empty verdicts on the first attempt**: gpt-oss reasons in
@@ -281,7 +283,7 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
 | OCR and VLM-caption contribution measured separately on visual topics | ✅ humor recall@20 0.307 → 0.532 (OCR) → 0.599 (+captions) |
 | dedup precision/recall on hand labels | ✅ 0.953 / 1.000 tuning, 0.947 / 0.947 hold-out ([D6](docs/experiments/d6-dedup/README.md)) |
 | judge κ published; position and verbosity bias measured | ✅ κ 0.51 / 0.62 weighted (retrieval judge); digest judges: position flips 0.25–0.50, the longer issue wins 100 % of consistent verdicts even at equal size ([D16](docs/experiments/d16-digest/README.md)) |
-| digest: pairwise vs baseline; share of unsupported claims | ✅ two rounds, two LLM judges and the owner blind: **baseline wins 6 : 2 with the owner**, judges agree with him on 1 pair in 5 ([D16](docs/experiments/d16-digest/README.md)); unsupported 25 % measured / 6 % audited ([D15](docs/experiments/d15-faithfulness/README.md)) |
+| digest: pairwise vs baseline; share of unsupported claims | ✅ three rounds, two LLM judges and the owner blind: **owner 2 : 6 for the baseline with @luka_ebkov, 7 : 1 for the score without it**, judges κ ≤ 0.55 against the owner ([D16](docs/experiments/d16-digest/README.md)); unsupported 25 % measured / 6 % audited ([D15](docs/experiments/d15-faithfulness/README.md)) |
 | prompt injection: ASR before and after defences | ✅ 0.18 → 0.09, compliance 0 ([D17](docs/experiments/d17-injection/README.md)) |
 | chaos: correct degradation across 6 scenarios | ✅ 5 injected × 20 = 100/100, the 6th (VLM JSON) on the real pass |
 | agent: tool-selection accuracy, research success rate, mean steps | ✅ router 0.933; research 20/20 at 7.6 steps; tools are chosen by code — see Decisions |

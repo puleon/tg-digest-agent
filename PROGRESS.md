@@ -503,3 +503,18 @@ Two things found on the way:
 - The round-3 pairwise sheet had the same ranking on the left in 7 of 8 pairs (round 2: 6 of
   8). Rebalanced to 4 : 4 before the owner labels it (seeded, every column checked against
   `pairs.jsonl`). In round 2 the owner chose left and right 4 times each, so its 6 : 2 stands.
+
+### Later the same day — the owner's round-3 verdicts; the bot is live on the box
+
+The owner installed the units, filled `BOT_TOKEN` / `BOT_ALLOWED_USERS`, imported the 34
+onboarding votes for their Telegram id and started the bot: `tgdigest-api` and
+`tgdigest-bot` active under systemd, the bot polls Telegram directly (`proxy=False`), no
+restarts.
+
+Round 3, blind (sides 4 : 4): **the owner picked the score 7 : 1** — round 2 on the same weeks
+was 2 : 6. The v1 issues are built from the same channels in both rounds; the baseline's humor
+slots went from @luka_ebkov (15 items) to @ia_panorama (13). Owner vs judges: 6/8 and 4/5
+(κ 0.38 / 0.55), against 1/5 and 1/4 in round 2 — below the 0.6 gate either way. D16, README
+and the guide now say what the two rounds show together: at n = 8 the issue-level winner
+depends on which popular channels the baseline draws from. Also corrected: in round 2 the
+owner picked the longer issue in 3 of 8, not 2.
