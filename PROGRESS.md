@@ -466,3 +466,31 @@ Changed here: the `llm` service removed from `docker-compose.yml`,
 `docker/llm/models.ini` moved to the new project, and `scripts/bench_serving.sh`
 now borrows the shared server and restores whatever state it found it in rather
 than stopping infrastructure it no longer owns.
+
+## 2026-10-16 — Telegram directly from the box; the reverse tunnel is a fallback
+
+The box now has a Telegram-only VPN route: an xray TUN device (`xray-tg`) with kernel
+routes for Telegram's nine official IPv4 prefixes (and five IPv6), everything else on the
+box's own egress. It was set up for the sibling assistant project and lives in that repo
+(unit `xray-telegram`, prefix list, refresh script); this project only uses the route.
+Checked from the box before changing anything: `t.me`, `api.telegram.org` and the
+`cdn*.telesco.pe` media hosts all resolve into routed prefixes; `t.me/s/…` 200 in 0.4 s,
+a CDN image 200 in 0.15 s.
+
+- The collector goes out directly: `WEB_PROXY` emptied in the box `.env`;
+  `make collect-channels | collect | refresh` are plain ssh commands, no `-R 1080`.
+  Verified through the real code path with the box settings, no DB writes: one channel per
+  topic, a `?before` page, a media file from `cdn4.telesco.pe` — 7 requests, no proxy.
+- `tgdigest health` reports `telegram` (t.me through `WEB_PROXY` if set) next to the
+  services. The route is not ours, so its failure must be visible. Kept out of the API's
+  `/health`: the API does not depend on Telegram.
+- The bot moves to the box, next to the API: `deploy/systemd/tgdigest-{api,bot}.service`
+  (user units; Linger is on), `make units` installs them. The bot unit has an
+  `ExecCondition` on `BOT_TOKEN`, so it stays down instead of crash-looping until the owner
+  fills the token. `make egress` removed.
+- Fallback documented (Makefile, `.env.example`, README): `ssh -N -R 1080 <box>` from a
+  machine that can reach Telegram, `WEB_PROXY`/`BOT_PROXY` = `socks5h://127.0.0.1:1080`.
+
+Left to the owner: installing and enabling the units on the box, `BOT_TOKEN` and
+`BOT_ALLOWED_USERS` in the box `.env`, importing the onboarding votes for the owner's
+Telegram id.

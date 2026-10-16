@@ -1,0 +1,16 @@
+# ~/.config/systemd/user/tgdigest-api.service — installed on the box by `make units`.
+# The API holds BGE-M3 and the reranker (about a minute to load on CPU) and talks to the
+# compose services and llm-server on 127.0.0.1. Logs: journalctl --user -u tgdigest-api
+[Unit]
+Description=tg-digest-agent HTTP API (127.0.0.1:8000)
+After=default.target
+
+[Service]
+WorkingDirectory=%h/tg-digest-agent
+Environment=PYTHONUNBUFFERED=1
+ExecStart=%h/tg-digest-agent/.venv/bin/tgdigest api
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

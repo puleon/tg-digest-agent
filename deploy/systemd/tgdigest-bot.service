@@ -1,0 +1,20 @@
+# ~/.config/systemd/user/tgdigest-bot.service — installed on the box by `make units`.
+# Long polling against api.telegram.org, which the box reaches through its Telegram-only VPN
+# route; a thin client of the API next to it. The condition keeps the unit from starting (and
+# from restarting in a loop) until BOT_TOKEN is filled in the box .env.
+# Logs: journalctl --user -u tgdigest-bot
+[Unit]
+Description=tg-digest-agent Telegram bot
+Wants=tgdigest-api.service
+After=tgdigest-api.service
+
+[Service]
+WorkingDirectory=%h/tg-digest-agent
+Environment=PYTHONUNBUFFERED=1
+ExecCondition=/bin/sh -c 'grep -qE "^BOT_TOKEN=.+" .env'
+ExecStart=%h/tg-digest-agent/.venv/bin/tgdigest bot
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

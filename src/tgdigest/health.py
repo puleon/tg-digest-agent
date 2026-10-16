@@ -1,4 +1,4 @@
-"""Reachability checks for every backing service — used by ``tgdigest health`` and ``make up``."""
+"""Reachability checks for every backing service and Telegram — ``tgdigest health``, ``make up``."""
 
 from __future__ import annotations
 
@@ -32,11 +32,12 @@ async def check_postgres(settings: Settings) -> Check:
 
 
 _HTTP_TIMEOUT_S = 5.0
+TELEGRAM_PROBE_URL = "https://t.me/"
 
 
-async def _http_check(name: str, url: str) -> Check:
+async def _http_check(name: str, url: str, proxy: str | None = None) -> Check:
     try:
-        async with httpx.AsyncClient(timeout=_HTTP_TIMEOUT_S) as client:
+        async with httpx.AsyncClient(timeout=_HTTP_TIMEOUT_S, proxy=proxy) as client:
             resp = await client.get(url)
         return Check(name, resp.status_code < 400, f"HTTP {resp.status_code}")
     except httpx.HTTPError as exc:
@@ -53,3 +54,10 @@ async def check_all(settings: Settings) -> list[Check]:
             _http_check("langfuse", f"{settings.langfuse_host}/api/public/health"),
         )
     )
+
+
+async def check_telegram(settings: Settings) -> Check:
+    """t.me the way the collector goes out. Not a service of ours: the box reaches Telegram
+    through a VPN route it does not own, so the CLI reports it; the API's /health does not
+    depend on it."""
+    return await _http_check("telegram", TELEGRAM_PROBE_URL, settings.web_proxy)

@@ -195,8 +195,10 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
   which is what a memory-bandwidth-bound CPU wants ([D1](docs/experiments/d1-llm-benchmark/README.md)).
 - **Telegram's public web preview instead of Telethon.** No collector account could be
   created; `t.me/s/<channel>` exposes everything the schema needs except forward counts. The
-  box cannot reach Telegram at all, so collection runs through a reverse SOCKS tunnel from
-  the laptop.
+  box could not reach Telegram, so the six-month collection ran through a reverse SOCKS tunnel
+  from the laptop; since 2026-10 a box-level route sends only Telegram's prefixes through a
+  VPN (set up for the sibling assistant project), and the collector and the bot go out
+  directly.
 - **Wikidata instead of TMDB** for film grounding (TMDB is unreachable from the box); FantLab
   with an Open Library fallback for books. `web_search` is Wikipedia search and is documented
   as such.
@@ -294,7 +296,7 @@ cp .env.example .env            # fill in secrets and MODELS_DIR
 make install                    # uv venv + pre-commit hooks
 make up                         # postgres, qdrant, llama-server, langfuse — waits until healthy
 make migrate                    # schema
-make collect-channels && make collect   # corpus (through the reverse tunnel, see below)
+make collect-channels && make collect   # corpus (runs on the box, see below)
 uv run tgdigest ingest run --since 2026-06-21 --concurrency 6   # enrichment (hours, CPU)
 uv run tgdigest dedup signatures && uv run tgdigest dedup run    # duplicate clusters
 uv run tgdigest index build     # embeddings → Qdrant (idempotent)
@@ -306,12 +308,14 @@ make test                       # unit tests (no services needed)
 
 Services bind to `127.0.0.1` only. When they run on a remote box, `make tunnel` forwards the UIs
 (Langfuse `:3000`, Qdrant `:6333`, LLM `:8080`) and `make remote T=<target>` syncs the tree and
-runs a make target there. The box itself cannot reach Telegram, so collection runs there with
-its egress routed back through the laptop over an OpenSSH reverse SOCKS tunnel
-(`make collect-channels`, `make collect ARGS="--topic humor"`; `WEB_PROXY` in the box `.env`).
-The bot needs Telegram too: run it on the laptop against the forwarded API (`make tunnel`,
-then `make bot` with the token in the laptop's `.env`), or on the box with `BOT_PROXY`
-pointing at `make egress`.
+runs a make target there. The box reaches Telegram through a Telegram-only VPN route (kernel
+routes for Telegram's official prefixes; everything else keeps the box's own egress), so
+`make collect-channels` / `make collect ARGS="--topic humor"` run the collector there directly,
+and `tgdigest health` reports Telegram next to the services. The API and the bot run on the box
+as systemd user units (`deploy/systemd/`, installed with `make remote T=units`); the bot unit
+waits until `BOT_TOKEN` is in the box `.env`. If the VPN route is down, the old path still
+works: `ssh -N -R 1080 <box>` from a machine that can reach Telegram and
+`WEB_PROXY` / `BOT_PROXY` = `socks5h://127.0.0.1:1080` in the box `.env`.
 
 ## Repository layout
 
@@ -320,6 +324,7 @@ src/tgdigest/     application package (collector, ingest, dedup, retrieval, agen
 config/           channels.yaml — the corpus definition
 prompts/          versioned prompts (also managed in Langfuse)
 docker/           service configs: llama-server model presets, postgres init
+deploy/systemd/   user units for the API and the bot on the box
 scripts/          benchmarks and one-off experiment runners
 docs/experiments/ one report per experiment, with the numbers
 tests/            pytest; `integration` marker for tests that need services

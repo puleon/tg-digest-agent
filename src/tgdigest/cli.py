@@ -69,10 +69,14 @@ def bot() -> None:
 
 @app.command()
 def health() -> None:
-    """Check that Postgres, Qdrant, the LLM server and Langfuse are reachable."""
-    from tgdigest.health import check_all
+    """Check that Postgres, Qdrant, the LLM server, Langfuse and Telegram are reachable."""
+    from tgdigest.health import Check, check_all, check_telegram
 
-    checks = asyncio.run(check_all(get_settings()))
+    async def run() -> list[Check]:
+        settings = get_settings()
+        return [*await check_all(settings), await check_telegram(settings)]
+
+    checks = asyncio.run(run())
     for c in checks:
         mark = "OK " if c.ok else "FAIL"
         typer.echo(f"[{mark}] {c.name:<10} {c.detail}")

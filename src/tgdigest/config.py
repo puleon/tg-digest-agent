@@ -57,13 +57,13 @@ class Settings(BaseSettings):
     web_delay_s: float = Field(default=0.8, ge=0)
     """Pause between web-preview requests — one channel at a time, politely."""
     web_proxy: str | None = None
-    """Proxy for t.me / CDN traffic (the collector), e.g. ``socks5h://127.0.0.1:1080`` when the
-    box itself cannot reach Telegram and a reverse SSH tunnel (`make collect`) provides the
-    egress. The agent's web tools and the link pass do *not* use it — see ``agent_proxy``."""
+    """Proxy for t.me / CDN traffic (the collector). Unset = direct: the box reaches Telegram
+    through its Telegram-only VPN route. Fallback when that route is down:
+    ``socks5h://127.0.0.1:1080`` over a reverse SSH tunnel (``ssh -N -R 1080``) from a machine
+    that can. The agent's web tools and the link pass do *not* use it — see ``agent_proxy``."""
     agent_proxy: str | None = None
     """Proxy for the agent's web tools (Wikipedia, page fetches, Wikidata) and the link pass.
-    Unset = direct: those hosts are reachable from the box, and the collector tunnel is only up
-    while a collection runs."""
+    Unset = direct: those hosts are reachable from the box."""
     telegram_api_id: int | None = None
     telegram_api_hash: SecretStr | None = None
     telegram_session: str = "data/collector.session"
@@ -72,11 +72,12 @@ class Settings(BaseSettings):
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     api_url: str = "http://127.0.0.1:8000"
-    """Where the bot finds the API — the bot may run on another machine (the box cannot reach
-    Telegram; the Mac can, and reaches the API through ``make tunnel``)."""
+    """Where the bot finds the API. Both run on the box (systemd user units); a bot elsewhere
+    reaches it through ``make tunnel``."""
     bot_token: SecretStr | None = None
     bot_proxy: str | None = None
-    """Proxy for api.telegram.org when the bot runs on the box (same tunnel as WEB_PROXY)."""
+    """Proxy for api.telegram.org. Unset = direct (the box's VPN route); same fallback as
+    ``web_proxy``."""
     bot_allowed_users: str = ""
     """Comma-separated Telegram user ids the bot answers; empty = anyone (a demo bot)."""
 

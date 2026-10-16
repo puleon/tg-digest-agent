@@ -10,7 +10,7 @@ COMPOSE    ?= docker compose
 UV         ?= uv
 
 .PHONY: help install up down restart ps logs health test test-int lint fmt typecheck check \
-        migrate api bot bench-serving bench-llm sync pull-results remote collect collect-channels refresh tunnel egress clean
+        migrate api bot bench-serving bench-llm sync pull-results remote collect collect-channels refresh tunnel units clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -57,7 +57,7 @@ ps: ## Service status
 logs: ## Tail logs: make logs S=llm
 	$(COMPOSE) logs -f --tail=200 $(S)
 
-health: ## Reachability of Postgres / Qdrant / LLM / Langfuse
+health: ## Reachability of Postgres / Qdrant / LLM / Langfuse / Telegram
 	$(UV) run tgdigest health
 
 migrate: ## Apply Alembic migrations
@@ -66,7 +66,7 @@ migrate: ## Apply Alembic migrations
 api: ## Serve the HTTP API on API_HOST:API_PORT (models load at start; ~1 min on CPU)
 	$(UV) run tgdigest api
 
-bot: ## Run the Telegram bot against API_URL (needs BOT_TOKEN; BOT_PROXY when Telegram is unreachable)
+bot: ## Run the Telegram bot in the foreground against API_URL (needs BOT_TOKEN)
 	$(UV) run tgdigest bot
 
 bench-serving: ## D1 serving benchmark matrix on the box (writes docs/experiments/d1-llm-benchmark/results/)
@@ -85,22 +85,30 @@ pull-results: ## Copy experiment outputs (docs/experiments/*/results/) back from
 remote: sync ## Run a make target on the server: make remote T=test
 	ssh -t $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && make $(T)'
 
-# The box cannot reach t.me; these run the collector there with its egress routed back through
-# this machine (OpenSSH reverse SOCKS: -R 1080 with no target). Needs WEB_PROXY in the box .env.
-collect-channels: sync ## Resolve config/channels.yaml on the box via the reverse tunnel
-	ssh -o ExitOnForwardFailure=yes -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector channels'
+# The box reaches Telegram directly: a box-level VPN routes only Telegram's official prefixes
+# (t.me, api.telegram.org, the telesco.pe CDN) into a tunnel and leaves everything else alone.
+# Fallback if that route is down: `ssh -N -R 1080 $(SERVER)` from a machine that can reach
+# Telegram, and WEB_PROXY / BOT_PROXY = socks5h://127.0.0.1:1080 in the box .env.
+on_box = ssh -o ServerAliveInterval=30 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && $(1)'
 
-collect: sync ## Incremental sync on the box via the reverse tunnel: make collect ARGS="--topic humor"
-	ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector sync $(ARGS)'
+collect-channels: sync ## Resolve config/channels.yaml on the box
+	$(call on_box,uv run tgdigest collector channels)
 
-refresh: sync ## Re-read dates and view counters of stored posts via the reverse tunnel (no media)
-	ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER) 'cd $(REMOTE_DIR) && export PATH="$$HOME/.local/bin:$$PATH" && uv run tgdigest collector refresh $(ARGS)'
+collect: sync ## Incremental sync on the box: make collect ARGS="--topic humor"
+	$(call on_box,uv run tgdigest collector sync $(ARGS))
+
+refresh: sync ## Re-read dates and view counters of stored posts on the box (no media)
+	$(call on_box,uv run tgdigest collector refresh $(ARGS))
 
 tunnel: ## Forward Langfuse (3000), MinIO (9090), Qdrant (6333), LLM (8080), API (8000) to localhost
 	ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 6333:127.0.0.1:6333 -L 8080:127.0.0.1:8080 -L 8000:127.0.0.1:8000 $(SERVER)
 
-egress: ## Reverse SOCKS on the box (:1080) so the bot there can reach Telegram through this machine (BOT_PROXY)
-	ssh -N -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -R 1080 $(SERVER)
+# The API and the bot run on the box as systemd user units (the box user has Linger=yes, so
+# they start at boot without a login). `units` runs on the box: make remote T=units
+units: ## Install the api/bot user units (deploy/systemd) into ~/.config/systemd/user
+	install -d $$HOME/.config/systemd/user
+	install -m 644 deploy/systemd/tgdigest-api.service deploy/systemd/tgdigest-bot.service $$HOME/.config/systemd/user/
+	systemctl --user daemon-reload
 
 clean: ## Remove caches
 	rm -rf .pytest_cache .mypy_cache .ruff_cache
