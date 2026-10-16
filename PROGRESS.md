@@ -589,3 +589,13 @@ now carries the limits grounding always applied (`maxItems`: 5 films, 5 books, 1
 llama-server's grammar stops the lists during generation. Checked live on a post naming 20
 films and 24 actors: 5 films, 10 people, 208 completion tokens, no truncation. Applies from
 the next run (the current one had the module loaded).
+
+Grounded films in the agent's context were tried and reverted the same evening, before they
+reached the box. The idea came from noticing that `entities_json` is computed but read by
+nothing; the owner pushed back, and the counter-argument holds: D5 measured that bare
+franchise names ground to the wrong film («Человек-паук» → 2002 in 31 posts about the 2026
+one), so a line tagged `[Wikidata]` under a post would hand the writer a confident wrong year
+and director; and only 2 of the 20 D9 research tasks are about films, so the planned re-run of
+D9/D15 could not have shown a benefit either way. The entity cap in the extraction schema
+stays. Open: either wire `lookup_film` into research mode (grounded from the user's question,
+not from a post) or stop computing entities nightly.
