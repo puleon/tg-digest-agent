@@ -16,6 +16,8 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 SIGNAL_EMOJI = {"like": "👍", "dislike": "👎", "save": "💾"}
 _CITATION = re.compile(r"\[post (\d+)\]")
+_BOLD = re.compile(r"\*\*(.+?)\*\*")
+_BULLET = re.compile(r"^[ \t]*[*-][ \t]+", re.M)
 MAX_MESSAGE = 4000
 
 
@@ -89,6 +91,21 @@ def digest_keyboard(digest_id: int, items: list[dict[str, Any]]) -> InlineKeyboa
     return InlineKeyboardMarkup(inline_keyboard=rows) if rows else None
 
 
+def snippet(text: str | None, limit: int = 60) -> str:
+    one_line = " ".join((text or "").split())
+    return one_line if len(one_line) <= limit else one_line[: limit - 1].rstrip() + "…"
+
+
+def source_line(n: int, post: dict[str, Any]) -> str:
+    """``N. <the post's first words, linked to the post> — channel, date``. The channel goes
+    without ``@``: Telegram turns ``@name`` into a link to the channel by itself, and a list
+    of channel links was all the reader could click before."""
+    label = html.escape(snippet(post.get("text")) or "пост без текста")
+    url = post.get("url")
+    head = f'<a href="{html.escape(url)}">{label}</a>' if url else label
+    return f"{n}. {head} — {html.escape(str(post.get('channel') or '?'))}, {post.get('date')}"
+
+
 def render_search(body: dict[str, Any]) -> str:
     """Answer with ``[post N]`` citations turned into numbered links to the posts."""
     posts = {int(p["post_id"]): p for p in body.get("posts", [])}
@@ -104,10 +121,11 @@ def render_search(body: dict[str, Any]) -> str:
         return f"[{n}]" if n else f"[post {pid}]"
 
     text = _CITATION.sub(link, html.escape(body.get("answer", "")))  # escape first, then link
+    # the model writes Markdown; the bot sends HTML, where ** and * stay literal
+    text = _BULLET.sub("• ", _BOLD.sub(r"<b>\1</b>", text))
     if body.get("posts"):
         text += "\n\n" + "\n".join(
-            f"{numbers[int(p['post_id'])]}. @{p.get('channel')} · {p.get('date')}"
-            for p in body["posts"][:8]
+            source_line(numbers[int(p["post_id"])], p) for p in body["posts"][:8]
         )
     meta = f"{body.get('mode')} · {body.get('iterations')} шаг(ов) · {body.get('seconds')} с"
     return (text + f"\n\n<i>{meta}</i>")[:MAX_MESSAGE]

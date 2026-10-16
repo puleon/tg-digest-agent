@@ -54,6 +54,8 @@ def test_render_search_links_citations_and_escapes_html() -> None:
                 "channel": "memes",
                 "date": "2026-09-01",
                 "url": "https://t.me/memes/107",
+                "text": "Когда   дедлайн <завтра>, а кот\nуже спит на клавиатуре"
+                " и не собирается уходить",
             },
             {"post_id": 9, "channel": "sf", "date": "2026-09-02", "url": None},
         ],
@@ -64,7 +66,11 @@ def test_render_search_links_citations_and_escapes_html() -> None:
     text = render_search(body)
     assert '<a href="https://t.me/memes/107">[1]</a>' in text and "[2]" in text
     assert "&lt;b&gt;не тег&lt;/b&gt;" in text and "[post 11]" in text
-    assert "1. @memes · 2026-09-01" in text and text.endswith("3.2 с</i>")
+    first = text.split("\n\n")[1].splitlines()[0]  # whitespace collapsed, escaped, cut to 60
+    assert first.startswith('1. <a href="https://t.me/memes/107">Когда дедлайн &lt;завтра&gt;, а')
+    assert first.endswith("…</a> — memes, 2026-09-01")
+    assert "2. пост без текста — sf, 2026-09-02" in text  # no url: no link at all
+    assert "@memes" not in text and text.endswith("3.2 с</i>")
 
 
 def test_render_digest_and_profile() -> None:
@@ -101,3 +107,16 @@ def test_render_digest_and_profile() -> None:
         }
     )
     assert "humor 0.60, scifi 0.40" in prof and "&lt;spam&gt;" in prof and "оценок: 12" in prof
+
+
+def test_render_search_turns_the_models_markdown_into_html() -> None:
+    body = {
+        "answer": "Нашлось:\n\n*   **Пост о Гослинге**: фильм про космос [post 1]\n- второй пункт",
+        "posts": [{"post_id": 1, "channel": "k", "date": "2026-04-14", "url": "https://t.me/k/1"}],
+        "mode": "search",
+        "iterations": 1,
+        "seconds": 1.0,
+    }
+    text = render_search(body)
+    assert '• <b>Пост о Гослинге</b>: фильм про космос <a href="https://t.me/k/1">[1]</a>' in text
+    assert "\n• второй пункт" in text and "*" not in text

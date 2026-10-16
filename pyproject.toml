@@ -53,6 +53,11 @@ dev = [
     "aiosqlite>=0.21",
 ]
 
+[tool.uv]
+# a bare `uv sync` is exact: without `ml` here it removes torch and the API loses its embedder
+# (it happened on the box on 2026-10-16)
+default-groups = ["dev", "ml"]
+
 [[tool.uv.index]]
 name = "pytorch-cpu"
 url = "https://download.pytorch.org/whl/cpu"
