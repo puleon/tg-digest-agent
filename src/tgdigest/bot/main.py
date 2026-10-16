@@ -1,6 +1,6 @@
 """aiogram 3 bot over the HTTP API (SPEC §6.8).
 
-Commands: text → search; /digest [minutes]; /why <post_id>; /profile; /schedule <hour|off>;
+Commands: text → search; /digest [minutes]; /why <post_id>; /saved; /profile; /schedule <hour|off>;
 /update [status] (owner only: start or watch the corpus refresh); /help. Every 👍/👎/💾 press
 becomes a feedback row and a Langfuse score through the API.
 A background loop sends the daily issue to subscribed chats at their hour (UTC).
@@ -19,6 +19,7 @@ from aiogram import Bot, Dispatcher, F, Router
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ChatAction, ParseMode
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.types import CallbackQuery, Message
 
@@ -29,7 +30,9 @@ from tgdigest.bot.format import (
     digest_keyboard,
     render_digest,
     render_profile,
+    render_saved,
     render_search,
+    saved_keyboard,
     search_keyboard,
 )
 from tgdigest.config import Settings
@@ -42,7 +45,8 @@ HELP = (
     "дайджест.\n\n"
     "• напишите запрос — найду и отвечу с ссылками на посты;\n"
     "• /digest [минут] — свежий выпуск под ваш профиль;\n"
-    "• кнопки 👍 👎 💾 под ответами учат профиль, ❓ объясняет, почему пост попал в выпуск;\n"
+    "• кнопки 👍 👎 под ответами учат профиль, 💾 откладывает пост в /saved (и тоже считается "
+    "как 👍), ❓ объясняет, почему пост попал в выпуск;\n"
     "• /why &lt;id поста&gt; — то же объяснение командой;\n"
     "• /profile — что бот о вас знает; /schedule 9 — выпуск каждый день в 9:00 UTC, "
     "/schedule off — выключить;\n"
@@ -109,6 +113,17 @@ def make_router(api: ApiClient, allowed: set[int]) -> Router:
         answer = await api.why(int(latest["digest_id"]), int(command.args.strip()))
         await message.answer(
             html.escape(answer["explanation"]) if answer else "Этого поста нет в последнем выпуске."
+        )
+
+    @router.message(Command("saved"))
+    async def saved(message: Message) -> None:
+        if not permitted(message) or message.from_user is None:
+            return
+        body = await api.saved(message.from_user.id)
+        await message.answer(
+            render_saved(body),
+            reply_markup=saved_keyboard(body.get("items") or []),
+            disable_web_page_preview=True,
         )
 
     @router.message(Command("profile"))
@@ -199,8 +214,21 @@ def make_router(api: ApiClient, allowed: set[int]) -> Router:
             await query.answer(f"не записалось: {repr(exc)[:60]}", show_alert=True)
             return
         await query.answer(
-            {"like": "👍 учтено", "dislike": "👎 учтено", "save": "💾 сохранено"}[fb.signal]
+            {
+                "like": "👍 учтено",
+                "dislike": "👎 учтено",
+                "save": "💾 сохранено — список: /saved",
+                "unsave": "убрано из сохранённого",
+            }[fb.signal]
         )
+        if fb.context == "saved" and isinstance(query.message, Message):
+            body = await api.saved(query.from_user.id)  # redraw the list without the post
+            with contextlib.suppress(TelegramBadRequest):  # a second ✕: "message is not modified"
+                await query.message.edit_text(
+                    render_saved(body),
+                    reply_markup=saved_keyboard(body.get("items") or []),
+                    disable_web_page_preview=True,
+                )
 
     @router.callback_query(F.data.startswith("why:"))
     async def on_why(query: CallbackQuery) -> None:

@@ -28,7 +28,10 @@ from tgdigest.retrieval.index import PostIndex
 
 log = structlog.get_logger(__name__)
 
-SIGNALS = ("like", "dislike", "save", "skip")
+VOTE_SIGNALS = ("like", "dislike", "save", "skip")
+SIGNALS = (*VOTE_SIGNALS, "unsave")
+"""``unsave`` takes a post off the saved list (``/saved``); it is not a vote — the profile
+ignores it, so removing a bookmark does not undo the like the bookmark counted as."""
 
 
 @dataclass
@@ -114,13 +117,32 @@ async def load_votes(session: AsyncSession, user_id: int) -> list[Vote]:
         )
         .join(Post, Post.id == Feedback.post_id)
         .join(Channel, Channel.id == Post.channel_id)
-        .where(Feedback.user_id == user_id)
+        .where(Feedback.user_id == user_id, Feedback.signal.in_(VOTE_SIGNALS))
         .order_by(Feedback.created_at, Feedback.id)
     )
     latest: dict[int, Vote] = {}
     for pid, sig, topic, ch, _ in (await session.execute(stmt)).all():
         latest[int(pid)] = Vote(int(pid), sig, topic, int(ch))  # last vote wins
     return list(latest.values())
+
+
+async def load_saved(session: AsyncSession, user_id: int) -> list[tuple[int, datetime]]:
+    """The user's bookmarks, newest save first: a post is saved when its last save/unsave
+    row is a save. Votes do not touch it — 👍 after 💾 keeps the bookmark."""
+    stmt = (
+        select(Feedback.post_id, Feedback.signal, Feedback.created_at, Feedback.id)
+        .where(Feedback.user_id == user_id, Feedback.signal.in_(("save", "unsave")))
+        .order_by(Feedback.created_at, Feedback.id)
+    )
+    state: dict[int, tuple[datetime, int] | None] = {}
+    for pid, sig, at, row_id in (await session.execute(stmt)).all():
+        state[int(pid)] = (at, int(row_id)) if sig == "save" else None
+    saved = sorted(
+        ((pid, mark) for pid, mark in state.items() if mark is not None),
+        key=lambda item: item[1],  # the row id breaks ties within one clock tick
+        reverse=True,
+    )
+    return [(pid, mark[0]) for pid, mark in saved]
 
 
 def embeddings_for(index: PostIndex, post_ids: list[int]) -> dict[int, list[float]]:

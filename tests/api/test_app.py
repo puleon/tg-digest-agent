@@ -168,3 +168,27 @@ def test_refresh_reports_a_unit_that_cannot_start(services: Services, tmp_path: 
         r = c.post("/refresh", json={"user_id": 1})
     assert r.status_code == 503 and "tgdigest-refresh.service" in r.json()["detail"]
     assert not RefreshFiles(tmp_path).request.exists()
+
+
+def test_saved_list_follows_save_and_unsave_but_not_votes(
+    client: TestClient, services: Services
+) -> None:
+    def fb(post: int, signal: str) -> None:
+        r = client.post(
+            "/feedback", json={"user_id": 77, "post_id": post, "signal": signal, "context": "saved"}
+        )
+        assert r.status_code == 200, r.text
+
+    assert client.get("/saved/77").json() == {"user_id": 77, "total": 0, "items": []}
+    fb(3, "save")
+    fb(5, "save")
+    fb(3, "like")  # a vote after the bookmark keeps the bookmark
+    body = client.get("/saved/77").json()
+    assert body["total"] == 2 and [i["post_id"] for i in body["items"]] == [5, 3]
+    assert body["items"][1]["url"] == "https://t.me/memes2/103" and body["items"][1]["text"]
+
+    fb(5, "unsave")
+    assert [i["post_id"] for i in client.get("/saved/77").json()["items"]] == [3]
+    # unsave is not a vote: post 5 still counts as the like its bookmark was
+    rebuilt = client.post("/profile/77/rebuild").json()
+    assert rebuilt["votes"] == 2 and rebuilt["like_rate"] == 1.0

@@ -110,6 +110,8 @@ explanation assembled from the score's components, no model call:
 > выпуска на тему scifi отведено 4 мест; свежий (последние 3 дня).
 
 A 👍/👎 lands as a `feedback` row and as a score on the Langfuse trace that produced the issue.
+💾 is a bookmark: `/saved` lists the saved posts with links (and ✕ to remove one); for the
+profile a save counts as a like, and removing a bookmark is not a vote.
 
 The corpus keeps itself fresh: `tgdigest refresh run` collects new posts, re-reads a week of
 view counters, enriches what has no enrichment within 45 days, runs the link and entity passes

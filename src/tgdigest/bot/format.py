@@ -1,8 +1,9 @@
 """Rendering and callback encoding for the bot — pure functions, tested without Telegram.
 
 Callback data is at most 64 bytes: ``fb:<signal>:<post_id>:<ctx>`` where ctx is ``s:<trace>``
-for a search answer (trace ids are 32 hex chars) or ``d:<digest_id>`` for an issue, and
-``why:<digest_id>:<post_id>`` for the explanation button.
+for a search answer (trace ids are 32 hex chars), ``d:<digest_id>`` for an issue or ``v:-`` for
+the saved list (whose only button is "remove"), and ``why:<digest_id>:<post_id>`` for the
+explanation button.
 """
 
 from __future__ import annotations
@@ -25,13 +26,18 @@ MAX_MESSAGE = 4000
 class Feedback:
     signal: str
     post_id: int
-    context: str  # search | digest
+    context: str  # search | digest | saved
     digest_id: int | None = None
     trace_id: str | None = None
 
 
 def encode_feedback(fb: Feedback) -> str:
-    tail = f"d:{fb.digest_id}" if fb.context == "digest" else f"s:{fb.trace_id or '-'}"
+    if fb.context == "digest":
+        tail = f"d:{fb.digest_id}"
+    elif fb.context == "saved":
+        tail = "v:-"
+    else:
+        tail = f"s:{fb.trace_id or '-'}"
     data = f"fb:{fb.signal[0]}:{fb.post_id}:{tail}"
     assert len(data.encode()) <= 64, data
     return data
@@ -41,7 +47,7 @@ def decode_feedback(data: str) -> Feedback | None:
     parts = data.split(":")
     if len(parts) != 5 or parts[0] != "fb":
         return None
-    signal = {"l": "like", "d": "dislike", "s": "save"}.get(parts[1])
+    signal = {"l": "like", "d": "dislike", "s": "save", "u": "unsave"}.get(parts[1])
     if signal is None or not parts[2].isdigit():
         return None
     post_id = int(parts[2])
@@ -49,6 +55,8 @@ def decode_feedback(data: str) -> Feedback | None:
         return Feedback(signal, post_id, "digest", digest_id=int(parts[4]))
     if parts[3] == "s":
         return Feedback(signal, post_id, "search", trace_id=None if parts[4] == "-" else parts[4])
+    if parts[3] == "v":
+        return Feedback(signal, post_id, "saved")
     return None
 
 
@@ -161,3 +169,31 @@ def render_profile(body: dict[str, Any]) -> str:
         f"доля лайков: {body.get('like_rate', 0):.2f}\nцентров интересов: "
         f"{body.get('interest_centroids', 0)}\nисключения: {html.escape(neg)}"
     )
+
+
+def render_saved(body: dict[str, Any]) -> str:
+    items = body.get("items") or []
+    if not items:
+        return (
+            "Сохранённых постов нет. Нажмите 💾 под ответом поиска или пунктом выпуска — "
+            "пост появится здесь."
+        )
+    total = int(body.get("total") or len(items))
+    head = f"<b>Сохранённое: {total}</b>"
+    if total > len(items):
+        head += f" <i>(последние {len(items)})</i>"
+    lines = [head, *(source_line(i, it) for i, it in enumerate(items, 1))]
+    lines.append("\n<i>✕ N убирает пост из списка; на профиль это не влияет.</i>")
+    return "\n".join(lines)[:MAX_MESSAGE]
+
+
+def saved_keyboard(items: list[dict[str, Any]], *, per_row: int = 4) -> InlineKeyboardMarkup | None:
+    buttons = [
+        InlineKeyboardButton(
+            text=f"✕ {i}",
+            callback_data=encode_feedback(Feedback("unsave", int(it["post_id"]), "saved")),
+        )
+        for i, it in enumerate(items, 1)
+    ]
+    rows = [buttons[k : k + per_row] for k in range(0, len(buttons), per_row)]
+    return InlineKeyboardMarkup(inline_keyboard=rows) if rows else None

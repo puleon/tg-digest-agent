@@ -19,17 +19,18 @@ from tgdigest.agent.graph import AgentDeps, AgentState, run_agent
 from tgdigest.agent.tools import ToolRegistry
 from tgdigest.agent.tracing import Tracer
 from tgdigest.config import Settings
-from tgdigest.db.models import Digest, Feedback, UserProfile
+from tgdigest.db.models import Channel, Digest, Feedback, Post, UserProfile
 from tgdigest.digest.crew import DigestResult
 from tgdigest.digest.runner import make_digest
 from tgdigest.llm.client import LLMClient
 from tgdigest.profile.model import Profile
-from tgdigest.profile.runner import SIGNALS, build_and_store_profile, load_profile
+from tgdigest.profile.runner import SIGNALS, build_and_store_profile, load_profile, load_saved
 from tgdigest.retrieval.index import PostIndex
 
 log = structlog.get_logger(__name__)
 
 FEEDBACK_SCORE = {"like": 1.0, "save": 1.0, "dislike": -1.0, "skip": 0.0}
+"""Langfuse score per reaction; ``unsave`` tidies a list and says nothing about the answer."""
 
 
 @dataclass
@@ -138,16 +139,48 @@ class Services:
             await session.commit()
             feedback_id = int(row.id)
         scored = False
-        if trace_id:
+        score = FEEDBACK_SCORE.get(signal)
+        if trace_id and score is not None:
             scored = self.tracer.score(
                 trace_id,
                 "user_feedback",
-                FEEDBACK_SCORE[signal],
+                score,
                 comment=f"{signal} on post {post_id} ({context})",
             )
             self.tracer.flush()
         log.info("feedback", user_id=user_id, post_id=post_id, signal=signal, scored=scored)
         return feedback_id, scored
+
+    async def saved(self, user_id: int, *, limit: int = 20) -> dict[str, Any]:
+        """Bookmarks (💾), newest first, with what the bot needs to link each post."""
+        async with self.factory() as session:
+            marks = await load_saved(session, user_id)
+            page = marks[:limit]
+            rows = (
+                await session.execute(
+                    select(Post, Channel.username, Channel.topic)
+                    .join(Channel, Channel.id == Post.channel_id)
+                    .where(Post.id.in_([pid for pid, _ in page]))
+                )
+            ).all()
+        by_id = {post.id: (post, username, topic) for post, username, topic in rows}
+        items = []
+        for pid, at in page:
+            if pid not in by_id:
+                continue
+            post, username, topic = by_id[pid]
+            items.append(
+                {
+                    "post_id": pid,
+                    "channel": username,
+                    "topic": topic,
+                    "date": post.posted_at.strftime("%Y-%m-%d"),
+                    "text": (post.text or "")[:200],
+                    "url": f"https://t.me/{username}/{post.tg_message_id}",
+                    "saved_at": at.isoformat(),
+                }
+            )
+        return {"user_id": user_id, "total": len(marks), "items": items}
 
     # --- profile -------------------------------------------------------------------------------
     async def profile(self, user_id: int) -> Profile | None:

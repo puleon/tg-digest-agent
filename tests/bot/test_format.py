@@ -9,7 +9,9 @@ from tgdigest.bot.format import (
     encode_why,
     render_digest,
     render_profile,
+    render_saved,
     render_search,
+    saved_keyboard,
     search_keyboard,
 )
 
@@ -20,6 +22,7 @@ def test_feedback_callbacks_round_trip_within_64_bytes() -> None:
         Feedback("like", 123456, "search", trace_id=trace),
         Feedback("dislike", 1, "search", trace_id=None),
         Feedback("save", 987654321, "digest", digest_id=42),
+        Feedback("unsave", 5, "saved"),
     ):
         data = encode_feedback(fb)
         assert len(data.encode()) <= 64 and decode_feedback(data) == fb
@@ -120,3 +123,27 @@ def test_render_search_turns_the_models_markdown_into_html() -> None:
     text = render_search(body)
     assert '• <b>Пост о Гослинге</b>: фильм про космос <a href="https://t.me/k/1">[1]</a>' in text
     assert "\n• второй пункт" in text and "*" not in text
+
+
+def test_saved_list_links_posts_and_offers_removal() -> None:
+    items = [
+        {
+            "post_id": 30 + i,
+            "channel": "k",
+            "date": "2026-09-0" + str(i),
+            "text": f"пост {i}",
+            "url": f"https://t.me/k/{i}",
+        }
+        for i in range(1, 6)
+    ]
+    text = render_saved({"total": 7, "items": items})
+    assert text.startswith("<b>Сохранённое: 7</b> <i>(последние 5)</i>")
+    assert '3. <a href="https://t.me/k/3">пост 3</a> — k, 2026-09-03' in text
+    kb = saved_keyboard(items)
+    assert kb is not None and [len(r) for r in kb.inline_keyboard] == [4, 1]
+    assert kb.inline_keyboard[1][0].text == "✕ 5"
+    assert decode_feedback(kb.inline_keyboard[0][0].callback_data or "") == Feedback(
+        "unsave", 31, "saved"
+    )
+    assert "Сохранённых постов нет" in render_saved({"total": 0, "items": []})
+    assert saved_keyboard([]) is None

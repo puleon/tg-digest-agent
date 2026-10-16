@@ -71,6 +71,9 @@ class ApiClient:
             )
         )
 
+    async def saved(self, user_id: int, *, limit: int = 20) -> dict[str, Any]:
+        return dict(await self._json("GET", f"/saved/{user_id}", params={"limit": limit}))
+
     async def profile(self, user_id: int) -> dict[str, Any]:
         return dict(await self._json("GET", f"/profile/{user_id}"))
 

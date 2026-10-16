@@ -1,5 +1,5 @@
-"""FastAPI application (SPEC §6.8): search, digest, feedback, profile, /why, /health, /metrics,
-and /refresh — starting and watching the corpus refresh unit.
+"""FastAPI application (SPEC §6.8): search, digest, feedback, saved posts, profile, /why,
+/health, /metrics, and /refresh — starting and watching the corpus refresh unit.
 
 ``create_app(services)`` takes an already-built :class:`Services` so tests can pass fakes;
 ``main()`` builds the real one from settings inside the lifespan.
@@ -28,7 +28,7 @@ from tgdigest.refresh.state import UNIT, RefreshFiles
 from tgdigest.service import Services, open_services
 
 log = structlog.get_logger(__name__)
-Signal = Literal["like", "dislike", "save", "skip"]
+Signal = Literal["like", "dislike", "save", "skip", "unsave"]
 
 
 # --- schemas --------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ class FeedbackRequest(BaseModel):
     user_id: int = Field(default=0, ge=0)
     post_id: int = Field(ge=1)
     signal: Signal
-    context: Literal["search", "digest", "onboarding"] = "search"
+    context: Literal["search", "digest", "onboarding", "saved"] = "search"
     query: str | None = Field(default=None, max_length=500)
     digest_id: int | None = None
     trace_id: str | None = Field(default=None, max_length=64)
@@ -345,6 +345,10 @@ def create_app(
             raise HTTPException(422, str(exc)) from exc
         metrics.inc("tgdigest_feedback_total", {"signal": req.signal, "context": req.context})
         return {"id": feedback_id, "scored": scored}
+
+    @app.get("/saved/{user_id}")
+    async def saved(user_id: int, limit: int = 20) -> dict[str, Any]:
+        return await svc().saved(user_id, limit=max(1, min(limit, 50)))
 
     @app.get("/profile/{user_id}")
     async def profile(user_id: int) -> dict[str, Any]:

@@ -538,3 +538,19 @@ run in `history.jsonl`, a failed step stops the run.
   a one-shot request file and starts the unit; the job reports to the requester at the end.
   A failed nightly run tells every allowed user; a successful one says nothing.
 - Profiles are rebuilt at the end of every run: the bot's 👍/👎 had been rows only.
+
+### Later the same day — post links in answers, `/saved`
+
+The owner's first search in the bot: the sources under the answer were `@channel · date`,
+which Telegram links to the channel; only the small `[n]` marks in the text led to posts. Each
+source line now carries the post's first words, linked to the post; the model's `**bold**`
+and `*` bullets become HTML instead of literal asterisks.
+
+💾 was a like with another icon: the same Langfuse score, the same weight in the profile, and
+nowhere to see what was saved. Now it is a bookmark: `/saved` lists saved posts, newest first,
+with links; "✕ N" writes `unsave` and redraws the list. `unsave` is not a vote
+(`VOTE_SIGNALS` in `profile/runner.py`), and votes do not touch bookmarks.
+
+Incident on the way: a bare `uv sync` on the box (exact by default) removed the `ml` group;
+after the next API restart search failed on `import torch` for about 12 minutes (13:56–14:08
+MSK) until `uv sync --all-groups`. `ml` is now in `[tool.uv] default-groups`.
