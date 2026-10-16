@@ -62,8 +62,6 @@ def source_block(posts: Sequence[dict[str, Any]]) -> str:
         for key, tag in (("text", ""), ("ocr", "[OCR] "), ("caption", "[caption] ")):
             if p.get(key):
                 lines.append(f"{tag}{str(p[key])[:800]}")
-        if p.get("films"):  # the agent saw these lines too; a claim taken from them is sourced
-            lines.append("[Wikidata] " + "; ".join(p["films"]))
         parts.append("\n".join(lines))
     return "\n\n".join(parts)
 
