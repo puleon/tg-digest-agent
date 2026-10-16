@@ -192,3 +192,28 @@ def test_saved_list_follows_save_and_unsave_but_not_votes(
     # unsave is not a vote: post 5 still counts as the like its bookmark was
     rebuilt = client.post("/profile/77/rebuild").json()
     assert rebuilt["votes"] == 2 and rebuilt["like_rate"] == 1.0
+
+
+def test_search_and_digest_wait_while_the_refresh_reads_images(
+    services: Services, tmp_path: Path
+) -> None:
+    from tgdigest.config import Settings
+    from tgdigest.refresh.state import RefreshFiles, RefreshStatus, StepStatus
+
+    svc = replace(
+        services, settings=Settings(database_url="sqlite+aiosqlite://", data_dir=tmp_path)
+    )
+    files = RefreshFiles(tmp_path)
+    step = StepStatus(name="ingest", result={"phase": "vision", "images": 40, "images_done": 7})
+    files.write_status(RefreshStatus(run_id="r", trigger="bot", step="ingest", steps=[step]))
+    with TestClient(create_app(svc)) as c, files.hold_lock():
+        r = c.post("/search", json={"query": "кот"})
+        assert r.status_code == 503 and "картинки (7 из 40)" in r.json()["detail"]
+        assert c.post("/digest", json={"user_id": 1}).status_code == 503
+        step.result = {"phase": "classify", "images": 40, "selected": 9, "processed": 1}
+        files.write_status(RefreshStatus(run_id="r", trigger="bot", step="ingest", steps=[step]))
+        assert c.post("/search", json={"query": "кот"}).status_code == 200
+    # a stale "running" status without the lock is a dead run, not a busy model server
+    step.result = {"phase": "vision", "images": 40}
+    files.write_status(RefreshStatus(run_id="r", trigger="bot", step="ingest", steps=[step]))
+    assert files.vision_pass() is None

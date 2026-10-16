@@ -571,3 +571,13 @@ text tier before the first image and Gemma before classifying (`POST /models/unl
 router never picks the eviction itself — its pick could be the assistant. New rows carry the
 corpus's own `model_version` again (`qwen+gemma`). The first run was stopped at 326 / 2 680
 posts (kept, `qwen+qwen`) and restarted on the new scheme.
+
+Restarted run, first 13 minutes: collect +14 posts (27 s), views 646 counters, then the vision
+pass on Gemma: 83 of 1 646 images, **≈ 8.8 images/min once warm** (D4 said 8.5) — the first
+minutes were slower while the API restarted and the assistant was mid-turn.
+
+Guard added on the way: while the refresh reads images, the text model is unloaded, and a bot
+search would make the router load it and evict a model by itself — likely the assistant's
+(Gemma is busy). The API now answers `/search` and `/digest` with 503 and a sentence for the
+user during that pass (`RefreshFiles.vision_pass`, phase in the status file); the bot shows the
+sentence, the daily-issue loop simply retries a minute later.

@@ -248,8 +248,22 @@ def create_app(
     async def metrics_endpoint() -> Response:
         return Response(content=metrics.render(), media_type="text/plain; version=0.0.4")
 
+    def refuse_during_vision_pass() -> None:
+        """503 while the refresh reads images: the text model is unloaded, and loading it would
+        make the shared router evict a model by itself — likely the assistant's."""
+        busy = RefreshFiles(svc().settings.data_dir).vision_pass()
+        if busy is not None:
+            done, total = busy.get("images_done", 0), busy.get("images", 0)
+            raise HTTPException(
+                503,
+                f"Идёт обновление корпуса: модель читает картинки ({done} из {total}), а модель "
+                "для ответов на это время выгружена, чтобы не вытеснить ассистента. Поиск и "
+                "выпуски вернутся, когда картинки будут прочитаны; ход — /update status.",
+            )
+
     @app.post("/search", response_model=SearchResponse)
     async def search(req: SearchRequest) -> SearchResponse:
+        refuse_during_vision_pass()
         t0 = time.perf_counter()
         state = await svc().ask(req.query, user_id=req.user_id)
         usage = dict(state.get("usage") or {})
@@ -281,6 +295,7 @@ def create_app(
 
     @app.post("/digest")
     async def digest(req: DigestRequest) -> dict[str, Any]:
+        refuse_during_vision_pass()
         result, digest_id = await svc().digest(
             req.user_id, minutes=req.minutes, days=req.days, store=req.store
         )

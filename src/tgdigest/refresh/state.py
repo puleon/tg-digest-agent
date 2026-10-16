@@ -113,6 +113,17 @@ class RefreshFiles:
             fcntl.flock(fh, fcntl.LOCK_UN)
             return False
 
+    def vision_pass(self) -> dict[str, Any] | None:
+        """The ingest step's counts while a running refresh reads images with the vision model —
+        the text model is unloaded then, and a request for it would make the shared router evict
+        a model on its own (likely the assistant's: Gemma is busy, the assistant may be idle)."""
+        status = self.read_status()
+        if not status or status.get("state") != "running" or status.get("step") != "ingest":
+            return None
+        result = (status.get("steps") or [{}])[-1].get("result") or {}
+        vision = result.get("phase") == "vision" or ("posts" in result and "selected" not in result)
+        return dict(result) if vision and self.is_running() else None
+
     def write_request(self, requested_by: int) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
         payload = {"requested_by": requested_by, "requested_at": time.time()}

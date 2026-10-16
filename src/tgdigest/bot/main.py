@@ -60,6 +60,17 @@ UPDATE_STARTED = (
 )
 
 
+def failure_text(prefix: str, exc: httpx.HTTPError) -> str:
+    """A 503 from the API carries a sentence for the user (the refresh is reading images);
+    anything else is shown as the error it is."""
+    if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 503:
+        try:
+            return html.escape(str(exc.response.json().get("detail")))
+        except ValueError:
+            pass
+    return f"{prefix}: {html.escape(repr(exc)[:200])}"
+
+
 def make_router(api: ApiClient, allowed: set[int]) -> Router:
     router = Router()
 
@@ -89,7 +100,7 @@ def make_router(api: ApiClient, allowed: set[int]) -> Router:
         try:
             body = await api.digest(message.chat.id, minutes=minutes)
         except httpx.HTTPError as exc:
-            await note.edit_text(f"Не получилось: {html.escape(repr(exc)[:200])}")
+            await note.edit_text(failure_text("Не получилось", exc))
             return
         await note.edit_text(
             render_digest(body),
@@ -184,7 +195,7 @@ def make_router(api: ApiClient, allowed: set[int]) -> Router:
         try:
             body = await api.search(message.text, message.chat.id)
         except httpx.HTTPError as exc:
-            await note.edit_text(f"Поиск не удался: {html.escape(repr(exc)[:200])}")
+            await note.edit_text(failure_text("Поиск не удался", exc))
             return
         await note.edit_text(
             render_search(body),

@@ -192,6 +192,7 @@ def default_steps(
 
         def seen(v: VisionStats) -> None:
             out.update(
+                phase="vision",
                 posts=v.posts,
                 images=v.images,
                 images_done=v.cached + v.done,
@@ -220,6 +221,7 @@ def default_steps(
 
         def classified(st: IngestStats) -> None:
             out.update(
+                phase="classify",
                 selected=st.selected,
                 processed=st.processed,
                 failed=len(st.failed),
