@@ -518,3 +518,23 @@ slots went from @luka_ebkov (15 items) to @ia_panorama (13). Owner vs judges: 6/
 and the guide now say what the two rounds show together: at n = 8 the issue-level winner
 depends on which popular channels the baseline draws from. Also corrected: in round 2 the
 owner picked the longer issue in 3 of 8, not 2.
+
+### Later the same day — the corpus refreshes itself; `/update` in the bot
+
+The corpus ended on 2026-09-19 and `/digest` takes the last 7 days, so every issue from the
+bot would have been empty. `tgdigest refresh run` now does the whole chain: collect → view
+counters for 7 days → enrich → links and entities (cinema, as shipped) → dedup → index →
+profiles. One run at a time (a file lock), state in `data/refresh/status.json`, a line per
+run in `history.jsonl`, a failed step stops the run.
+
+- **Images are read by Qwen in the refresh** (`REFRESH_VLM_MODEL`): llama-server keeps at
+  most two models and the assistant's is resident since 2026-10-01, so Qwen + Gemma would
+  swap on almost every post or evict the assistant. The rows say so in `model_version`.
+- `ingest run --missing-only`: only posts with no enrichment at all. Without it the new
+  `model_version` would have made all 15 752 Gemma-enriched rows pending again. Checked on
+  the box before the first run: 1 post in the 45-day window lacks enrichment.
+- systemd: `tgdigest-refresh.service` (oneshot, `TimeoutStartSec=infinity`) and a timer at
+  02:30 MSK. `/update` (owner only, never on an open bot) → `POST /refresh` → the API writes
+  a one-shot request file and starts the unit; the job reports to the requester at the end.
+  A failed nightly run tells every allowed user; a successful one says nothing.
+- Profiles are rebuilt at the end of every run: the bot's 👍/👎 had been rows only.

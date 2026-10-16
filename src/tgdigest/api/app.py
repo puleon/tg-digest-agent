@@ -1,4 +1,5 @@
-"""FastAPI application (SPEC §6.8): search, digest, feedback, profile, /why, /health, /metrics.
+"""FastAPI application (SPEC §6.8): search, digest, feedback, profile, /why, /health, /metrics,
+and /refresh — starting and watching the corpus refresh unit.
 
 ``create_app(services)`` takes an already-built :class:`Services` so tests can pass fakes;
 ``main()`` builds the real one from settings inside the lifespan.
@@ -6,6 +7,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import time
 from collections.abc import AsyncIterator, Awaitable, Callable
@@ -14,6 +16,7 @@ from typing import Any, Literal
 
 import structlog
 from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from tgdigest import __version__
@@ -21,6 +24,7 @@ from tgdigest.api.metrics import metrics
 from tgdigest.config import Settings, get_settings
 from tgdigest.digest.runner import as_json as digest_json
 from tgdigest.health import check_all
+from tgdigest.refresh.state import UNIT, RefreshFiles
 from tgdigest.service import Services, open_services
 
 log = structlog.get_logger(__name__)
@@ -55,6 +59,28 @@ class SearchResponse(BaseModel):
     caveat: str | None
     trace_id: str | None
     seconds: float
+
+
+class RefreshRequest(BaseModel):
+    user_id: int = Field(ge=0)
+    """Who asked — the run reports back to this chat."""
+
+
+async def start_refresh_unit() -> None:
+    """The refresh runs as its own systemd user unit, not inside the API: an API restart must
+    not kill a six-hour run, and the timer starts the same unit."""
+    proc = await asyncio.create_subprocess_exec(
+        "systemctl",
+        "--user",
+        "start",
+        "--no-block",
+        UNIT,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    _, err = await proc.communicate()
+    if proc.returncode != 0:
+        raise RuntimeError(err.decode().strip() or f"systemctl exited {proc.returncode}")
 
 
 class DigestRequest(BaseModel):
@@ -143,7 +169,12 @@ def explain(item: dict[str, Any], plan: dict[str, Any]) -> str:
 
 
 # --- app -------------------------------------------------------------------------------------
-def create_app(services: Services | None = None, *, settings: Settings | None = None) -> FastAPI:
+def create_app(
+    services: Services | None = None,
+    *,
+    settings: Settings | None = None,
+    start_refresh: Callable[[], Awaitable[None]] = start_refresh_unit,
+) -> FastAPI:
     holder: dict[str, Services] = {}
     if services is not None:
         holder["s"] = services
@@ -193,6 +224,25 @@ def create_app(services: Services | None = None, *, settings: Settings | None = 
             status_code=status,
             media_type="application/json",
         )
+
+    @app.get("/refresh")
+    async def refresh_status() -> dict[str, Any]:
+        files = RefreshFiles(svc().settings.data_dir)
+        return {"running": files.is_running(), "status": files.read_status()}
+
+    @app.post("/refresh")
+    async def refresh_start(req: RefreshRequest) -> JSONResponse:
+        files = RefreshFiles(svc().settings.data_dir)
+        if files.is_running():
+            return JSONResponse({"running": True, "status": files.read_status()}, 409)
+        files.write_request(req.user_id)
+        try:
+            await start_refresh()
+        except (OSError, RuntimeError) as exc:
+            files.request.unlink(missing_ok=True)
+            return JSONResponse({"detail": f"cannot start {UNIT}: {exc}"}, 503)
+        log.info("refresh_requested", user_id=req.user_id)
+        return JSONResponse({"running": True, "started": True}, 202)
 
     @app.get("/metrics")
     async def metrics_endpoint() -> Response:

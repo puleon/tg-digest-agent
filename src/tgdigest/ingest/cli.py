@@ -24,6 +24,9 @@ def run(
     force: Annotated[
         bool, typer.Option(help="re-enrich even if this model_version exists")
     ] = False,
+    missing_only: Annotated[
+        bool, typer.Option(help="only posts with no enrichment at all, whatever the version")
+    ] = False,
     concurrency: int = 2,
 ) -> None:
     """Enrich posts that have no enrichment for the current model_version, newest first."""
@@ -47,6 +50,7 @@ def run(
                 since=since_utc,
                 limit=limit,
                 force=force,
+                missing_only=missing_only,
                 concurrency=concurrency,
             )
         finally:

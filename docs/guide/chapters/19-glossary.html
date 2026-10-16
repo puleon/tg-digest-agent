@@ -33,7 +33,8 @@
 <tr><td><code>service.py</code>, <code>api/app.py</code></td><td>Сервисы и HTTP API</td><td>13</td></tr>
 <tr><td><code>bot/</code></td><td>Telegram-бот: обработчики, кнопки, расписание</td><td>13</td></tr>
 <tr><td><code>health.py</code></td><td>Проверки сервисов и доступа к Telegram (<code>tgdigest health</code>)</td><td>4, 15</td></tr>
-<tr><td><code>deploy/systemd/</code></td><td>Юниты API и бота для systemd на сервере</td><td>13</td></tr>
+<tr><td><code>refresh/</code></td><td>Обновление корпуса: шаги, файл состояния, блокировка, отчёт</td><td>13</td></tr>
+<tr><td><code>deploy/systemd/</code></td><td>Юниты API, бота, обновления и его таймер</td><td>13</td></tr>
 <tr><td><code>scripts/</code></td><td>Эксперименты: <code>retrieval_eval</code>, <code>agent_eval</code>, <code>injection_eval</code>, <code>faithfulness_eval</code>, <code>digest_pairwise</code>, <code>profile_eval</code>, <code>dedup_labels</code>, бенчмарки</td><td>12</td></tr>
 </tbody></table>
 <p class="small">Пути в первом столбце — относительно <code>src/tgdigest/</code>, кроме <code>deploy/</code> и <code>scripts/</code>.</p>
@@ -90,7 +91,7 @@
 <dt>recall@k</dt><dd>Доля всех подходящих документов, попавших в первые k результатов (12).</dd>
 <dt>RRF</dt><dd>Слияние нескольких ранжированных списков по сумме 1 / (60 + место) (8).</dd>
 <dt>SSH-туннель</dt><dd>Переброска соединений через SSH: локальная (к сервису на сервере) и обратная (из сервера наружу) (4, 15).</dd>
-<dt>systemd, юнит</dt><dd>Менеджер служб Linux и файл-описание службы: команда, каталог, перезапуск (13).</dd>
+<dt>systemd, юнит, таймер</dt><dd>Менеджер служб Linux, файл-описание службы (команда, каталог, перезапуск) и юнит-расписание, который запускает службу в заданное время (13).</dd>
 <dt>TUN-устройство</dt><dd>Виртуальный сетевой интерфейс, пакеты которого читает и пишет программа — например, клиент VPN (15).</dd>
 <dt>Union-find</dt><dd>Структура данных для быстрого объединения элементов в группы (7).</dd>
 </dl>

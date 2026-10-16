@@ -101,3 +101,38 @@ def bot_placement() -> str:
     f.text(20, 295, 'Теперь всё на одной машине: бот работает круглосуточно, и ежедневные выпуски не зависят от '
            'открытого ноутбука.', 10.5, anchor='start', kind='ext')
     return f.render()
+
+
+def refresh_flow() -> str:
+    f = Fig(780, 350)
+    f.text(20, 22, 'Обновление корпуса: два способа запустить, один юнит, итог в Telegram', 12.5, 'bold',
+           anchor='start')
+    f.box(20, 40, 120, 50, 'Вы', ['/update'], 'you', tsize=12, lsize=10)
+    f.box(170, 40, 120, 50, 'бот', ['POST /refresh'], 'svc', tsize=12, lsize=10)
+    f.box(320, 40, 190, 50, 'API', ['файл запроса +', 'systemctl --user start'], 'svc', tsize=12, lsize=9.5)
+    f.box(600, 40, 160, 50, 'таймер systemd', ['каждую ночь в 02:30'], 'file', tsize=11.5, lsize=9.5)
+    f.line(140, 65, 168, 65, 'you')
+    f.line(290, 65, 318, 65, 'svc')
+    f.line(415, 90, 415, 128, 'svc')
+    f.line(680, 90, 680, 128, 'file')
+    f.rect(20, 130, 740, 112, 'ing', r=12, fill='#f0fdf4')
+    f.text(32, 150, 'tgdigest-refresh.service — oneshot, один прогон за раз (блокировка файла)', 11, 'bold',
+           kind='ing', anchor='start')
+    steps = [('сбор', ['новые посты']), ('просмотры', ['за 7 дней']), ('обогащение', ['Qwen читает', 'и картинки']),
+             ('ссылки', ['и сущности', '(кино)']), ('дубли', ['кластеры']), ('индекс', ['BGE-M3']),
+             ('профили', ['голоса', 'из бота'])]
+    for i, (t, ls) in enumerate(steps):
+        x = 32 + i * 104
+        f.box(x, 162, 94, 66, t, ls, 'ing', tsize=11, lsize=9)
+        if i:
+            f.line(x - 9, 195, x - 1, 195, 'ing', sw=1.4)
+    f.box(20, 270, 330, 52, 'data/refresh/status.json', ['шаг, счётчики, ошибка · история прогонов'], 'db',
+          tsize=11, lsize=9.5)
+    f.line(185, 242, 185, 268, 'db')
+    f.label(268, 259, 'после каждого шага', kind='db', size=9.5)
+    f.box(400, 270, 360, 52, 'итог в Telegram', ['тому, кто запросил; ночью — только при ошибке'], 'you',
+          tsize=11, lsize=9.5)
+    f.line(580, 242, 580, 268, 'you')
+    f.text(20, 344, '/update status: API читает файл состояния и проверяет блокировку — с самим процессом '
+           'обновления он не разговаривает.', 10, anchor='start', kind='ext', italic=True)
+    return f.render()

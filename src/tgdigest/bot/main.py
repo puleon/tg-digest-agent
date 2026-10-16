@@ -1,7 +1,8 @@
 """aiogram 3 bot over the HTTP API (SPEC §6.8).
 
 Commands: text → search; /digest [minutes]; /why <post_id>; /profile; /schedule <hour|off>;
-/help. Every 👍/👎/💾 press becomes a feedback row and a Langfuse score through the API.
+/update [status] (owner only: start or watch the corpus refresh); /help. Every 👍/👎/💾 press
+becomes a feedback row and a Langfuse score through the API.
 A background loop sends the daily issue to subscribed chats at their hour (UTC).
 """
 
@@ -32,6 +33,7 @@ from tgdigest.bot.format import (
     search_keyboard,
 )
 from tgdigest.config import Settings
+from tgdigest.refresh.report import render as render_refresh
 
 log = structlog.get_logger(__name__)
 
@@ -43,7 +45,14 @@ HELP = (
     "• кнопки 👍 👎 💾 под ответами учат профиль, ❓ объясняет, почему пост попал в выпуск;\n"
     "• /why &lt;id поста&gt; — то же объяснение командой;\n"
     "• /profile — что бот о вас знает; /schedule 9 — выпуск каждый день в 9:00 UTC, "
-    "/schedule off — выключить."
+    "/schedule off — выключить;\n"
+    "• /update — обновить корпус (новые посты, обогащение, индекс, профиль), "
+    "/update status — как идёт. Каждую ночь обновление запускается само; выпуск берёт посты "
+    "за последние 7 дней."
+)
+UPDATE_STARTED = (
+    "Запустил обновление корпуса: сбор → просмотры → обогащение → ссылки и сущности (кино) → "
+    "дубли → индекс → профили. Итог пришлю сюда; ход — /update status."
 )
 
 
@@ -121,6 +130,35 @@ def make_router(api: ApiClient, allowed: set[int]) -> Router:
             await message.answer(f"Буду присылать выпуск каждый день в {int(arg):02d}:00 UTC.")
         else:
             await message.answer("Использование: /schedule &lt;час 0–23 UTC&gt; или /schedule off")
+
+    @router.message(Command("update"))
+    async def update(message: Message, command: CommandObject) -> None:
+        if not permitted(message):
+            return
+        user = message.from_user
+        if not allowed or user is None or user.id not in allowed:  # never on an open demo bot
+            await message.answer(
+                "Обновление корпуса доступно только владельцу (BOT_ALLOWED_USERS)."
+            )
+            return
+        try:
+            if (command.args or "").strip().lower() in ("status", "статус"):
+                body = await api.refresh_status()
+                await message.answer(
+                    render_refresh(body.get("status"), running=bool(body.get("running")))
+                )
+                return
+            code, body = await api.start_refresh(user.id)
+        except httpx.HTTPError as exc:
+            await message.answer(f"API не ответил: {html.escape(repr(exc)[:200])}")
+            return
+        if code == 202:
+            await message.answer(UPDATE_STARTED)
+        elif code == 409:
+            await message.answer(render_refresh(body.get("status"), running=True))
+        else:
+            detail = html.escape(str(body.get("detail"))[:300])
+            await message.answer(f"Не получилось запустить обновление: {detail}")
 
     @router.message(F.text & ~F.text.startswith("/"))
     async def search(message: Message) -> None:

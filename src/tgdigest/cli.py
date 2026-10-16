@@ -18,6 +18,7 @@ from tgdigest.digest.cli import app as digest_app  # noqa: E402
 from tgdigest.ingest.cli import app as ingest_app  # noqa: E402
 from tgdigest.profile.cli import app as profile_app  # noqa: E402
 from tgdigest.prompts_cli import app as prompts_app  # noqa: E402
+from tgdigest.refresh.cli import app as refresh_app  # noqa: E402
 from tgdigest.retrieval.cli import app as index_app  # noqa: E402
 
 app.add_typer(collector_app, name="collector")
@@ -28,6 +29,7 @@ app.add_typer(agent_app, name="agent")
 app.add_typer(prompts_app, name="prompts")
 app.add_typer(profile_app, name="profile")
 app.add_typer(digest_app, name="digest")
+app.add_typer(refresh_app, name="refresh")
 
 
 @app.command()

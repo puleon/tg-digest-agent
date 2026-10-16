@@ -111,6 +111,14 @@ explanation assembled from the score's components, no model call:
 
 A 👍/👎 lands as a `feedback` row and as a score on the Langfuse trace that produced the issue.
 
+The corpus keeps itself fresh: `tgdigest refresh run` collects new posts, re-reads a week of
+view counters, enriches what has no enrichment within 45 days, runs the link and entity passes
+for cinema, rebuilds duplicate clusters, updates the index and rebuilds every profile that has
+votes (so the bot's 👍/👎 take effect). A systemd timer runs it nightly; the owner can start it
+from the bot with `/update` and watch it with `/update status`, and the run reports back in the
+chat. Images in the refresh are read by the text model: the shared model server keeps two
+models and the assistant's is resident, so a text + vision pair would swap on every post.
+
 ## Why these topics are technically interesting
 
 - Two of three domains are mostly **visual** → a VLM/OCR branch is mandatory, not a bonus.
@@ -313,9 +321,11 @@ Services bind to `127.0.0.1` only. When they run on a remote box, `make tunnel` 
 runs a make target there. The box reaches Telegram through a Telegram-only VPN route (kernel
 routes for Telegram's official prefixes; everything else keeps the box's own egress), so
 `make collect-channels` / `make collect ARGS="--topic humor"` run the collector there directly,
-and `tgdigest health` reports Telegram next to the services. The API and the bot run on the box
-as systemd user units (`deploy/systemd/`, installed with `make remote T=units`); the bot unit
-waits until `BOT_TOKEN` is in the box `.env`. If the VPN route is down, the old path still
+and `tgdigest health` reports Telegram next to the services. The API, the bot and the nightly
+refresh run on the box as systemd user units (`deploy/systemd/`, installed with
+`make remote T=units`; the timer is enabled once with
+`systemctl --user enable --now tgdigest-refresh.timer`); the bot unit waits until `BOT_TOKEN`
+is in the box `.env`. If the VPN route is down, the old path still
 works: `ssh -N -R 1080 <box>` from a machine that can reach Telegram and
 `WEB_PROXY` / `BOT_PROXY` = `socks5h://127.0.0.1:1080` in the box `.env`.
 
@@ -326,7 +336,7 @@ src/tgdigest/     application package (collector, ingest, dedup, retrieval, agen
 config/           channels.yaml — the corpus definition
 prompts/          versioned prompts (also managed in Langfuse)
 docker/           service configs: llama-server model presets, postgres init
-deploy/systemd/   user units for the API and the bot on the box
+deploy/systemd/   user units on the box: API, bot, corpus refresh and its nightly timer
 scripts/          benchmarks and one-off experiment runners
 docs/experiments/ one report per experiment, with the numbers
 tests/            pytest; `integration` marker for tests that need services

@@ -1,5 +1,5 @@
 """The bot's view of the API: a thin async HTTP client, so the bot can run anywhere that reaches
-Telegram (the box cannot) while the models stay in one API process."""
+Telegram while the models stay in one API process."""
 
 from __future__ import annotations
 
@@ -82,6 +82,16 @@ class ApiClient:
 
     async def scheduled_users(self) -> list[dict[str, Any]]:
         return list(await self._json("GET", "/users/scheduled"))
+
+    async def refresh_status(self) -> dict[str, Any]:
+        return dict(await self._json("GET", "/refresh"))
+
+    async def start_refresh(self, user_id: int) -> tuple[int, dict[str, Any]]:
+        """202 started, 409 already running (with its status), 503 the unit cannot start."""
+        resp = await self._http.post("/refresh", json={"user_id": user_id})
+        if resp.status_code not in (202, 409, 503):
+            resp.raise_for_status()
+        return resp.status_code, dict(resp.json())
 
     async def health(self) -> dict[str, Any]:
         resp = await self._http.get("/health")

@@ -29,7 +29,7 @@ def _telethon(settings: Settings):  # type: ignore[no-untyped-def]  # imported l
     )
 
 
-def _source(settings: Settings):  # type: ignore[no-untyped-def]  # WebPreviewSource | TelethonSource
+def make_source(settings: Settings):  # type: ignore[no-untyped-def]  # WebPreviewSource | TelethonSource
     if settings.collector_source == "web":
         from tgdigest.collector.web import WebPreviewSource
 
@@ -61,7 +61,7 @@ def channels(config: Path = CHANNELS_YAML) -> None:
     async def run() -> None:
         engine = make_engine(settings.database_url)
         try:
-            async with _source(settings) as src:
+            async with make_source(settings) as src:
                 rows = await upsert_channels(make_session_factory(engine), src, cfg)
             for ch in rows:
                 typer.echo(
@@ -110,7 +110,7 @@ def sync(
                 typer.echo("no matching active channels — run `collector channels` first")
                 raise typer.Exit(1)
             store = MediaStore(settings.media_dir) if media else None
-            async with _source(settings) as src:
+            async with make_source(settings) as src:
                 for ch in targets:  # sequential on purpose: one account, no parallelism
                     stats = await sync_channel(
                         factory, src, store, ch.id, since=since_utc, limit=limit
@@ -163,7 +163,7 @@ def refresh(
             if not targets:
                 typer.echo("no matching active channels — run `collector channels` first")
                 raise typer.Exit(1)
-            async with _source(settings) as src:
+            async with make_source(settings) as src:
                 for ch in targets:
                     stats = await refresh_channel(factory, src, ch.id, since=since_utc)
                     typer.echo(

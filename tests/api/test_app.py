@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import replace
+from pathlib import Path
 from typing import Any
 
 from fastapi.testclient import TestClient
 
-from tgdigest.api.app import explain
+from tgdigest.api.app import create_app, explain
 from tgdigest.service import Services
 
 
@@ -120,3 +122,49 @@ def test_explain_reads_the_score_components() -> None:
     assert text.startswith("Итоговый балл 0.81. Очень похоже") and "в приоритете" in text
     assert "популярнее" in text and "4 мест" in text and "свежий" in text
     assert "не сохранены" in explain({"topic": "humor"}, {})
+
+
+def test_refresh_starts_the_unit_once_and_reports_its_state(
+    services: Services, tmp_path: Path
+) -> None:
+    from tgdigest.config import Settings
+    from tgdigest.refresh.state import RefreshFiles
+
+    started: list[bool] = []
+
+    async def fake_start() -> None:
+        started.append(True)
+
+    svc = replace(
+        services, settings=Settings(database_url="sqlite+aiosqlite://", data_dir=tmp_path)
+    )
+    files = RefreshFiles(tmp_path)
+    with TestClient(create_app(svc, start_refresh=fake_start)) as c:
+        assert c.get("/refresh").json() == {"running": False, "status": None}
+
+        r = c.post("/refresh", json={"user_id": 364})
+        assert r.status_code == 202 and started == [True]
+        request = files.take_request()
+        assert request is not None and request["requested_by"] == 364
+
+        with files.hold_lock():  # a run in progress: no second start
+            r = c.post("/refresh", json={"user_id": 364})
+            assert r.status_code == 409 and r.json()["running"] is True
+            assert c.get("/refresh").json()["running"] is True
+        assert started == [True]
+
+
+def test_refresh_reports_a_unit_that_cannot_start(services: Services, tmp_path: Path) -> None:
+    from tgdigest.config import Settings
+    from tgdigest.refresh.state import RefreshFiles
+
+    async def missing() -> None:
+        raise FileNotFoundError("systemctl")
+
+    svc = replace(
+        services, settings=Settings(database_url="sqlite+aiosqlite://", data_dir=tmp_path)
+    )
+    with TestClient(create_app(svc, start_refresh=missing)) as c:
+        r = c.post("/refresh", json={"user_id": 1})
+    assert r.status_code == 503 and "tgdigest-refresh.service" in r.json()["detail"]
+    assert not RefreshFiles(tmp_path).request.exists()

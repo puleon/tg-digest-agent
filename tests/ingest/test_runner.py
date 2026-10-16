@@ -124,3 +124,23 @@ async def test_since_bounds_the_history_depth(
     async with factory() as s:
         done = {r.post_id for r in (await s.execute(select(Enrichment))).scalars()}
     assert done == {13}
+
+
+async def test_missing_only_ignores_the_version_and_reports_progress(
+    factory: async_sessionmaker[AsyncSession], deps: IngestDeps
+) -> None:
+    async with factory() as s:  # post 12 enriched earlier by another model
+        s.add(Enrichment(post_id=12, topic_labels=["scifi"], model_version="older+vlm|v1|v1"))
+        await s.commit()
+    seen: list[int] = []
+    stats = await run_ingest(
+        factory, deps, missing_only=True, progress=lambda st: seen.append(st.processed)
+    )
+    assert stats.selected == 1 and stats.processed == 1  # the album only
+    assert seen == [1]
+    async with factory() as s:
+        rows = {e.post_id: e.model_version for e in (await s.execute(select(Enrichment))).scalars()}
+    assert rows[12] == "older+vlm|v1|v1" and rows[10] == rows[11] == stats.model_version
+
+    # without the flag the same post counts as pending for the current version
+    assert (await run_ingest(factory, deps, topic="scifi")).selected == 1

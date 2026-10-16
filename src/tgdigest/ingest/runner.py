@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
@@ -57,16 +58,24 @@ async def select_pending(
     since: datetime | None = None,
     limit: int | None = None,
     force: bool = False,
+    missing_only: bool = False,
 ) -> list[Post]:
     """Newest first, so a bounded run always covers the freshest posts; ``since`` limits the
-    history depth (the first version of the system needs three months, not six)."""
+    history depth (the first version of the system needs three months, not six).
+    ``missing_only`` ignores the version: only posts with no enrichment row at all, so a run
+    with another model (the refresh reads images with the text model) never re-enriches the
+    corpus that an earlier version already covered."""
     stmt = (
         select(Post)
         .join(Channel, Channel.id == Post.channel_id)
         .options(selectinload(Post.channel))
         .order_by(Post.posted_at.desc(), Post.id)
     )
-    if not force:  # idempotent: rows already enriched by this exact version are skipped
+    if missing_only:
+        stmt = stmt.outerjoin(Enrichment, Enrichment.post_id == Post.id).where(
+            Enrichment.post_id.is_(None)
+        )
+    elif not force:  # idempotent: rows already enriched by this exact version are skipped
         stmt = stmt.outerjoin(
             Enrichment, (Enrichment.post_id == Post.id) & (Enrichment.model_version == version)
         ).where(Enrichment.post_id.is_(None))
@@ -150,14 +159,24 @@ async def run_ingest(
     since: datetime | None = None,
     limit: int | None = None,
     force: bool = False,
+    missing_only: bool = False,
     concurrency: int = 2,
+    progress: Callable[[IngestStats], None] | None = None,
 ) -> IngestStats:
+    """``progress`` is called after every post (processed or failed) — the refresh job shows
+    it in the bot while a multi-hour run is going."""
     version = model_version(deps)
     graph = build_ingest_graph(deps)
     stats = IngestStats(model_version=version)
     async with factory() as session:
         posts = await select_pending(
-            session, version, topic=topic, since=since, limit=limit, force=force
+            session,
+            version,
+            topic=topic,
+            since=since,
+            limit=limit,
+            force=force,
+            missing_only=missing_only,
         )
         inputs = await group_posts(session, posts)
     stats.selected = len(inputs)
@@ -170,6 +189,8 @@ async def run_ingest(
             except Exception as exc:  # a single post must never stop the run
                 log.error("ingest_failed", post_id=inp["post_id"], error=repr(exc)[:300])
                 stats.failed.append(inp["post_id"])
+                if progress is not None:
+                    progress(stats)
                 return
             async with factory() as session:
                 await session.execute(
@@ -188,6 +209,8 @@ async def run_ingest(
             usage = state.get("usage") or {}
             stats.prompt_tokens += usage.get("prompt_tokens", 0)
             stats.completion_tokens += usage.get("completion_tokens", 0)
+            if progress is not None:
+                progress(stats)
 
     await asyncio.gather(*(one(i) for i in inputs))
     log.info("ingest_done", **{k: v for k, v in vars(stats).items() if k != "failed"})

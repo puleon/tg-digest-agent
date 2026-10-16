@@ -1,0 +1,18 @@
+# ~/.config/systemd/user/tgdigest-refresh.service — installed on the box by `make units`.
+# One corpus refresh: collect → views → enrich → links/entities (cinema) → dedup → index →
+# profiles. Started by tgdigest-refresh.timer every night and by /update in the bot (through
+# the API); a start while it runs is a no-op. The first run after a long gap takes hours.
+# Logs: journalctl --user -u tgdigest-refresh · state: tgdigest refresh status
+[Unit]
+Description=tg-digest-agent corpus refresh
+After=tgdigest-api.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/tg-digest-agent
+Environment=PYTHONUNBUFFERED=1
+ExecStart=%h/tg-digest-agent/.venv/bin/tgdigest refresh run --trigger timer
+# oneshot units time out after 90 s by default; this one runs for minutes to hours
+TimeoutStartSec=infinity
+# the embedding step runs here; the model calls run in llama-server and are not affected
+Nice=10
