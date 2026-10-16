@@ -65,15 +65,15 @@ def pagination() -> str:
 
 def reverse_tunnel() -> str:
     f = Fig(780, 300)
-    f.text(20, 22, 'make collect: сервер ходит в Telegram через ноутбук (обратный SOCKS-туннель SSH)', 12.5, 'bold',
-           anchor='start')
+    f.text(20, 22, 'Первое решение: сервер ходил в Telegram через ноутбук (обратный SOCKS-туннель SSH)', 12.5,
+           'bold', anchor='start')
     f.rect(20, 45, 360, 200, 'db', r=12, fill='#f8fafc')
     f.text(36, 66, 'Сервер shevek', 12.5, 'bold', kind='db', anchor='start')
     f.box(40, 80, 150, 64, 'tgdigest collector', ['httpx с прокси', 'socks5h://127.0.0.1:1080'], 'col', tsize=11,
           lsize=9.5)
     f.box(220, 80, 140, 64, 'sshd', ['слушает 127.0.0.1:1080', 'для этой сессии'], 'ext', tsize=11.5, lsize=9.5)
     f.line(190, 112, 218, 112, 'col')
-    f.box(40, 170, 320, 56, 'Прямой путь в 149.154.0.0/16 (Telegram)', ['соединения не устанавливаются ✕'], 'warn',
+    f.box(40, 170, 320, 56, 'Прямой путь в 149.154.0.0/16 (Telegram)', ['соединения не устанавливались ✕'], 'warn',
           tsize=11, lsize=10)
     f.rect(420, 45, 340, 200, 'you', r=12, fill='#f0f9ff')
     f.text(436, 66, 'Ноутбук (Mac)', 12.5, 'bold', kind='you', anchor='start')
@@ -85,6 +85,38 @@ def reverse_tunnel() -> str:
     f.label(400, 104, 'SSH', kind='col', size=10)
     f.text(20, 270, 'Флаг -R 1080 без адреса — «обратный динамический» проброс: на сервере появляется SOCKS-прокси, а '
            'соединения', 10.5, anchor='start', kind='ext')
-    f.text(20, 287, 'выходят в интернет с ноутбука. Пока команда работает — сбор идёт; закрыли ноутбук — сбор встал '
-           'и продолжится с курсора.', 10.5, anchor='start', kind='ext')
+    f.text(20, 287, 'выходят в интернет с ноутбука. Пока команда работала — сбор шёл; закрыли ноутбук — сбор вставал '
+           'и продолжался с курсора.', 10.5, anchor='start', kind='ext')
+    return f.render()
+
+
+def vpn_route() -> str:
+    f = Fig(780, 345)
+    f.text(20, 22, 'Сейчас: сервер ходит в Telegram сам, а ядро решает, какие пакеты отправить через VPN', 12.5,
+           'bold', anchor='start')
+    f.rect(20, 40, 560, 260, 'db', r=12, fill='#f8fafc')
+    f.text(36, 62, 'Сервер shevek', 12.5, 'bold', kind='db', anchor='start')
+    f.box(36, 142, 140, 58, 'коллектор · бот', ['обычный httpx,', 'прокси не задан'], 'col', tsize=11.5, lsize=9.5)
+    f.box(206, 142, 150, 58, 'таблица маршрутов', ['адрес из подсетей', 'Telegram?'], 'file', tsize=11.5,
+          lsize=9.5)
+    f.line(176, 171, 204, 171, 'col', sw=1.8)
+    f.box(396, 62, 168, 62, 'xray-tg → xray', ['TUN-устройство', 'и процесс-клиент VPN'], 'sec', tsize=11.5,
+          lsize=9.5)
+    f.box(396, 222, 168, 62, 'enp10s0 → роутер', ['обычный выход,', 'IP самого сервера'], 'ext', tsize=11.5,
+          lsize=9.5)
+    f.path('M356,158 C376,158 372,93 394,93', 'sec', sw=1.8)
+    f.label(372, 120, 'да', kind='sec', size=10)
+    f.path('M356,186 C376,186 372,253 394,253', 'ext', sw=1.8)
+    f.label(372, 226, 'нет', kind='ext', size=10)
+    f.box(610, 62, 150, 62, 'VPN-узел', ['за рубежом;', 'VLESS · xhttp · TLS'], 'sec', tsize=12, lsize=9.5)
+    f.box(610, 142, 150, 58, 'Telegram', ['t.me, api.telegram.org,', 'CDN telesco.pe'], 'ext', tsize=12, lsize=9.5)
+    f.box(610, 222, 150, 62, 'Остальной интернет', ['Википедия, Wikidata,', 'PyPI, Docker Hub'], 'ext',
+          tsize=11.5, lsize=9.5)
+    f.line(564, 93, 608, 93, 'sec', sw=2.2)
+    f.line(685, 124, 685, 140, 'sec', sw=1.8)
+    f.line(564, 253, 608, 253, 'ext', sw=1.8)
+    f.text(20, 322, 'Программы не знают о VPN: выбор делает ядро по адресу назначения — 9 подсетей Telegram уходят в '
+           'туннель,', 10.5, anchor='start', kind='ext')
+    f.text(20, 339, 'всё остальное идёт как раньше. Туннель поднят для соседнего проекта (ассистента) и общий для '
+           'всего сервера.', 10.5, anchor='start', kind='ext')
     return f.render()

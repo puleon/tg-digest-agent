@@ -76,13 +76,14 @@ def host_overview() -> str:
     f.text(32, 275, 'соседний проект: персональный ассистент (NanoClaw)', 11, 'bold', kind='ext', anchor='start')
     f.text(32, 295, 'iron-proxy · iron-control (web + свой Postgres) · контейнеры агента по требованию', 10,
            kind='ext', anchor='start')
-    f.text(32, 312, 'с сетями tgdigest не пересекается', 10, kind='ext', anchor='start', italic=True)
+    f.text(32, 312, 'с сетями tgdigest не пересекается; его xray-tg даёт всему хосту маршрут в Telegram', 10,
+           kind='ext', anchor='start', italic=True)
     # host processes
     f.rect(510, 255, 270, 155, 'svc', r=12, fill='#fff7ed')
     f.text(522, 275, 'процессы хоста (не в контейнере)', 11, 'bold', kind='svc', anchor='start')
-    for i, ln in enumerate(['uv run tgdigest api — :8000', 'tgdigest collector / ingest /', '  dedup / index — по команде',
-                            'скрипты оценки', 'BGE-M3 и реранкер внутри них', '(PyTorch на CPU)']):
-        f.text(522, 296 + i * 18, ln, 10, kind='svc', anchor='start', mono=i < 3)
+    for i, ln in enumerate(['tgdigest api — :8000', 'tgdigest bot — long polling', '  оба — юниты systemd --user',
+                            'collector / ingest / dedup /', '  index — по команде', 'оценки; BGE-M3, реранкер — CPU']):
+        f.text(522, 296 + i * 18, ln, 10, kind='svc', anchor='start', mono=i in (0, 1, 3, 4))
     f.rect(20, 340, 470, 70, 'file', r=12, fill='#f8fafc')
     f.text(32, 360, 'Хост: Ubuntu 24.04, ядро 6.17, Docker 29.3, 32 потока, 91 ГБ видимой памяти', 10.5, kind='file',
            anchor='start')
@@ -182,17 +183,19 @@ def startup_order() -> str:
 
 def ssh_tunnels() -> str:
     f = Fig(780, 300)
-    f.text(20, 22, 'Два вида SSH-туннелей: к сервису на сервере и из сервера наружу', 12.5, 'bold', anchor='start')
+    f.text(20, 22, 'Два вида SSH-туннелей: к сервису на сервере и (запасной) из сервера наружу', 12.5, 'bold',
+           anchor='start')
     # local forward
     f.text(20, 52, 'make tunnel  (ssh -L)', 11.5, 'bold', kind='col', anchor='start')
-    f.box(20, 62, 200, 76, 'Ноутбук', ['браузер → localhost:3000', 'бот → localhost:8000'], 'you', tsize=11.5, lsize=9.5)
+    f.box(20, 62, 200, 76, 'Ноутбук', ['браузер → localhost:3000', 'curl → localhost:8000'], 'you', tsize=11.5, lsize=9.5)
     f.box(560, 62, 200, 76, 'Сервер', ['127.0.0.1:3000 Langfuse', '127.0.0.1:8000 API'], 'db', tsize=11.5, lsize=9.5)
     f.line(222, 100, 556, 100, 'col', sw=2.2)
     f.label(390, 92, 'порты ноутбука ведут на loopback сервера', kind='col', size=10)
     # reverse
-    f.text(20, 178, 'make collect / make egress  (ssh -R 1080)', 11.5, 'bold', kind='col', anchor='start')
+    f.text(20, 178, 'ssh -N -R 1080 — только если VPN-маршрут сервера упал', 11.5, 'bold', kind='col',
+           anchor='start')
     f.box(20, 188, 200, 76, 'Ноутбук', ['сам открывает', 'соединения с t.me'], 'you', tsize=11.5, lsize=9.5)
-    f.box(560, 188, 200, 76, 'Сервер', ['SOCKS на 127.0.0.1:1080', 'коллектор / бот'], 'db', tsize=11.5, lsize=9.5)
+    f.box(560, 188, 200, 76, 'Сервер', ['SOCKS на 127.0.0.1:1080', 'WEB_PROXY / BOT_PROXY'], 'db', tsize=11.5, lsize=9.5)
     f.line(556, 226, 222, 226, 'col', sw=2.2)
     f.label(390, 218, 'сервер выходит в интернет через ноутбук', kind='col', size=10)
     f.text(20, 290, 'Оба направления идут внутри одного зашифрованного SSH-соединения; на сервере не открыто ни одного '
@@ -206,3 +209,36 @@ def volumes_chart() -> str:
                   ('clickhouse_logs', 0.99, 'obs', '0,99 ГБ'), ('postgres_data', 0.223, 'db', '223 МБ'),
                   ('minio_data (события Langfuse)', 0.010, 'db', '10 МБ'), ('redis_data', 0.0007, 'db', '0,7 МБ')],
                  scale=100, labelw=270, width=780)
+
+
+def route_table() -> str:
+    f = Fig(780, 330)
+    f.text(20, 22, 'Таблица маршрутов сервера: из совпавших строк побеждает самый длинный префикс', 12.5, 'bold',
+           anchor='start')
+    f.rect(20, 40, 400, 236, 'file', r=12, fill='#f8fafc')
+    f.text(36, 62, 'ip route (сокращено)', 11.5, 'bold', kind='file', anchor='start')
+    rows = [('default', 'via роутер dev enp10s0', '/0', 'ext'),
+            ('149.154.160.0/20', 'dev xray-tg', '/20', 'sec'),
+            ('91.108.4.0/22 …', '+ ещё 7 подсетей Telegram', '/22', 'sec'),
+            ('172.18.0.0/16', 'dev br-… tgdigest_default', '/16', 'db'),
+            ('172.19.0.0/16', 'dev br-… llm_shared', '/16', 'llm'),
+            ('198.18.0.0/30', 'dev xray-tg (сам туннель)', '/30', 'sec')]
+    for i, (net, via, ln, k) in enumerate(rows):
+        y = 92 + i * 30
+        f.rect(32, y - 17, 376, 25, k, r=5, sw=1)
+        f.text(42, y, net, 10.5, kind=k, anchor='start', mono=True)
+        f.text(178, y, via, 10, kind=k, anchor='start')
+        f.text(398, y, ln, 10, 'bold', kind=k, anchor='end', mono=True)
+    looks = [('ru.wikipedia.org → 185.15.59.224', ['совпала только /0', '→ enp10s0, напрямую'], 'ext'),
+             ('t.me → 149.154.167.99', ['совпали /0 и /20 → /20 длиннее', '→ xray-tg, через VPN'], 'sec'),
+             ('llm-server → 172.19.0.2', ['совпала /16', '→ мост docker, наружу не выходит'], 'llm')]
+    for i, (t, ls, k) in enumerate(looks):
+        f.box(460, 40 + i * 80, 300, 68, t, ls, k, tsize=11, lsize=9.5)
+    f.line(410, 87, 458, 74, 'ext', dash=True, head=False)
+    f.line(410, 117, 458, 154, 'sec', dash=True, head=False)
+    f.line(410, 207, 458, 234, 'llm', dash=True, head=False)
+    f.text(20, 304, 'Контейнеры выходят наружу через NAT этого же хоста, поэтому их пакеты проходят ту же таблицу:',
+           10.5, anchor='start', kind='ext')
+    f.text(20, 321, 'из сети tgdigest_default t.me тоже отвечает. Таблица — общая для хоста, а не для одного '
+           'процесса.', 10.5, anchor='start', kind='ext')
+    return f.render()

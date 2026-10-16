@@ -49,7 +49,7 @@ def big_map() -> str:
         f.box(x, 56, 125, 64, t, ls, k, tsize=12.5, lsize=10)
     for x in (145, 300, 455, 610):
         f.line(x + 2, 88, x + 28, 88, 'ext', sw=1.8)
-    f.label(160, 140, 'через ноутбук', kind='col', size=9.5)
+    f.label(160, 140, 'через VPN-маршрут', kind='col', size=9.5)
     # row 2: storage + model
     f.box(175, 178, 280, 70, 'Postgres + папка медиа', ['посты · обогащение · кластеры', 'голоса · профиль · выпуски'],
           'db', tsize=12.5, lsize=10)
@@ -66,7 +66,7 @@ def big_map() -> str:
     f.path('M392,120 C392,160 470,260 500,262', 'llm', dash=True, sw=1.4, head=True)
     # row 3: service
     f.box(20, 360, 125, 64, 'Вы', ['Telegram', 'на телефоне'], 'you', tsize=12.5, lsize=10)
-    f.box(175, 360, 125, 64, 'Бот', ['aiogram,', 'на ноутбуке'], 'svc', tsize=12.5, lsize=10)
+    f.box(175, 360, 125, 64, 'Бот', ['aiogram,', 'на сервере'], 'svc', tsize=12.5, lsize=10)
     f.box(330, 360, 125, 64, 'FastAPI', ['/search /digest', '/why /feedback'], 'svc', tsize=12.5, lsize=10)
     f.box(485, 360, 140, 64, 'Поисковый агент', ['route → retrieve', '→ grade → answer'], 'srch', tsize=12,
           lsize=10)
@@ -85,8 +85,8 @@ def big_map() -> str:
     f.path('M625,470 L642,470 L642,300 L632,300', 'llm', dash=True, sw=1.4)
     f.line(627, 392, 653, 392, 'obs', dash=True, sw=1.4)
     f.line(627, 482, 653, 482, 'obs', dash=True, sw=1.4)
-    # tunnel note
+    # telegram route note
     f.rect(20, 540, 270, 50, 'col', r=8, dash=True, fill='#f0f9ff')
-    f.text(32, 560, 'Сервер не видит Telegram: и сбор, и бот', 10.5, kind='col', anchor='start')
-    f.text(32, 577, 'выходят в Telegram через ваш ноутбук (SSH).', 10.5, kind='col', anchor='start')
+    f.text(32, 560, 'Сбор и бот ходят в Telegram с сервера: адреса', 10.5, kind='col', anchor='start')
+    f.text(32, 577, 'Telegram маршрутизируются через VPN (глава 15).', 10.5, kind='col', anchor='start')
     return f.render()

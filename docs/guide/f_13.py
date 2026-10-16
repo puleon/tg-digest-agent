@@ -29,7 +29,7 @@ def async_loop() -> str:
 def bot_sequence() -> str:
     f = Fig(780, 400)
     f.text(20, 22, 'Один вопрос боту: кто кому что отправляет', 12.5, 'bold', anchor='start')
-    lanes = [('Вы', 'you', 70), ('Серверы Telegram', 'ext', 210), ('Бот (ноутбук)', 'svc', 360),
+    lanes = [('Вы', 'you', 70), ('Серверы Telegram', 'ext', 210), ('Бот (сервер)', 'svc', 360),
              ('API (сервер)', 'svc', 510), ('Агент + модель', 'srch', 670)]
     for name, k, x in lanes:
         f.box(x - 65, 40, 130, 34, name, [], k, tsize=11)
@@ -37,7 +37,7 @@ def bot_sequence() -> str:
     msgs = [(70, 210, 100, 'you', '«что-нибудь смешное про котов»'),
             (210, 360, 130, 'ext', 'getUpdates (long polling) → новое сообщение'),
             (360, 210, 160, 'svc', 'sendMessage «Ищу… пару минут»'),
-            (360, 510, 190, 'svc', 'POST /search {query, user_id} через SSH-туннель'),
+            (360, 510, 190, 'svc', 'POST /search {query, user_id} по 127.0.0.1'),
             (510, 670, 220, 'srch', 'run_agent(query): 6–12 шагов'),
             (670, 510, 260, 'srch', 'ответ, цитаты, трейс, деградации'),
             (510, 360, 290, 'svc', 'JSON-ответ'),
@@ -77,22 +77,27 @@ def keyboard() -> str:
 
 
 def bot_placement() -> str:
-    f = Fig(780, 270)
-    f.text(20, 22, 'Где запустить бота, если сервер не видит Telegram', 12.5, 'bold', anchor='start')
-    f.rect(20, 45, 360, 205, 'svc', r=12, fill='#fff7ed', dash=True)
-    f.text(200, 66, 'Вариант 1: бот на ноутбуке', 12, 'bold', kind='svc')
-    f.box(40, 85, 140, 56, 'бот', ['make bot'], 'svc', tsize=12, lsize=10)
-    f.box(220, 85, 140, 56, 'api.telegram.org', ['напрямую'], 'ext', tsize=11, lsize=10)
-    f.line(180, 113, 218, 113, 'svc', both=True)
-    f.box(40, 170, 320, 56, 'make tunnel: ssh -L 8000 …', ['127.0.0.1:8000 ноутбука → API на сервере'], 'col',
-          tsize=11.5, lsize=10)
-    f.line(110, 141, 110, 168, 'col', both=True)
-    f.rect(400, 45, 360, 205, 'svc', r=12, fill='#fff7ed', dash=True)
-    f.text(580, 66, 'Вариант 2: бот на сервере', 12, 'bold', kind='svc')
-    f.box(420, 85, 140, 56, 'бот', ['BOT_PROXY=socks5://…'], 'svc', tsize=12, lsize=9.5)
-    f.box(600, 85, 140, 56, 'API', ['127.0.0.1:8000'], 'svc', tsize=12, lsize=10)
-    f.line(560, 113, 598, 113, 'svc', both=True)
-    f.box(420, 170, 320, 56, 'make egress: ssh -R 1080 …', ['Telegram через ноутбук (как сбор)'], 'col',
-          tsize=11.5, lsize=10)
-    f.line(490, 141, 490, 168, 'col', both=True)
+    f = Fig(780, 300)
+    f.text(20, 22, 'Бот живёт на сервере рядом с API; обоих держит systemd', 12.5, 'bold', anchor='start')
+    f.rect(20, 45, 540, 210, 'db', r=12, fill='#f8fafc')
+    f.text(36, 66, 'Сервер shevek · systemd --user (Linger=yes: стартует при загрузке)', 11, 'bold', kind='db',
+           anchor='start')
+    f.box(40, 88, 180, 66, 'tgdigest-api', ['127.0.0.1:8000', 'агент, профиль, дайджест'], 'svc', tsize=12,
+          lsize=9.5)
+    f.box(300, 88, 160, 66, 'tgdigest-bot', ['long polling;', 'ждёт BOT_TOKEN в .env'], 'svc', tsize=12,
+          lsize=9.5)
+    f.line(222, 121, 298, 121, 'svc', both=True)
+    f.label(260, 113, 'HTTP', kind='svc', size=9.5)
+    f.box(40, 182, 180, 52, 'Postgres · Qdrant · LLM', ['контейнеры, 127.0.0.1'], 'db', tsize=11, lsize=9.5)
+    f.line(130, 156, 130, 180, 'db', both=True)
+    f.box(300, 182, 160, 52, 'xray-tg', ['VPN-маршрут в Telegram'], 'sec', tsize=11.5, lsize=9.5)
+    f.line(380, 156, 380, 180, 'sec')
+    f.box(600, 182, 160, 52, 'api.telegram.org', ['getUpdates, sendMessage'], 'ext', tsize=11, lsize=9.5)
+    f.line(462, 208, 598, 208, 'sec', sw=2)
+    f.box(600, 88, 160, 66, 'Вы', ['Telegram на телефоне'], 'you', tsize=12, lsize=9.5)
+    f.line(680, 156, 680, 180, 'ext', both=True)
+    f.text(20, 278, 'Раньше Telegram с сервера был недоступен, и бот запускался на ноутбуке, а в API ходил через '
+           'make tunnel.', 10.5, anchor='start', kind='ext')
+    f.text(20, 295, 'Теперь всё на одной машине: бот работает круглосуточно, и ежедневные выпуски не зависят от '
+           'открытого ноутбука.', 10.5, anchor='start', kind='ext')
     return f.render()
