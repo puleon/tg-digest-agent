@@ -286,20 +286,3 @@ async def test_failures_degrade_instead_of_crashing() -> None:
     assert any(d == "search_index:unavailable" for d in state["degraded"])
     assert state["answer"] and "Не удалось" in state["answer"]
     assert any(d.startswith("synthesize:") for d in state["degraded"])
-
-
-def test_post_block_shows_grounded_films_as_wikidata() -> None:
-    from tgdigest.agent.graph import _post_block
-
-    block = _post_block(
-        {
-            "post_id": 5,
-            "channel": "kino",
-            "date": "2026-09-01",
-            "topic": "cinema",
-            "text": "Пересмотрел",
-            "films": ["Декалог, 1989", "Сталкер, 1979"],
-        }
-    )
-    assert block.endswith("[Wikidata] Декалог, 1989; Сталкер, 1979")
-    assert "[Wikidata]" not in _post_block({"post_id": 6, "text": "без фильмов"})

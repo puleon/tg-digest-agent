@@ -172,8 +172,6 @@ def _post_block(h: dict[str, Any]) -> str:
         parts.append(f"[OCR] {h['ocr']}")
     if h.get("caption"):
         parts.append(f"[caption] {h['caption']}")
-    if h.get("films"):  # grounded at ingest; not the post's own words
-        parts.append("[Wikidata] " + "; ".join(h["films"]))
     return "\n".join(parts)
 
 

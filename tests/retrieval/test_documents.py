@@ -82,13 +82,3 @@ def test_payload_carries_filter_fields() -> None:
     assert p["is_ad"] is True and p["is_spoiler"] is False and p["quality"] == 0.4
     assert p["cluster_id"] == 3 and p["is_representative"] is True
     assert p["text"] == "Когда дедлайн завтра" and p["content_hash"] == doc.content_hash
-
-
-def test_grounded_films_ride_in_the_payload_not_in_the_embedded_text() -> None:
-    plain = build_document(_facts())
-    line = "Декалог (The Decalogue), 1989, телефильм, реж. Кшиштоф Кесьлёвский"
-    with_film = build_document(_facts(films=(line,)))
-    assert with_film.payload["films"] == [line] and plain.payload["films"] == []
-    assert with_film.content_hash == plain.content_hash  # no re-embedding
-    assert with_film.meta_hash != plain.meta_hash  # a payload update instead
-    assert all("Декалог" not in text for text in with_film.variants.values())
