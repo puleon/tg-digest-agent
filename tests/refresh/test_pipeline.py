@@ -134,4 +134,5 @@ def test_render_tells_running_interrupted_and_missing_runs_apart() -> None:
         status, running=True, now=now
     )
     assert "прервано на шаге «индекс»" in render(status, running=False, now=now)
+    assert render(status, running=True, now=now).endswith("\n… индекс")  # no counts yet
     assert render(None, running=False) == "Обновлений корпуса ещё не было."

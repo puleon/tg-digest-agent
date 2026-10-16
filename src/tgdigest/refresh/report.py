@@ -83,7 +83,10 @@ def render(status: dict[str, Any] | None, *, running: bool, now: datetime | None
     lines = [f"<b>{html.escape(head)}</b>"]
     for s in status.get("steps", []):
         mark = {"ok": "•", "failed": "✗", "running": "…"}.get(s.get("state", ""), "•")
-        line = step_line(s["name"], s.get("result") or {})
+        if s.get("state") == "running" and not s.get("result"):  # no counts reported yet
+            line = STEP_NAMES.get(s["name"], s["name"])
+        else:
+            line = step_line(s["name"], s.get("result") or {})
         if s.get("seconds") is not None:
             line += f" ({_duration(float(s['seconds']))})"
         lines.append(f"{mark} {html.escape(line)}")
