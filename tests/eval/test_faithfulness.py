@@ -106,3 +106,18 @@ async def test_pairwise_judge_runs_both_orders_and_measures_biases() -> None:
     ]
     n, agree, kappa = agreement([r, r2, r3], other)
     assert n == 2 and agree == 0.5 and kappa <= 0.0
+
+
+def test_source_block_carries_the_wikidata_lines_the_agent_saw() -> None:
+    block = source_block(
+        [
+            {
+                "post_id": 3,
+                "channel": "kino",
+                "date": "2026-09-01",
+                "text": "Пересмотрел",
+                "films": ["Декалог (The Decalogue), 1989, реж. Кшиштоф Кесьлёвский"],
+            }
+        ]
+    )
+    assert block.endswith("[Wikidata] Декалог (The Decalogue), 1989, реж. Кшиштоф Кесьлёвский")
