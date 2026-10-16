@@ -581,3 +581,11 @@ search would make the router load it and evict a model by itself — likely the 
 (Gemma is busy). The API now answers `/search` and `/digest` with 503 and a sentence for the
 user during that pass (`RefreshFiles.vision_pass`, phase in the status file); the bot shows the
 sentence, the daily-issue loop simply retries a minute later.
+
+Entities step of the same run: ≈ 3.3 cinema posts/min, and posts with a cast list failed —
+the model listed 20–30 people, the JSON ran past 300 tokens, then past the 600 of the retry,
+and the post was marked failed after a minute or two of decoding (3 in 17 minutes). The schema
+now carries the limits grounding always applied (`maxItems`: 5 films, 5 books, 10 people), so
+llama-server's grammar stops the lists during generation. Checked live on a post naming 20
+films and 24 actors: 5 films, 10 people, 208 completion tokens, no truncation. Applies from
+the next run (the current one had the module loaded).

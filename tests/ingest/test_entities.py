@@ -136,3 +136,11 @@ async def test_post_year_hint_prefers_the_current_release() -> None:
     assert recent["wikidata_id"] == "Q673195"  # Soderbergh, 2002
     old = await g.film(FilmMention(title="Солярис"), hint_year=1972)
     assert old["wikidata_id"] == "Q125772"  # Tarkovsky, 1972
+
+
+def test_the_extraction_schema_caps_every_list_for_the_grammar() -> None:
+    from tgdigest.ingest.entities import MAX_MENTIONS, MAX_PEOPLE, EntityMentions
+
+    props = EntityMentions.model_json_schema()["properties"]
+    assert props["films"]["maxItems"] == props["books"]["maxItems"] == MAX_MENTIONS
+    assert props["people"]["maxItems"] == MAX_PEOPLE

@@ -42,6 +42,10 @@ FILM_CLASSES = {
     "Q63952888": "anime series",
 }
 MAX_MENTIONS = 5
+MAX_PEOPLE = 10
+"""Grounding never used more than these; the schema now says so too, which makes them a
+constraint on generation: a post with a cast list used to run the JSON past the token budget
+(truncated twice, the post marked failed, a minute or two of decoding wasted)."""
 
 
 class FilmMention(BaseModel):
@@ -56,9 +60,9 @@ class BookMention(BaseModel):
 
 
 class EntityMentions(BaseModel):
-    films: list[FilmMention] = Field(default_factory=list)
-    books: list[BookMention] = Field(default_factory=list)
-    people: list[str] = Field(default_factory=list)
+    films: list[FilmMention] = Field(default_factory=list, max_length=MAX_MENTIONS)
+    books: list[BookMention] = Field(default_factory=list, max_length=MAX_MENTIONS)
+    people: list[str] = Field(default_factory=list, max_length=MAX_PEOPLE)
 
 
 def entities_version() -> str:
@@ -360,7 +364,7 @@ class Grounder:
             "version": entities_version(),
             "films": films,
             "books": books,
-            "people": mentions.people[:10],
+            "people": mentions.people[:MAX_PEOPLE],
         }
 
 
