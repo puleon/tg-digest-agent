@@ -144,3 +144,24 @@ def test_the_extraction_schema_caps_every_list_for_the_grammar() -> None:
     props = EntityMentions.model_json_schema()["properties"]
     assert props["films"]["maxItems"] == props["books"]["maxItems"] == MAX_MENTIONS
     assert props["people"]["maxItems"] == MAX_PEOPLE
+
+
+def test_film_summary_is_one_line_and_skips_guesses() -> None:
+    from tgdigest.ingest.entities import film_summaries, film_summary
+
+    decalog = {
+        "title": "Декалог",
+        "title_en": "The Decalogue",
+        "year": 1989,
+        "kind": "television film",
+        "directors": ["Кшиштоф Кесьлёвский"],
+    }
+    assert film_summary(decalog) == (
+        "Декалог (The Decalogue), 1989, телефильм, реж. Кшиштоф Кесьлёвский"
+    )
+    assert film_summary({"title": "Дюна", "title_en": "Дюна", "kind": "film", "year": 2021}) == (
+        "Дюна, 2021"
+    )
+    assert film_summary({"mention": {"title": "Нечто"}, "unresolved": True}) is None
+    films = [decalog, {"unresolved": True}, *({"title": f"Ф{i}"} for i in range(5))]
+    assert len(film_summaries({"films": films})) == 3 and film_summaries(None) == ()

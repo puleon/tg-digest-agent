@@ -65,6 +65,44 @@ class EntityMentions(BaseModel):
     people: list[str] = Field(default_factory=list, max_length=MAX_PEOPLE)
 
 
+FILM_KINDS_RU = {
+    "television series": "сериал",
+    "miniseries": "мини-сериал",
+    "animated film": "мультфильм",
+    "television film": "телефильм",
+    "documentary film": "документальный фильм",
+    "anime film": "аниме",
+    "anime series": "аниме-сериал",
+    "silent film": "немой фильм",
+}
+MAX_FILMS_SHOWN = 3
+
+
+def film_summary(film: dict[str, Any]) -> str | None:
+    """One line about a grounded film for the agent's context: «Декалог (The Decalogue), 1989,
+    телефильм, реж. Кшиштоф Кесьлёвский». Unresolved mentions give nothing — a guess shown
+    as a fact is worse than no line."""
+    if film.get("unresolved") or not film.get("title"):
+        return None
+    head = str(film["title"])
+    if film.get("title_en") and film["title_en"] != film["title"]:
+        head += f" ({film['title_en']})"
+    parts = [head]
+    if film.get("year"):
+        parts.append(str(film["year"]))
+    if kind := FILM_KINDS_RU.get(str(film.get("kind") or "")):
+        parts.append(kind)
+    if film.get("directors"):
+        parts.append("реж. " + ", ".join(film["directors"][:2]))
+    return ", ".join(parts)
+
+
+def film_summaries(entities_json: dict[str, Any] | None) -> tuple[str, ...]:
+    films = (entities_json or {}).get("films") or []
+    lines = (film_summary(f) for f in films if isinstance(f, dict))
+    return tuple(line for line in lines if line)[:MAX_FILMS_SHOWN]
+
+
 def entities_version() -> str:
     return f"{prompt_id(*EXTRACT_PROMPT)}|wikidata+fantlab"
 

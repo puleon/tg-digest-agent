@@ -65,6 +65,9 @@ class PostFacts:
     cluster_id: int | None = None
     is_representative: bool = True
     """False only for a clustered post that is not its cluster's representative."""
+    films: tuple[str, ...] = ()
+    """Films the post names, grounded in Wikidata at ingest — one line each, for the agent to
+    read next to the post. Payload only: they are not part of the embedded text."""
 
 
 @dataclass(frozen=True)
@@ -138,6 +141,7 @@ def build_document(facts: PostFacts) -> IndexDocument:
         "has_link": bool(link),
         "model_version": facts.model_version,
         "sources": {k: v for k, v in sources.items() if v},
+        "films": list(facts.films),
     }
 
     def sha(parts: list[str]) -> str:
@@ -161,6 +165,7 @@ def build_document(facts: PostFacts) -> IndexDocument:
                 "model_version",
                 "media_path",
                 "url",
+                "films",
             )
         ]
     )

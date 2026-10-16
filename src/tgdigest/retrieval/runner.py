@@ -11,6 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from tgdigest.db.models import Channel, Cluster, Enrichment, Post, PostCluster
+from tgdigest.ingest.entities import film_summaries
 from tgdigest.retrieval.documents import IndexDocument, MemberEnrichment, PostFacts, build_document
 from tgdigest.retrieval.index import PostIndex
 
@@ -100,6 +101,7 @@ async def load_facts(
                 model_version=head.model_version if head else None,
                 cluster_id=cluster_id,
                 is_representative=cluster_id is None or representative.get(cluster_id) == first.id,
+                films=film_summaries(head.entities_json if head else None),
             )
         )
         if limit and len(facts) >= limit:

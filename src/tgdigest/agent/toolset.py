@@ -121,6 +121,7 @@ def _hit_row(h: Any) -> dict[str, Any]:
         "cluster_id": p.get("cluster_id"),
         "url": p.get("url"),
         "injection_flag": p.get("injection_flag"),
+        "films": p.get("films") or [],
     }
 
 
