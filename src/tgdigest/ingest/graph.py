@@ -22,6 +22,7 @@ from openai.types.chat import ChatCompletionMessageParam
 from tgdigest.ingest.injection import injection_score
 from tgdigest.ingest.normalize import extract_urls, normalize_text
 from tgdigest.ingest.schemas import PostLabels, VisionResult
+from tgdigest.ingest.vision_cache import VisionCache
 from tgdigest.llm.client import LLMClient, LLMError, LLMOutputError, Usage, image_part
 from tgdigest.prompts import load_examples, load_prompt, prompt_id
 
@@ -73,6 +74,9 @@ class IngestDeps:
     vision_timeout_s: float = 300.0
     """Per attempt; with 6 posts in flight and 4 VLM slots a request can queue for a while."""
     read_image: Callable[[Path], Awaitable[bytes]] | None = None
+    vision_cache: VisionCache | None = None
+    """Captions/OCR read earlier (the refresh's vision pass); cache-only means a miss is a
+    failed read rather than a call to the vision tier."""
 
     async def image_bytes(self, rel: str) -> bytes:
         path = self.media_root / rel
@@ -114,66 +118,80 @@ def image_members(state: IngestState) -> list[Member]:
     ]
 
 
+def needs_vision(state: IngestState) -> bool:
+    """Images are read for the visual topics, and elsewhere when the text alone is too short."""
+    clean = normalize_text(state.get("text", ""))
+    return bool(image_members(state)) and (
+        state.get("channel_topic") in VISUAL_TOPICS or len(clean) < 40
+    )
+
+
+async def _describe(
+    deps: IngestDeps, prompt: str, image: bytes, mime: str, max_tokens: int
+) -> tuple[VisionResult, Usage]:
+    content: list[Any] = [{"type": "text", "text": prompt}, image_part(image, mime)]
+    messages: list[ChatCompletionMessageParam] = [{"role": "user", "content": content}]
+    result, completion = await asyncio.wait_for(
+        deps.llm.structured(messages, VisionResult, tier="vlm", max_tokens=max_tokens),
+        timeout=deps.vision_timeout_s,
+    )
+    return result, completion.usage
+
+
+async def describe_member(
+    deps: IngestDeps, member: Member
+) -> tuple[dict[str, Any] | None, dict[str, int], list[str]]:
+    """One image through the vision tier: (result or None, usage, degradation notes)."""
+    usage = {"prompt_tokens": 0, "completion_tokens": 0}
+    rel = member["media_path"] or ""
+    pid = member["post_id"]
+    try:
+        image = await deps.image_bytes(rel)
+    except OSError as exc:
+        log.warning("image_unreadable", post_id=pid, error=repr(exc))
+        return None, usage, ["vision:missing_file"]
+    mime = _MIME.get(Path(rel).suffix.lower(), "image/jpeg")
+    # 300 tokens fit ~95 % of answers; a truncated one is retried with 600 by the client (D4)
+    attempts = [(load_prompt(*VISION_PROMPT), 300), (load_prompt(*VISION_SIMPLE_PROMPT), 200)]
+    for prompt, max_tokens in attempts:  # SPEC §6.2: retry with a simpler prompt, then degrade
+        try:
+            result, used = await _describe(deps, prompt, image, mime, max_tokens)
+        except (LLMOutputError, LLMError, TimeoutError) as exc:
+            log.warning("vision_failed", post_id=pid, error=repr(exc)[:200])
+            continue
+        usage = _add_usage(usage, used)
+        notes = [] if result.is_readable or result.ocr_text else ["vision:unreadable"]
+        return result.model_dump(), usage, notes
+    return None, usage, ["vision:failed"]
+
+
 def build_ingest_graph(deps: IngestDeps) -> Any:
     async def triage(state: IngestState) -> IngestState:
-        clean = normalize_text(state.get("text", ""))
-        needs_vision = bool(image_members(state)) and (
-            state.get("channel_topic") in VISUAL_TOPICS or len(clean) < 40
-        )
         return {
-            "clean_text": clean,
+            "clean_text": normalize_text(state.get("text", "")),
             "urls": extract_urls(state.get("text", "")),
-            "needs_vision": needs_vision,
+            "needs_vision": needs_vision(state),
             "vision": {},
             "labels": None,
             "degraded": [],
             "usage": {"prompt_tokens": 0, "completion_tokens": 0},
         }
 
-    async def _describe(
-        prompt: str, image: bytes, mime: str, max_tokens: int
-    ) -> tuple[VisionResult, Usage]:
-        content: list[Any] = [{"type": "text", "text": prompt}, image_part(image, mime)]
-        messages: list[ChatCompletionMessageParam] = [{"role": "user", "content": content}]
-        result, completion = await asyncio.wait_for(
-            deps.llm.structured(messages, VisionResult, tier="vlm", max_tokens=max_tokens),
-            timeout=deps.vision_timeout_s,
-        )
-        return result, completion.usage
-
-    async def describe_one(
-        member: Member, usage: dict[str, int], degraded: list[str]
-    ) -> tuple[dict[str, Any] | None, dict[str, int]]:
-        rel = member["media_path"] or ""
-        pid = member["post_id"]
-        try:
-            image = await deps.image_bytes(rel)
-        except OSError as exc:
-            log.warning("image_unreadable", post_id=pid, error=repr(exc))
-            degraded.append("vision:missing_file")
-            return None, usage
-        mime = _MIME.get(Path(rel).suffix.lower(), "image/jpeg")
-        # 300 tokens fit ~95 % of answers; a truncated one is retried with 600 by the client (D4)
-        attempts = [(load_prompt(*VISION_PROMPT), 300), (load_prompt(*VISION_SIMPLE_PROMPT), 200)]
-        for prompt, max_tokens in attempts:  # SPEC §6.2: retry with a simpler prompt, then degrade
-            try:
-                result, used = await _describe(prompt, image, mime, max_tokens)
-            except (LLMOutputError, LLMError, TimeoutError) as exc:
-                log.warning("vision_failed", post_id=pid, error=repr(exc)[:200])
-                continue
-            usage = _add_usage(usage, used)
-            if not result.is_readable and not result.ocr_text:
-                degraded.append("vision:unreadable")
-            return result.model_dump(), usage
-        degraded.append("vision:failed")
-        return None, usage
-
     async def describe_images(state: IngestState) -> IngestState:
         usage = state["usage"]
         degraded = list(state["degraded"])
         vision: dict[int, dict[str, Any] | None] = {}
+        cache = deps.vision_cache
         for member in image_members(state):  # sequential per post; posts run concurrently
-            vision[member["post_id"]], usage = await describe_one(member, usage, degraded)
+            pid = member["post_id"]
+            if cache is not None and pid in cache:
+                vision[pid], notes = cache.get(pid)
+            elif cache is not None and cache.only:
+                vision[pid], notes = None, ["vision:not_cached"]
+            else:
+                vision[pid], used, notes = await describe_member(deps, member)
+                usage = {k: usage[k] + used[k] for k in usage}
+            degraded.extend(notes)
         return {"vision": vision, "usage": usage, "degraded": degraded}
 
     async def classify(state: IngestState) -> IngestState:

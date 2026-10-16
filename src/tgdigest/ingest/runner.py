@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
@@ -20,8 +20,12 @@ from tgdigest.ingest.graph import (
     IngestState,
     Member,
     build_ingest_graph,
+    describe_member,
+    image_members,
     model_version,
+    needs_vision,
 )
+from tgdigest.ingest.vision_cache import VisionCache
 
 log = structlog.get_logger(__name__)
 
@@ -48,6 +52,20 @@ class IngestStats:
     prompt_tokens: int = 0
     completion_tokens: int = 0
     failed: list[int] = field(default_factory=list)
+
+
+@dataclass
+class VisionStats:
+    posts: int = 0
+    """Pending posts (albums count once)."""
+    images: int = 0
+    """Image messages of those posts that need reading."""
+    cached: int = 0
+    """Already read by an earlier run that stopped before classifying."""
+    done: int = 0
+    failed: int = 0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
 
 
 async def select_pending(
@@ -214,4 +232,58 @@ async def run_ingest(
 
     await asyncio.gather(*(one(i) for i in inputs))
     log.info("ingest_done", **{k: v for k, v in vars(stats).items() if k != "failed"})
+    return stats
+
+
+async def run_vision_pass(
+    factory: async_sessionmaker[AsyncSession],
+    deps: IngestDeps,
+    cache: VisionCache,
+    *,
+    topic: str | None = None,
+    since: datetime | None = None,
+    limit: int | None = None,
+    missing_only: bool = False,
+    concurrency: int = 4,
+    progress: Callable[[VisionStats], None] | None = None,
+    before: Callable[[], Awaitable[Any]] | None = None,
+) -> VisionStats:
+    """Read the images of every pending post that needs them into ``cache`` — the first of the
+    refresh's two passes, so the vision model is loaded once, not swapped in for every post.
+    ``run_ingest`` with ``cache.cache_only()`` then classifies without touching it.
+    ``before`` runs only when there is an image to read (the refresh frees a model slot)."""
+    async with factory() as session:
+        posts = await select_pending(
+            session,
+            model_version(deps),
+            topic=topic,
+            since=since,
+            limit=limit,
+            missing_only=missing_only,
+        )
+        inputs = await group_posts(session, posts)
+    todo = [m for inp in inputs if needs_vision(inp) for m in image_members(inp)]
+    pending = [m for m in todo if m["post_id"] not in cache]
+    stats = VisionStats(posts=len(inputs), images=len(todo), cached=len(todo) - len(pending))
+    sem = asyncio.Semaphore(concurrency)
+    if pending and before is not None:
+        await before()
+
+    async def one(member: Member) -> None:
+        async with sem:
+            try:
+                result, usage, notes = await describe_member(deps, member)
+            except Exception as exc:  # one image must never stop the pass
+                log.error("vision_pass_failed", post_id=member["post_id"], error=repr(exc)[:300])
+                result, usage, notes = None, {}, ["vision:failed"]
+            cache.put(member["post_id"], result, notes)
+            stats.done += 1
+            stats.failed += result is None
+            stats.prompt_tokens += usage.get("prompt_tokens", 0)
+            stats.completion_tokens += usage.get("completion_tokens", 0)
+            if progress is not None:
+                progress(stats)
+
+    await asyncio.gather(*(one(m) for m in pending))
+    log.info("vision_pass_done", **vars(stats))
     return stats

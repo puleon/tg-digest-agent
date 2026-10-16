@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from pytest_httpx import HTTPXMock
 
 from tgdigest.refresh import pipeline
 from tgdigest.refresh.pipeline import Progress, run_refresh
@@ -35,7 +36,14 @@ async def test_a_run_records_every_step_and_reports_to_the_requester(tmp_path: P
     calls: list[str] = []
     steps = [
         ("collect", step({"channels": 28, "inserted": 90}, calls, "collect")),
-        ("ingest", step({"selected": 90, "processed": 89, "failed": 1}, calls, "ingest")),
+        (
+            "ingest",
+            step(
+                {"images": 40, "images_done": 40, "selected": 90, "processed": 89, "failed": 1},
+                calls,
+                "ingest",
+            ),
+        ),
     ]
     status = await run_refresh(files, steps, trigger="bot", requested_by=7, notify=sent)
 
@@ -47,7 +55,10 @@ async def test_a_run_records_every_step_and_reports_to_the_requester(tmp_path: P
     assert len(files.history.read_text().splitlines()) == 1
     [(chats, text)] = sent.messages
     assert chats == [7] and "Корпус обновлён (из бота)" in text
-    assert "сбор: +90 постов из 28 каналов" in text and "обогащение: 89 из 90, ошибок 1" in text
+    assert (
+        "сбор: +90 постов из 28 каналов" in text
+        and "обогащение: картинки 40 из 40; посты 89 из 90, ошибок 1" in text
+    )
 
 
 async def test_a_failed_step_stops_the_run_and_a_failed_night_tells_everyone(
@@ -87,15 +98,15 @@ async def test_progress_reaches_the_status_file_while_the_step_runs(
     seen: list[dict[str, Any]] = []
 
     async def ingest(progress: Progress) -> dict[str, Any]:
-        progress({"selected": 10, "processed": 4})
+        progress({"posts": 10, "images": 6, "images_done": 2})
         seen.append(json.loads(files.status.read_text()))
         return {"selected": 10, "processed": 10}
 
     await run_refresh(files, [("ingest", ingest)], trigger="cli")
     [mid] = seen
     assert mid["state"] == "running" and mid["step"] == "ingest"
-    assert mid["steps"][0]["result"] == {"selected": 10, "processed": 4}
-    assert "обогащение: 4 из 10" in render(mid, running=True)
+    assert mid["steps"][0]["result"] == {"posts": 10, "images": 6, "images_done": 2}
+    assert "обогащение: картинки 2 из 6; постов к обогащению 10" in render(mid, running=True)
 
 
 def test_the_lock_is_the_truth_about_a_run(tmp_path: Path) -> None:
@@ -136,3 +147,20 @@ def test_render_tells_running_interrupted_and_missing_runs_apart() -> None:
     assert "прервано на шаге «индекс»" in render(status, running=False, now=now)
     assert render(status, running=True, now=now).endswith("\n… индекс")  # no counts yet
     assert render(None, running=False) == "Обновлений корпуса ещё не было."
+
+
+async def test_unload_frees_a_slot_and_tolerates_a_model_that_is_not_loaded(
+    httpx_mock: HTTPXMock,
+) -> None:
+    from tgdigest.config import Settings
+    from tgdigest.refresh.pipeline import unload_model
+
+    settings = Settings(llm_base_url="http://llm:8080/v1")
+    url = "http://llm:8080/models/unload"
+    httpx_mock.add_response(url=url, status_code=200, json={"success": True})
+    httpx_mock.add_response(url=url, status_code=400, json={"error": "model is not running"})
+    httpx_mock.add_response(url=url, status_code=500, text="boom")
+    assert await unload_model(settings, "qwen3.6-35b-a3b")
+    assert await unload_model(settings, "gemma-4-26b-a4b")
+    assert not await unload_model(settings, "gemma-4-26b-a4b")  # logged, the run goes on
+    assert json.loads(httpx_mock.get_requests()[0].content) == {"model": "qwen3.6-35b-a3b"}

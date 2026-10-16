@@ -554,3 +554,20 @@ with links; "✕ N" writes `unsave` and redraws the list. `unsave` is not a vote
 Incident on the way: a bare `uv sync` on the box (exact by default) removed the `ml` group;
 after the next API restart search failed on `import torch` for about 12 minutes (13:56–14:08
 MSK) until `uv sync --all-groups`. `ml` is now in `[tool.uv] default-groups`.
+
+### Later the same day — the refresh enriches in two passes
+
+The first run read images with Qwen: 3.5 posts/min, ≈ 12–13 h for the 2 680-post backlog.
+llama-server's log showed why: an image is ~1 200 tokens (the preset's `image-min-tokens = 1024`,
+below which Qwen misreads Cyrillic, D1) prefilled at ~63 tok/s — 19 s — and while one slot
+prefills an image the other decodes at 3–5 tok/s. Classification was already cheap: the shared
+prompt prefix comes from the cache, 74–214 new tokens, ~3.5 s. More Qwen slots were measured
+in D4 (2.6 → 2.5 images/min), so the lever was the model, not the slots.
+
+Now: `run_vision_pass` reads every pending image with Gemma (4 slots, D4: 8.5 images/min) into
+`data/refresh/vision.jsonl`; then `run_ingest` classifies with Qwen, the vision node reading
+the cache (`cache_only`: a miss is `vision:not_cached`, never a call). The refresh unloads the
+text tier before the first image and Gemma before classifying (`POST /models/unload`), so the
+router never picks the eviction itself — its pick could be the assistant. New rows carry the
+corpus's own `model_version` again (`qwen+gemma`). The first run was stopped at 326 / 2 680
+posts (kept, `qwen+qwen`) and restarted on the new scheme.

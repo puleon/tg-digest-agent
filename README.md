@@ -118,8 +118,10 @@ view counters, enriches what has no enrichment within 45 days, runs the link and
 for cinema, rebuilds duplicate clusters, updates the index and rebuilds every profile that has
 votes (so the bot's 👍/👎 take effect). A systemd timer runs it nightly; the owner can start it
 from the bot with `/update` and watch it with `/update status`, and the run reports back in the
-chat. Images in the refresh are read by the text model: the shared model server keeps two
-models and the assistant's is resident, so a text + vision pair would swap on every post.
+chat. Enrichment in the refresh runs in two passes: every new image with Gemma first, then
+classification with Qwen, the captions taken from a cache. The shared model server keeps two
+models and the assistant's is resident, so the refresh unloads one tier before the other —
+two swaps per run instead of one per post.
 
 ## Why these topics are technically interesting
 

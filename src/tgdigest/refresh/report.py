@@ -41,9 +41,20 @@ def step_line(name: str, r: dict[str, Any]) -> str:
     elif name == "views":
         text = "пропущено" if r.get("skipped") else f"обновлено {r.get('counters_updated', 0)}"
     elif name == "ingest":
-        text = f"{r.get('processed', 0)} из {r.get('selected', '?')}"
-        if r.get("failed"):
-            text += f", ошибок {r['failed']}"
+        parts = []
+        if r.get("images"):
+            images = f"картинки {r.get('images_done', 0)} из {r['images']}"
+            if r.get("images_failed"):
+                images += f", не прочитано {r['images_failed']}"
+            parts.append(images)
+        if "selected" in r:
+            posts = f"посты {r.get('processed', 0)} из {r['selected']}"
+            if r.get("failed"):
+                posts += f", ошибок {r['failed']}"
+            parts.append(posts)
+        elif r.get("posts"):
+            parts.append(f"постов к обогащению {r['posts']}")
+        text = "; ".join(parts) or "нечего обогащать"
     elif name == "links":
         text = f"пересказано {r.get('summarized', 0)} из {r.get('selected', 0)}"
     elif name == "entities":

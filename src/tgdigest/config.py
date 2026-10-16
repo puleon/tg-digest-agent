@@ -86,17 +86,16 @@ class Settings(BaseSettings):
         return {int(x) for x in self.bot_allowed_users.replace(";", ",").split(",") if x.strip()}
 
     # --- corpus refresh (collect → enrich → dedup → index → profiles) ---------------------
-    refresh_vlm_model: str = "qwen3.6-35b-a3b"
-    """Images in the refresh are read by the text model, not ``vlm_model``. The shared
-    llama-server keeps at most two models and the assistant's is resident, so a text + vision
-    pair would swap on almost every post (or evict the assistant). Qwen is ~3× slower per
-    image but reads Cyrillic better (D4); the rows record it in ``model_version``."""
+    refresh_vision_concurrency: int = Field(default=4, ge=1)
+    """Images in flight in the refresh's vision pass — the Gemma preset has four slots. The
+    refresh reads every image first and classifies afterwards: the shared llama-server keeps two
+    models and the assistant's is resident, so text + vision per post would swap every time."""
     refresh_window_days: int = Field(default=45, ge=1)
     """Posts this recent without enrichment are enriched; a failed night is caught up later."""
     refresh_views_days: int = Field(default=7, ge=0)
     """View counters of this many recent days are re-read (the digest ranks by them)."""
     refresh_concurrency: int = Field(default=2, ge=1)
-    """Posts in flight during enrichment — the text preset has two slots."""
+    """Posts in flight in the classification pass — the text preset has two slots."""
 
     # --- external tools ---------------------------------------------------------------------
     tmdb_api_key: SecretStr | None = None

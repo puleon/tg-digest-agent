@@ -13,7 +13,8 @@ from tests.ingest.conftest import FakeLLM
 from tgdigest.db.base import Base, make_engine, make_session_factory
 from tgdigest.db.models import Channel, Enrichment, Post
 from tgdigest.ingest.graph import IngestDeps
-from tgdigest.ingest.runner import run_ingest
+from tgdigest.ingest.runner import run_ingest, run_vision_pass
+from tgdigest.ingest.vision_cache import VisionCache
 
 
 @pytest.fixture
@@ -144,3 +145,42 @@ async def test_missing_only_ignores_the_version_and_reports_progress(
 
     # without the flag the same post counts as pending for the current version
     assert (await run_ingest(factory, deps, topic="scifi")).selected == 1
+
+
+async def test_two_passes_read_images_first_and_classify_from_the_cache(
+    factory: async_sessionmaker[AsyncSession], deps: IngestDeps, fake_llm: FakeLLM, tmp_path: Path
+) -> None:
+    cache = VisionCache(tmp_path / "vision.jsonl")
+    freed: list[bool] = []
+
+    async def free() -> None:
+        freed.append(True)
+
+    vision = await run_vision_pass(factory, deps, cache, concurrency=2, before=free)
+    assert (vision.posts, vision.images, vision.done, vision.failed) == (2, 2, 2, 0)
+    assert freed == [True] and len(cache) == 2  # both album members; the scifi text needs none
+    assert {c["tier"] for c in fake_llm.calls} == {"vlm"}
+
+    # a second vision pass (a resumed run) reads nothing again and frees nothing
+    again = await run_vision_pass(
+        factory, deps, VisionCache(tmp_path / "vision.jsonl"), before=free
+    )
+    assert (again.cached, again.done) == (2, 0) and freed == [True]
+
+    fake_llm.calls.clear()
+    second = IngestDeps(llm=fake_llm, media_root=deps.media_root, vision_cache=cache.cache_only())  # type: ignore[arg-type]
+    stats = await run_ingest(factory, second, concurrency=2)
+    assert stats.processed == 2 and {c["tier"] for c in fake_llm.calls} == {"fast"}
+    async with factory() as s:
+        rows = {e.post_id: e for e in (await s.execute(select(Enrichment))).scalars()}
+    assert rows[10].ocr_text == "КОГДА ДЕДЛАЙН" and rows[11].ocr_text == "КОГДА ДЕДЛАЙН"
+
+
+async def test_cache_only_never_calls_the_vision_tier(
+    factory: async_sessionmaker[AsyncSession], deps: IngestDeps, fake_llm: FakeLLM, tmp_path: Path
+) -> None:
+    empty = VisionCache(tmp_path / "none.jsonl").cache_only()
+    only = IngestDeps(llm=fake_llm, media_root=deps.media_root, vision_cache=empty)  # type: ignore[arg-type]
+    stats = await run_ingest(factory, only, topic="humor")
+    assert stats.processed == 1 and stats.degraded == {"vision:not_cached": 2}
+    assert all(c["tier"] == "fast" for c in fake_llm.calls)

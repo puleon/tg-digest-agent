@@ -182,30 +182,64 @@ def default_steps(
 
     async def ingest(progress: Progress) -> dict[str, Any]:
         from tgdigest.ingest.graph import IngestDeps
-        from tgdigest.ingest.runner import IngestStats, run_ingest
+        from tgdigest.ingest.runner import IngestStats, VisionStats, run_ingest, run_vision_pass
+        from tgdigest.ingest.vision_cache import VisionCache
         from tgdigest.llm.client import LLMClient
 
-        llm = LLMClient(settings.model_copy(update={"vlm_model": settings.refresh_vlm_model}))
+        llm = LLMClient(settings)
+        cache = VisionCache(settings.data_dir / "refresh" / "vision.jsonl")
+        out: dict[str, Any] = {}
 
-        def report(st: IngestStats) -> dict[str, Any]:
-            return {
-                "selected": st.selected,
-                "processed": st.processed,
-                "failed": len(st.failed),
-                "model_version": st.model_version,
-            }
+        def seen(v: VisionStats) -> None:
+            out.update(
+                posts=v.posts,
+                images=v.images,
+                images_done=v.cached + v.done,
+                images_failed=v.failed,
+            )
+            progress(dict(out))
+
+        async def free_slot_for_vision() -> None:
+            await unload_model(settings, settings.llm_model_fast)
+
+        # pass 1: every image with the vision model, which has the router's free slot to itself
+        vision = await run_vision_pass(
+            factory,
+            IngestDeps(llm=llm, media_root=settings.media_dir, vision_cache=cache),
+            cache,
+            since=since,
+            missing_only=True,
+            concurrency=settings.refresh_vision_concurrency,
+            progress=seen,
+            before=free_slot_for_vision,
+        )
+        seen(vision)
+        # pass 2: classification with the text model; captions and OCR come from the cache
+        if vision.done:
+            await unload_model(settings, settings.vlm_model)
+
+        def classified(st: IngestStats) -> None:
+            out.update(
+                selected=st.selected,
+                processed=st.processed,
+                failed=len(st.failed),
+                model_version=st.model_version,
+            )
+            progress(dict(out))
 
         stats = await run_ingest(
             factory,
-            IngestDeps(llm=llm, media_root=settings.media_dir),
+            IngestDeps(llm=llm, media_root=settings.media_dir, vision_cache=cache.cache_only()),
             since=since,
             missing_only=True,
             concurrency=settings.refresh_concurrency,
-            progress=lambda st: progress(report(st)),
+            progress=classified,
         )
+        classified(stats)
         if stats.selected and not stats.processed:
             raise RuntimeError(f"no post enriched out of {stats.selected} (model server down?)")
-        return report(stats)
+        cache.clear()  # the next run starts from what is still pending, not from old reads
+        return dict(out)
 
     async def links(progress: Progress) -> dict[str, Any]:
         from tgdigest.ingest.passes import run_links
@@ -299,6 +333,25 @@ def default_steps(
         ("index", index),
         ("profiles", profiles),
     ]
+
+
+async def unload_model(settings: Settings, model: str) -> bool:
+    """Free a model's slot in the shared router before the other tier needs it, so the router
+    never evicts on its own — its pick could be the assistant. "Not running" is fine."""
+    import httpx
+
+    root = settings.llm_base_url.removesuffix("/v1")
+    try:
+        async with httpx.AsyncClient(timeout=120.0) as client:
+            resp = await client.post(f"{root}/models/unload", json={"model": model})
+    except httpx.HTTPError as exc:
+        log.warning("model_unload_failed", model=model, error=repr(exc))
+        return False
+    if resp.status_code == 200 or (resp.status_code == 400 and "not running" in resp.text):
+        log.info("model_unloaded", model=model, was_loaded=resp.status_code == 200)
+        return True
+    log.warning("model_unload_failed", model=model, status=resp.status_code, body=resp.text[:200])
+    return False
 
 
 async def telegram_notify(settings: Settings, chats: list[int], text: str) -> None:
