@@ -108,3 +108,20 @@ async def test_make_digest_covers_topics_and_never_repeats(
     first_ids = {it["post_id"] for it in result.items}
     assert not first_ids & {it["post_id"] for it in second.items}  # nothing shown twice
     assert second.gaps  # the small corpus runs out: the shortfall is reported, not hidden
+
+
+async def test_topic_quotas_see_every_candidate_not_a_top_of_the_pool(
+    factory: async_sessionmaker[AsyncSession],
+) -> None:
+    """A topic the profile likes little scores low on every post; cutting the ranked pool before
+    the quotas left its slots empty (the owner's issues of 2026-10-17: humor 0 of 2)."""
+    from tgdigest.digest.crew import Plan
+    from tgdigest.digest.runner import picks_for
+
+    index = PostIndex(QdrantClient(":memory:"), FakeEmbedder())
+    await build_index(factory, index)
+    await record_feedback(factory, 1, [(1, "like")])  # one humor like: humor tops every score
+    await build_and_store_profile(factory, index, 1)
+    plan = Plan(items=3, per_topic={"humor": 1, "scifi": 1, "cinema": 1}, window_days=8)
+    picks = await picks_for(factory, index, 1, plan, pool=3)
+    assert {p.topic for p in picks} == {"humor", "scifi", "cinema"}

@@ -53,12 +53,15 @@ async def picks_for(
     baseline: bool = False,
     until: datetime | None = None,
 ) -> list[Pick]:
+    # every candidate goes to the curator: its topic quotas must see the whole set. A ranked
+    # top-``pool`` cut first dropped a whole topic the profile weighs low — every one of its
+    # posts scores low — and the plan's slots for it stayed empty (2026-10-17: humor 0 of 2)
     ranked = await rank_candidates(
         factory,
         index,
         user_id,
         days=plan.window_days,
-        limit=pool,
+        limit=None,
         per_centroid=pool,
         baseline=baseline,
         until=until,

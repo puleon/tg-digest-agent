@@ -230,7 +230,7 @@ async def rank_candidates(
     *,
     days: int = 7,
     per_centroid: int = 60,
-    limit: int = 20,
+    limit: int | None = 20,
     weights: Weights | None = None,
     baseline: bool = False,
     until: datetime | None = None,

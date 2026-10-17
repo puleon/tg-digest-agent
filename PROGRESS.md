@@ -607,3 +607,15 @@ classification 2 367 posts in 1 h 28 min (≈ 27/min); links 36 summaries of 509
 entities 424 of 509 with entities, films 588 grounded / 177 not, 7 extraction failures (the
 run predates the schema cap) — 65 min; dedup 832 clusters (30 s); index +2 691 points,
 1 670 payload updates, 19 962 total (12.5 min); profiles 2.
+
+## 2026-10-17 — a topic could vanish from an issue: quotas saw only the top of the pool
+
+Both of the owner's issues this morning came with "humor 0 of 2". Not a shortage: the 7-day
+window held 289 humor posts and 192 reached the candidate set, but `picks_for` kept only the
+120 best by score before the curator applied the topic quotas, and humor — weight 0.09 in the
+profile now, low channel affinity — ranked 135th at best (0.554 against a cut at 0.577). The
+planner promises every topic a slot; the cut undid that. The curator now gets every candidate
+(~360). Checked live, unsaved: 10 items, cinema 5 / scifi 3 / humor 2, no gaps. D16's pairs are
+unaffected — their v1 issues had humor items (16 across the eight weeks).
+
+The night's scheduled refresh: 19 min end to end, +49 posts.
