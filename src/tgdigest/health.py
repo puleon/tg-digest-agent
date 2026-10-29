@@ -58,6 +58,6 @@ async def check_all(settings: Settings) -> list[Check]:
 
 async def check_telegram(settings: Settings) -> Check:
     """t.me the way the collector goes out. Not a service of ours: the box reaches Telegram
-    through a VPN route it does not own, so the CLI reports it; the API's /health does not
-    depend on it."""
+    through the VPN route of another project (telegram-egress), so the CLI reports it; the
+    API's /health does not depend on it."""
     return await _http_check("telegram", TELEGRAM_PROBE_URL, settings.web_proxy)

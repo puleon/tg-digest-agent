@@ -619,3 +619,13 @@ planner promises every topic a slot; the cut undid that. The curator now gets ev
 unaffected — their v1 issues had humor items (16 across the eight weeks).
 
 The night's scheduled refresh: 19 min end to end, +49 posts.
+
+## 2026-10-29 — the Telegram route is its own project
+
+The tunnel the box reaches Telegram through moved out of `nanoclaw-assistant` into
+`telegram-egress` (`/Users/leonid/telegram-egress`, `~/telegram-egress` on the box) — the same
+move `llm-stack` made for the model server: this project's collector, bot and nightly refresh
+depend on it as much as the assistant does. Nothing running changed; the new project renders
+the same xray config byte for byte and the same unit apart from its comment and Description.
+README, SPEC, the health check's docstring and the guide (chapters 4 and 15, two figures) say
+so now.

@@ -209,7 +209,7 @@ The SPEC (`SPEC.md`, Russian) is the source of truth; every deviation is recorde
   created; `t.me/s/<channel>` exposes everything the schema needs except forward counts. The
   box could not reach Telegram, so the six-month collection ran through a reverse SOCKS tunnel
   from the laptop; since 2026-10 a box-level route sends only Telegram's prefixes through a
-  VPN (set up for the sibling assistant project), and the collector and the bot go out
+  VPN (its own project, `telegram-egress`, shared with the assistant), and the collector and the bot go out
   directly.
 - **Wikidata instead of TMDB** for film grounding (TMDB is unreachable from the box); FantLab
   with an Open Library fallback for books. `web_search` is Wikipedia search and is documented

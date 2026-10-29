@@ -76,7 +76,7 @@ def host_overview() -> str:
     f.text(32, 275, 'соседний проект: персональный ассистент (NanoClaw)', 11, 'bold', kind='ext', anchor='start')
     f.text(32, 295, 'iron-proxy · iron-control (web + свой Postgres) · контейнеры агента по требованию', 10,
            kind='ext', anchor='start')
-    f.text(32, 312, 'с сетями tgdigest не пересекается; его xray-tg даёт всему хосту маршрут в Telegram', 10,
+    f.text(32, 312, 'с сетями tgdigest не пересекается; маршрут в Telegram — проект telegram-egress', 10,
            kind='ext', anchor='start', italic=True)
     # host processes
     f.rect(510, 255, 270, 155, 'svc', r=12, fill='#fff7ed')
