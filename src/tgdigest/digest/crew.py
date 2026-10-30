@@ -1,7 +1,8 @@
 """Digest crew (SPEC §6.7): Planner → Curator → Editor → Critic, at most two critic rounds.
 
 The Planner and the Curator are code, not prompts: composition constraints (reading budget,
-topic coverage, ≤ 2 posts per channel, fresh/timeless balance, nothing shown before) are
+topic coverage, ≤ 2 posts per channel, fresh/timeless balance, one post per story, nothing
+shown before) are
 exact rules and are checked exactly. The Editor and the Critic are LLM steps with versioned
 prompts; the Critic's mechanical checks (duplicates inside the issue, repeats of earlier
 issues, plan coverage) are code too — only hallucination / spoiler / clickbait need a reader.
@@ -15,6 +16,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
+import numpy as np
 import structlog
 from pydantic import BaseModel, Field
 
@@ -69,6 +71,44 @@ def make_plan(topic_weights: dict[str, float], *, minutes: int = 10, window_days
 
 
 # --- curate ---------------------------------------------------------------------------------------
+# One story told by several channels in their own words is not a duplicate (dedup collapses
+# reposts only, per the D6 labels), but an issue should carry it once. Tuned on the week of the
+# owner's issue of 2026-10-30 (Mama Bear from three channels): a cosine this high is one story
+# (deaths, posters, trailers of one film); lower down, two trailers of different films reach
+# 0.71, and only shared words (names, titles) tell one story from two.
+STORY_DENSE = 0.80
+STORY_DENSE_WITH_WORDS = 0.70
+STORY_WORDS = 0.25  # cosine of the BGE-M3 lexical weights
+STORY_MIN_TERMS = 4  # fewer: an image-only post, whose text vector is the empty string's
+
+
+@dataclass(frozen=True)
+class StoryVector:
+    """A post's ``full`` text vectors, normalized, for the one-story check."""
+
+    dense: np.ndarray
+    words: dict[int, float]
+
+    @classmethod
+    def of(cls, dense: np.ndarray, sparse: dict[int, float]) -> StoryVector | None:
+        if len(sparse) < STORY_MIN_TERMS:
+            return None
+        norm = float(np.sqrt(sum(v * v for v in sparse.values()))) or 1.0
+        return cls(
+            dense=dense / (float(np.linalg.norm(dense)) or 1.0),
+            words={k: v / norm for k, v in sparse.items()},
+        )
+
+    def same_story(self, other: StoryVector) -> bool:
+        dense = float(self.dense @ other.dense)
+        if dense >= STORY_DENSE:
+            return True
+        if dense < STORY_DENSE_WITH_WORDS:
+            return False
+        words = sum(v * other.words.get(k, 0.0) for k, v in self.words.items())
+        return words >= STORY_WORDS
+
+
 @dataclass(frozen=True)
 class Pick:
     post_id: int
@@ -85,13 +125,16 @@ class Pick:
     date: str = ""
     score_parts: dict[str, float] = field(default_factory=dict)
     """Components of the interest score (for ``/why``)."""
+    story: StoryVector | None = field(default=None, compare=False, repr=False)
+    """None: too little text to tell its story apart; never matched as a repeat."""
 
 
 def curate(
     candidates: Sequence[Pick], plan: Plan, *, exclude: frozenset[int] = frozenset()
 ) -> list[Pick]:
     """Greedy fill of the plan by score: topic quotas, channel cap, fresh/timeless balance, no
-    duplicates (one post per cluster), nothing from ``exclude`` (shown before)."""
+    duplicates (one post per cluster), one post per story (the best-scored one), nothing from
+    ``exclude`` (shown before)."""
     chosen: list[Pick] = []
     per_topic: dict[str, int] = dict.fromkeys(TOPICS, 0)
     per_channel: dict[int, int] = {}
@@ -105,6 +148,10 @@ def curate(
         if per_topic.get(p.topic, 0) >= plan.per_topic.get(p.topic, 0):
             return False
         if per_channel.get(p.channel_id, 0) >= plan.max_per_channel:
+            return False
+        if p.story is not None and any(
+            c.story is not None and p.story.same_story(c.story) for c in chosen
+        ):
             return False
         return fresh_needed is None or p.fresh == fresh_needed
 

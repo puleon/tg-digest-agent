@@ -629,3 +629,19 @@ depend on it as much as the assistant does. Nothing running changed; the new pro
 the same xray config byte for byte and the same unit apart from its comment and Description.
 README, SPEC, the health check's docstring and the guide (chapters 4 and 15, two figures) say
 so now.
+
+## 2026-10-30 — one story, one slot
+
+The owner's issue of the 30th carried Carey Barker's short film Mama Bear three times: three
+channels, three texts of their own, no dedup cluster — rightly, since D6 labels independent
+coverage of one event as not a duplicate, and search keeps showing all three. The curator had
+no notion of a story. It has now: a candidate is skipped when its `full` text vector is at
+cosine ≥ 0.80 with an item already chosen, or ≥ 0.70 and the BGE-M3 lexical weights (names,
+titles) at cosine ≥ 0.25; posts with fewer than 4 lexical terms are never compared (image-only
+posts share the empty string's vector). Tuned on that week's 484 posts with text: above 0.80
+the cross-channel pairs are one story (Patrick Stewart's death, Dune posters, Ghost Rider's
+cinematographer); at 0.71 two trailers of different films (Dune, Jumanji) meet, words 0.13.
+Replayed without the LLM: issue 7 keeps one Mama Bear and takes Godzilla on Times Square and a
+@seance_light post instead; issue 6 drops @shishkino's second «Натиск» post; issues 4 and 5 do
+not change. The "Dune twice" the owner saw is one Dune item and a post about «Полдень» whose
+author is thinking of Arrakis.

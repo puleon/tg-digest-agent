@@ -160,6 +160,26 @@ class PostIndex:
             for p in points
         }
 
+    def vectors(
+        self, post_ids: Iterable[int], variant: str = "full"
+    ) -> dict[int, tuple[np.ndarray, dict[int, float]]]:
+        """post id -> (dense, sparse) vectors of one variant, for posts in the collection."""
+        ids = list(post_ids)
+        if not ids:
+            return {}
+        names = [variant, f"sparse_{variant}"]
+        out: dict[int, tuple[np.ndarray, dict[int, float]]] = {}
+        for p in self.client.retrieve(self.collection, ids=ids, with_vectors=names):
+            vec: Any = p.vector or {}
+            if variant not in vec or f"sparse_{variant}" not in vec:
+                continue
+            sparse = vec[f"sparse_{variant}"]
+            out[int(p.id)] = (
+                np.asarray(vec[variant], dtype=np.float32),
+                dict(zip(sparse.indices, sparse.values, strict=True)),
+            )
+        return out
+
     def upsert(self, docs: Sequence[IndexDocument], *, batch_size: int = 16) -> IndexStats:
         """Embed and upsert documents whose texts changed; rewrite only the payload of those
         whose labels/clusters changed; identical variant texts of one post are embedded once."""

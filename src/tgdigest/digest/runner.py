@@ -16,6 +16,7 @@ from tgdigest.digest.crew import (
     DigestResult,
     Pick,
     Plan,
+    StoryVector,
     compose,
     coverage_gaps,
     curate,
@@ -82,6 +83,7 @@ async def picks_for(
         ).all()
         exclude = await shown_before(session, user_id)
     score = {r["post_id"]: dict(r["score"]) for r in ranked}
+    stories = {pid: StoryVector.of(*v) for pid, v in index.vectors(ids).items()}
     picks = [
         Pick(
             post_id=post.id,
@@ -97,6 +99,7 @@ async def picks_for(
             caption=(e.vlm_caption or "") if e else "",
             url=f"https://t.me/{username}/{post.tg_message_id}",
             date=post.posted_at.strftime("%Y-%m-%d"),
+            story=stories.get(post.id),
         )
         for post, username, topic, e, cluster_id in rows
     ]

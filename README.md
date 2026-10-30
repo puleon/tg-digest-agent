@@ -86,7 +86,7 @@ retrieved it answers «⚠️ Ответ неполный …» and cites nothin
 
 **Digest** — `tgdigest digest make --user 0 --minutes 10`: Planner and Curator pick 5–12
 posts for the reading budget (a slot per topic weighted by the profile, ≤ 2 per channel,
-60 % fresh, one per duplicate cluster, nothing shown in the last ten issues), the Editor
+60 % fresh, one per duplicate cluster and one per story, nothing shown in the last ten issues), the Editor
 writes a title and a one-line reason per item, the Critic rejects hallucinated, spoiling or
 clickbait lines (≤ 2 rounds). The owner's first issue — profile scifi 0.47 / cinema 0.40 /
 humor 0.13, so the plan is 4 / 4 / 2; the Critic sent two titles back («Трейлер третьей части

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
+import numpy as np
 from pydantic import BaseModel
 
 from tgdigest.digest.crew import (
@@ -11,6 +12,7 @@ from tgdigest.digest.crew import (
     Pick,
     Plan,
     Problem,
+    StoryVector,
     Verdict,
     compose,
     coverage_gaps,
@@ -76,6 +78,40 @@ def test_curator_respects_quotas_channels_clusters_freshness_and_history() -> No
     assert coverage_gaps(picks, plan) == {}
     starved = curate([_pick(1, "humor")], plan)
     assert coverage_gaps(starved, plan) == {"humor": 2, "cinema": 1, "scifi": 1}
+
+
+def _story(angle: float, words: dict[int, float]) -> StoryVector | None:
+    """A unit vector ``angle`` radians off the x axis: cosine between two = cos(difference)."""
+    return StoryVector.of(np.array([np.cos(angle), np.sin(angle), 0.0]), words)
+
+
+def test_one_story_from_several_channels_takes_one_slot() -> None:
+    """The owner's issue of 2026-10-30 carried one short film three times: three channels,
+    three texts, no dedup cluster (independent coverage is not a repost)."""
+    names = {1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0}  # shared names: "Mama Bear", the director, ...
+    other = {11: 1.0, 12: 1.0, 13: 1.0, 14: 1.0}
+    near, mid, far = np.arccos(0.85), np.arccos(0.72), np.arccos(0.5)
+    plan = Plan(items=3, per_topic={"humor": 0, "cinema": 3, "scifi": 0}, fresh_share=1.0)
+    film = [
+        _pick(1, "cinema", 1, 0.9),
+        _pick(2, "cinema", 2, 0.8),
+        _pick(3, "cinema", 3, 0.7),
+        _pick(4, "cinema", 4, 0.6),
+        _pick(5, "cinema", 5, 0.5),
+    ]
+    stories = [
+        _story(0.0, names),
+        _story(near, other),  # cosine 0.85: one story whatever the words
+        _story(mid, names | {5: 1.0}),  # 0.72 and the same names: one story
+        _story(mid, other),  # 0.72, nothing named in common: another film's trailer
+        _story(-far, names),  # 0.5 off the first, further off the rest
+    ]
+    cands = [replace(p, story=st) for p, st in zip(film, stories, strict=True)]
+    assert [p.post_id for p in curate(cands, plan)] == [1, 4, 5]
+    # an image-only post has no text to compare: never a repeat, of anything
+    assert StoryVector.of(np.array([1.0, 0.0, 0.0]), {1: 1.0}) is None
+    bare = [replace(p, story=None) for p in cands[1:3]]
+    assert [p.post_id for p in curate([cands[0], *bare], plan)] == [1, 2, 3]
 
 
 @dataclass
