@@ -645,3 +645,14 @@ Replayed without the LLM: issue 7 keeps one Mama Bear and takes Godzilla on Time
 @seance_light post instead; issue 6 drops @shishkino's second «Натиск» post; issues 4 and 5 do
 not change. The "Dune twice" the owner saw is one Dune item and a post about «Полдень» whose
 author is thinking of Arrakis.
+
+## 2026-11-06 — the refresh moves to 13:00 MSK
+
+The owner asked for the daily corpus refresh at 13:00 instead of 02:30: the new batch should be
+ready in the afternoon, away from the evening ritual of the assistant that shares the model and
+its 04:00 reset. `deploy/systemd/tgdigest-refresh.timer` now has `OnCalendar=*-*-* 13:00:00`
+(and `Description=Daily …`); the rationale comment and the "nightly" wording in README, the
+Makefile and `.env.example` follow. The units were reinstalled on the box with
+`make remote T=units` and the timer restarted (`systemctl --user restart tgdigest-refresh.timer`);
+`list-timers` shows the next elapse 2026-11-06 13:00 MSK. `Persistent=true` still catches up a
+day the box was off; the 02:30 run of the 6th had already happened, so nothing was replayed.

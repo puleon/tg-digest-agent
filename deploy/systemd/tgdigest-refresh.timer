@@ -1,13 +1,15 @@
 # ~/.config/systemd/user/tgdigest-refresh.timer — installed by `make units`, then
 # `systemctl --user enable --now tgdigest-refresh.timer`.
-# 02:30 box time (MSK): after the evening ritual of the assistant that shares the model; a
-# usual night (≈ 90 new posts) should be done before its 04:00 reset and the morning issues.
-# Persistent: a night the box was off is caught up at boot.
+# 13:00 box time (MSK), chosen by the owner: the new batch is ready in the afternoon, well
+# clear of the evening ritual of the assistant that shares the model and its 04:00 reset.
+# A usual run (≈ 90 new posts) takes minutes to about half an hour; the first run after a
+# long gap takes hours.
+# Persistent: a day the box was off is caught up at boot.
 [Unit]
-Description=Nightly corpus refresh for tg-digest-agent
+Description=Daily corpus refresh for tg-digest-agent
 
 [Timer]
-OnCalendar=*-*-* 02:30:00
+OnCalendar=*-*-* 13:00:00
 Persistent=true
 
 [Install]

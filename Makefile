@@ -103,7 +103,7 @@ refresh: sync ## Re-read dates and view counters of stored posts on the box (no 
 tunnel: ## Forward Langfuse (3000), MinIO (9090), Qdrant (6333), LLM (8080), API (8000) to localhost
 	ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 6333:127.0.0.1:6333 -L 8080:127.0.0.1:8080 -L 8000:127.0.0.1:8000 $(SERVER)
 
-# The API, the bot and the nightly corpus refresh run on the box as systemd user units (the box
+# The API, the bot and the daily corpus refresh run on the box as systemd user units (the box
 # user has Linger=yes, so they start at boot without a login). `units` runs on the box:
 # make remote T=units, then enable the timer once (systemctl --user enable --now tgdigest-refresh.timer)
 units: ## Install the api/bot/refresh user units (deploy/systemd) into ~/.config/systemd/user

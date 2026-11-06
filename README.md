@@ -116,12 +116,12 @@ profile a save counts as a like, and removing a bookmark is not a vote.
 The corpus keeps itself fresh: `tgdigest refresh run` collects new posts, re-reads a week of
 view counters, enriches what has no enrichment within 45 days, runs the link and entity passes
 for cinema, rebuilds duplicate clusters, updates the index and rebuilds every profile that has
-votes (so the bot's 👍/👎 take effect). A systemd timer runs it nightly; the owner can start it
-from the bot with `/update` and watch it with `/update status`, and the run reports back in the
-chat. Enrichment in the refresh runs in two passes: every new image with Gemma first, then
-classification with Qwen, the captions taken from a cache. The shared model server keeps two
-models and the assistant's is resident, so the refresh unloads one tier before the other —
-two swaps per run instead of one per post.
+votes (so the bot's 👍/👎 take effect). A systemd timer runs it daily at 13:00 MSK; the owner
+can start it from the bot with `/update` and watch it with `/update status`, and the run reports
+back in the chat. Enrichment in the refresh runs in two passes: every new image with Gemma
+first, then classification with Qwen, the captions taken from a cache. The shared model server
+keeps two models and the assistant's is resident, so the refresh unloads one tier before the
+other — two swaps per run instead of one per post.
 
 ## Why these topics are technically interesting
 
@@ -325,7 +325,7 @@ Services bind to `127.0.0.1` only. When they run on a remote box, `make tunnel` 
 runs a make target there. The box reaches Telegram through a Telegram-only VPN route (kernel
 routes for Telegram's official prefixes; everything else keeps the box's own egress), so
 `make collect-channels` / `make collect ARGS="--topic humor"` run the collector there directly,
-and `tgdigest health` reports Telegram next to the services. The API, the bot and the nightly
+and `tgdigest health` reports Telegram next to the services. The API, the bot and the daily
 refresh run on the box as systemd user units (`deploy/systemd/`, installed with
 `make remote T=units`; the timer is enabled once with
 `systemctl --user enable --now tgdigest-refresh.timer`); the bot unit waits until `BOT_TOKEN`
@@ -340,7 +340,7 @@ src/tgdigest/     application package (collector, ingest, dedup, retrieval, agen
 config/           channels.yaml — the corpus definition
 prompts/          versioned prompts (also managed in Langfuse)
 docker/           service configs: llama-server model presets, postgres init
-deploy/systemd/   user units on the box: API, bot, corpus refresh and its nightly timer
+deploy/systemd/   user units on the box: API, bot, corpus refresh and its daily timer
 scripts/          benchmarks and one-off experiment runners
 docs/experiments/ one report per experiment, with the numbers
 tests/            pytest; `integration` marker for tests that need services
